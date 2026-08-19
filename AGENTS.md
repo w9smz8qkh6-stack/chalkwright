@@ -11,8 +11,8 @@ scope.
 
 ## Security boundaries
 
-- Never commit secrets, OAuth tokens or client data, browser profiles, student
-  data, runtime state, logs, caches, coverage, compiled output, or generated
+- Never commit OAuth tokens or client data, browser profiles, student data,
+  runtime state, logs, caches, coverage, compiled output, or generated
   artifacts.
 - Treat PowerSchool and Google Classroom as read-only systems. Do not add code,
   scripts, commands, or documentation that writes, updates, deletes, submits,
