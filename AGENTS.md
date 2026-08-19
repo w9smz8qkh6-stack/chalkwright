@@ -7,4 +7,3 @@
 - Use `npm ci` for dependency installation; add or upgrade dependencies only when the task needs them.
 - Add or update tests in proportion to the change, and run `npm run check` before handing off code changes.
 - Keep relevant documentation and `CHANGELOG.md` current when a change affects behavior, contracts, operations, or users.
-- User authorization may include `sudo` access for shell commands needed to develop, test, or operate this repository.
