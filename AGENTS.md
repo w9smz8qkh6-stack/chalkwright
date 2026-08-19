@@ -19,7 +19,8 @@ scope.
   acknowledges, or otherwise mutates data in either system.
 - Do not inspect or modify live services, scheduled jobs, external data, or
   files outside this repository while working on this project unless the user
-  explicitly expands the scope.
+  explicitly expands the scope. User authorization may include `sudo` access
+  for shell commands required to develop, test, or operate this repository.
 - Keep systemd files as repository templates. Never install, enable, start, or
   restart units without explicit authorization.
 
