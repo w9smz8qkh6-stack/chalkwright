@@ -135,6 +135,12 @@ readiness gates, Calendar reconciliation, and the seven recurring timers. The
 display, each recurring job, and each timer remain separate systemd units, so
 their failures and restarts remain independently observable.
 
+The display and timers remain online when a provider refresh is unavailable;
+the display continues to use last-known-good local content. A failed plan
+refresh suppresses that activation's Calendar reconciliation rather than
+writing from an unverified plan, while later timer runs keep retrying the
+read-only refresh.
+
 For an operator-initiated full recovery, use the constrained, passwordless
 command:
 
