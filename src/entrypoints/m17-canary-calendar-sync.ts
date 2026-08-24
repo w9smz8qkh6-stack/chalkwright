@@ -11,6 +11,9 @@ import { loadProductionServerConfig } from '../config/production.js';
 import { SqliteCalendarExecutionState } from '../infrastructure/sqlite/calendar-execution-state.js';
 import { SqliteDatabase } from '../infrastructure/sqlite/database.js';
 import { SqliteApplicationStateRepository } from '../infrastructure/sqlite/repository.js';
+import { addDateDays } from '../domain/pure-values.js';
+import type { CalendarEventListTransport } from '../infrastructure/google-calendar/contracts.js';
+import type { CalendarMutationTransport } from '../ports/calendar-mutation-transport.js';
 import { isDirectEntrypoint } from './direct-invocation.js';
 
 /** The protected Calendar boundary required by either supported sync lane. */
@@ -28,11 +31,17 @@ export interface CalendarSyncRuntimeConfig {
   readonly maximumEvents: number;
 }
 
+export interface CalendarSyncTransports {
+  readonly listTransport: CalendarEventListTransport;
+  readonly mutationTransport?: CalendarMutationTransport;
+}
+
 export async function runM17CanaryCalendarSync(options: {
   readonly arguments: readonly string[];
   readonly environment?: NodeJS.ProcessEnv;
   readonly signal?: AbortSignal;
   readonly now?: () => string;
+  readonly transportsForRun?: (execute: boolean) => CalendarSyncTransports;
   readonly loadConfig?: () => CalendarSyncRuntimeConfig;
   readonly requireCanaryInstance?: boolean;
 }): Promise<{
@@ -96,59 +105,98 @@ export async function runM17CanaryCalendarSync(options: {
         return skipped('m17-canary-calendar-no-current-plan');
       return rejected('m17-canary-plan-unavailable');
     }
-    const window = localDayWindow(date, config.timeZone);
-    if (window === undefined) return rejected('m17-canary-clock-invalid');
-    const writerClient =
-      await import('../infrastructure/google-calendar/official-writer-client.js');
-    let listTransport;
-    let mutationTransport;
-    if (execute) {
-      const pair = writerClient.loadOfficialCalendarProductionTrialTransports(
-        config.credentialReferencePath,
-      );
-      listTransport = pair.listTransport;
-      mutationTransport = pair.mutationTransport;
-    } else {
-      listTransport = writerClient.loadOfficialCalendarWriterListTransport(
-        config.credentialReferencePath,
-      );
-    }
+    const transports =
+      options.transportsForRun?.(execute) ??
+      (await loadCalendarTransports(config.credentialReferencePath, execute));
     const signal = AbortSignal.any(
       [AbortSignal.timeout(config.overallTimeoutMs), options.signal].filter(
         (value): value is AbortSignal => value !== undefined,
       ),
     );
-    const result = await synchronizeM17CanaryCalendar({
-      calendarId: config.calendarId,
-      scopeId: config.scopeId as OpaqueId,
-      plan,
-      timeMin: window.timeMin,
-      timeMax: window.timeMax,
-      requestTimeoutMs: config.requestTimeoutMs,
-      maximumPages: config.maximumPages,
-      maximumEvents: config.maximumEvents,
-      leaseDurationSeconds: config.leaseDurationSeconds,
-      clock,
-      signal,
-      listTransport,
-      ...(mutationTransport === undefined ? {} : { mutationTransport }),
-      state: new SqliteCalendarExecutionState(database),
-      execute,
-    });
+    const weekPlans = [plan];
+    for (let offset = 1; offset < 7; offset += 1) {
+      const futureDate = addDateDays(date, offset);
+      if (futureDate === undefined) return rejected('m17-canary-clock-invalid');
+      const future = await plans.findEffective({
+        date: futureDate,
+        screenId: production.screenId as ScreenId,
+        roomId: production.roomId as RoomId,
+      });
+      if (future?.verification === 'verified') weekPlans.push(future);
+    }
+    let observedEventCount = 0;
+    let intentCount = 0;
+    let attemptedExternalMutations = 0;
+    let completedExternalMutations = 0;
+    let code = 'm17-canary-calendar-converged';
+    for (const weeklyPlan of weekPlans) {
+      const window = localDayWindow(weeklyPlan.date, config.timeZone);
+      if (window === undefined) return rejected('m17-canary-clock-invalid');
+      const result = await synchronizeM17CanaryCalendar({
+        calendarId: config.calendarId,
+        scopeId: config.scopeId as OpaqueId,
+        plan: weeklyPlan,
+        timeMin: window.timeMin,
+        timeMax: window.timeMax,
+        requestTimeoutMs: config.requestTimeoutMs,
+        maximumPages: config.maximumPages,
+        maximumEvents: config.maximumEvents,
+        leaseDurationSeconds: config.leaseDurationSeconds,
+        clock,
+        signal,
+        listTransport: transports.listTransport,
+        ...(transports.mutationTransport === undefined
+          ? {}
+          : { mutationTransport: transports.mutationTransport }),
+        state: new SqliteCalendarExecutionState(database),
+        execute,
+      });
+      observedEventCount += result.observedEventCount;
+      intentCount += result.intentCount;
+      attemptedExternalMutations += result.attemptedExternalMutations;
+      completedExternalMutations += result.completedExternalMutations;
+      code = result.code;
+      if (result.status !== 'succeeded')
+        return {
+          exitCode: result.status === 'repair-required' ? 3 : 1,
+          ...result,
+          observedEventCount,
+          intentCount,
+          attemptedExternalMutations,
+          completedExternalMutations,
+        };
+    }
     return {
-      exitCode:
-        result.status === 'succeeded'
-          ? 0
-          : result.status === 'repair-required'
-            ? 3
-            : 1,
-      ...result,
+      exitCode: 0,
+      status: 'succeeded',
+      code,
+      observedEventCount,
+      intentCount,
+      attemptedExternalMutations,
+      completedExternalMutations,
     };
   } catch {
     return rejected('m17-canary-startup-failed');
   } finally {
     database?.close();
   }
+}
+
+async function loadCalendarTransports(
+  credentialReferencePath: string,
+  execute: boolean,
+): Promise<CalendarSyncTransports> {
+  const writerClient =
+    await import('../infrastructure/google-calendar/official-writer-client.js');
+  if (execute)
+    return writerClient.loadOfficialCalendarProductionTrialTransports(
+      credentialReferencePath,
+    );
+  return {
+    listTransport: writerClient.loadOfficialCalendarWriterListTransport(
+      credentialReferencePath,
+    ),
+  };
 }
 
 function rejectAmbientAuthority(environment: NodeJS.ProcessEnv): void {

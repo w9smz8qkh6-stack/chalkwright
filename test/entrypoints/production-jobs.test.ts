@@ -861,6 +861,57 @@ test('M17 Calendar preflight skips when only a verified future class day is avai
   }
 });
 
+test('M17 Calendar preflight reconciles every verified plan in the next seven days', async () => {
+  const fixture = createFixture();
+  try {
+    using database = new SqliteDatabase(fixture.databasePath, {
+      migration: { appliedAt: requestedAt },
+    });
+    const plans = repositoryFor(database);
+    assert.equal(
+      (await plans.storeEffective(effectivePlan())).status,
+      'stored',
+    );
+    assert.equal(
+      (
+        await plans.storeEffective(
+          effectivePlanForDate('2035-04-14' as IsoDate),
+        )
+      ).status,
+      'stored',
+    );
+    const windows: string[] = [];
+    const output = await runM17CanaryCalendarSync({
+      arguments: ['--preflight'],
+      environment: m17CalendarEnvironment(fixture),
+      now: () => requestedAt,
+      transportsForRun: () => ({
+        listTransport: {
+          async listEvents(request) {
+            windows.push(request.timeMin);
+            return { items: [] };
+          },
+        },
+      }),
+    });
+    assert.deepEqual(output, {
+      exitCode: 0,
+      status: 'succeeded',
+      code: 'm17-canary-calendar-preflight-ready',
+      observedEventCount: 0,
+      intentCount: 2,
+      attemptedExternalMutations: 0,
+      completedExternalMutations: 0,
+    });
+    assert.deepEqual(windows, [
+      '2035-04-12T17:00:00.000Z',
+      '2035-04-13T17:00:00.000Z',
+    ]);
+  } finally {
+    fixture.close();
+  }
+});
+
 test('M17 Calendar preflight still fails when no verified current or future plan exists', async () => {
   const fixture = createFixture();
   try {
