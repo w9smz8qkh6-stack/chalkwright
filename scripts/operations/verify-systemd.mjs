@@ -245,6 +245,7 @@ function verifyPermanentProductionArtifacts(directory, fail) {
     'chalkwright-plan-refresh.service.in',
     'chalkwright-plan-refresh.timer.in',
     'chalkwright-powerschool-repair.service.in',
+    'chalkwright-production-start.service.in',
     'chalkwright.service.in',
   ];
   let files;
@@ -280,6 +281,20 @@ function verifyPermanentProductionArtifacts(directory, fail) {
   ])
     if (!service.includes(required))
       fail(`chalkwright.service.in is missing ${required}`);
+  const startup = readFileSync(
+    join(production, 'chalkwright-production-start.service.in'),
+    'utf8',
+  );
+  for (const required of [
+    'After=network-online.target',
+    'Wants=network-online.target',
+    'Type=oneshot',
+    'ExecStart=/opt/chalkwright/current/scripts/operations/activate-production.sh',
+    'RemainAfterExit=yes',
+    'ReadWritePaths=/etc/systemd/system /opt/chalkwright /var/lib/chalkwright',
+  ])
+    if (!startup.includes(required))
+      fail(`chalkwright-production-start.service.in is missing ${required}`);
   const calendar = readFileSync(
     join(production, 'chalkwright-calendar-sync.service.in'),
     'utf8',
