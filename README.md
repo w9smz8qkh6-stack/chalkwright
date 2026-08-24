@@ -11,16 +11,19 @@ the screen with learning objectives, textbook references, vocabulary, and
 other lesson materials. The result is a classroom screen that changes with the
 schedule instead of acting as a static digital noticeboard.
 
-The project is being extracted from a working classroom automation system into
-a self-contained application with typed capability boundaries, SQLite state,
-synthetic fixtures, deterministic display behavior, fail-closed provider
-adapters, and a tested migration and rollback path.
+Chalkwright was developed from a working classroom automation system. The
+standalone service has now been launched and serves the classroom display in
+parallel with the historical shadow service, which remains active only as a
+safety rollback. It uses typed capability boundaries, SQLite state, synthetic
+fixtures, deterministic display behavior, fail-closed provider adapters, and a
+tested migration and rollback path.
 
-> **Project status:** pre-release public preview. The offline fixture-backed
-> application and migration components are extensively tested. The current live
-> display still uses the historical shadow service while the permanent
-> Chalkwright production lane is re-grounded. General installation and public
-> production deployment are not yet released. See the
+> **Project status:** public 0.1.0 source release and live classroom deployment.
+> The standalone service is the display's serving path and source of truth; the
+> historical shadow service remains active only as a rollback option. The public
+> release is suitable for inspection and fixture-backed evaluation, while
+> general installation support and public-production readiness for external
+> adopters are not yet claimed. See the
 > [publication gate](docs/publication-readiness.md) for the exact evidence and
 > limitations of this source snapshot.
 
