@@ -1,0 +1,35 @@
+# chalkwright-template-status=permanent-production-inert
+[Unit]
+Description=Chalkwright production startup coordinator
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/chalkwright/current/scripts/operations/activate-production.sh
+RemainAfterExit=yes
+TimeoutStartSec=12min
+TimeoutStopSec=30s
+UMask=0077
+NoNewPrivileges=false
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+ReadWritePaths=/etc/systemd/system /opt/chalkwright /var/lib/chalkwright
+ReadOnlyPaths=/etc/chalkwright/production
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+MemoryMax=1024M
+TasksMax=256
+
+# The .in suffix and absent [Install] section keep this unit inert until the
+# checked startup controller explicitly adds it to multi-user.target.

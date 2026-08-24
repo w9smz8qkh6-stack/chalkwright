@@ -119,10 +119,32 @@ available during that acceptance window.
 `scripts/operations/activate-production.sh` is the subsequent explicit
 activation step. It proves integrity and backup, runs both read-only refreshes,
 starts the loopback display, requires health/readiness, starts the isolated
-glossary refresh and owned Calendar synchronization, and adds only the seven permanent timers to
-`multi-user.target`. It does not alter the external route or stop the shadow;
+glossary refresh and owned Calendar synchronization, and adds the seven
+permanent timers plus the boot startup coordinator to `multi-user.target`. It
+does not alter the external route or stop the shadow;
 the separately controlled Tailscale cutover follows only after this local
 acceptance succeeds.
+
+## Continuous production startup
+
+After activation, Chalkwright installs a `multi-user.target` want for
+`chalkwright-production-start.service`. On every server boot it invokes the
+same checked production activation sequence: integrity and backup checks,
+PowerSchool plan discovery, Classroom and glossary refresh, display health and
+readiness gates, Calendar reconciliation, and the seven recurring timers. The
+display, each recurring job, and each timer remain separate systemd units, so
+their failures and restarts remain independently observable.
+
+For an operator-initiated full recovery, use the constrained, passwordless
+command:
+
+```sh
+sudo -n /usr/local/sbin/chalkwright-production-admin start-all
+```
+
+It runs the same sequence and re-establishes the boot-start link. It does not
+change the external route, invoke PowerSchool credential repair, or stop the
+legacy rollback service.
 
 If the permanent PowerSchool profile is not ready but the live shadow database
 already contains current read-only plan snapshots, an operator can run the

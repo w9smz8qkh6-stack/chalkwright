@@ -10,11 +10,12 @@ config=/etc/chalkwright/production/server.json
 for path in "$config" /etc/chalkwright/production/calendar.json /etc/chalkwright/production/glossary.json /etc/chalkwright/production/jobs/plan-refresh.env /etc/chalkwright/production/jobs/classroom-refresh.env /etc/chalkwright/production/jobs/glossary-refresh.env /etc/chalkwright/production/jobs/maintenance.env; do
   [[ -f $path && ! -L $path ]] || reject production-activate-config-missing
 done
-[[ -L $release && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" ]] || reject production-activate-release-invalid
+[[ -L $release && -x "$release/scripts/operations/activate-production.sh" && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" && -f "$release/systemd/production/chalkwright-production-start.service.in" ]] || reject production-activate-release-invalid
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-glossary-refresh.service.in" /etc/systemd/system/chalkwright-glossary-refresh.service
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-glossary-refresh.timer.in" /etc/systemd/system/chalkwright-glossary-refresh.timer
+/usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-production-start.service.in" /etc/systemd/system/chalkwright-production-start.service
 /usr/bin/systemctl daemon-reload
-for unit in chalkwright.service chalkwright-backup.service chalkwright-calendar-sync.service chalkwright-classroom-refresh.service chalkwright-deploy.service chalkwright-glossary-refresh.service chalkwright-integrity.service chalkwright-plan-refresh.service; do
+for unit in chalkwright.service chalkwright-backup.service chalkwright-calendar-sync.service chalkwright-classroom-refresh.service chalkwright-deploy.service chalkwright-glossary-refresh.service chalkwright-integrity.service chalkwright-plan-refresh.service chalkwright-production-start.service; do
   [[ -f "/etc/systemd/system/$unit" && ! -L "/etc/systemd/system/$unit" ]] || reject production-activate-unit-missing
 done
 
@@ -59,4 +60,5 @@ for timer in "${timers[@]}"; do
   /usr/bin/systemctl add-wants multi-user.target "$timer" || { stop_permanent; reject production-activate-timer-enable-failed; }
   /usr/bin/systemctl start "$timer" || { stop_permanent; reject production-activate-timer-start-failed; }
 done
-echo "{\"status\":\"active-internal\",\"displayHealth\":true,\"calendarSync\":\"started\",\"glossaryRefresh\":\"started\",\"timersStarted\":7,\"routeChanges\":0,\"legacyServicesStopped\":0}"
+/usr/bin/systemctl add-wants multi-user.target chalkwright-production-start.service || { stop_permanent; reject production-activate-startup-enable-failed; }
+echo "{\"status\":\"active-internal\",\"displayHealth\":true,\"planRefresh\":\"started\",\"classroomRefresh\":\"started\",\"calendarSync\":\"started\",\"glossaryRefresh\":\"started\",\"timersStarted\":7,\"bootStartupEnabled\":true,\"routeChanges\":0,\"legacyServicesStopped\":0}"

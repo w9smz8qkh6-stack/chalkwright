@@ -61,6 +61,15 @@ test('production sudo policy pins the current deploy controller digest', () => {
   );
 });
 
+test('production startup command is constrained to the checked activation sequence', () => {
+  assert.match(
+    sudoPolicy,
+    /start-all\) exec \/opt\/chalkwright\/current\/scripts\/operations\/activate-production\.sh/u,
+  );
+  assert.match(sudoPolicy, /chalkwright-production-admin start-all/u);
+  assert.match(sudoPolicy, /"commands":11/u);
+});
+
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
   assert.match(repair, /desktop_user=bren/u);
   assert.match(repair, /desktop_profile=\$runtime\/profile/u);

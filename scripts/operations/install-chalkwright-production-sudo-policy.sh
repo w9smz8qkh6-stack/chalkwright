@@ -79,6 +79,7 @@ case $1 in
   provision-glossary) exec /usr/bin/node /usr/local/lib/chalkwright-production-admin/provision-production-glossary.mjs --apply ;;
   replace-glossary) exec /usr/bin/node /usr/local/lib/chalkwright-production-admin/provision-production-glossary.mjs --replace-config ;;
   refresh-glossary) exec /usr/bin/systemctl start chalkwright-glossary-refresh.service ;;
+  start-all) exec /opt/chalkwright/current/scripts/operations/activate-production.sh ;;
   activate) exec /usr/bin/bash /opt/chalkwright/current/scripts/operations/activate-production.sh ;;
   cutover) exec /usr/bin/bash /opt/chalkwright/current/scripts/operations/cutover-production-tailscale-route.sh ;;
   *) reject chalkwright-admin-action-invalid ;;
@@ -89,7 +90,7 @@ WRAPPER
 
 sudoers_candidate=$admin_root/sudoers.candidate
 /usr/bin/tee "$sudoers_candidate" >/dev/null <<'SUDOERS'
-Cmnd_Alias CHALKWRIGHT_PRODUCTION_ADMIN = /usr/local/sbin/chalkwright-production-admin bootstrap, /usr/local/sbin/chalkwright-production-admin provision, /usr/local/sbin/chalkwright-production-admin deploy, /usr/local/sbin/chalkwright-production-admin migrate-plans, /usr/local/sbin/chalkwright-production-admin repair-powerschool, /usr/local/sbin/chalkwright-production-admin provision-glossary, /usr/local/sbin/chalkwright-production-admin replace-glossary, /usr/local/sbin/chalkwright-production-admin refresh-glossary, /usr/local/sbin/chalkwright-production-admin activate, /usr/local/sbin/chalkwright-production-admin cutover
+Cmnd_Alias CHALKWRIGHT_PRODUCTION_ADMIN = /usr/local/sbin/chalkwright-production-admin bootstrap, /usr/local/sbin/chalkwright-production-admin provision, /usr/local/sbin/chalkwright-production-admin deploy, /usr/local/sbin/chalkwright-production-admin migrate-plans, /usr/local/sbin/chalkwright-production-admin repair-powerschool, /usr/local/sbin/chalkwright-production-admin provision-glossary, /usr/local/sbin/chalkwright-production-admin replace-glossary, /usr/local/sbin/chalkwright-production-admin refresh-glossary, /usr/local/sbin/chalkwright-production-admin start-all, /usr/local/sbin/chalkwright-production-admin activate, /usr/local/sbin/chalkwright-production-admin cutover
 bren ALL=(root) NOPASSWD: CHALKWRIGHT_PRODUCTION_ADMIN
 SUDOERS
 /usr/sbin/visudo -cf "$sudoers_candidate" >/dev/null || reject chalkwright-sudo-policy-invalid
@@ -98,4 +99,4 @@ SUDOERS
 /usr/sbin/visudo -c >/dev/null || reject chalkwright-sudo-policy-global-invalid
 created=()
 trap - EXIT INT TERM
-echo '{"status":"installed","commands":10,"generalRootShell":false,"passwordlessAll":false}'
+echo '{"status":"installed","commands":11,"generalRootShell":false,"passwordlessAll":false}'
