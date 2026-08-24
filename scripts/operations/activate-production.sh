@@ -35,30 +35,37 @@ timers=(
   chalkwright-backup.timer
   chalkwright-deploy.timer
 )
-new_timer_links=()
-stop_permanent() {
-  /usr/bin/systemctl stop "${timers[@]}" chalkwright-calendar-sync.service chalkwright-classroom-refresh.service chalkwright-glossary-refresh.service chalkwright-plan-refresh.service chalkwright-backup.service chalkwright-integrity.service chalkwright.service || true
-  for timer in "${new_timer_links[@]}"; do
-    /usr/bin/rm -f -- "/etc/systemd/system/multi-user.target.wants/$timer"
-  done
-  if [[ ${#new_timer_links[@]} -gt 0 ]]; then /usr/bin/systemctl daemon-reload || true; fi
-}
-/usr/bin/systemctl start chalkwright-integrity.service || reject production-activate-integrity-failed
-/usr/bin/systemctl start chalkwright-backup.service || { stop_permanent; reject production-activate-backup-failed; }
-/usr/bin/systemctl start chalkwright-plan-refresh.service || { stop_permanent; reject production-activate-plan-failed; }
-/usr/bin/systemctl start chalkwright-glossary-refresh.service || { stop_permanent; reject production-activate-glossary-failed; }
-/usr/bin/systemctl start chalkwright-classroom-refresh.service || { stop_permanent; reject production-activate-classroom-failed; }
-/usr/bin/systemctl start chalkwright.service || { stop_permanent; reject production-activate-server-failed; }
+/usr/bin/systemctl start chalkwright.service || reject production-activate-server-failed
 for _ in {1..20}; do
   if /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/health" && /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/ready"; then break; fi
   /usr/bin/sleep 0.25
 done
-/usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/health" && /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/ready" || { stop_permanent; reject production-activate-server-unready; }
-/usr/bin/systemctl start chalkwright-calendar-sync.service || { stop_permanent; reject production-activate-calendar-failed; }
+/usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/health" && /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/ready" || reject production-activate-server-unready
+degraded=()
+start_optional() {
+  local unit=$1
+  local code=$2
+  /usr/bin/systemctl start "$unit" || degraded+=("$code")
+}
+start_optional chalkwright-integrity.service integrity-failed
+start_optional chalkwright-backup.service backup-failed
+plan_refreshed=true
+if ! /usr/bin/systemctl start chalkwright-plan-refresh.service; then
+  plan_refreshed=false
+  degraded+=(plan-refresh-failed)
+fi
+start_optional chalkwright-glossary-refresh.service glossary-refresh-failed
+start_optional chalkwright-classroom-refresh.service classroom-refresh-failed
+if [[ $plan_refreshed == true ]]; then
+  start_optional chalkwright-calendar-sync.service calendar-sync-failed
+else
+  degraded+=(calendar-sync-skipped-plan-refresh-failed)
+fi
 for timer in "${timers[@]}"; do
-  [[ -e "/etc/systemd/system/multi-user.target.wants/$timer" ]] || new_timer_links+=("$timer")
-  /usr/bin/systemctl add-wants multi-user.target "$timer" || { stop_permanent; reject production-activate-timer-enable-failed; }
-  /usr/bin/systemctl start "$timer" || { stop_permanent; reject production-activate-timer-start-failed; }
+  /usr/bin/systemctl add-wants multi-user.target "$timer" || reject production-activate-timer-enable-failed
+  /usr/bin/systemctl start "$timer" || degraded+=("${timer%.timer}-timer-failed")
 done
-/usr/bin/systemctl add-wants multi-user.target chalkwright-production-start.service || { stop_permanent; reject production-activate-startup-enable-failed; }
-echo "{\"status\":\"active-internal\",\"displayHealth\":true,\"planRefresh\":\"started\",\"classroomRefresh\":\"started\",\"calendarSync\":\"started\",\"glossaryRefresh\":\"started\",\"timersStarted\":7,\"bootStartupEnabled\":true,\"routeChanges\":0,\"legacyServicesStopped\":0}"
+/usr/bin/systemctl add-wants multi-user.target chalkwright-production-start.service || reject production-activate-startup-enable-failed
+if [[ ${#degraded[@]} -eq 0 ]]; then status=active-internal; else status=active-degraded; fi
+joined=$(IFS=,; echo "${degraded[*]}")
+echo "{\"status\":\"$status\",\"displayHealth\":true,\"planRefresh\":\"$([[ $plan_refreshed == true ]] && echo started || echo failed)\",\"classroomRefresh\":\"attempted\",\"calendarSync\":\"$([[ $plan_refreshed == true ]] && echo attempted || echo skipped-plan-refresh-failed)\",\"glossaryRefresh\":\"attempted\",\"timersStarted\":7,\"bootStartupEnabled\":true,\"degraded\":[${joined:+\"${joined//,/\",\"}\"}],\"routeChanges\":0,\"legacyServicesStopped\":0}"

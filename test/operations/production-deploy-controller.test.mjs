@@ -19,6 +19,10 @@ const repairUnit = readFileSync(
   'systemd/production/chalkwright-powerschool-repair.service.in',
   'utf8',
 );
+const activation = readFileSync(
+  'scripts/operations/activate-production.sh',
+  'utf8',
+);
 
 test('production deploy waits for restarted display liveness before rollback', () => {
   const restart = deploy.indexOf('systemctl restart chalkwright.service');
@@ -68,6 +72,21 @@ test('production startup command is constrained to the checked activation sequen
   );
   assert.match(sudoPolicy, /chalkwright-production-admin start-all/u);
   assert.match(sudoPolicy, /"commands":11/u);
+});
+
+test('production activation keeps the display and timers online when provider refresh fails', () => {
+  const displayStart = activation.indexOf(
+    '/usr/bin/systemctl start chalkwright.service',
+  );
+  const planRefresh = activation.indexOf(
+    '/usr/bin/systemctl start chalkwright-plan-refresh.service',
+  );
+  const timerStart = activation.indexOf('/usr/bin/systemctl start "$timer"');
+  assert.ok(displayStart >= 0 && displayStart < planRefresh);
+  assert.ok(timerStart > planRefresh);
+  assert.match(activation, /plan_refreshed=false/u);
+  assert.match(activation, /calendar-sync-skipped-plan-refresh-failed/u);
+  assert.doesNotMatch(activation, /stop_permanent/u);
 });
 
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
