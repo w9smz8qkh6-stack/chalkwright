@@ -72,7 +72,7 @@ sync. A provider failure retains the last-known-good catalog and existing
 meeting selections; it does not fabricate a word.
 
 When all three translated languages are present, the word-of-the-day card
-rotates through English, Vietnamese, Korean, and Simplified Chinese long enough
+rotates through English, Vietnamese, Korean, and Chinese long enough
 for every face to appear before the outer content carousel advances. The
 legacy English/Vietnamese two-face presentation remains supported.
 

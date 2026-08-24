@@ -160,7 +160,7 @@ test('multilingual vocabulary keeps English anchored while the panel flips throu
     assert.deepEqual(labels, [
       'Vietnamese vocabulary',
       'Korean vocabulary',
-      'Simplified Chinese vocabulary',
+      'Chinese vocabulary',
     ]);
     const translatedTermWeights = await page
       .locator('.vocabulary-translation-term')

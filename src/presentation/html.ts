@@ -324,7 +324,7 @@ function vocabularyMarkup(card: PresentationCard): string | undefined {
   const language = {
     vi: { label: 'Vietnamese', className: 'vietnamese' },
     ko: { label: 'Korean', className: 'korean' },
-    'zh-Hans': { label: 'Simplified Chinese', className: 'chinese' },
+    'zh-Hans': { label: 'Chinese', className: 'chinese' },
   } as const;
   const translated = translations
     .map((translation, index) => {

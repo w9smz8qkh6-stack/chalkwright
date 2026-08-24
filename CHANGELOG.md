@@ -26,6 +26,10 @@ omitted.
 
 ### Changed
 
+- Shortened the word-of-the-day display label for `zh-Hans` translations from
+  “Simplified Chinese” to “Chinese,” without changing the translation code or
+  CSV import contract.
+
 - Reconciled the roadmap and M-17 status documents with the live standalone
   production handoff: Chalkwright now serves the existing classroom path from
   protected `main`, permanent timers and the Calendar follower are active, the

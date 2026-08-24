@@ -209,7 +209,7 @@ test('vocabulary renders every multilingual face without flattening semantic tex
   assert.match(html, /Một điều kiện luôn đúng\./u);
   assert.match(html, /aria-label="Korean vocabulary"/u);
   assert.match(html, />불변 조건<\/h3>/u);
-  assert.match(html, /aria-label="Simplified Chinese vocabulary"/u);
+  assert.match(html, /aria-label="Chinese vocabulary"/u);
   assert.match(html, />不变量<\/h3>/u);
   assert.match(html, /data-vocabulary-panel/u);
   assert.match(html, /data-vocabulary-interval-ms="10000"/u);
