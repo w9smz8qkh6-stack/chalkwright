@@ -122,6 +122,17 @@ function presentationMeeting(meeting: DayPlanMeeting): PresentationMeeting {
   };
 }
 
+function waterBreakWindow(
+  meeting: PresentationMeeting | undefined,
+): { readonly startsAt: string; readonly endsAt: string } | undefined {
+  const classStart = Date.parse(meeting?.officialStartsAt ?? '');
+  if (!Number.isFinite(classStart)) return undefined;
+  return {
+    startsAt: new Date(classStart + 40 * 60_000).toISOString(),
+    endsAt: new Date(classStart + 45 * 60_000).toISOString(),
+  };
+}
+
 export function presentationCard(card: DisplayCard): PresentationCard {
   const type =
     card.type === 'announcement' ||
@@ -390,6 +401,10 @@ export class B407MvpHttpController implements ClassroomHttpController {
           this.mediaReady,
         );
         if (request.kind === 'display') return html(renderDisplayPage(model));
+        const waterBreak =
+          model.state === 'in_class_content'
+            ? waterBreakWindow(model.currentMeeting)
+            : undefined;
         return json({
           ...target,
           stateCase: target.state,
@@ -404,6 +419,8 @@ export class B407MvpHttpController implements ClassroomHttpController {
             model.state === 'in_class_content'
               ? (model.currentMeeting?.officialEndsAt ?? '')
               : '',
+          waterBreakStartsAt: waterBreak?.startsAt ?? '',
+          waterBreakEndsAt: waterBreak?.endsAt ?? '',
           dateLabel: displayDateLabel(model.date, model.timeZone),
           documentTitle: displayDocumentTitle(model),
           degraded: target.degraded === true,

@@ -142,7 +142,8 @@ a {
 
 .header-status {
   min-width: 0;
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto auto;
   align-items: center;
   justify-content: flex-end;
   gap: clamp(0.625rem, 1.2vw, 0.875rem);
@@ -220,6 +221,36 @@ a {
 
 .header-bell-countdown.shimmer .header-bell-icon {
   animation: bell-shimmer 900ms ease-out;
+}
+
+.header-water-break {
+  grid-column: 1 / -1;
+  justify-self: end;
+  min-height: 1.45rem;
+  padding: 0.2rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(125, 211, 252, 0.45);
+  border-radius: 999px;
+  color: #e0f2fe;
+  background: rgba(8, 47, 73, 0.76);
+  box-shadow: 0 0.5rem 1.25rem rgba(2, 10, 22, 0.18);
+  font-size: clamp(0.62rem, 0.85vw, 0.8rem);
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.header-water-break[hidden] {
+  display: none;
+}
+
+.header-water-break strong {
+  color: #fff;
+  font-size: 1.08em;
+  letter-spacing: 0.02em;
 }
 
 @keyframes bell-shimmer {

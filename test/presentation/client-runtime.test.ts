@@ -67,6 +67,23 @@ function clientHarness(options: {
       return selector === '[data-header-bell-number]' ? bellNumber : undefined;
     },
   };
+  const waterBreakValue = { textContent: '' };
+  const waterBreakAttributes = new Map<string, string>();
+  const waterBreak = {
+    hidden: true,
+    dataset: {} as { waterBreakStart?: string; waterBreakEnd?: string },
+    setAttribute(name: string, value: string) {
+      waterBreakAttributes.set(name, value);
+    },
+    getAttribute(name: string) {
+      return waterBreakAttributes.get(name);
+    },
+    querySelector(selector: string) {
+      return selector === '[data-water-break-value]'
+        ? waterBreakValue
+        : undefined;
+    },
+  };
   const dateLabel = { textContent: 'Friday, April 13' };
   const connectionStatus = { hidden: true };
   const body = {
@@ -99,6 +116,7 @@ function clientHarness(options: {
       if (selector === '[data-display-date]') return dateLabel;
       if (selector === '[data-connection-status]') return connectionStatus;
       if (selector === '[data-header-bell]') return bell;
+      if (selector === '[data-header-water-break]') return waterBreak;
       return undefined;
     },
     querySelectorAll(selector: string) {
@@ -165,6 +183,9 @@ function clientHarness(options: {
     bell,
     bellNumber,
     bellAttributes,
+    waterBreak,
+    waterBreakValue,
+    waterBreakAttributes,
     dateLabel,
     connectionStatus,
     document,
@@ -334,6 +355,33 @@ test('legacy header bell uses a singular label and fails closed on a missing tar
   assert.equal(harness.bell.hidden, true);
   assert.equal(harness.bellNumber.textContent, '');
   assert.equal(harness.bell.dataset.bellTarget, undefined);
+});
+
+test('water-break timer appears only for the five minutes after the 40-minute mark', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'in_class_content',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:40:00Z',
+      waterBreakStartsAt: '2035-04-13T08:40:00Z',
+      waterBreakEndsAt: '2035-04-13T08:45:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakValue.textContent, '5:00');
+  assert.equal(
+    harness.waterBreakAttributes.get('aria-label'),
+    'Water break: 5:00 remaining',
+  );
+
+  harness.advance(5 * 60_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreak.hidden, true);
+  assert.equal(harness.waterBreakValue.textContent, '');
 });
 
 test('pinned client uses its fixture instant and performs no target polling', async () => {

@@ -252,6 +252,11 @@ test('class content renders the legacy minutes-until-bell header contract', () =
   );
   assert.match(inClass, /class="header-bell-icon"/u);
   assert.match(inClass, /data-header-bell-number/u);
+  assert.match(
+    inClass,
+    /class="header-water-break" data-header-water-break data-water-break-start="2035-04-13T08:40:00\.000Z" data-water-break-end="2035-04-13T08:45:00\.000Z" hidden aria-label="Water break countdown"/u,
+  );
+  assert.match(inClass, /data-water-break-value/u);
   assert.doesNotMatch(inClass, /Dismissal begins in/u);
 
   const checkIn = renderDisplayPage(model('pre_checkin'));
@@ -260,6 +265,7 @@ test('class content renders the legacy minutes-until-bell header contract', () =
     /class="header-bell-countdown" data-header-bell hidden/u,
   );
   assert.doesNotMatch(checkIn, /data-bell-target=/u);
+  assert.doesNotMatch(checkIn, /data-water-break-start=/u);
 });
 
 test('dismissal scene uses two muted preloaded local media layers and a reveal fallback hook', () => {
