@@ -132,8 +132,21 @@ function meetingLabel(meeting: PresentationMeeting | undefined): string {
   return `${meeting.courseLabel} · ${meeting.blockLabel}`;
 }
 
+function waterBreakWindow(
+  model: DisplayPresentationModel,
+): { readonly startsAt: string; readonly endsAt: string } | undefined {
+  if (model.state !== 'in_class_content') return undefined;
+  const classStart = Date.parse(model.currentMeeting?.officialStartsAt ?? '');
+  if (!Number.isFinite(classStart)) return undefined;
+  return {
+    startsAt: new Date(classStart + 40 * 60_000).toISOString(),
+    endsAt: new Date(classStart + 45 * 60_000).toISOString(),
+  };
+}
+
 function header(model: DisplayPresentationModel): string {
   const icon = localPath(model.basePath, '/assets/chalkwright.svg');
+  const waterBreak = waterBreakWindow(model);
   const bellTarget =
     model.state === 'in_class_content'
       ? model.currentMeeting?.officialEndsAt
@@ -154,6 +167,9 @@ function header(model: DisplayPresentationModel): string {
         <path d="M9 5.1V4a3 3 0 0 1 6 0v1.1"></path>
       </svg>
       <span class="header-bell-number" data-header-bell-number></span>
+    </div>
+    <div class="header-water-break" data-header-water-break${waterBreak === undefined ? '' : ` data-water-break-start="${escapeHtml(waterBreak.startsAt)}" data-water-break-end="${escapeHtml(waterBreak.endsAt)}"`} hidden aria-label="Water break countdown">
+      <span>Water break</span><strong data-water-break-value></strong>
     </div>
   </div>
 </header>`;

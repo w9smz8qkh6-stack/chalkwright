@@ -23,6 +23,8 @@
     readonly meetingId?: unknown;
     readonly courseLabel?: unknown;
     readonly bellEndsAt?: unknown;
+    readonly waterBreakStartsAt?: unknown;
+    readonly waterBreakEndsAt?: unknown;
     readonly dateLabel?: unknown;
     readonly documentTitle?: unknown;
     readonly degraded?: unknown;
@@ -142,6 +144,7 @@
     }
     updateCountdowns(now.getTime());
     updateHeaderBellCountdown(now.getTime());
+    updateWaterBreakCountdown(now.getTime());
   }
 
   function updateHeaderBellCountdown(now: number): void {
@@ -173,6 +176,39 @@
       if (bell.isConnected && number.textContent === nextValue)
         bell.classList.add('shimmer');
     });
+  }
+
+  function updateWaterBreakCountdown(now: number): void {
+    const waterBreak = document.querySelector<HTMLElement>(
+      '[data-header-water-break]',
+    );
+    const value = waterBreak?.querySelector<HTMLElement>(
+      '[data-water-break-value]',
+    );
+    if (!waterBreak || !value) return;
+    const startsAt = Date.parse(waterBreak.dataset.waterBreakStart || '');
+    const endsAt = Date.parse(waterBreak.dataset.waterBreakEnd || '');
+    const show =
+      root?.dataset.state === 'in_class_content' &&
+      Number.isFinite(startsAt) &&
+      Number.isFinite(endsAt) &&
+      now >= startsAt &&
+      now < endsAt;
+    waterBreak.hidden = !show;
+    if (!show) {
+      value.textContent = '';
+      waterBreak.setAttribute('aria-label', 'Water break countdown');
+      return;
+    }
+    const seconds = Math.max(0, Math.ceil((endsAt - now) / 1000));
+    const nextValue = `${Math.floor(seconds / 60)}:${String(
+      seconds % 60,
+    ).padStart(2, '0')}`;
+    value.textContent = nextValue;
+    waterBreak.setAttribute(
+      'aria-label',
+      `Water break: ${nextValue} remaining`,
+    );
   }
 
   function updateCountdowns(now: number): void {
@@ -504,6 +540,24 @@
         Number.isFinite(Date.parse(payload.bellEndsAt))
       )
         bell.dataset.bellTarget = payload.bellEndsAt;
+    }
+    const waterBreak = document.querySelector<HTMLElement>(
+      '[data-header-water-break]',
+    );
+    if (waterBreak) {
+      delete waterBreak.dataset.waterBreakStart;
+      delete waterBreak.dataset.waterBreakEnd;
+      if (
+        typeof payload.waterBreakStartsAt === 'string' &&
+        typeof payload.waterBreakEndsAt === 'string' &&
+        payload.waterBreakStartsAt.length <= 64 &&
+        payload.waterBreakEndsAt.length <= 64 &&
+        Number.isFinite(Date.parse(payload.waterBreakStartsAt)) &&
+        Number.isFinite(Date.parse(payload.waterBreakEndsAt))
+      ) {
+        waterBreak.dataset.waterBreakStart = payload.waterBreakStartsAt;
+        waterBreak.dataset.waterBreakEnd = payload.waterBreakEndsAt;
+      }
     }
     const dateLabel = document.querySelector('[data-display-date]');
     if (

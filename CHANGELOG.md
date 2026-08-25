@@ -10,6 +10,10 @@ omitted.
 
 ### Added
 
+- Added a small upper-right water-break countdown for each class: it appears
+  40 minutes after official class start and counts down the optional five-minute
+  break.
+
 - Added four repository-owned, text-safe course banners for Web Design,
   Robotics, Computer Fundamentals, and Digital Media Production. Their local
   mappings render in Coming Up and Check In, preserving the full illustration
