@@ -423,16 +423,27 @@ function sceneCountdown(target: string | undefined, detail: string): string {
     : `<p class="scene-countdown countdown" data-countdown-target="${escapeHtml(target)}"><strong data-countdown-value>--:--</strong><span>${escapeHtml(detail)}</span></p>`;
 }
 
+function courseBanner(
+  model: DisplayPresentationModel,
+  meeting: PresentationMeeting | undefined,
+): string | undefined {
+  const path = safeLocalRoute(meeting?.bannerPath);
+  if (path === undefined) return undefined;
+  return `<div class="course-banner" aria-hidden="true"><img src="${escapeHtml(localPath(model.basePath, path))}" alt=""></div>`;
+}
+
 function comingUpScene(model: DisplayPresentationModel): string {
   const next = model.nextMeeting;
-  return `<section class="scene scene-coming-up media-pending" aria-labelledby="scene-title" data-media-scene data-coming-up-scene>
-  ${mediaLayers(model.basePath, true, model.dismissalMediaAvailable !== false)}
-  <div class="coming-up-panel" data-media-reveal>
+  const banner = courseBanner(model, next);
+  const fallback = banner === undefined;
+  return `<section class="scene scene-coming-up${fallback ? ' media-pending' : ' banner-backed'}" aria-labelledby="scene-title"${fallback ? ' data-media-scene' : ''} data-coming-up-scene>
+  ${banner ?? mediaLayers(model.basePath, true, model.dismissalMediaAvailable !== false)}
+  <div class="coming-up-panel${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
     <p class="eyebrow">Coming Up:</p>
     <h1 id="scene-title">${escapeHtml(next?.courseLabel ?? 'Upcoming class')}</h1>
     <p class="coming-up-window">${meetingWindow(next)}</p>
   </div>
-  <div class="scene-countdown-footer" data-media-reveal>
+  <div class="scene-countdown-footer${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
     ${sceneCountdown(next?.checkInOpensAt, 'until check-in opens')}
     ${sceneCountdown(next?.officialStartsAt, 'until class starts')}
   </div>
@@ -444,14 +455,11 @@ function dismissalScene(model: DisplayPresentationModel): string {
   ${mediaLayers(model.basePath, false, model.dismissalMediaAvailable !== false)}
   <div class="scene-copy" data-media-reveal>
     <p class="eyebrow">Dismissal begins soon</p>
-    <h1 id="dismissal-title">${escapeHtml(model.dismissalMessage ?? 'Finish strong and leave your space ready.')}</h1>
-    ${countdown(model.currentMeeting?.officialEndsAt, 'Class ends in')}
+    <h1 id="dismissal-title">${escapeHtml(model.dismissalMessage ?? 'Please push in your chair and make your area tidy.')}</h1>
+    <p class="dismissal-countdown-label">Class ends in</p>
+    ${sceneCountdown(model.currentMeeting?.officialEndsAt, 'remaining')}
   </div>
 </section>`;
-}
-
-function attendanceStat(label: string, value: number | undefined): string {
-  return `<div class="checkin-stat"><span class="checkin-stat-label">${escapeHtml(label)}</span><strong class="checkin-stat-value">${value === undefined ? '—' : value}</strong></div>`;
 }
 
 function checkInScene(model: DisplayPresentationModel): string {
@@ -462,24 +470,16 @@ function checkInScene(model: DisplayPresentationModel): string {
   const qr =
     qrUrl === undefined || checkInUrl === undefined
       ? ''
-      : `<a class="checkin-qr" href="${escapeHtml(checkInUrl)}" aria-label="Open attendance check-in"><img src="${escapeHtml(qrUrl)}" alt="Attendance check-in QR code" width="320" height="320"></a>`;
+      : `<a class="checkin-card" href="${escapeHtml(checkInUrl)}" aria-label="Open attendance check-in"><img src="${escapeHtml(qrUrl)}" alt="Attendance check-in QR code" width="320" height="320"><span class="checkin-card-code"><span>Class code</span>${escapeHtml(attendance?.classCode ?? '----')}</span></a>`;
   const classLabel =
     current === undefined
       ? ''
       : [current.courseLabel, current.blockLabel].filter(Boolean).join(' - ');
-  return `<section class="checkin-display" aria-labelledby="scene-title">
-  <div class="checkin-display-top"><div><p class="eyebrow">Attendance window open</p><h1 id="scene-title">Check In</h1><p class="checkin-display-subtitle">${escapeHtml(classLabel)} - ${meetingWindow(current)}</p></div>${qr}</div>
-  <div class="checkin-display-grid">
-    <div class="checkin-code"><span>Class Code</span>${escapeHtml(attendance?.classCode ?? '----')}</div>
-    <div class="checkin-callout"><h2>Attendance window open</h2><p>Use the QR code or the class check-in link.</p>${checkInUrl === undefined ? '<p class="checkin-link-missing">Check-in link unavailable.</p>' : `<a class="checkin-link-box" href="${escapeHtml(checkInUrl)}">${escapeHtml(checkInUrl)}</a>`}${countdown(current?.contentStartsAt, 'Class begins in')}</div>
-  </div>
-  <div class="checkin-stats" aria-label="Attendance summary">
-    ${attendanceStat('Roster', attendance?.rosterCount)}
-    ${attendanceStat('Present', attendance?.presentCount)}
-    ${attendanceStat('Tardy', attendance?.tardyCount)}
-    ${attendanceStat('Absent', attendance?.absentCount)}
-    ${attendanceStat('Responses', attendance?.responseCount)}
-  </div>
+  const banner = courseBanner(model, current);
+  return `<section class="checkin-display${banner === undefined ? '' : ' banner-backed'}" aria-labelledby="scene-title">
+  ${banner ?? ''}
+  <div class="checkin-main"><p class="eyebrow">Attendance window open</p><h1 id="scene-title">Check In</h1><p class="checkin-display-subtitle">${escapeHtml(classLabel)} - ${meetingWindow(current)}</p><p class="checkin-countdown-label">Class begins in</p>${sceneCountdown(current?.contentStartsAt, 'remaining')}</div>
+  ${qr}
 </section>`;
 }
 

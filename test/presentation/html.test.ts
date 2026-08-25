@@ -294,28 +294,57 @@ test('idle and post-end reuse the legacy Coming Up scene with mirrored media and
   }
 });
 
-test('check-in scene renders the legacy class code, full link, QR, and five attendance totals', () => {
+test('course banners render only from safe local routes and preserve the media fallback', () => {
+  const withBanner = renderDisplayPage({
+    ...model('idle'),
+    nextMeeting: {
+      ...meeting,
+      bannerPath: '/assets/banner-web-design-v2.png',
+    },
+  });
+  assert.match(withBanner, /class="course-banner"/u);
+  assert.match(withBanner, /src="\/assets\/banner-web-design-v2\.png"/u);
+  assert.doesNotMatch(withBanner, /data-media-scene/u);
+
+  const checkIn = renderDisplayPage({
+    ...model('pre_checkin'),
+    currentMeeting: {
+      ...meeting,
+      bannerPath: '/assets/banner-web-design-v2.png',
+    },
+  });
+  assert.match(checkIn, /class="checkin-display banner-backed"/u);
+
+  const unsafe = renderDisplayPage({
+    ...model('idle'),
+    nextMeeting: {
+      ...meeting,
+      bannerPath: 'https://example.invalid/banner.png',
+    },
+  });
+  assert.doesNotMatch(unsafe, /class="course-banner"/u);
+  assert.match(unsafe, /data-media-scene/u);
+});
+
+test('check-in scene centers the countdown and keeps the QR and class code in a compact card', () => {
   const html = renderDisplayPage(model('pre_checkin'));
   assert.match(html, /class="checkin-display"/u);
+  assert.match(html, /class="checkin-main"/u);
   assert.match(html, /Synthetic Computing - A - <time/u);
-  assert.match(html, /<span>Class Code<\/span>C509/u);
-  assert.match(html, /class="checkin-link-box"/u);
-  assert.match(html, /https:\/\/fixture\.example\.invalid\/check-in/u);
-  for (const [label, value] of [
-    ['Roster', '8'],
-    ['Present', '2'],
-    ['Tardy', '1'],
-    ['Absent', '5'],
-    ['Responses', '3'],
-  ]) {
-    assert.match(
-      html,
-      new RegExp(
-        `checkin-stat-label">${label}<\\/span><strong class="checkin-stat-value">${value}`,
-        'u',
-      ),
-    );
-  }
+  assert.match(html, /class="checkin-card"/u);
+  assert.match(html, /Attendance check-in QR code/u);
+  assert.match(html, /<span>Class code<\/span>C509/u);
+  assert.match(html, /Class begins in/u);
+  assert.doesNotMatch(html, /class="checkin-stats"/u);
+});
+
+test('dismissal scene defaults to the tidy-area instruction and promotes its countdown', () => {
+  const { dismissalMessage: _dismissalMessage, ...withoutDismissalMessage } =
+    model('dismissal_warning');
+  const html = renderDisplayPage(withoutDismissalMessage);
+  assert.match(html, /Please push in your chair and make your area tidy\./u);
+  assert.match(html, /class="dismissal-countdown-label">Class ends in/u);
+  assert.match(html, /class="scene-countdown countdown"/u);
 });
 
 test('day-complete scene renders the next class day date, count, and schedule rows', () => {

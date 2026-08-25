@@ -96,11 +96,24 @@ export function presentationCourseLabel(meeting: DayPlanMeeting): string {
     : meeting.blockLabel;
 }
 
+function presentationCourseBanner(meeting: DayPlanMeeting): string | undefined {
+  const banners: Readonly<Record<string, string>> = {
+    'Web Design': '/assets/banner-web-design-v2.png',
+    Robotics: '/assets/banner-robotics-v2.png',
+    'Computer Fundamentals': '/assets/banner-computer-fundamentals-v2.png',
+    'Digital Media Production':
+      '/assets/banner-digital-media-production-v2.png',
+  };
+  return banners[presentationCourseLabel(meeting)];
+}
+
 function presentationMeeting(meeting: DayPlanMeeting): PresentationMeeting {
+  const bannerPath = presentationCourseBanner(meeting);
   return {
     meetingId: meeting.meetingId,
     courseLabel: presentationCourseLabel(meeting),
     blockLabel: meeting.blockLabel,
+    ...(bannerPath === undefined ? {} : { bannerPath }),
     checkInOpensAt: meeting.checkInOpensAt,
     officialStartsAt: meeting.officialStartsAt,
     contentStartsAt: meeting.contentStartsAt,

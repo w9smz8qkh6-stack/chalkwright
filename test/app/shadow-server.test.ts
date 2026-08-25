@@ -322,7 +322,8 @@ test('starts, restarts, and persists the isolated mutation-disabled shadow reade
           )
         ).text();
         assert.match(preCheckInDisplay, />C509-A</u);
-        assert.match(preCheckInDisplay, />Present<\/span><strong[^>]*>16</u);
+        assert.match(preCheckInDisplay, /class="checkin-card"/u);
+        assert.match(preCheckInDisplay, /Class begins in/u);
         assert.match(preCheckInDisplay, /Attendance check-in QR code/u);
         assert.equal(
           (

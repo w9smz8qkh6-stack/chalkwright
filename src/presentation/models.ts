@@ -10,6 +10,8 @@ export interface PresentationMeeting {
   readonly meetingId: OpaqueId;
   readonly courseLabel: string;
   readonly blockLabel: string;
+  /** A closed, repository-owned local image route for course display states. */
+  readonly bannerPath?: string;
   readonly checkInOpensAt: IsoInstant;
   readonly officialStartsAt: IsoInstant;
   readonly contentStartsAt: IsoInstant;
