@@ -489,10 +489,7 @@ function checkInScene(model: DisplayPresentationModel): string {
     qrUrl === undefined || checkInUrl === undefined
       ? ''
       : `<a class="checkin-card" href="${escapeHtml(checkInUrl)}" aria-label="Open attendance check-in"><img src="${escapeHtml(qrUrl)}" alt="Attendance check-in QR code" width="320" height="320"><span class="checkin-card-code"><span>Class code</span>${escapeHtml(attendance?.classCode ?? '----')}</span></a>`;
-  const classLabel =
-    current === undefined
-      ? ''
-      : [current.courseLabel, current.blockLabel].filter(Boolean).join(' - ');
+  const classLabel = current === undefined ? '' : current.courseLabel;
   const banner = courseBanner(model, current);
   return `<section class="checkin-display${banner === undefined ? '' : ' banner-backed'}" aria-labelledby="scene-title">
   ${banner ?? ''}

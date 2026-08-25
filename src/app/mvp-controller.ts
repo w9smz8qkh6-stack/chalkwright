@@ -96,6 +96,16 @@ export function presentationCourseLabel(meeting: DayPlanMeeting): string {
     : meeting.blockLabel;
 }
 
+function presentationSectionLabel(meeting: DayPlanMeeting): string {
+  const parenthesized = /^(.*?)\s+\(([^()]+)\)$/u.exec(meeting.blockLabel);
+  if (
+    parenthesized !== null &&
+    courseKeyFromSectionCode(parenthesized[2]!) === meeting.courseKey
+  )
+    return parenthesized[2]!;
+  return meeting.blockLabel;
+}
+
 function presentationCourseBanner(meeting: DayPlanMeeting): string | undefined {
   const banners: Readonly<Record<string, string>> = {
     'Web Design': '/assets/banner-web-design-v2.png',
@@ -112,7 +122,7 @@ function presentationMeeting(meeting: DayPlanMeeting): PresentationMeeting {
   return {
     meetingId: meeting.meetingId,
     courseLabel: presentationCourseLabel(meeting),
-    blockLabel: meeting.blockLabel,
+    blockLabel: presentationSectionLabel(meeting),
     ...(bannerPath === undefined ? {} : { bannerPath }),
     checkInOpensAt: meeting.checkInOpensAt,
     officialStartsAt: meeting.officialStartsAt,
