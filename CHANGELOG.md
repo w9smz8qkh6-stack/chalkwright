@@ -12,8 +12,9 @@ omitted.
 
 - Added four repository-owned, text-safe course banners for Web Design,
   Robotics, Computer Fundamentals, and Digital Media Production. Their local
-  mappings render in Coming Up and Check In, with a translucent text card and
-  a reduced-motion-aware subtle image drift.
+  mappings render in Coming Up and Check In, preserving the full illustration
+  beside a readable text-safe card, a compact countdown card, and a
+  reduced-motion-aware subtle image drift.
 
 - Added exact bounded per-course glossary folder paths, enabling the existing
   Computer Fundamentals and Digital Media Production Drive layouts without
