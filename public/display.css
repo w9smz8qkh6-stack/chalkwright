@@ -142,8 +142,8 @@ a {
 
 .header-status {
   min-width: 0;
-  display: grid;
-  grid-template-columns: auto auto;
+  position: relative;
+  display: inline-flex;
   align-items: center;
   justify-content: flex-end;
   gap: clamp(0.625rem, 1.2vw, 0.875rem);
@@ -224,10 +224,12 @@ a {
 }
 
 .header-water-break {
-  grid-column: 1 / -1;
-  justify-self: end;
-  min-height: 1.45rem;
-  padding: 0.2rem 0.55rem;
+  position: absolute;
+  z-index: 4;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  min-height: 2rem;
+  padding: 0.3rem 0.75rem;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -236,7 +238,7 @@ a {
   color: #e0f2fe;
   background: rgba(8, 47, 73, 0.76);
   box-shadow: 0 0.5rem 1.25rem rgba(2, 10, 22, 0.18);
-  font-size: clamp(0.62rem, 0.85vw, 0.8rem);
+  font-size: clamp(0.8rem, 1.1vw, 1.05rem);
   font-weight: 800;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -249,7 +251,7 @@ a {
 
 .header-water-break strong {
   color: #fff;
-  font-size: 1.08em;
+  font-size: 1.16em;
   letter-spacing: 0.02em;
 }
 
