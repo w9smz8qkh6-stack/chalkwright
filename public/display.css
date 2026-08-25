@@ -467,10 +467,10 @@ a {
   position: relative;
   z-index: 3;
   justify-self: start;
-  width: min(100% - clamp(2rem, 8vw, 8rem), 48rem);
-  min-height: min(48vh, 31rem);
+  width: min(100% - clamp(2rem, 8vw, 8rem), 32rem);
+  min-height: 0;
   margin: auto auto clamp(7rem, 13vh, 9.5rem) clamp(1rem, 6vw, 6rem);
-  padding: clamp(2.125rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 2.5vw, 2.5rem);
   display: grid;
   align-content: center;
   justify-items: start;
@@ -479,13 +479,17 @@ a {
 }
 
 .coming-up-panel.course-banner-copy {
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #f8fafc;
-  background: rgba(4, 14, 28, 0.72);
+  background: linear-gradient(
+    135deg,
+    rgba(4, 14, 28, 0.7),
+    rgba(4, 14, 28, 0.42)
+  );
   box-shadow:
-    0 1.5rem 4rem rgba(1, 6, 15, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(1.125rem) saturate(1.1);
+    0 1rem 2.5rem rgba(1, 6, 15, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(0.75rem) saturate(1.06);
 }
 
 .scene-coming-up .eyebrow {
@@ -499,8 +503,8 @@ a {
   max-width: 100%;
   margin: 0;
   color: #f4f7fb;
-  font-size: clamp(5.4rem, 10.4vw, 10.4rem);
-  line-height: 0.84;
+  font-size: clamp(4.25rem, 7.4vw, 7.5rem);
+  line-height: 0.9;
   letter-spacing: 0;
   text-shadow: 0 0.5rem 1.625rem rgba(4, 12, 22, 0.28);
 }
@@ -589,17 +593,17 @@ a {
 .checkin-display.banner-backed .checkin-main {
   position: relative;
   z-index: 1;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(4, 14, 28, 0.56);
-  box-shadow:
-    0 1.5rem 4rem rgba(1, 6, 15, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(1.125rem) saturate(1.1);
+  padding: clamp(1rem, 2vw, 1.75rem);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(4, 14, 28, 0.48) 0%,
+    rgba(4, 14, 28, 0.2) 54%,
+    transparent 78%
+  );
 }
 
 .checkin-main {
-  width: min(100%, 72rem);
+  width: min(100% - clamp(2rem, 8vw, 8rem), 46rem);
   display: grid;
   justify-items: center;
   text-align: center;
@@ -608,7 +612,7 @@ a {
 .checkin-display h1 {
   max-width: none;
   margin: 0;
-  font-size: clamp(3.8rem, 7.4vw, 6.6rem);
+  font-size: clamp(3rem, 5.2vw, 5.25rem);
   line-height: 0.92;
 }
 
