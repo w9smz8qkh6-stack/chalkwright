@@ -46,6 +46,30 @@ export const presentationAssetRegistry = {
     contentType: 'image/svg+xml; charset=utf-8',
     cacheControl: 'public, max-age=86400',
   },
+  '/assets/banner-web-design-v2.png': {
+    publicPath: '/assets/banner-web-design-v2.png',
+    repositoryPath: 'public/banners/web-design-v2.png',
+    contentType: 'image/png',
+    cacheControl: 'public, max-age=86400',
+  },
+  '/assets/banner-robotics-v2.png': {
+    publicPath: '/assets/banner-robotics-v2.png',
+    repositoryPath: 'public/banners/robotics-v2.png',
+    contentType: 'image/png',
+    cacheControl: 'public, max-age=86400',
+  },
+  '/assets/banner-computer-fundamentals-v2.png': {
+    publicPath: '/assets/banner-computer-fundamentals-v2.png',
+    repositoryPath: 'public/banners/computer-fundamentals-v2.png',
+    contentType: 'image/png',
+    cacheControl: 'public, max-age=86400',
+  },
+  '/assets/banner-digital-media-production-v2.png': {
+    publicPath: '/assets/banner-digital-media-production-v2.png',
+    repositoryPath: 'public/banners/digital-media-production-v2.png',
+    contentType: 'image/png',
+    cacheControl: 'public, max-age=86400',
+  },
 } as const satisfies Readonly<Record<string, PresentationAsset>>;
 
 export type PresentationAssetPath = keyof typeof presentationAssetRegistry;

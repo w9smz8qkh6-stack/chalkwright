@@ -14,6 +14,10 @@ function source(path: string): string {
 
 test('asset registry is closed, repository-local, and resolves every declared file', () => {
   assert.deepEqual(Object.keys(presentationAssetRegistry).sort(), [
+    '/assets/banner-computer-fundamentals-v2.png',
+    '/assets/banner-digital-media-production-v2.png',
+    '/assets/banner-robotics-v2.png',
+    '/assets/banner-web-design-v2.png',
     '/assets/chalkwright.svg',
     '/assets/classroom-hub.svg',
     '/assets/dismissal-poster.svg',
@@ -137,11 +141,9 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /\.state-day_complete \.meeting-label/u);
   assert.match(css, /\.media-layers\.mirrored/u);
   assert.match(css, /\.scene-countdown-footer/u);
-  assert.match(css, /\.checkin-display-grid/u);
-  assert.match(
-    css,
-    /grid-template-columns: repeat\(5, minmax\(5\.625rem, 1fr\)\)/u,
-  );
+  assert.match(css, /\.course-banner/u);
+  assert.match(css, /@keyframes course-banner-drift/u);
+  assert.match(css, /\.checkin-display\.banner-backed/u);
   assert.match(css, /\.next-day-schedule/u);
   assert.match(css, /\.next-day-schedule \{\s*width: 100%/u);
   assert.match(css, /\.next-day-row/u);

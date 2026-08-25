@@ -10,6 +10,11 @@ omitted.
 
 ### Added
 
+- Added four repository-owned, text-safe course banners for Web Design,
+  Robotics, Computer Fundamentals, and Digital Media Production. Their local
+  mappings render in Coming Up and Check In, with a translucent text card and
+  a reduced-motion-aware subtle image drift.
+
 - Added exact bounded per-course glossary folder paths, enabling the existing
   Computer Fundamentals and Digital Media Production Drive layouts without
   recursive Drive search, plus fixed privileged actions for atomic protected
@@ -25,6 +30,11 @@ omitted.
   translation call is used.
 
 ### Changed
+
+- Redesigned Check In and dismissal-warning hierarchy for classroom viewing:
+  both states now center a much larger countdown; Check In keeps a compact QR
+  and class-code card at lower right; and the default dismissal instruction is
+  “Please push in your chair and make your area tidy.”
 
 - Shortened the word-of-the-day display label for `zh-Hans` translations from
   “Simplified Chinese” to “Chinese,” without changing the translation code or

@@ -414,6 +414,47 @@ a {
   animation: scene-halo 30s ease-in-out infinite alternate;
 }
 
+.course-banner,
+.course-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.course-banner {
+  z-index: 0;
+  overflow: hidden;
+  background: #07121f;
+}
+
+.course-banner::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(3, 11, 22, 0.8) 0%,
+    rgba(3, 11, 22, 0.62) 48%,
+    rgba(3, 11, 22, 0.12) 100%
+  );
+  content: '';
+}
+
+.course-banner img {
+  object-fit: cover;
+  animation: course-banner-drift 28s ease-in-out infinite alternate;
+}
+
+@keyframes course-banner-drift {
+  from {
+    transform: scale(1.02) translate3d(-0.6%, -0.3%, 0);
+  }
+
+  to {
+    transform: scale(1.07) translate3d(0.8%, 0.45%, 0);
+  }
+}
+
 .coming-up-panel {
   position: relative;
   z-index: 2;
@@ -426,6 +467,15 @@ a {
   justify-items: center;
   gap: clamp(1.25rem, 3vw, 2.125rem);
   text-align: center;
+}
+
+.coming-up-panel.course-banner-copy {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 14, 28, 0.52);
+  box-shadow:
+    0 1.5rem 4rem rgba(1, 6, 15, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(1.125rem) saturate(1.1);
 }
 
 .scene-coming-up .eyebrow {
@@ -478,6 +528,10 @@ a {
   backdrop-filter: blur(1.125rem) saturate(1.1);
 }
 
+.scene-countdown-footer.course-banner-copy {
+  background: rgba(4, 14, 28, 0.66);
+}
+
 .scene-countdown {
   min-width: 0;
   margin: 0;
@@ -509,23 +563,34 @@ a {
 }
 
 .checkin-display {
+  position: relative;
   height: 100%;
   padding: clamp(1.5rem, 3.2vw, 3.375rem);
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  gap: clamp(1.125rem, 2.4vw, 2.125rem);
+  place-items: center;
   overflow: hidden;
   color: #f4f7fb;
   background: linear-gradient(135deg, #122b50 0%, #1f4f85 62%, #15375f 100%);
   font-family: 'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif;
 }
 
-.checkin-display-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.125rem;
-  flex-wrap: wrap;
+.checkin-display.banner-backed .checkin-main {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(4, 14, 28, 0.56);
+  box-shadow:
+    0 1.5rem 4rem rgba(1, 6, 15, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(1.125rem) saturate(1.1);
+}
+
+.checkin-main {
+  width: min(100%, 72rem);
+  display: grid;
+  justify-items: center;
+  text-align: center;
 }
 
 .checkin-display h1 {
@@ -543,118 +608,76 @@ a {
   letter-spacing: 0.02em;
 }
 
-.checkin-qr {
-  flex: 0 0 min(18.75rem, 24vw);
-  padding: 0.875rem;
-  border-radius: 0;
-  background: white;
+.checkin-countdown-label,
+.dismissal-countdown-label {
+  margin: clamp(2rem, 5vh, 4rem) 0 0;
+  color: rgba(238, 244, 250, 0.88);
+  font-size: clamp(1rem, 1.5vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.checkin-qr img {
+.checkin-display .scene-countdown,
+.scene-dismissal .scene-countdown {
+  margin-top: clamp(0.375rem, 1.2vh, 1rem);
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.checkin-display .scene-countdown strong,
+.scene-dismissal .scene-countdown strong {
+  color: #fff;
+  font-size: clamp(7rem, 17vw, 17rem);
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  text-shadow: 0 0.75rem 2.25rem rgba(4, 12, 22, 0.28);
+}
+
+.checkin-display .scene-countdown span,
+.scene-dismissal .scene-countdown span {
+  display: none;
+}
+
+.checkin-card {
+  position: absolute;
+  z-index: 2;
+  right: clamp(1rem, 2.4vw, 2.75rem);
+  bottom: clamp(1rem, 2.4vw, 2.75rem);
+  width: clamp(6.25rem, 10vw, 10rem);
+  padding: clamp(0.35rem, 0.7vw, 0.7rem);
+  display: grid;
+  gap: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 0.5rem;
+  color: #122b50;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0.75rem 2rem rgba(4, 12, 22, 0.3);
+  text-align: center;
+  text-decoration: none;
+}
+
+.checkin-card img {
   width: 100%;
   height: auto;
   display: block;
   aspect-ratio: 1;
 }
 
-.checkin-display-grid {
-  min-height: 0;
-  display: grid;
-  grid-template-columns: minmax(20rem, 26.25rem) minmax(20rem, 1fr);
-  align-items: center;
-  gap: clamp(1.25rem, 3vw, 3rem);
-}
-
-.checkin-code {
-  min-width: 0;
-  padding: 1.25rem 1.125rem;
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  overflow: hidden;
-  border-radius: 1.125rem;
+.checkin-card-code {
   color: #122b50;
-  background: linear-gradient(
-    135deg,
-    rgba(248, 250, 252, 0.92),
-    rgba(244, 247, 251, 0.78)
-  );
-  font-size: clamp(2.4rem, 4.6vw, 4.2rem);
+  font-size: clamp(0.9rem, 1.2vw, 1.15rem);
   font-weight: 900;
   letter-spacing: 0.08em;
-  text-align: center;
   text-transform: uppercase;
 }
 
-.checkin-code span {
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  opacity: 0.82;
-}
-
-.checkin-callout {
-  min-width: 0;
-  padding: clamp(1.25rem, 2.8vw, 2.375rem);
-}
-
-.checkin-callout h2 {
-  margin: 0 0 0.5rem;
-  font-size: 1.35rem;
-}
-
-.checkin-callout p {
-  margin: 0;
-  color: rgba(238, 244, 250, 0.88);
-  line-height: 1.6;
-}
-
-.checkin-link-box,
-.checkin-link-missing {
-  margin-top: 0.75rem !important;
-  padding: 0.875rem 1rem;
+.checkin-card-code span {
   display: block;
-  overflow-wrap: anywhere;
-  color: #122b50 !important;
-  background: rgba(248, 250, 252, 0.9);
-  font:
-    600 1rem/1.5 ui-monospace,
-    'SFMono-Regular',
-    Consolas,
-    monospace;
-  text-decoration: none;
-}
-
-.checkin-callout .countdown {
-  margin-top: 1rem;
-  color: #f4f7fb;
-}
-
-.checkin-stats {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(5.625rem, 1fr));
-  gap: 0.75rem;
-}
-
-.checkin-stat {
-  padding: 0.875rem 1rem;
-  display: grid;
-  gap: 0.375rem;
-  background: rgba(248, 250, 252, 0.08);
-}
-
-.checkin-stat-label {
-  color: rgba(238, 244, 250, 0.84);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.checkin-stat-value {
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
-  font-weight: 900;
-  line-height: 0.95;
+  margin-bottom: 0.1rem;
+  font-size: 0.58em;
+  letter-spacing: 0.12em;
 }
 
 .qr-card {
@@ -1352,6 +1375,22 @@ a {
   transition: opacity 500ms ease;
 }
 
+.scene-dismissal .scene-copy {
+  width: min(100%, 76rem);
+  margin: auto;
+  padding: clamp(2rem, 4vw, 4rem);
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.scene-dismissal .scene-copy h1 {
+  max-width: 30ch;
+  margin: 0;
+  font-size: clamp(2rem, 4.2vw, 4.5rem);
+  line-height: 1.04;
+}
+
 .media-pending .scene-copy {
   opacity: 0;
 }
@@ -1557,18 +1596,6 @@ a {
     min-height: calc(100vh - 12rem);
   }
 
-  .checkin-display-top {
-    align-items: flex-start;
-  }
-
-  .checkin-display-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .checkin-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .scene-countdown-footer {
     right: 0.75rem;
     bottom: 0.375rem;
@@ -1629,15 +1656,6 @@ a {
     grid-column: 2;
   }
 
-  .checkin-display-top {
-    display: grid;
-  }
-
-  .checkin-qr {
-    width: min(18rem, 100%);
-  }
-
-  .checkin-stats,
   .next-day-row {
     grid-template-columns: 1fr;
   }
@@ -1672,6 +1690,10 @@ a {
   }
 
   .scene-coming-up::before {
+    animation: none;
+  }
+
+  .course-banner img {
     animation: none;
   }
 
