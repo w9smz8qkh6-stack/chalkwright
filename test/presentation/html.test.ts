@@ -268,17 +268,31 @@ test('class content renders the legacy minutes-until-bell header contract', () =
   assert.doesNotMatch(checkIn, /data-water-break-start=/u);
 });
 
-test('dismissal scene uses two muted preloaded local media layers and a reveal fallback hook', () => {
-  const html = renderDisplayPage(model('dismissal_warning'));
-  assert.equal((html.match(/data-media-layer/gmu) ?? []).length, 2);
+test('dismissal scene uses a class banner and retains media fallback when no banner is mapped', () => {
+  const html = renderDisplayPage({
+    ...model('dismissal_warning'),
+    currentMeeting: {
+      ...meeting,
+      bannerPath: '/assets/banner-web-design-v2.png',
+    },
+  });
+  assert.match(html, /class="scene scene-dismissal banner-backed"/u);
+  assert.match(html, /banner-web-design-v2\.png/u);
+  assert.equal((html.match(/data-media-layer/gmu) ?? []).length, 0);
+
+  const fallback = renderDisplayPage({
+    ...model('dismissal_warning'),
+    currentMeeting: meeting,
+  });
+  assert.equal((fallback.match(/data-media-layer/gmu) ?? []).length, 2);
   assert.equal(
-    (html.match(/ muted playsinline preload="auto"/gmu) ?? []).length,
+    (fallback.match(/ muted playsinline preload="auto"/gmu) ?? []).length,
     2,
   );
-  assert.match(html, /src="\/media\/dismissal"/u);
-  assert.match(html, /data-dismissal-scene/u);
-  assert.match(html, /data-media-reveal/u);
-  assert.doesNotMatch(html, /https?:\/\//u);
+  assert.match(fallback, /src="\/media\/dismissal"/u);
+  assert.match(fallback, /data-dismissal-scene/u);
+  assert.match(fallback, /data-media-reveal/u);
+  assert.doesNotMatch(fallback, /https?:\/\//u);
 });
 
 test('idle and post-end reuse the legacy Coming Up scene with mirrored media and both countdowns', () => {

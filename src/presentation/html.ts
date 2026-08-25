@@ -467,9 +467,11 @@ function comingUpScene(model: DisplayPresentationModel): string {
 }
 
 function dismissalScene(model: DisplayPresentationModel): string {
-  return `<section class="scene scene-dismissal media-pending" aria-labelledby="dismissal-title" data-media-scene data-dismissal-scene>
-  ${mediaLayers(model.basePath, false, model.dismissalMediaAvailable !== false)}
-  <div class="scene-copy" data-media-reveal>
+  const banner = courseBanner(model, model.currentMeeting);
+  const fallback = banner === undefined;
+  return `<section class="scene scene-dismissal${fallback ? ' media-pending' : ' banner-backed'}" aria-labelledby="dismissal-title"${fallback ? ' data-media-scene' : ''} data-dismissal-scene>
+  ${banner ?? mediaLayers(model.basePath, false, model.dismissalMediaAvailable !== false)}
+  <div class="scene-copy${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
     <p class="eyebrow">Dismissal begins soon</p>
     <h1 id="dismissal-title">${escapeHtml(model.dismissalMessage ?? 'Please push in your chair and make your area tidy.')}</h1>
     <p class="dismissal-countdown-label">Class ends in</p>
