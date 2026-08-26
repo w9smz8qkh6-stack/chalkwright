@@ -512,10 +512,11 @@ a {
 .coming-up-panel {
   position: relative;
   z-index: 3;
+  align-self: center;
   justify-self: start;
   width: min(100% - clamp(2rem, 8vw, 8rem), 32rem);
   min-height: 0;
-  margin: auto auto clamp(7rem, 13vh, 9.5rem) clamp(1rem, 6vw, 6rem);
+  margin: 0 auto 0 clamp(1rem, 6vw, 6rem);
   padding: clamp(1.5rem, 2.5vw, 2.5rem);
   display: grid;
   align-content: center;

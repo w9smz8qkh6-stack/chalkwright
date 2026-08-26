@@ -45,6 +45,9 @@ omitted.
 - Enlarged the centered course title to use the added vertical space in the
   classroom display header while retaining compact responsive sizing.
 
+- Vertically centered the Coming Up text card within the classroom scene while
+  retaining compact-layout clearance for the bottom countdown footer.
+
 - Removed duplicated plain-text course names from the morning overview rows;
   the existing class pills remain alongside each start time.
 
