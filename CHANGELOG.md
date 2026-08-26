@@ -39,6 +39,9 @@ omitted.
 - Formatted the classroom display clock with conventional lowercase day
   periods (`a.m.` and `p.m.`).
 
+- Enlarged the centered course title to use the added vertical space in the
+  classroom display header while retaining compact responsive sizing.
+
 - Removed duplicated plain-text course names from the morning overview rows;
   the existing class pills remain alongside each start time.
 
