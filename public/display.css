@@ -1435,6 +1435,26 @@ a {
   text-align: center;
 }
 
+.scene-dismissal.banner-backed .scene-copy {
+  justify-self: start;
+  width: min(48%, 44rem);
+  margin: auto auto auto clamp(2rem, 6vw, 7rem);
+  padding: clamp(1.5rem, 3vw, 3rem) 0;
+  justify-items: start;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+}
+
+.scene-dismissal.banner-backed .scene-copy h1 {
+  max-width: 15ch;
+  text-shadow: 0 0.5rem 1.75rem rgba(2, 6, 23, 0.72);
+}
+
+.scene-dismissal.banner-backed .scene-countdown strong {
+  font-size: clamp(6rem, 11vw, 11rem);
+}
+
 .scene-dismissal .scene-copy h1 {
   max-width: 30ch;
   margin: 0;
@@ -1658,6 +1678,11 @@ a {
 
   .coming-up-panel {
     margin-bottom: 9.25rem;
+  }
+
+  .scene-dismissal.banner-backed .scene-copy {
+    width: min(58%, 34rem);
+    margin-left: clamp(1rem, 4vw, 3rem);
   }
 
   .next-day-row {

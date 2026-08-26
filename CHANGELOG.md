@@ -43,6 +43,9 @@ omitted.
   titles, such as “Digital Media Production A,” and matched those titles to
   their repository-owned course banners.
 
+- Moved banner-backed dismissal instructions and their countdown into a
+  narrower cardless left column so the course illustration remains visible.
+
 - Redesigned Check In and dismissal-warning hierarchy for classroom viewing:
   both states now center a much larger countdown; Check In keeps a compact QR
   and class-code card at lower right; and the default dismissal instruction is
