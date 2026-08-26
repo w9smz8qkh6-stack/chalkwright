@@ -36,6 +36,9 @@ omitted.
 
 ### Changed
 
+- Replaced water-break Web Audio oscillators with repository-owned WAV chimes
+  loaded through static audio elements for Fully Kiosk autoplay compatibility.
+
 - Formatted the classroom display clock with conventional lowercase day
   periods (`a.m.` and `p.m.`).
 

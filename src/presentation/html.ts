@@ -171,6 +171,8 @@ function header(model: DisplayPresentationModel): string {
     <div class="header-water-break" data-header-water-break${waterBreak === undefined ? '' : ` data-water-break-start="${escapeHtml(waterBreak.startsAt)}" data-water-break-end="${escapeHtml(waterBreak.endsAt)}"`} hidden aria-label="Water break countdown">
       <span>Water break</span><strong data-water-break-value></strong>
     </div>
+    <audio data-water-break-start-tone preload="auto" src="${escapeHtml(localPath(model.basePath, '/assets/water-break-start.wav'))}"></audio>
+    <audio data-water-break-end-tone preload="auto" src="${escapeHtml(localPath(model.basePath, '/assets/water-break-end.wav'))}"></audio>
   </div>
 </header>`;
 }

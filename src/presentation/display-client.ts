@@ -232,27 +232,15 @@
   }
 
   function playWaterBreakTone(kind: 'start' | 'end'): void {
-    try {
-      const audio = new AudioContext();
-      const frequencies = kind === 'start' ? [740, 988] : [494];
-      const now = audio.currentTime;
-      for (const [index, frequency] of frequencies.entries()) {
-        const oscillator = audio.createOscillator();
-        const gain = audio.createGain();
-        const offset = index * 0.18;
-        oscillator.type = 'sine';
-        oscillator.frequency.value = frequency;
-        gain.gain.setValueAtTime(0.0001, now + offset);
-        gain.gain.exponentialRampToValueAtTime(0.16, now + offset + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.14);
-        oscillator.connect(gain).connect(audio.destination);
-        oscillator.start(now + offset);
-        oscillator.stop(now + offset + 0.15);
-      }
-      window.setTimeout(() => void audio.close(), 750);
-    } catch {
-      // Some kiosk policies require an explicit user gesture before audio.
-    }
+    const audio = document.querySelector<HTMLAudioElement>(
+      kind === 'start'
+        ? '[data-water-break-start-tone]'
+        : '[data-water-break-end-tone]',
+    );
+    if (!audio) return;
+    audio.currentTime = 0;
+    const playback = audio.play();
+    if (playback !== undefined) void playback.catch(() => undefined);
   }
 
   function updateCountdowns(now: number): void {

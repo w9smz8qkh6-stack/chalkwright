@@ -76,6 +76,18 @@ export const presentationAssetRegistry = {
     contentType: 'image/png',
     cacheControl: 'public, max-age=86400',
   },
+  '/assets/water-break-start.wav': {
+    publicPath: '/assets/water-break-start.wav',
+    repositoryPath: 'public/audio/water-break-start.wav',
+    contentType: 'audio/wav',
+    cacheControl: 'public, max-age=86400',
+  },
+  '/assets/water-break-end.wav': {
+    publicPath: '/assets/water-break-end.wav',
+    repositoryPath: 'public/audio/water-break-end.wav',
+    contentType: 'audio/wav',
+    cacheControl: 'public, max-age=86400',
+  },
 } as const satisfies Readonly<Record<string, PresentationAsset>>;
 
 export type PresentationAssetPath = keyof typeof presentationAssetRegistry;
