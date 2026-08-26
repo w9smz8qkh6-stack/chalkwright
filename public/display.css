@@ -136,7 +136,8 @@ a {
   min-width: 0;
   overflow-wrap: anywhere;
   text-align: center;
-  font-size: clamp(1.1rem, 2vw, 2rem);
+  font-size: clamp(1.35rem, 2.6vw, 3rem);
+  line-height: 1.05;
   font-weight: 700;
 }
 

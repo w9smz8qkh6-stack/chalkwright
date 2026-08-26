@@ -299,6 +299,33 @@ test('during-class header timers remain readable without horizontal overflow', a
         { waitUntil: 'domcontentloaded' },
       );
       assert.equal(response?.status(), 200, viewport.name);
+      const titleLayout = await page
+        .locator('.meeting-label')
+        .evaluate((title) => {
+          const titleRectangle = title.getBoundingClientRect();
+          const headerRectangle = title
+            .closest('header')
+            ?.getBoundingClientRect();
+          return {
+            fontSize: Number.parseFloat(getComputedStyle(title).fontSize),
+            top: titleRectangle.top,
+            bottom: titleRectangle.bottom,
+            headerTop: headerRectangle?.top ?? Number.NaN,
+            headerBottom: headerRectangle?.bottom ?? Number.NaN,
+          };
+        });
+      assert.equal(
+        titleLayout.top >= titleLayout.headerTop &&
+          titleLayout.bottom <= titleLayout.headerBottom,
+        true,
+        `${viewport.name}:course-title-contained`,
+      );
+      if (viewport.width >= 1_920)
+        assert.equal(
+          titleLayout.fontSize >= 48,
+          true,
+          `${viewport.name}:course-title-enlarged`,
+        );
       const result = await page.locator('.header-status').evaluate((status) => {
         const bell = status.querySelector<HTMLElement>('[data-header-bell]');
         const bellIcon = status.querySelector<HTMLElement>('.header-bell-icon');
