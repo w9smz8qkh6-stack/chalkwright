@@ -144,6 +144,13 @@ test('all eight display states render their semantic scenes with the intentional
   );
 });
 
+test('morning overview shows each class pill without a duplicate plain-text course label', () => {
+  const html = renderDisplayScene(model('morning_overview'));
+
+  assert.match(html, /<span class="block-badge">A<\/span>/u);
+  assert.doesNotMatch(html, />Synthetic Computing<\/span>/u);
+});
+
 test('class content includes accessible carousel controls, hold state, and reveal timing hooks', () => {
   const html = renderDisplayPage({
     ...model('in_class_content'),
@@ -268,17 +275,31 @@ test('class content renders the legacy minutes-until-bell header contract', () =
   assert.doesNotMatch(checkIn, /data-water-break-start=/u);
 });
 
-test('dismissal scene uses two muted preloaded local media layers and a reveal fallback hook', () => {
-  const html = renderDisplayPage(model('dismissal_warning'));
-  assert.equal((html.match(/data-media-layer/gmu) ?? []).length, 2);
+test('dismissal scene uses a class banner and retains media fallback when no banner is mapped', () => {
+  const html = renderDisplayPage({
+    ...model('dismissal_warning'),
+    currentMeeting: {
+      ...meeting,
+      bannerPath: '/assets/banner-web-design-v2.png',
+    },
+  });
+  assert.match(html, /class="scene scene-dismissal banner-backed"/u);
+  assert.match(html, /banner-web-design-v2\.png/u);
+  assert.equal((html.match(/data-media-layer/gmu) ?? []).length, 0);
+
+  const fallback = renderDisplayPage({
+    ...model('dismissal_warning'),
+    currentMeeting: meeting,
+  });
+  assert.equal((fallback.match(/data-media-layer/gmu) ?? []).length, 2);
   assert.equal(
-    (html.match(/ muted playsinline preload="auto"/gmu) ?? []).length,
+    (fallback.match(/ muted playsinline preload="auto"/gmu) ?? []).length,
     2,
   );
-  assert.match(html, /src="\/media\/dismissal"/u);
-  assert.match(html, /data-dismissal-scene/u);
-  assert.match(html, /data-media-reveal/u);
-  assert.doesNotMatch(html, /https?:\/\//u);
+  assert.match(fallback, /src="\/media\/dismissal"/u);
+  assert.match(fallback, /data-dismissal-scene/u);
+  assert.match(fallback, /data-media-reveal/u);
+  assert.doesNotMatch(fallback, /https?:\/\//u);
 });
 
 test('idle and post-end reuse the legacy Coming Up scene with mirrored media and both countdowns', () => {
@@ -336,7 +357,7 @@ test('check-in scene centers the countdown and keeps the QR and class code in a 
   const html = renderDisplayPage(model('pre_checkin'));
   assert.match(html, /class="checkin-display"/u);
   assert.match(html, /class="checkin-main"/u);
-  assert.match(html, /Synthetic Computing - A - <time/u);
+  assert.match(html, /Synthetic Computing - <time/u);
   assert.match(html, /class="checkin-card"/u);
   assert.match(html, /Attendance check-in QR code/u);
   assert.match(html, /<span>Class code<\/span>C509/u);

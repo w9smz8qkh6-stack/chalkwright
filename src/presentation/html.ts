@@ -186,7 +186,6 @@ function meetingList(meetings: readonly PresentationMeeting[]): string {
     .map(
       (meeting) => `<li>
   <span class="block-badge">${escapeHtml(meeting.blockLabel)}</span>
-  <span>${escapeHtml(meeting.courseLabel)}</span>
   <time datetime="${escapeHtml(meeting.officialStartsAt)}" data-local-time="${escapeHtml(meeting.officialStartsAt)}"></time>
 </li>`,
     )
@@ -467,9 +466,11 @@ function comingUpScene(model: DisplayPresentationModel): string {
 }
 
 function dismissalScene(model: DisplayPresentationModel): string {
-  return `<section class="scene scene-dismissal media-pending" aria-labelledby="dismissal-title" data-media-scene data-dismissal-scene>
-  ${mediaLayers(model.basePath, false, model.dismissalMediaAvailable !== false)}
-  <div class="scene-copy" data-media-reveal>
+  const banner = courseBanner(model, model.currentMeeting);
+  const fallback = banner === undefined;
+  return `<section class="scene scene-dismissal${fallback ? ' media-pending' : ' banner-backed'}" aria-labelledby="dismissal-title"${fallback ? ' data-media-scene' : ''} data-dismissal-scene>
+  ${banner ?? mediaLayers(model.basePath, false, model.dismissalMediaAvailable !== false)}
+  <div class="scene-copy${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
     <p class="eyebrow">Dismissal begins soon</p>
     <h1 id="dismissal-title">${escapeHtml(model.dismissalMessage ?? 'Please push in your chair and make your area tidy.')}</h1>
     <p class="dismissal-countdown-label">Class ends in</p>
@@ -487,10 +488,7 @@ function checkInScene(model: DisplayPresentationModel): string {
     qrUrl === undefined || checkInUrl === undefined
       ? ''
       : `<a class="checkin-card" href="${escapeHtml(checkInUrl)}" aria-label="Open attendance check-in"><img src="${escapeHtml(qrUrl)}" alt="Attendance check-in QR code" width="320" height="320"><span class="checkin-card-code"><span>Class code</span>${escapeHtml(attendance?.classCode ?? '----')}</span></a>`;
-  const classLabel =
-    current === undefined
-      ? ''
-      : [current.courseLabel, current.blockLabel].filter(Boolean).join(' - ');
+  const classLabel = current === undefined ? '' : current.courseLabel;
   const banner = courseBanner(model, current);
   return `<section class="checkin-display${banner === undefined ? '' : ' banner-backed'}" aria-labelledby="scene-title">
   ${banner ?? ''}
