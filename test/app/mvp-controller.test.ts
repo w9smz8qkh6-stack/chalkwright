@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   presentationCard,
+  presentationCourseBanner,
   presentationCourseLabel,
 } from '../../src/app/mvp-controller.js';
 import type { DayPlanMeeting } from '../../src/contracts/v1/day-plan.js';
@@ -44,6 +45,26 @@ test('retains normalized-key and synthetic-fixture fallbacks', () => {
   assert.equal(
     presentationCourseLabel(meeting('course-a', 'Synthetic block A')),
     'Web Design',
+  );
+});
+
+test('removes a live section suffix from known friendly course titles and maps their banner', () => {
+  const liveMeeting = meeting('mict03-1', 'Digital Media Production A');
+  assert.equal(
+    presentationCourseLabel(liveMeeting),
+    'Digital Media Production',
+  );
+  assert.equal(
+    presentationCourseBanner(liveMeeting),
+    '/assets/banner-digital-media-production-v2.png',
+  );
+  assert.equal(
+    presentationCourseLabel(meeting('unknown-1', 'Unknown Course A')),
+    'Unknown Course A',
+  );
+  assert.equal(
+    presentationCourseBanner(meeting('unknown-1', 'Unknown Course A')),
+    undefined,
   );
 });
 

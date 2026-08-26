@@ -77,6 +77,20 @@ function evaluatedAt(
   return defaultInstant;
 }
 
+const courseBanners: Readonly<Record<string, string>> = {
+  'Web Design': '/assets/banner-web-design-v2.png',
+  Robotics: '/assets/banner-robotics-v2.png',
+  'Computer Fundamentals': '/assets/banner-computer-fundamentals-v2.png',
+  'Digital Media Production': '/assets/banner-digital-media-production-v2.png',
+};
+
+function friendlyCourseLabel(label: string): string {
+  if (courseBanners[label] !== undefined) return label;
+  const sectionSuffix = /^(.*) [A-Z]$/u.exec(label);
+  const base = sectionSuffix?.[1];
+  return base !== undefined && courseBanners[base] !== undefined ? base : label;
+}
+
 export function presentationCourseLabel(meeting: DayPlanMeeting): string {
   const labels: Readonly<Record<string, string>> = {
     'course-a': 'Web Design',
@@ -91,9 +105,11 @@ export function presentationCourseLabel(meeting: DayPlanMeeting): string {
     courseKeyFromSectionCode(parenthesized[2]) === meeting.courseKey
   )
     return parenthesized[1]!.trim();
-  return courseKeyFromSectionCode(meeting.blockLabel) === meeting.courseKey
-    ? meeting.courseKey
-    : meeting.blockLabel;
+  return friendlyCourseLabel(
+    courseKeyFromSectionCode(meeting.blockLabel) === meeting.courseKey
+      ? meeting.courseKey
+      : meeting.blockLabel,
+  );
 }
 
 function presentationSectionLabel(meeting: DayPlanMeeting): string {
@@ -106,15 +122,10 @@ function presentationSectionLabel(meeting: DayPlanMeeting): string {
   return meeting.blockLabel;
 }
 
-function presentationCourseBanner(meeting: DayPlanMeeting): string | undefined {
-  const banners: Readonly<Record<string, string>> = {
-    'Web Design': '/assets/banner-web-design-v2.png',
-    Robotics: '/assets/banner-robotics-v2.png',
-    'Computer Fundamentals': '/assets/banner-computer-fundamentals-v2.png',
-    'Digital Media Production':
-      '/assets/banner-digital-media-production-v2.png',
-  };
-  return banners[presentationCourseLabel(meeting)];
+export function presentationCourseBanner(
+  meeting: DayPlanMeeting,
+): string | undefined {
+  return courseBanners[presentationCourseLabel(meeting)];
 }
 
 function presentationMeeting(meeting: DayPlanMeeting): PresentationMeeting {
