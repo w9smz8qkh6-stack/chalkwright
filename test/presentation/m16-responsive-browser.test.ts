@@ -66,7 +66,7 @@ test('renders every accepted display state across the bounded kiosk viewport env
         assert.equal(response?.status(), 200, `${viewport.name}:${state}`);
         await page.locator(`body.state-${state}`).waitFor();
         const displayedClock = await page.locator('[data-clock]').textContent();
-        assert.match(displayedClock ?? '', /^\d{1,2}:\d{2} [AP]M$/u);
+        assert.match(displayedClock ?? '', /^\d{1,2}:\d{2} [ap]\.m\.$/u);
         if (
           state === 'idle' ||
           state === 'pre_checkin' ||
