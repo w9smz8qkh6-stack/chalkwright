@@ -64,6 +64,19 @@ test('renders every accepted display state across the bounded kiosk viewport env
         await page.locator(`body.state-${state}`).waitFor();
         const displayedClock = await page.locator('[data-clock]').textContent();
         assert.match(displayedClock ?? '', /^\d{1,2}:\d{2} [AP]M$/u);
+        if (
+          state === 'idle' ||
+          state === 'pre_checkin' ||
+          state === 'dismissal_warning'
+        ) {
+          assert.equal(
+            await page
+              .locator('.banner-backed .course-banner img')
+              .evaluate((image) => getComputedStyle(image).objectPosition),
+            '100% 50%',
+            `${viewport.name}:${state}:banner-position`,
+          );
+        }
         if (state === 'dismissal_warning') {
           const dismissal = await page
             .locator('.scene-dismissal.banner-backed')
