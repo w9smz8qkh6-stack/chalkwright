@@ -82,6 +82,8 @@
   let carouselState: CarouselState | undefined;
   let lastPresentationHtml: string | undefined;
   let activeWaterBreakKey = '';
+  let observedWaterBreakKey = '';
+  let previousWaterBreakNow: number | undefined;
   let operatorAuthorization = '';
   let serverClockAnchor = Date.parse(root?.dataset.evaluatedAt || '');
   let browserClockAnchor = Date.now();
@@ -200,13 +202,21 @@
     if (!waterBreak || !value) return;
     const startsAt = Date.parse(waterBreak.dataset.waterBreakStart || '');
     const endsAt = Date.parse(waterBreak.dataset.waterBreakEnd || '');
+    const validWindow = Number.isFinite(startsAt) && Number.isFinite(endsAt);
+    const windowKey = `${startsAt}:${endsAt}`;
+    const crossedStart =
+      validWindow &&
+      observedWaterBreakKey === windowKey &&
+      previousWaterBreakNow !== undefined &&
+      previousWaterBreakNow < startsAt &&
+      now >= startsAt;
+    observedWaterBreakKey = validWindow ? windowKey : '';
+    previousWaterBreakNow = validWindow ? now : undefined;
     const show =
       root?.dataset.state === 'in_class_content' &&
-      Number.isFinite(startsAt) &&
-      Number.isFinite(endsAt) &&
+      validWindow &&
       now >= startsAt &&
       now < endsAt;
-    const windowKey = `${startsAt}:${endsAt}`;
     waterBreak.hidden = !show;
     if (!show) {
       if (activeWaterBreakKey === windowKey && now >= endsAt)
@@ -218,7 +228,7 @@
     }
     if (activeWaterBreakKey !== windowKey) {
       activeWaterBreakKey = windowKey;
-      playWaterBreakTone('start');
+      if (crossedStart) playWaterBreakTone('start');
     }
     const seconds = Math.max(0, Math.ceil((endsAt - now) / 1000));
     const nextValue = `${Math.floor(seconds / 60)}:${String(

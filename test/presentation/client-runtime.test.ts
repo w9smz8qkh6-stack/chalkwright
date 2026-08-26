@@ -375,7 +375,7 @@ test('legacy header bell uses a singular label and fails closed on a missing tar
   assert.equal(harness.bell.dataset.bellTarget, undefined);
 });
 
-test('water-break timer appears only for the five minutes after the 40-minute mark', async () => {
+test('water-break timer and tones follow actual boundary crossings', async () => {
   const harness = clientHarness({
     targetUrl: '/target/screen-c509',
     payload: {
@@ -383,12 +383,17 @@ test('water-break timer appears only for the five minutes after the 40-minute ma
       state: 'in_class_content',
       meetingId: 'meeting-robotics',
       courseLabel: 'Robotics',
-      evaluatedAt: '2035-04-13T08:40:00Z',
+      evaluatedAt: '2035-04-13T08:39:59Z',
       waterBreakStartsAt: '2035-04-13T08:40:00Z',
       waterBreakEndsAt: '2035-04-13T08:45:00Z',
     },
   });
   await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(harness.waterBreak.hidden, true);
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+
+  harness.advance(1_000);
+  harness.tickClock();
   assert.equal(harness.waterBreak.hidden, false);
   assert.equal(harness.waterBreakValue.textContent, '5:00');
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
@@ -406,6 +411,26 @@ test('water-break timer appears only for the five minutes after the 40-minute ma
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.currentTime, 0);
+});
+
+test('loading or reverse-mirroring during an active water break stays silent', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'in_class_content',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:42:00Z',
+      waterBreakStartsAt: '2035-04-13T08:40:00Z',
+      waterBreakEndsAt: '2035-04-13T08:45:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakValue.textContent, '3:00');
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
 });
 
 test('pinned client uses its fixture instant, conventional day periods, and performs no target polling', async () => {
