@@ -78,6 +78,7 @@ function evaluatedAt(
 }
 
 const courseBanners: Readonly<Record<string, string>> = {
+  Advisory: '/assets/banner-advisory-v1.png',
   'Web Design': '/assets/banner-web-design-v2.png',
   Robotics: '/assets/banner-robotics-v2.png',
   'Computer Fundamentals': '/assets/banner-computer-fundamentals-v2.png',

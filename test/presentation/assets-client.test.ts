@@ -14,6 +14,7 @@ function source(path: string): string {
 
 test('asset registry is closed, repository-local, and resolves every declared file', () => {
   assert.deepEqual(Object.keys(presentationAssetRegistry).sort(), [
+    '/assets/banner-advisory-v1.png',
     '/assets/banner-computer-fundamentals-v2.png',
     '/assets/banner-digital-media-production-v2.png',
     '/assets/banner-robotics-v2.png',
