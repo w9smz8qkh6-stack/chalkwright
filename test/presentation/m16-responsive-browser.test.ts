@@ -67,6 +67,25 @@ test('renders every accepted display state across the bounded kiosk viewport env
         await page.locator(`body.state-${state}`).waitFor();
         const displayedClock = await page.locator('[data-clock]').textContent();
         assert.match(displayedClock ?? '', /^\d{1,2}:\d{2} [ap]\.m\.$/u);
+        if (state === 'idle' || state === 'post_end') {
+          const comingUp = await page
+            .locator('.scene-coming-up')
+            .evaluate((scene) => {
+              const panel =
+                scene.querySelector<HTMLElement>('.coming-up-panel');
+              if (panel === null) throw new Error('coming-up-panel-missing');
+              const sceneRectangle = scene.getBoundingClientRect();
+              const panelRectangle = panel.getBoundingClientRect();
+              return {
+                sceneCenter: sceneRectangle.top + sceneRectangle.height / 2,
+                panelCenter: panelRectangle.top + panelRectangle.height / 2,
+              };
+            });
+          assert.ok(
+            Math.abs(comingUp.panelCenter - comingUp.sceneCenter) <= 1,
+            `${viewport.name}:${state}:coming-up-panel-vertical-center`,
+          );
+        }
         if (
           state === 'idle' ||
           state === 'pre_checkin' ||
