@@ -87,9 +87,12 @@ const courseBanners: Readonly<Record<string, string>> = {
 
 function friendlyCourseLabel(label: string): string {
   if (courseBanners[label] !== undefined) return label;
-  const sectionSuffix = /^(.*) [A-Z]$/u.exec(label);
-  const base = sectionSuffix?.[1];
-  return base !== undefined && courseBanners[base] !== undefined ? base : label;
+  for (const base of Object.keys(courseBanners)) {
+    if (!label.startsWith(`${base} `)) continue;
+    const section = label.slice(base.length + 1);
+    if (/^(?:[A-Z]|\d+[A-Z]?)$/u.test(section)) return base;
+  }
+  return label;
 }
 
 export function presentationCourseLabel(meeting: DayPlanMeeting): string {
