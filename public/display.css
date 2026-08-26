@@ -480,7 +480,7 @@ a {
   /* Keep every class illustration intact; these images reserve their right side
      for artwork, which would be lost by a cover crop on non-16:9 displays. */
   object-fit: contain;
-  object-position: center;
+  object-position: right center;
   /* Deliberately perceptible on a wall display, without distracting from copy. */
   animation: course-banner-drift 14s ease-in-out infinite alternate;
   will-change: transform;

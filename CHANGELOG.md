@@ -46,6 +46,9 @@ omitted.
 - Moved banner-backed dismissal instructions and their countdown into a
   narrower cardless left column so the course illustration remains visible.
 
+- Right-aligned contained course banners in Coming Up, Check In, and dismissal
+  states so the artwork meets the right edge without cropping.
+
 - Redesigned Check In and dismissal-warning hierarchy for classroom viewing:
   both states now center a much larger countdown; Check In keeps a compact QR
   and class-code card at lower right; and the default dismissal instruction is
