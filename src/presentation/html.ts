@@ -156,8 +156,8 @@ function header(model: DisplayPresentationModel): string {
   <div class="meeting-label" data-course-label>${escapeHtml(meetingLabel(model.currentMeeting) || meetingLabel(model.nextMeeting))}</div>
   <div class="header-status">
     <div class="clock-group">
-      <span class="date-label" data-display-date>${escapeHtml(displayDateLabel(model.date, model.timeZone))}</span>
       <time class="clock" data-clock datetime="${escapeHtml(model.evaluatedAt)}">--:--</time>
+      <span class="date-label" data-display-date>${escapeHtml(displayDateLabel(model.date, model.timeZone))}</span>
     </div>
     <div class="header-bell-countdown" data-header-bell${bellTarget === undefined ? '' : ` data-bell-target="${escapeHtml(bellTarget)}"`} hidden aria-label="Minutes until bell">
       <svg class="header-bell-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
