@@ -49,7 +49,10 @@ test('retains normalized-key and synthetic-fixture fallbacks', () => {
 });
 
 test('removes a live section suffix from known friendly course titles and maps their banner', () => {
-  const liveMeeting = meeting('mict03-1', 'Digital Media Production A');
+  const liveMeeting = meeting(
+    'mict03-1',
+    'Digital Media Production A (MICT03.1)',
+  );
   assert.equal(
     presentationCourseLabel(liveMeeting),
     'Digital Media Production',

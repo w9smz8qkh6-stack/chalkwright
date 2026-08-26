@@ -104,7 +104,7 @@ export function presentationCourseLabel(meeting: DayPlanMeeting): string {
     parenthesized[1]!.trim().length > 0 &&
     courseKeyFromSectionCode(parenthesized[2]) === meeting.courseKey
   )
-    return parenthesized[1]!.trim();
+    return friendlyCourseLabel(parenthesized[1]!.trim());
   return friendlyCourseLabel(
     courseKeyFromSectionCode(meeting.blockLabel) === meeting.courseKey
       ? meeting.courseKey
