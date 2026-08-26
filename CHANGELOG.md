@@ -48,9 +48,9 @@ omitted.
 - Removed duplicated plain-text course names from the morning overview rows;
   the existing class pills remain alongside each start time.
 
-- Removed trailing single-letter sections from recognized friendly course
-  titles, such as “Digital Media Production A,” and matched those titles to
-  their repository-owned course banners.
+- Removed trailing section identifiers from recognized friendly course titles,
+  such as “Digital Media Production A” and “Advisory 12A,” and matched those
+  titles to their repository-owned course banners.
 
 - Moved banner-backed dismissal instructions and their countdown into a
   narrower cardless left column so the course illustration remains visible.

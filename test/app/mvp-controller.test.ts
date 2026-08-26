@@ -77,6 +77,18 @@ test('removes a live section suffix from known friendly course titles and maps t
     presentationCourseBanner(meeting('advisory-1', 'Advisory A')),
     '/assets/banner-advisory-v1.png',
   );
+  assert.equal(
+    presentationCourseLabel(meeting('advisory-1', 'Advisory 12A')),
+    'Advisory',
+  );
+  assert.equal(
+    presentationCourseBanner(meeting('advisory-1', 'Advisory 12A')),
+    '/assets/banner-advisory-v1.png',
+  );
+  assert.equal(
+    presentationCourseLabel(meeting('unknown-1', 'Unknown Course 12A')),
+    'Unknown Course 12A',
+  );
 });
 
 test('preserves structured Classroom objective content for presentation icons', () => {
