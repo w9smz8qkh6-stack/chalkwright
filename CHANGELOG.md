@@ -39,6 +39,10 @@ omitted.
 - Replaced water-break Web Audio oscillators with repository-owned WAV chimes
   loaded through static audio elements for Fully Kiosk autoplay compatibility.
 
+- Suppressed false water-break start chimes when a display loads, reloads, or
+  enters reverse mirroring during an already-active break; tones now require an
+  observed clock crossing of the start or end boundary.
+
 - Formatted the classroom display clock with conventional lowercase day
   periods (`a.m.` and `p.m.`).
 
