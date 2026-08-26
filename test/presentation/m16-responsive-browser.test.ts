@@ -4,7 +4,10 @@ import test from 'node:test';
 import { chromium } from 'playwright-core';
 
 import { startFixtureBackedMvp } from '../../src/app/mvp-server.js';
-import { b407StateInstants } from '../../src/infrastructure/fixture/b407.js';
+import {
+  b407Date,
+  b407StateInstants,
+} from '../../src/infrastructure/fixture/b407.js';
 
 const minimumSupportedChromeMajor = 150;
 const viewports = [
@@ -263,7 +266,7 @@ test('renders every accepted display state across the bounded kiosk viewport env
   }
 });
 
-test('during-class bell remains visible without horizontal overflow at tablet and mobile widths', async () => {
+test('during-class header timers remain readable without horizontal overflow', async () => {
   const application = await startFixtureBackedMvp(
     {
       nodeEnv: 'test',
@@ -281,6 +284,8 @@ test('during-class bell remains visible without horizontal overflow at tablet an
   try {
     assertSupportedChromeVersion(browser.version());
     for (const viewport of [
+      { name: 'native', width: 3_840, height: 2_160 },
+      { name: 'classroom', width: 1_920, height: 1_080 },
       { name: 'tablet', width: 768, height: 1_024 },
       { name: 'mobile', width: 390, height: 844 },
     ] as const) {
@@ -356,6 +361,40 @@ test('during-class bell remains visible without horizontal overflow at tablet an
       );
       assert.equal(result.numberJustification, 'center', viewport.name);
       assert.equal(result.numberTextAlignment, 'center', viewport.name);
+
+      await page.goto(
+        `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(`${b407Date}T08:41:00Z`)}`,
+        { waitUntil: 'domcontentloaded' },
+      );
+      const waterBreak = await page
+        .locator('[data-header-water-break]')
+        .evaluate((timer) => {
+          const element = timer as HTMLElement;
+          const value = timer.querySelector<HTMLElement>(
+            '[data-water-break-value]',
+          );
+          if (value === null) throw new Error('water-break-value-missing');
+          const rectangle = timer.getBoundingClientRect();
+          return {
+            hidden: element.hidden,
+            value: value.textContent,
+            valueFontSize: Number.parseFloat(getComputedStyle(value).fontSize),
+            labelFontSize: Number.parseFloat(getComputedStyle(timer).fontSize),
+            height: rectangle.height,
+            left: rectangle.left,
+            right: rectangle.right,
+            scrollWidth: document.documentElement.scrollWidth,
+            innerWidth: window.innerWidth,
+          };
+        });
+      assert.equal(waterBreak.hidden, false, viewport.name);
+      assert.equal(waterBreak.value, '4:00', viewport.name);
+      assert.ok(waterBreak.valueFontSize >= 56, viewport.name);
+      assert.ok(waterBreak.labelFontSize >= 16, viewport.name);
+      assert.ok(waterBreak.height >= 88, viewport.name);
+      assert.ok(waterBreak.left >= 0, viewport.name);
+      assert.ok(waterBreak.right <= waterBreak.innerWidth, viewport.name);
+      assert.ok(waterBreak.scrollWidth <= waterBreak.innerWidth, viewport.name);
       await context.close();
     }
   } finally {

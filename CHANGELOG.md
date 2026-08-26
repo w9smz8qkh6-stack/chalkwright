@@ -49,6 +49,9 @@ omitted.
 - Right-aligned contained course banners in Coming Up, Check In, and dismissal
   states so the artwork meets the right edge without cropping.
 
+- Enlarged the active WATER BREAK header overlay into a stacked, high-contrast
+  panel with a wall-readable countdown across classroom and compact viewports.
+
 - Redesigned Check In and dismissal-warning hierarchy for classroom viewing:
   both states now center a much larger countdown; Check In keeps a compact QR
   and class-code card at lower right; and the default dismissal instruction is

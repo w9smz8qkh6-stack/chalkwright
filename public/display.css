@@ -228,17 +228,19 @@ a {
   z-index: 4;
   top: calc(100% + 0.35rem);
   right: 0;
-  min-height: 2rem;
-  padding: 0.3rem 0.75rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
+  min-width: clamp(11rem, 16vw, 18rem);
+  min-height: 5.5rem;
+  padding: clamp(0.65rem, 1.2vw, 1rem) clamp(1rem, 1.8vw, 1.5rem);
+  display: grid;
+  justify-items: end;
+  gap: 0.1rem;
   border: 1px solid rgba(125, 211, 252, 0.45);
-  border-radius: 999px;
+  border-radius: 1rem;
   color: #e0f2fe;
   background: rgba(8, 47, 73, 0.76);
   box-shadow: 0 0.5rem 1.25rem rgba(2, 10, 22, 0.18);
-  font-size: clamp(0.8rem, 1.1vw, 1.05rem);
+  font-size: clamp(1rem, 1.6vw, 2rem);
+  line-height: 1;
   font-weight: 800;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -251,8 +253,9 @@ a {
 
 .header-water-break strong {
   color: #fff;
-  font-size: 1.16em;
-  letter-spacing: 0.02em;
+  font-size: clamp(3.5rem, 5vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
 }
 
 @keyframes bell-shimmer {
