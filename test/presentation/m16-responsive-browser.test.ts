@@ -326,6 +326,10 @@ test('during-class header timers remain readable without horizontal overflow', a
           reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
           dateRight: dateRectangle.right,
           clockLeft: clockRectangle.left,
+          dateTop: dateRectangle.top,
+          clockBottom: clockRectangle.bottom,
+          dateCenter: dateRectangle.left + dateRectangle.width / 2,
+          clockHorizontalCenter: clockRectangle.left + clockRectangle.width / 2,
           clockCenter: clockRectangle.top + clockRectangle.height / 2,
           bellCenter: rectangle.top + rectangle.height / 2,
           iconNumberGap: numberRectangle.left - iconRectangle.right,
@@ -345,8 +349,12 @@ test('during-class header timers remain readable without horizontal overflow', a
       assert.equal(result.reducedMotion, true, viewport.name);
       if (viewport.name === 'tablet' || viewport.name === 'mobile') {
         assert.ok(
-          result.dateRight <= result.clockLeft,
-          `${viewport.name}:date-order`,
+          result.dateTop >= result.clockBottom,
+          `${viewport.name}:date-below-clock`,
+        );
+        assert.ok(
+          Math.abs(result.dateCenter - result.clockHorizontalCenter) <= 1,
+          `${viewport.name}:date-clock-centering`,
         );
         assert.ok(
           Math.abs(result.clockCenter - result.bellCenter) <= 1,

@@ -52,6 +52,9 @@ omitted.
 - Enlarged the active WATER BREAK header overlay into a stacked, high-contrast
   panel with a wall-readable countdown across classroom and compact viewports.
 
+- Moved the display date beneath the header clock and centered it to clarify
+  the time-and-date hierarchy without displacing the bell or break timers.
+
 - Redesigned Check In and dismissal-warning hierarchy for classroom viewing:
   both states now center a much larger countdown; Check In keeps a compact QR
   and class-code card at lower right; and the default dismissal instruction is

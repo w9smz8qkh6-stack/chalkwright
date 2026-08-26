@@ -251,7 +251,7 @@ test('class content renders the legacy minutes-until-bell header contract', () =
   assert.match(inClass, /class="header-status"/u);
   assert.match(
     inClass,
-    /class="clock-group">\s*<span class="date-label"[^>]*>[^<]+<\/span>\s*<time class="clock"/u,
+    /class="clock-group">\s*<time class="clock"[^>]*>[^<]+<\/time>\s*<span class="date-label"/u,
   );
   assert.match(
     inClass,
