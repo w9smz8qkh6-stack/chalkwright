@@ -384,11 +384,20 @@ test('water-break timer appears only for the five minutes after the 40-minute ma
   assert.equal(harness.waterBreakValue.textContent, '');
 });
 
-test('pinned client uses its fixture instant and performs no target polling', async () => {
-  const pinnedAt = '2035-04-13T08:30:00Z';
-  const harness = clientHarness({ targetUrl: '', pinnedAt });
+test('pinned client uses its fixture instant, conventional day periods, and performs no target polling', async () => {
+  const harness = clientHarness({
+    targetUrl: '',
+    pinnedAt: '2035-04-13T08:30:00Z',
+  });
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(harness.fetchCalls(), 0);
   assert.equal(harness.clock.dateTime, '2035-04-13T08:30:00.000Z');
-  assert.equal(harness.clock.textContent, '8:30 AM');
+  assert.equal(harness.clock.textContent, '8:30 a.m.');
+
+  const afternoonHarness = clientHarness({
+    targetUrl: '',
+    pinnedAt: '2035-04-13T20:30:00Z',
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(afternoonHarness.clock.textContent, '8:30 p.m.');
 });

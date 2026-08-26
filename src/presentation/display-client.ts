@@ -99,6 +99,21 @@
     return new Date(anchor + (Date.now() - browserClockAnchor));
   }
 
+  function formatClockTime(instant: Date): string {
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      hour: 'numeric',
+      minute: '2-digit',
+    })
+      .formatToParts(instant)
+      .map((part) => {
+        if (part.type !== 'dayPeriod') return part.value;
+        return part.value.toUpperCase() === 'AM' ? 'a.m.' : 'p.m.';
+      })
+      .join('')
+      .replace(/\u202f/gu, ' ');
+  }
+
   function announce(message: string): void {
     const region = document.querySelector<HTMLElement>('[data-announcer]');
     if (region) region.textContent = message;
@@ -119,11 +134,7 @@
     )) {
       element.dateTime = now.toISOString();
       try {
-        element.textContent = new Intl.DateTimeFormat('en-US', {
-          timeZone,
-          hour: 'numeric',
-          minute: '2-digit',
-        }).format(now);
+        element.textContent = formatClockTime(now);
       } catch {
         element.textContent = now.toISOString().slice(11, 16);
       }
