@@ -46,6 +46,12 @@ export const presentationAssetRegistry = {
     contentType: 'image/svg+xml; charset=utf-8',
     cacheControl: 'public, max-age=86400',
   },
+  '/assets/banner-advisory-v1.png': {
+    publicPath: '/assets/banner-advisory-v1.png',
+    repositoryPath: 'public/banners/advisory-v1.png',
+    contentType: 'image/png',
+    cacheControl: 'public, max-age=86400',
+  },
   '/assets/banner-web-design-v2.png': {
     publicPath: '/assets/banner-web-design-v2.png',
     repositoryPath: 'public/banners/web-design-v2.png',

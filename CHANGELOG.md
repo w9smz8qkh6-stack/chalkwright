@@ -14,10 +14,10 @@ omitted.
   40 minutes after official class start and counts down the optional five-minute
   break.
 
-- Added four repository-owned, text-safe course banners for Web Design,
-  Robotics, Computer Fundamentals, and Digital Media Production. Their local
-  mappings render in Coming Up and Check In, preserving the full illustration
-  beside compact text-safe copy, a compact countdown card, and a
+- Added five repository-owned, text-safe course banners for Advisory, Web
+  Design, Robotics, Computer Fundamentals, and Digital Media Production. Their
+  local mappings render in Coming Up and Check In, preserving the full
+  illustration beside compact text-safe copy, a compact countdown card, and a
   reduced-motion-aware subtle image drift.
 
 - Added exact bounded per-course glossary folder paths, enabling the existing
