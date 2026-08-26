@@ -64,6 +64,29 @@ test('renders every accepted display state across the bounded kiosk viewport env
         await page.locator(`body.state-${state}`).waitFor();
         const displayedClock = await page.locator('[data-clock]').textContent();
         assert.match(displayedClock ?? '', /^\d{1,2}:\d{2} [AP]M$/u);
+        if (state === 'dismissal_warning') {
+          const dismissal = await page
+            .locator('.scene-dismissal.banner-backed')
+            .evaluate((scene) => {
+              const copy = scene.querySelector<HTMLElement>('.scene-copy');
+              if (copy === null)
+                throw new Error('dismissal-banner-copy-missing');
+              return {
+                copyWidth: copy.getBoundingClientRect().width,
+                sceneWidth: scene.getBoundingClientRect().width,
+                background: getComputedStyle(copy).backgroundColor,
+              };
+            });
+          assert.ok(
+            dismissal.copyWidth <= dismissal.sceneWidth * 0.58,
+            `${viewport.name}:dismissal-copy-width`,
+          );
+          assert.equal(
+            dismissal.background,
+            'rgba(0, 0, 0, 0)',
+            `${viewport.name}:dismissal-copy-background`,
+          );
+        }
         if (state === 'in_class_content') {
           assert.doesNotMatch(
             await page.locator('body').innerText(),
