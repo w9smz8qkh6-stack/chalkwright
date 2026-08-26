@@ -36,6 +36,9 @@ omitted.
 
 ### Changed
 
+- Removed duplicated plain-text course names from the morning overview rows;
+  the existing class pills remain alongside each start time.
+
 - Redesigned Check In and dismissal-warning hierarchy for classroom viewing:
   both states now center a much larger countdown; Check In keeps a compact QR
   and class-code card at lower right; and the default dismissal instruction is

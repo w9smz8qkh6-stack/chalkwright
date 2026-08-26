@@ -144,6 +144,13 @@ test('all eight display states render their semantic scenes with the intentional
   );
 });
 
+test('morning overview shows each class pill without a duplicate plain-text course label', () => {
+  const html = renderDisplayScene(model('morning_overview'));
+
+  assert.match(html, /<span class="block-badge">A<\/span>/u);
+  assert.doesNotMatch(html, />Synthetic Computing<\/span>/u);
+});
+
 test('class content includes accessible carousel controls, hold state, and reveal timing hooks', () => {
   const html = renderDisplayPage({
     ...model('in_class_content'),
@@ -350,7 +357,7 @@ test('check-in scene centers the countdown and keeps the QR and class code in a 
   const html = renderDisplayPage(model('pre_checkin'));
   assert.match(html, /class="checkin-display"/u);
   assert.match(html, /class="checkin-main"/u);
-  assert.match(html, /Synthetic Computing - A - <time/u);
+  assert.match(html, /Synthetic Computing - <time/u);
   assert.match(html, /class="checkin-card"/u);
   assert.match(html, /Attendance check-in QR code/u);
   assert.match(html, /<span>Class code<\/span>C509/u);

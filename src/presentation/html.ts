@@ -186,7 +186,6 @@ function meetingList(meetings: readonly PresentationMeeting[]): string {
     .map(
       (meeting) => `<li>
   <span class="block-badge">${escapeHtml(meeting.blockLabel)}</span>
-  <span>${escapeHtml(meeting.courseLabel)}</span>
   <time datetime="${escapeHtml(meeting.officialStartsAt)}" data-local-time="${escapeHtml(meeting.officialStartsAt)}"></time>
 </li>`,
     )
