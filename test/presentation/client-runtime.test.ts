@@ -84,6 +84,19 @@ function clientHarness(options: {
         : undefined;
     },
   };
+  function tone() {
+    let playCalls = 0;
+    return {
+      currentTime: -1,
+      play() {
+        playCalls += 1;
+        return Promise.resolve();
+      },
+      playCalls: () => playCalls,
+    };
+  }
+  const waterBreakStartTone = tone();
+  const waterBreakEndTone = tone();
   const dateLabel = { textContent: 'Friday, April 13' };
   const connectionStatus = { hidden: true };
   const body = {
@@ -117,6 +130,9 @@ function clientHarness(options: {
       if (selector === '[data-connection-status]') return connectionStatus;
       if (selector === '[data-header-bell]') return bell;
       if (selector === '[data-header-water-break]') return waterBreak;
+      if (selector === '[data-water-break-start-tone]')
+        return waterBreakStartTone;
+      if (selector === '[data-water-break-end-tone]') return waterBreakEndTone;
       return undefined;
     },
     querySelectorAll(selector: string) {
@@ -186,6 +202,8 @@ function clientHarness(options: {
     waterBreak,
     waterBreakValue,
     waterBreakAttributes,
+    waterBreakStartTone,
+    waterBreakEndTone,
     dateLabel,
     connectionStatus,
     document,
@@ -373,6 +391,9 @@ test('water-break timer appears only for the five minutes after the 40-minute ma
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(harness.waterBreak.hidden, false);
   assert.equal(harness.waterBreakValue.textContent, '5:00');
+  assert.equal(harness.waterBreakStartTone.playCalls(), 1);
+  assert.equal(harness.waterBreakStartTone.currentTime, 0);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
   assert.equal(
     harness.waterBreakAttributes.get('aria-label'),
     'Water break: 5:00 remaining',
@@ -382,6 +403,9 @@ test('water-break timer appears only for the five minutes after the 40-minute ma
   harness.tickClock();
   assert.equal(harness.waterBreak.hidden, true);
   assert.equal(harness.waterBreakValue.textContent, '');
+  assert.equal(harness.waterBreakStartTone.playCalls(), 1);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 1);
+  assert.equal(harness.waterBreakEndTone.currentTime, 0);
 });
 
 test('pinned client uses its fixture instant, conventional day periods, and performs no target polling', async () => {

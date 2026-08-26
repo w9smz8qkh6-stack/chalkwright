@@ -24,6 +24,8 @@ test('asset registry is closed, repository-local, and resolves every declared fi
     '/assets/dismissal-poster.svg',
     '/assets/display.css',
     '/assets/display.js',
+    '/assets/water-break-end.wav',
+    '/assets/water-break-start.wav',
   ]);
   for (const [publicPath, asset] of Object.entries(presentationAssetRegistry)) {
     assert.equal(asset.publicPath, publicPath);
