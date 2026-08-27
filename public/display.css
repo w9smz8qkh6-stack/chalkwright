@@ -563,14 +563,14 @@ a {
   z-index: 3;
   align-self: center;
   justify-self: start;
-  width: min(100% - clamp(2rem, 8vw, 8rem), 32rem);
-  min-height: 0;
+  width: min(100% - clamp(2rem, 8vw, 8rem), 44rem);
+  height: min(72%, 38rem);
   margin: 0 auto 0 clamp(1rem, 6vw, 6rem);
   padding: clamp(1.5rem, 2.5vw, 2.5rem);
   display: grid;
-  align-content: center;
+  grid-template-rows: 1fr auto 1fr;
   justify-items: start;
-  gap: clamp(1.25rem, 3vw, 2.125rem);
+  gap: clamp(1rem, 2vw, 1.75rem);
   text-align: left;
 }
 
@@ -589,26 +589,29 @@ a {
 }
 
 .scene-coming-up .eyebrow {
+  align-self: end;
   margin: 0;
   color: rgba(255, 185, 87, 0.94);
-  font-size: clamp(1rem, 1.24vw, 1.12rem);
+  font-size: clamp(1.35rem, 1.8vw, 1.75rem);
   font-weight: 700;
 }
 
 .scene-coming-up h1 {
+  align-self: center;
   max-width: 100%;
   margin: 0;
   color: #f4f7fb;
-  font-size: clamp(4.25rem, 7.4vw, 7.5rem);
+  font-size: clamp(5.5rem, 9vw, 9.5rem);
   line-height: 0.9;
   letter-spacing: 0;
   text-shadow: 0 0.5rem 1.625rem rgba(4, 12, 22, 0.28);
 }
 
 .coming-up-window {
+  align-self: start;
   margin: 0;
   color: rgba(238, 244, 250, 0.82);
-  font-size: clamp(1rem, 1.3vw, 1.14rem) !important;
+  font-size: clamp(1.25rem, 1.7vw, 1.6rem) !important;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;

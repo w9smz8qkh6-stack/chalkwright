@@ -87,6 +87,16 @@ function clientHarness(options: {
   const classChime = {
     dataset: {} as { classStart?: string; classEnd?: string },
   };
+  const countdownValue = { textContent: '' };
+  const countdown = {
+    dataset: {} as {
+      countdownTarget?: string;
+      countdownSecondsThreshold?: string;
+    },
+    querySelector(selector: string) {
+      return selector === '[data-countdown-value]' ? countdownValue : undefined;
+    },
+  };
   function tone() {
     let playCalls = 0;
     return {
@@ -141,6 +151,7 @@ function clientHarness(options: {
     },
     querySelectorAll(selector: string) {
       if (selector === '[data-clock]') return [clock];
+      if (selector === '[data-countdown-target]') return [countdown];
       return [];
     },
   };
@@ -207,6 +218,8 @@ function clientHarness(options: {
     waterBreakValue,
     waterBreakAttributes,
     classChime,
+    countdown,
+    countdownValue,
     waterBreakStartTone,
     waterBreakEndTone,
     dateLabel,
@@ -409,7 +422,10 @@ test('water-break timer and tones follow actual boundary crossings', async () =>
     'Water break: 5:00 remaining',
   );
 
-  harness.advance(5 * 60_000);
+  harness.advance(4 * 60_000 + 59_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+  harness.advance(1_000);
   harness.tickClock();
   assert.equal(harness.waterBreak.hidden, true);
   assert.equal(harness.waterBreakValue.textContent, '');
@@ -460,10 +476,49 @@ test('class tones follow actual start and end boundary crossings', async () => {
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.playCalls(), 0);
 
-  harness.advance(45 * 60_000);
+  harness.advance(44 * 60_000 + 59_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+  harness.advance(1_000);
   harness.tickClock();
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.playCalls(), 1);
+});
+
+test('mirroring-like clock discontinuities cannot trigger class tones', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'check_in',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:29:59Z',
+      classStartsAt: '2035-04-13T08:30:00Z',
+      classEndsAt: '2035-04-13T09:15:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  harness.advance(30_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+});
+
+test('coming-up countdowns reveal seconds only in the final ten minutes', async () => {
+  const harness = clientHarness({
+    targetUrl: '',
+    pinnedAt: '2035-04-13T08:00:00Z',
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  harness.countdown.dataset.countdownTarget = '2035-04-13T10:45:00Z';
+  harness.countdown.dataset.countdownSecondsThreshold = '600';
+  harness.tickClock();
+  assert.equal(harness.countdownValue.textContent, '2 hrs 45 min');
+
+  harness.countdown.dataset.countdownTarget = '2035-04-13T08:10:00Z';
+  harness.tickClock();
+  assert.equal(harness.countdownValue.textContent, '10:00');
 });
 
 test('loading or reverse-mirroring during an active class stays silent', async () => {

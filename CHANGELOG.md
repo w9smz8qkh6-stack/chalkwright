@@ -36,6 +36,14 @@ omitted.
 
 ### Changed
 
+- Enlarged the Coming Up copy and centered its class title within the overlay;
+  Coming Up countdowns now show hours and minutes until the final ten minutes,
+  when seconds appear.
+
+- Tightened class and water-break chimes to require continuous clock samples at
+  the boundary, preventing mirroring or display-clock discontinuities from
+  triggering a tone.
+
 - Redesigned Good Morning with friendly course names before independently
   aligned section pills, a half-size scene heading, larger schedule rows, and a
   subdued background montage assembled from that day's course artwork.
