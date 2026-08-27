@@ -15,6 +15,8 @@ omitted.
   image into service-owned media, atomically update the protected manifest
   reference with a recoverable configuration backup, and restart the display
   without making a network request.
+  The production release archive includes and validates the complete importer
+  dependency chain before activation can proceed.
 
 - Added a versioned JSON site-media profile and bounded setup command for a
   school logo URL, friendly-name course cover-art URLs, and an optional

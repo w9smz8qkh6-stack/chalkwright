@@ -27,6 +27,8 @@ trap cleanup EXIT INT TERM
 /usr/bin/cp -a "$source_root"/dist "$source_root"/public "$source_root"/package.json "$source_root"/package-lock.json "$stage/runtime/"
 /usr/bin/cp -a "$source_root"/systemd/production "$stage/runtime/systemd/"
 /usr/bin/install -m 0755 "$source_root/scripts/operations/activate-production.sh" "$stage/runtime/scripts/operations/activate-production.sh"
+/usr/bin/install -m 0644 "$source_root/scripts/setup-site-media.mjs" "$stage/runtime/scripts/setup-site-media.mjs"
+/usr/bin/install -m 0644 "$source_root/scripts/operations/provision-production-site-media.mjs" "$stage/runtime/scripts/operations/provision-production-site-media.mjs"
 /usr/bin/cp -a "$source_root"/scripts/operations/cutover-production-tailscale-route.sh "$source_root"/scripts/operations/migrate-production-plan-state.sh "$source_root"/scripts/operations/install-production-release.sh "$source_root"/scripts/operations/switch-production-release.sh "$source_root"/scripts/operations/deploy-production-from-main.sh "$source_root"/scripts/operations/provision-production-inert.sh "$stage/runtime/scripts/operations/"
 /usr/bin/printf '{"version":1,"commit":"%s"}\n' "$commit" > "$stage/runtime/.chalkwright-release.json"
 (
