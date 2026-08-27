@@ -9,7 +9,8 @@ const imageTypes = ['image/jpeg', 'image/png', 'image/webp'] as const;
 type SiteImageType = (typeof imageTypes)[number];
 
 interface SiteMediaReference {
-  readonly sourceUrl: string;
+  readonly sourceUrl?: string;
+  readonly sourcePath?: string;
   readonly path: string;
   readonly byteLength: number;
   readonly sha256: string;
@@ -213,28 +214,26 @@ function isMediaReference(
   kind: 'image' | 'video',
 ): value is SiteMediaReference {
   if (
-    !isExactRecord(value, [
-      'sourceUrl',
-      'path',
-      'byteLength',
-      'sha256',
-      'contentType',
-    ])
+    !isExactRecord(
+      value,
+      ['path', 'byteLength', 'sha256', 'contentType'],
+      ['sourceUrl', 'sourcePath'],
+    )
   )
     return false;
-  let url: URL;
-  try {
-    url = new URL(value.sourceUrl as string);
-  } catch {
+  const hasUrl = typeof value.sourceUrl === 'string';
+  const hasPath = typeof value.sourcePath === 'string';
+  if (hasUrl === hasPath) return false;
+  if (hasUrl && !isSafeSourceUrl(value.sourceUrl as string)) return false;
+  if (
+    hasPath &&
+    (!isAbsolute(value.sourcePath as string) ||
+      resolve(value.sourcePath as string) !== value.sourcePath)
+  )
     return false;
-  }
   const contentType = value.contentType;
   const maximumBytes = kind === 'image' ? 20_000_000 : 100_000_000;
   return (
-    typeof value.sourceUrl === 'string' &&
-    url.protocol === 'https:' &&
-    url.username === '' &&
-    url.password === '' &&
     typeof value.path === 'string' &&
     typeof value.byteLength === 'number' &&
     Number.isSafeInteger(value.byteLength) &&
@@ -245,6 +244,17 @@ function isMediaReference(
     typeof contentType === 'string' &&
     (kind === 'image' ? isImageType(contentType) : contentType === 'video/mp4')
   );
+}
+
+function isSafeSourceUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return (
+      url.protocol === 'https:' && url.username === '' && url.password === ''
+    );
+  } catch {
+    return false;
+  }
 }
 
 function isExactRecord(

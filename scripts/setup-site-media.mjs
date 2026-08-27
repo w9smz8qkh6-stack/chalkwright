@@ -50,11 +50,12 @@ export async function buildSiteMedia(
     const manifest = { version: 1 };
     if (profile.school !== undefined) {
       const logo = await acquire(
-        profile.school.logoUrl,
+        profile.school.logoUrl ?? profile.school.logoFile,
         temporary,
         'school-logo',
         'image',
         fetcher,
+        profile.school.logoFile === undefined ? 'url' : 'file',
       );
       manifest.school = { name: profile.school.name, logo };
     }
@@ -111,14 +112,25 @@ export async function buildSiteMedia(
   }
 }
 
-async function acquire(url, directory, stem, kind, fetcher) {
-  const download = await fetchHttps(url, fetcher);
+async function acquire(
+  source,
+  directory,
+  stem,
+  kind,
+  fetcher,
+  sourceKind = 'url',
+) {
   const limit = kind === 'image' ? imageLimit : videoLimit;
   let bytes;
-  try {
-    bytes = await boundedBody(download.response, limit);
-  } finally {
-    download.clearTimeout();
+  if (sourceKind === 'file') {
+    bytes = readBoundedLocalFile(source, limit);
+  } else {
+    const download = await fetchHttps(source, fetcher);
+    try {
+      bytes = await boundedBody(download.response, limit);
+    } finally {
+      download.clearTimeout();
+    }
   }
   const contentType = detectContentType(bytes, kind);
   const extension =
@@ -133,12 +145,27 @@ async function acquire(url, directory, stem, kind, fetcher) {
   writeFileSync(path, bytes, { flag: 'wx', mode: 0o600 });
   chmodSync(path, 0o600);
   return {
-    sourceUrl: url,
+    ...(sourceKind === 'file' ? { sourcePath: source } : { sourceUrl: source }),
     path,
     byteLength: bytes.byteLength,
     sha256: createHash('sha256').update(bytes).digest('hex'),
     contentType,
   };
+}
+
+function readBoundedLocalFile(path, maximumBytes) {
+  assertNormalizedAbsolute(path);
+  const metadata = lstatSync(path);
+  if (
+    !metadata.isFile() ||
+    metadata.isSymbolicLink() ||
+    metadata.nlink !== 1 ||
+    metadata.size < 12 ||
+    metadata.size > maximumBytes ||
+    realpathSync(path) !== path
+  )
+    throw new Error('site-media-local-file-invalid');
+  return readFileSync(path);
 }
 
 async function fetchHttps(source, fetcher) {
@@ -253,9 +280,9 @@ function isSiteProfile(value) {
     return false;
   if (
     value.school !== undefined &&
-    (!isExactRecord(value.school, ['name', 'logoUrl']) ||
+    (!isExactRecord(value.school, ['name'], ['logoUrl', 'logoFile']) ||
       !isText(value.school.name, 120) ||
-      !isHttps(value.school.logoUrl))
+      isHttps(value.school.logoUrl) === isLocalFile(value.school.logoFile))
   )
     return false;
   if (value.courseCoverArtUrls !== undefined) {
@@ -283,6 +310,15 @@ function isSiteProfile(value) {
     value.school !== undefined ||
     value.courseCoverArtUrls !== undefined ||
     value.countdownVideoUrl !== undefined
+  );
+}
+
+function isLocalFile(value) {
+  return (
+    typeof value === 'string' &&
+    isAbsolute(value) &&
+    resolve(value) === value &&
+    value !== '/'
   );
 }
 

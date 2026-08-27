@@ -89,6 +89,19 @@ test('production activation keeps the display and timers online when provider re
   assert.doesNotMatch(activation, /stop_permanent/u);
 });
 
+test('production activation consumes only the fixed protected site-media request before restart', () => {
+  const request = activation.indexOf('/tmp/chalkwright-site-profile.json');
+  const provision = activation.indexOf(
+    'scripts/operations/provision-production-site-media.mjs',
+  );
+  const restart = activation.indexOf(
+    '/usr/bin/systemctl restart chalkwright.service',
+  );
+  assert.ok(request > 0 && provision > request && restart > provision);
+  assert.match(activation, /site_media=not-requested/u);
+  assert.match(activation, /site_media=applied/u);
+});
+
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
   assert.match(repair, /desktop_user=bren/u);
   assert.match(repair, /desktop_profile=\$runtime\/profile/u);
