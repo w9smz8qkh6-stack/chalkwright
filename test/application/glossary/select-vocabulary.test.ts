@@ -32,7 +32,7 @@ test('selects and records one local glossary word per meeting, then reuses it', 
         },
         defaultLanguage: 'en',
         csv: new TextEncoder().encode(
-          'Term,Definition,Vietnamese Word,Vietnamese Definition\nlayout,The arrangement of a page,bố cục,Cách sắp xếp một trang\ncontrast,Visible difference,độ tương phản,Sự khác biệt dễ thấy\n',
+          'Term,Definition,Vietnamese Word,Vietnamese Definition\nlayout,The arrangement of a page,Bố cục,Cách sắp xếp một trang\ncontrast,Visible difference,Độ tương phản,Sự khác biệt dễ thấy\n',
         ),
       }),
     );
@@ -96,6 +96,22 @@ test('selects and records one local glossary word per meeting, then reuses it', 
       unchanged: 0,
       unavailable: 0,
     });
+    const initial = await state.findRecord({
+      kind: 'vocabulary-selection',
+      recordKey: vocabularySelectionRecordKey(
+        'web-design-a' as never,
+        'meeting-a' as never,
+      ),
+      date: plan.date,
+      classId: 'web-design-a' as never,
+      meetingId: 'meeting-a' as never,
+    });
+    assert.equal(
+      initial?.kind === 'vocabulary-selection'
+        ? initial.data.selection.candidate?.translations?.[0]?.term
+        : undefined,
+      'bố cục',
+    );
     assert.deepEqual(await selectGlossaryVocabularyForPlan(options), {
       selected: 0,
       unchanged: 1,
@@ -113,7 +129,7 @@ test('selects and records one local glossary word per meeting, then reuses it', 
         },
         defaultLanguage: 'en',
         csv: new TextEncoder().encode(
-          'Term,Definition,Vietnamese Word,Vietnamese Definition\nLayout,The updated arrangement of a page,Bố cục,Cách sắp xếp trang đã cập nhật\nContrast,Updated visible difference,Độ tương phản,Sự khác biệt dễ thấy đã cập nhật\n',
+          'Term,Definition,Vietnamese Word,Vietnamese Definition,VI Example\nLayout,The updated arrangement of a page,Bố cục,Cách sắp xếp trang đã cập nhật,Thảo luận về Bố cục.\nContrast,Updated visible difference,Độ tương phản,Sự khác biệt dễ thấy đã cập nhật,Thảo luận về Độ tương phản.\n',
         ),
       }),
     );
@@ -139,6 +155,10 @@ test('selects and records one local glossary word per meeting, then reuses it', 
     assert.match(
       refreshed.data.selection.candidate?.definition ?? '',
       /updated/u,
+    );
+    assert.equal(
+      refreshed.data.selection.candidate?.translations?.[0]?.term,
+      'Bố cục',
     );
   } finally {
     rmSync(root, { recursive: true, force: true });

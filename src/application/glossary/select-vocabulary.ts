@@ -18,6 +18,7 @@ import type { SqliteClassroomEnrichmentCache } from '../../infrastructure/sqlite
 import type { SqliteApplicationStateRepository } from '../../infrastructure/sqlite/repository.js';
 import type { GlossaryCatalog } from '../../ports/glossary-catalog.js';
 import type { SafeStateRecord } from '../../ports/application-state.js';
+import { normalizeTranslationDisplayCasing } from './translation-casing.js';
 
 export interface GlossaryVocabularySelectionResult {
   readonly selected: number;
@@ -183,8 +184,9 @@ async function candidatesForClass(
             candidate.reviewStatus === 'reviewed',
         );
         if (translation === undefined) return [];
-        const value = {
+        const value = normalizeTranslationDisplayCasing({
           languageCode,
+          sourceTerm: entry.term,
           ...(translation.translatedTerm === undefined
             ? {}
             : { term: translation.translatedTerm }),
@@ -194,7 +196,7 @@ async function candidatesForClass(
           ...(translation.translatedExample === undefined
             ? {}
             : { example: translation.translatedExample }),
-        };
+        });
         return Object.keys(value).length === 1 ? [] : [value];
       });
       const vietnamese = translations.find(
