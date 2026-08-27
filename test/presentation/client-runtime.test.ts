@@ -429,11 +429,47 @@ test('water-break timer and tones follow actual boundary crossings', async () =>
   assert.equal(harness.waterBreakEndTone.playCalls(), 0);
   harness.advance(1_000);
   harness.tickClock();
-  assert.equal(harness.waterBreak.hidden, true);
-  assert.equal(harness.waterBreakValue.textContent, '');
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakValue.textContent, '0:00');
+  assert.equal(
+    harness.waterBreakAttributes.get('aria-label'),
+    'Water break complete',
+  );
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.currentTime, 0);
+
+  harness.advance(9_999);
+  harness.tickClock();
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakValue.textContent, '0:00');
+  assert.equal(harness.waterBreakEndTone.playCalls(), 1);
+
+  harness.advance(1);
+  harness.tickClock();
+  assert.equal(harness.waterBreak.hidden, true);
+  assert.equal(harness.waterBreakValue.textContent, '');
+  assert.equal(harness.waterBreakEndTone.playCalls(), 1);
+});
+
+test('loading during the water-break completion hold shows zero silently', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'in_class_content',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:45:05Z',
+      waterBreakStartsAt: '2035-04-13T08:40:00Z',
+      waterBreakEndsAt: '2035-04-13T08:45:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakValue.textContent, '0:00');
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
 });
 
 test('water-break start tolerates bounded foreground timer jitter', async () => {
