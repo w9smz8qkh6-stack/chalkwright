@@ -565,10 +565,17 @@
 
     function fitCard(card: HTMLElement): void {
       card.classList.remove('content-tight', 'content-compact');
-      if (card.scrollHeight <= card.clientHeight) return;
+      if (cardContentFits(card)) return;
       card.classList.add('content-tight');
-      if (card.scrollHeight <= card.clientHeight) return;
+      if (cardContentFits(card)) return;
       card.classList.add('content-compact');
+    }
+
+    function cardContentFits(card: HTMLElement): boolean {
+      if (card.scrollHeight - card.clientHeight > 1) return false;
+      return [
+        ...card.querySelectorAll<HTMLElement>('.vocabulary-panel-face'),
+      ].every((face) => face.scrollHeight - face.clientHeight <= 1);
     }
 
     function schedule(card: HTMLElement | undefined): void {

@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Enlarged the Word of the Day composition across its English term,
+  definition, example sentence, and rotating translations, and added a clearer
+  visual pause between the anchored English content and translation panel.
+
 - Added a clear reusable-bottle glyph to the Water Break countdown label,
   matching the display's existing outlined icon language without using a water
   droplet.
