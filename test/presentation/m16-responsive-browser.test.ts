@@ -591,14 +591,21 @@ test('during-class header timers remain readable without horizontal overflow', a
           const value = timer.querySelector<HTMLElement>(
             '[data-water-break-value]',
           );
+          const icon = timer.querySelector<SVGElement>(
+            '.water-break-bottle-icon',
+          );
           if (value === null) throw new Error('water-break-value-missing');
+          if (icon === null) throw new Error('water-break-icon-missing');
           const rectangle = timer.getBoundingClientRect();
+          const iconRectangle = icon.getBoundingClientRect();
           return {
             hidden: element.hidden,
             value: value.textContent,
             valueFontSize: Number.parseFloat(getComputedStyle(value).fontSize),
             labelFontSize: Number.parseFloat(getComputedStyle(timer).fontSize),
             height: rectangle.height,
+            iconWidth: iconRectangle.width,
+            iconHeight: iconRectangle.height,
             left: rectangle.left,
             right: rectangle.right,
             scrollWidth: document.documentElement.scrollWidth,
@@ -610,6 +617,8 @@ test('during-class header timers remain readable without horizontal overflow', a
       assert.ok(waterBreak.valueFontSize >= 56, viewport.name);
       assert.ok(waterBreak.labelFontSize >= 16, viewport.name);
       assert.ok(waterBreak.height >= 88, viewport.name);
+      assert.ok(waterBreak.iconWidth >= 24, viewport.name);
+      assert.equal(waterBreak.iconWidth, waterBreak.iconHeight, viewport.name);
       assert.ok(waterBreak.left >= 0, viewport.name);
       assert.ok(waterBreak.right <= waterBreak.innerWidth, viewport.name);
       assert.ok(waterBreak.scrollWidth <= waterBreak.innerWidth, viewport.name);

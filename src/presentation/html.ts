@@ -178,7 +178,12 @@ function header(model: DisplayPresentationModel): string {
       <span class="header-bell-number" data-header-bell-number></span>
     </div>
     <div class="header-water-break" data-header-water-break${waterBreak === undefined ? '' : ` data-water-break-start="${escapeHtml(waterBreak.startsAt)}" data-water-break-end="${escapeHtml(waterBreak.endsAt)}"`} hidden aria-label="Water break countdown">
-      <span>Water break</span><strong data-water-break-value></strong>
+      <span class="water-break-label"><svg class="water-break-bottle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9.5 3h5"></path>
+        <path d="M10 3v3L8 9v10a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V9l-2-3V3"></path>
+        <path d="M8 11h8"></path>
+        <path d="M8 18h8"></path>
+      </svg><span>Water break</span></span><strong data-water-break-value></strong>
     </div>
     <audio data-water-break-start-tone preload="auto" src="${escapeHtml(localPath(model.basePath, '/assets/water-break-start.wav'))}"></audio>
     <audio data-water-break-end-tone preload="auto" src="${escapeHtml(localPath(model.basePath, '/assets/water-break-end.wav'))}"></audio>

@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Added a clear reusable-bottle glyph to the Water Break countdown label,
+  matching the display's existing outlined icon language without using a water
+  droplet.
+
 - Keep the Water Break timer visible at `0:00` for ten seconds after its end
   chime, then clear it without replaying the sound on reload or later ticks.
 
