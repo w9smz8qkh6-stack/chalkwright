@@ -614,6 +614,18 @@ a {
 }
 
 .scene-coming-up .course-banner::before {
+  --motif-x: 74%;
+  --motif-y: 52%;
+  --motif-x-secondary: 82%;
+  --motif-y-secondary: 66%;
+  --motif-radius: 10%;
+  --motif-radius-secondary: 7%;
+  --motif-color: 154 199 255;
+  --motif-drift-x: 1%;
+  --motif-drift-y: -0.7%;
+  --motif-return-x: -0.4%;
+  --motif-return-y: 0.3%;
+
   position: absolute;
   z-index: 2;
   inset: 0;
@@ -631,10 +643,12 @@ a {
       rgb(var(--motif-color) / 0.2) 1.4%,
       transparent var(--motif-radius-secondary)
     );
-  opacity: 0.04;
+  opacity: 0.14;
   mix-blend-mode: screen;
+  transform: translate3d(0, 0, 0);
+  will-change: opacity, transform, filter;
   content: '';
-  animation: course-motif-glimmer 16s ease-in-out infinite;
+  animation: course-motif-glimmer 9s ease-in-out infinite;
 }
 
 .course-art-advisory {
@@ -645,6 +659,10 @@ a {
   --motif-radius: 8%;
   --motif-radius-secondary: 6%;
   --motif-color: 255 198 105;
+  --motif-drift-x: -0.8%;
+  --motif-drift-y: 0.7%;
+  --motif-return-x: 0.35%;
+  --motif-return-y: -0.25%;
 }
 
 .course-art-computer-fundamentals {
@@ -655,6 +673,10 @@ a {
   --motif-radius: 10%;
   --motif-radius-secondary: 7%;
   --motif-color: 255 191 89;
+  --motif-drift-x: 0.9%;
+  --motif-drift-y: -0.8%;
+  --motif-return-x: -0.35%;
+  --motif-return-y: 0.3%;
 }
 
 .course-art-digital-media {
@@ -665,6 +687,10 @@ a {
   --motif-radius: 11%;
   --motif-radius-secondary: 8%;
   --motif-color: 255 108 116;
+  --motif-drift-x: 0.75%;
+  --motif-drift-y: 0.6%;
+  --motif-return-x: -0.3%;
+  --motif-return-y: -0.25%;
 }
 
 .course-art-robotics {
@@ -675,6 +701,10 @@ a {
   --motif-radius: 9%;
   --motif-radius-secondary: 6.5%;
   --motif-color: 255 190 93;
+  --motif-drift-x: 1.1%;
+  --motif-drift-y: -0.75%;
+  --motif-return-x: -0.45%;
+  --motif-return-y: 0.3%;
 }
 
 .course-art-web-design {
@@ -685,39 +715,42 @@ a {
   --motif-radius: 11%;
   --motif-radius-secondary: 8%;
   --motif-color: 177 94 255;
+  --motif-drift-x: 0.9%;
+  --motif-drift-y: 0.6%;
+  --motif-return-x: -0.35%;
+  --motif-return-y: -0.25%;
 }
 
 @keyframes course-motif-glimmer {
   0%,
-  52%,
   100% {
-    opacity: 0.04;
-    filter: brightness(1);
+    opacity: 0.14;
+    filter: brightness(1.05) saturate(1);
+    transform: translate3d(0, 0, 0);
   }
 
-  62% {
-    opacity: 0.28;
-    filter: brightness(1.08);
+  28% {
+    opacity: 0.68;
+    filter: brightness(1.35) saturate(1.12);
+    transform: translate3d(var(--motif-drift-x), var(--motif-drift-y), 0);
   }
 
-  69% {
-    opacity: 0.62;
-    filter: brightness(1.2);
+  44% {
+    opacity: 0.22;
+    filter: brightness(1.08) saturate(1.02);
+    transform: translate3d(0, 0, 0);
   }
 
-  76% {
-    opacity: 0.24;
-    filter: brightness(1.06);
+  64% {
+    opacity: 0.86;
+    filter: brightness(1.5) saturate(1.16);
+    transform: translate3d(var(--motif-return-x), var(--motif-return-y), 0);
   }
 
-  83% {
-    opacity: 0.48;
-    filter: brightness(1.14);
-  }
-
-  91% {
-    opacity: 0.08;
-    filter: brightness(1);
+  80% {
+    opacity: 0.3;
+    filter: brightness(1.1) saturate(1.04);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -2108,7 +2141,9 @@ a {
 
   .scene-coming-up .course-banner::before {
     animation: none;
-    opacity: 0.08;
+    opacity: 0.18;
+    filter: brightness(1.08) saturate(1.02);
+    transform: none;
   }
 
   .vocabulary-stage {
