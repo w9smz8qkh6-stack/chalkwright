@@ -42,6 +42,7 @@ test('serves the complete fixture-backed B407 slice and cleans temporary state',
       readonly bellEndsAt?: string;
       readonly classStartsAt?: string;
       readonly classEndsAt?: string;
+      readonly checkInOpensAt?: string;
       readonly dateLabel?: string;
       readonly documentTitle?: string;
       readonly degraded?: boolean;
@@ -50,11 +51,23 @@ test('serves the complete fixture-backed B407 slice and cleans temporary state',
     assert.equal(payload.bellEndsAt, '2035-04-13T09:00:00Z');
     assert.equal(payload.classStartsAt, '2035-04-13T08:00:00Z');
     assert.equal(payload.classEndsAt, '2035-04-13T09:00:00Z');
+    assert.equal(payload.checkInOpensAt, '2035-04-13T09:55:00Z');
     assert.match(payload.presentationHtml ?? '', /data-carousel/u);
     assert.doesNotMatch(payload.presentationHtml ?? '', /<!doctype/u);
     assert.equal(payload.dateLabel, 'Friday, April 13');
     assert.match(payload.documentTitle ?? '', /Chalkwright$/u);
     assert.equal(payload.degraded, false);
+
+    runtimeInstant = '2035-04-13T07:54:40Z';
+    const comingUpTarget = await fetch(
+      `${application.origin}/target/screen-b407`,
+    );
+    const comingUpPayload = (await comingUpTarget.json()) as {
+      readonly state?: string;
+      readonly checkInOpensAt?: string;
+    };
+    assert.equal(comingUpPayload.state, 'idle');
+    assert.equal(comingUpPayload.checkInOpensAt, '2035-04-13T07:55:00Z');
 
     const pinned = await fetch(
       `${application.origin}/preview/screen-b407?view=display&now=2035-04-13T07%3A55%3A00Z`,

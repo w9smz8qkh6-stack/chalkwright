@@ -482,6 +482,7 @@ export class B407MvpHttpController implements ClassroomHttpController {
               : '',
           classStartsAt: chimeMeeting?.officialStartsAt ?? '',
           classEndsAt: chimeMeeting?.officialEndsAt ?? '',
+          checkInOpensAt: model.nextMeeting?.checkInOpensAt ?? '',
           waterBreakStartsAt: waterBreak?.startsAt ?? '',
           waterBreakEndsAt: waterBreak?.endsAt ?? '',
           dateLabel: displayDateLabel(model.date, model.timeZone),
