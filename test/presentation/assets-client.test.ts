@@ -145,7 +145,8 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /\.media-layers\.mirrored/u);
   assert.match(css, /\.scene-countdown-footer/u);
   assert.match(css, /\.course-banner/u);
-  assert.match(css, /@keyframes course-banner-drift/u);
+  assert.match(css, /@keyframes course-motif-glimmer/u);
+  assert.doesNotMatch(css, /course-banner-drift/u);
   assert.match(css, /\.checkin-display\.banner-backed/u);
   assert.match(css, /\.next-day-schedule/u);
   assert.match(css, /\.next-day-schedule \{\s*width: 100%/u);

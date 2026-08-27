@@ -508,6 +508,54 @@ test('during-class header timers remain readable without horizontal overflow', a
   }
 });
 
+test('Coming Up animates only the localized course-art motif', async () => {
+  const application = await startFixtureBackedMvp(
+    {
+      nodeEnv: 'test',
+      logLevel: 'warn',
+      host: '127.0.0.1',
+      port: 0,
+    },
+    process.cwd(),
+    { legacyRouteCompatibility: true },
+  );
+  const browser = await chromium.launch({
+    executablePath: '/usr/bin/google-chrome',
+    headless: true,
+  });
+  try {
+    assertSupportedChromeVersion(browser.version());
+    for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+      const context = await browser.newContext({
+        viewport: { width: 1_920, height: 1_080 },
+        reducedMotion,
+      });
+      const page = await context.newPage();
+      await page.goto(
+        `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(b407StateInstants.idle)}`,
+        { waitUntil: 'domcontentloaded' },
+      );
+      const animation = await page
+        .locator('.course-banner')
+        .evaluate((art) => ({
+          image: getComputedStyle(art.querySelector('img') as HTMLImageElement)
+            .animationName,
+          motif: getComputedStyle(art, '::before').animationName,
+        }));
+      assert.equal(animation.image, 'none', reducedMotion);
+      assert.equal(
+        animation.motif,
+        reducedMotion === 'reduce' ? 'none' : 'course-motif-glimmer',
+        reducedMotion,
+      );
+      await context.close();
+    }
+  } finally {
+    await browser.close();
+    await application.close();
+  }
+});
+
 function assertSupportedChromeVersion(version: string): void {
   const major = Number.parseInt(version.split('.')[0] ?? '', 10);
   assert.ok(

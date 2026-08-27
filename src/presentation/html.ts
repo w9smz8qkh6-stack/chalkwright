@@ -459,13 +459,22 @@ function sceneCountdown(
     : `<p class="scene-countdown countdown" data-countdown-target="${escapeHtml(target)}"${delaySeconds ? ' data-countdown-seconds-threshold="600"' : ''}><strong data-countdown-value>--:--</strong><span>${escapeHtml(detail)}</span></p>`;
 }
 
+const courseArtClasses: Readonly<Record<string, string>> = {
+  '/assets/banner-advisory-v1.png': 'course-art-advisory',
+  '/assets/banner-computer-fundamentals-v2.png':
+    'course-art-computer-fundamentals',
+  '/assets/banner-digital-media-production-v2.png': 'course-art-digital-media',
+  '/assets/banner-robotics-v2.png': 'course-art-robotics',
+  '/assets/banner-web-design-v2.png': 'course-art-web-design',
+};
+
 function courseBanner(
   model: DisplayPresentationModel,
   meeting: PresentationMeeting | undefined,
 ): string | undefined {
   const path = safeLocalRoute(meeting?.bannerPath);
   if (path === undefined) return undefined;
-  return `<div class="course-banner" aria-hidden="true"><img src="${escapeHtml(localPath(model.basePath, path))}" alt=""></div>`;
+  return `<div class="course-banner${courseArtClasses[path] === undefined ? '' : ` ${courseArtClasses[path]}`}" aria-hidden="true"><img src="${escapeHtml(localPath(model.basePath, path))}" alt=""></div>`;
 }
 
 function comingUpScene(model: DisplayPresentationModel): string {
@@ -480,7 +489,6 @@ function comingUpScene(model: DisplayPresentationModel): string {
     <p class="coming-up-window">${meetingWindow(next)}</p>
   </div>
   <div class="scene-countdown-footer${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
-    ${sceneCountdown(next?.checkInOpensAt, 'until check-in opens', true)}
     ${sceneCountdown(next?.officialStartsAt, 'until class starts', true)}
   </div>
 </section>`;

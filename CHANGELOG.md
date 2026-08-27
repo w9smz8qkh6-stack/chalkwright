@@ -36,6 +36,13 @@ omitted.
 
 ### Changed
 
+- Replaced whole-image Coming Up drift with periodic, localized light-motif
+  glimmers tailored to each course illustration, with a static reduced-motion
+  presentation.
+
+- Simplified Coming Up to one countdown by removing the check-in timer and
+  retaining only time until class starts.
+
 - Enlarged the Coming Up copy and centered its class title within the overlay;
   Coming Up countdowns now show hours and minutes until the final ten minutes,
   when seconds appear.

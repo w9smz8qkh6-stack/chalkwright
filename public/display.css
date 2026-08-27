@@ -543,18 +543,113 @@ a {
      for artwork, which would be lost by a cover crop on non-16:9 displays. */
   object-fit: contain;
   object-position: right center;
-  /* Deliberately perceptible on a wall display, without distracting from copy. */
-  animation: course-banner-drift 14s ease-in-out infinite alternate;
-  will-change: transform;
 }
 
-@keyframes course-banner-drift {
-  from {
-    transform: scale(1.005) translate3d(-0.45%, -0.3%, 0);
+.scene-coming-up .course-banner::before {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at var(--motif-x) var(--motif-y),
+      rgb(var(--motif-color) / 0.9) 0,
+      rgb(var(--motif-color) / 0.3) 1.8%,
+      transparent var(--motif-radius)
+    ),
+    radial-gradient(
+      circle at var(--motif-x-secondary) var(--motif-y-secondary),
+      rgb(var(--motif-color) / 0.7) 0,
+      rgb(var(--motif-color) / 0.2) 1.4%,
+      transparent var(--motif-radius-secondary)
+    );
+  opacity: 0.04;
+  mix-blend-mode: screen;
+  content: '';
+  animation: course-motif-glimmer 16s ease-in-out infinite;
+}
+
+.course-art-advisory {
+  --motif-x: 87%;
+  --motif-y: 13%;
+  --motif-x-secondary: 82%;
+  --motif-y-secondary: 43%;
+  --motif-radius: 8%;
+  --motif-radius-secondary: 6%;
+  --motif-color: 255 198 105;
+}
+
+.course-art-computer-fundamentals {
+  --motif-x: 74%;
+  --motif-y: 62%;
+  --motif-x-secondary: 54%;
+  --motif-y-secondary: 86%;
+  --motif-radius: 10%;
+  --motif-radius-secondary: 7%;
+  --motif-color: 255 191 89;
+}
+
+.course-art-digital-media {
+  --motif-x: 57%;
+  --motif-y: 55%;
+  --motif-x-secondary: 75%;
+  --motif-y-secondary: 49%;
+  --motif-radius: 11%;
+  --motif-radius-secondary: 8%;
+  --motif-color: 255 108 116;
+}
+
+.course-art-robotics {
+  --motif-x: 68.5%;
+  --motif-y: 58%;
+  --motif-x-secondary: 67%;
+  --motif-y-secondary: 51%;
+  --motif-radius: 9%;
+  --motif-radius-secondary: 6.5%;
+  --motif-color: 255 190 93;
+}
+
+.course-art-web-design {
+  --motif-x: 64%;
+  --motif-y: 51%;
+  --motif-x-secondary: 72%;
+  --motif-y-secondary: 61%;
+  --motif-radius: 11%;
+  --motif-radius-secondary: 8%;
+  --motif-color: 177 94 255;
+}
+
+@keyframes course-motif-glimmer {
+  0%,
+  52%,
+  100% {
+    opacity: 0.04;
+    filter: brightness(1);
   }
 
-  to {
-    transform: scale(1.025) translate3d(0.45%, 0.3%, 0);
+  62% {
+    opacity: 0.28;
+    filter: brightness(1.08);
+  }
+
+  69% {
+    opacity: 0.62;
+    filter: brightness(1.2);
+  }
+
+  76% {
+    opacity: 0.24;
+    filter: brightness(1.06);
+  }
+
+  83% {
+    opacity: 0.48;
+    filter: brightness(1.14);
+  }
+
+  91% {
+    opacity: 0.08;
+    filter: brightness(1);
   }
 }
 
@@ -1842,8 +1937,9 @@ a {
     animation: none;
   }
 
-  .course-banner img {
+  .scene-coming-up .course-banner::before {
     animation: none;
+    opacity: 0.08;
   }
 
   .vocabulary-stage {
