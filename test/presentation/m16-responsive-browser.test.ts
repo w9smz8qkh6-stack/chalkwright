@@ -630,6 +630,35 @@ test('Coming Up animates only the localized course-art motif', async () => {
         reducedMotion === 'reduce' ? 'none' : 'course-motif-glimmer',
         reducedMotion,
       );
+      const surfaces = await page
+        .locator('.scene-coming-up')
+        .evaluate((scene) => {
+          const inspect = (selector: string) => {
+            const element = scene.querySelector<HTMLElement>(selector);
+            if (element === null)
+              throw new Error(`coming-up-surface-missing:${selector}`);
+            const style = getComputedStyle(element);
+            return {
+              backgroundColor: style.backgroundColor,
+              backgroundImage: style.backgroundImage,
+              borderWidth: style.borderTopWidth,
+              boxShadow: style.boxShadow,
+              backdropFilter: style.backdropFilter,
+            };
+          };
+          return {
+            panel: inspect('.coming-up-panel'),
+            footer: inspect('.scene-countdown-footer'),
+            countdown: inspect('.scene-countdown'),
+          };
+        });
+      for (const [surface, style] of Object.entries(surfaces)) {
+        assert.equal(style.backgroundColor, 'rgba(0, 0, 0, 0)', surface);
+        assert.equal(style.backgroundImage, 'none', surface);
+        assert.equal(style.borderWidth, '0px', surface);
+        assert.equal(style.boxShadow, 'none', surface);
+        assert.equal(style.backdropFilter, 'none', surface);
+      }
       await context.close();
     }
   } finally {

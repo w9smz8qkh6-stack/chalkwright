@@ -718,17 +718,11 @@ a {
 }
 
 .coming-up-panel.course-banner-copy {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 0;
   color: #f8fafc;
-  background: linear-gradient(
-    135deg,
-    rgba(4, 14, 28, 0.7),
-    rgba(4, 14, 28, 0.42)
-  );
-  box-shadow:
-    0 1rem 2.5rem rgba(1, 6, 15, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(0.75rem) saturate(1.06);
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .scene-coming-up .eyebrow {
@@ -787,7 +781,10 @@ a {
 }
 
 .scene-countdown-footer.course-banner-copy {
-  background: rgba(4, 14, 28, 0.66);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .scene-countdown {
@@ -811,6 +808,16 @@ a {
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.scene-coming-up .scene-countdown {
+  border: 0;
+  background: transparent;
+}
+
+.scene-coming-up .scene-countdown strong,
+.scene-coming-up .scene-countdown span {
+  text-shadow: 0 0.25rem 0.9rem rgba(2, 6, 23, 0.55);
 }
 
 .checkin-layout {

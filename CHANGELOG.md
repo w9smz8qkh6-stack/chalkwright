@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Removed the translucent card, border, blur, and shadow treatments behind the
+  Coming Up title block and class-start countdown so the typography sits
+  directly over the deliberately darkened left side of each course artwork.
+
 - Replaced whole-image Coming Up drift with periodic, localized light-motif
   glimmers tailored to each course illustration, with a static reduced-motion
   presentation.
