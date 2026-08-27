@@ -334,7 +334,7 @@ test('dismissal scene uses a class banner and retains media fallback when no ban
   assert.doesNotMatch(fallback, /https?:\/\//u);
 });
 
-test('idle and post-end reuse the legacy Coming Up scene with mirrored media and both countdowns', () => {
+test('idle and post-end reuse the Coming Up scene with only the class-start countdown', () => {
   for (const state of ['idle', 'post_end'] as const) {
     const html = renderDisplayPage(model(state));
     assert.match(html, /class="scene scene-coming-up media-pending"/u);
@@ -342,16 +342,15 @@ test('idle and post-end reuse the legacy Coming Up scene with mirrored media and
     assert.match(html, /data-coming-up-scene/u);
     assert.match(html, />Coming Up:</u);
     assert.match(html, /<h1 id="scene-title">Synthetic Computing<\/h1>/u);
-    assert.match(html, />until check-in opens</u);
     assert.match(html, />until class starts</u);
     assert.equal((html.match(/data-media-layer/gmu) ?? []).length, 2);
     assert.equal(
       (html.match(/class="scene-countdown countdown"/gmu) ?? []).length,
-      2,
+      1,
     );
     assert.equal(
       (html.match(/data-countdown-seconds-threshold="600"/gmu) ?? []).length,
-      2,
+      1,
     );
     assert.doesNotMatch(html, /Class complete/u);
   }
@@ -365,7 +364,7 @@ test('course banners render only from safe local routes and preserve the media f
       bannerPath: '/assets/banner-web-design-v2.png',
     },
   });
-  assert.match(withBanner, /class="course-banner"/u);
+  assert.match(withBanner, /class="course-banner course-art-web-design"/u);
   assert.match(withBanner, /src="\/assets\/banner-web-design-v2\.png"/u);
   assert.doesNotMatch(withBanner, /data-media-scene/u);
 
@@ -387,6 +386,29 @@ test('course banners render only from safe local routes and preserve the media f
   });
   assert.doesNotMatch(unsafe, /class="course-banner"/u);
   assert.match(unsafe, /data-media-scene/u);
+});
+
+test('every course banner receives its localized Coming Up motif class', () => {
+  const mappings = [
+    ['/assets/banner-advisory-v1.png', 'course-art-advisory'],
+    [
+      '/assets/banner-computer-fundamentals-v2.png',
+      'course-art-computer-fundamentals',
+    ],
+    [
+      '/assets/banner-digital-media-production-v2.png',
+      'course-art-digital-media',
+    ],
+    ['/assets/banner-robotics-v2.png', 'course-art-robotics'],
+    ['/assets/banner-web-design-v2.png', 'course-art-web-design'],
+  ] as const;
+  for (const [bannerPath, artClass] of mappings) {
+    const html = renderDisplayPage({
+      ...model('idle'),
+      nextMeeting: { ...meeting, bannerPath },
+    });
+    assert.match(html, new RegExp(`class="course-banner ${artClass}"`, 'u'));
+  }
 });
 
 test('check-in scene centers the countdown and keeps the QR and class code in a compact card', () => {
