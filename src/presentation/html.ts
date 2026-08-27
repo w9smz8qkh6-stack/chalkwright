@@ -449,10 +449,14 @@ function mediaLayers(
   </div>`;
 }
 
-function sceneCountdown(target: string | undefined, detail: string): string {
+function sceneCountdown(
+  target: string | undefined,
+  detail: string,
+  delaySeconds = false,
+): string {
   return target === undefined
     ? ''
-    : `<p class="scene-countdown countdown" data-countdown-target="${escapeHtml(target)}"><strong data-countdown-value>--:--</strong><span>${escapeHtml(detail)}</span></p>`;
+    : `<p class="scene-countdown countdown" data-countdown-target="${escapeHtml(target)}"${delaySeconds ? ' data-countdown-seconds-threshold="600"' : ''}><strong data-countdown-value>--:--</strong><span>${escapeHtml(detail)}</span></p>`;
 }
 
 function courseBanner(
@@ -476,8 +480,8 @@ function comingUpScene(model: DisplayPresentationModel): string {
     <p class="coming-up-window">${meetingWindow(next)}</p>
   </div>
   <div class="scene-countdown-footer${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
-    ${sceneCountdown(next?.checkInOpensAt, 'until check-in opens')}
-    ${sceneCountdown(next?.officialStartsAt, 'until class starts')}
+    ${sceneCountdown(next?.checkInOpensAt, 'until check-in opens', true)}
+    ${sceneCountdown(next?.officialStartsAt, 'until class starts', true)}
   </div>
 </section>`;
 }

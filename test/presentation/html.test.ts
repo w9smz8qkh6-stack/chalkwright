@@ -349,6 +349,10 @@ test('idle and post-end reuse the legacy Coming Up scene with mirrored media and
       (html.match(/class="scene-countdown countdown"/gmu) ?? []).length,
       2,
     );
+    assert.equal(
+      (html.match(/data-countdown-seconds-threshold="600"/gmu) ?? []).length,
+      2,
+    );
     assert.doesNotMatch(html, /Class complete/u);
   }
 });

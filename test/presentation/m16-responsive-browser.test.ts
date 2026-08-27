@@ -76,14 +76,29 @@ test('renders every accepted display state across the bounded kiosk viewport env
               if (panel === null) throw new Error('coming-up-panel-missing');
               const sceneRectangle = scene.getBoundingClientRect();
               const panelRectangle = panel.getBoundingClientRect();
+              const title = panel.querySelector<HTMLElement>('h1');
+              if (title === null) throw new Error('coming-up-title-missing');
+              const titleRectangle = title.getBoundingClientRect();
               return {
                 sceneCenter: sceneRectangle.top + sceneRectangle.height / 2,
                 panelCenter: panelRectangle.top + panelRectangle.height / 2,
+                titleCenter: titleRectangle.top + titleRectangle.height / 2,
+                titleFontSize: Number.parseFloat(
+                  getComputedStyle(title).fontSize,
+                ),
               };
             });
           assert.ok(
             Math.abs(comingUp.panelCenter - comingUp.sceneCenter) <= 1,
             `${viewport.name}:${state}:coming-up-panel-vertical-center`,
+          );
+          assert.ok(
+            Math.abs(comingUp.titleCenter - comingUp.panelCenter) <= 1,
+            `${viewport.name}:${state}:coming-up-title-vertical-center`,
+          );
+          assert.ok(
+            comingUp.titleFontSize >= 88,
+            `${viewport.name}:${state}:coming-up-title-size`,
           );
         }
         if (state === 'morning_overview') {

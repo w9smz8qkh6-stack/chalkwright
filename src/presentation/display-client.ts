@@ -97,6 +97,7 @@
       }
     | undefined;
   let operatorAuthorization = '';
+  const maximumBoundarySampleGapMs = 5_000;
   let serverClockAnchor = Date.parse(root?.dataset.evaluatedAt || '');
   let browserClockAnchor = Date.now();
 
@@ -217,12 +218,24 @@
     const endsAt = Date.parse(waterBreak.dataset.waterBreakEnd || '');
     const validWindow = Number.isFinite(startsAt) && Number.isFinite(endsAt);
     const windowKey = `${startsAt}:${endsAt}`;
+    const observedContinuously =
+      previousWaterBreakNow !== undefined &&
+      now >= previousWaterBreakNow &&
+      now - previousWaterBreakNow <= maximumBoundarySampleGapMs;
     const crossedStart =
       validWindow &&
       observedWaterBreakKey === windowKey &&
       previousWaterBreakNow !== undefined &&
       previousWaterBreakNow < startsAt &&
-      now >= startsAt;
+      now >= startsAt &&
+      observedContinuously;
+    const crossedEnd =
+      validWindow &&
+      observedWaterBreakKey === windowKey &&
+      previousWaterBreakNow !== undefined &&
+      previousWaterBreakNow < endsAt &&
+      now >= endsAt &&
+      observedContinuously;
     observedWaterBreakKey = validWindow ? windowKey : '';
     previousWaterBreakNow = validWindow ? now : undefined;
     const show =
@@ -232,7 +245,7 @@
       now < endsAt;
     waterBreak.hidden = !show;
     if (!show) {
-      if (activeWaterBreakKey === windowKey && now >= endsAt)
+      if (activeWaterBreakKey === windowKey && crossedEnd)
         playBoundaryTone('end');
       activeWaterBreakKey = '';
       value.textContent = '';
@@ -257,10 +270,14 @@
   function updateClassBoundaryChimes(now: number): void {
     if (observedClassBoundary) {
       const boundary = observedClassBoundary;
+      const observedContinuously =
+        now >= boundary.previousNow &&
+        now - boundary.previousNow <= maximumBoundarySampleGapMs;
       if (
         !boundary.endPlayed &&
         boundary.previousNow < boundary.endsAt &&
-        now >= boundary.endsAt
+        now >= boundary.endsAt &&
+        observedContinuously
       ) {
         playBoundaryTone('end');
         boundary.endPlayed = true;
@@ -268,7 +285,8 @@
         !boundary.startPlayed &&
         boundary.previousNow < boundary.startsAt &&
         now >= boundary.startsAt &&
-        now < boundary.endsAt
+        now < boundary.endsAt &&
+        observedContinuously
       ) {
         playBoundaryTone('start');
         boundary.startPlayed = true;
@@ -318,6 +336,22 @@
       if (!value || !Number.isFinite(target)) continue;
       const remaining = Math.max(0, target - now);
       const totalSeconds = Math.ceil(remaining / 1000);
+      const secondsThreshold = Number(
+        countdown.dataset.countdownSecondsThreshold,
+      );
+      if (
+        Number.isFinite(secondsThreshold) &&
+        totalSeconds > secondsThreshold
+      ) {
+        const totalMinutes = Math.ceil(remaining / 60_000);
+        const hours = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        value.textContent =
+          hours > 0
+            ? `${hours} hr${hours === 1 ? '' : 's'}${minutes > 0 ? ` ${minutes} min` : ''}`
+            : `${minutes} min`;
+        continue;
+      }
       const hours = Math.floor(totalSeconds / 3600);
       const minutes = Math.floor((totalSeconds % 3600) / 60);
       const seconds = totalSeconds % 60;
