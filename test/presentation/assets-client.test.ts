@@ -140,6 +140,10 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /overflow-wrap: anywhere/u);
   assert.match(css, /max-height: 66vh/u);
   assert.match(css, /\.scene-coming-up/u);
+  assert.match(
+    css,
+    /\.coming-up-panel \{[\s\S]*transform: translateY\(clamp\(-4rem, -5vh, -2rem\)\)/u,
+  );
   assert.match(css, /\.state-idle \.meeting-label/u);
   assert.match(css, /\.state-day_complete \.meeting-label/u);
   assert.match(css, /\.media-layers\.mirrored/u);
