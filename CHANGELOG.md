@@ -10,6 +10,11 @@ omitted.
 
 ### Added
 
+- Moved the ChalkWright product mark out of the display header and into a
+  responsive lower-right system credit showing the Classroom Screen System
+  version and `www.chalkwright.org`, while preserving configured school
+  branding in the header.
+
 - Added a bounded local-logo migration path for existing installations:
   activation can consume one owner-only site profile, copy a validated legacy
   image into service-owned media, atomically update the protected manifest

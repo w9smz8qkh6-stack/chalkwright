@@ -107,7 +107,9 @@ On startup, Chalkwright rechecks each local file's type, length, location, and
 SHA-256 digest. The browser requests local Chalkwright routes, not the source
 websites. A configured school logo replaces the Chalkwright header mark and
 follows the legacy responsive width treatment: 204 px at full size, 168 px on
-ordinary classroom displays, and 132 px in compact layouts. Course-art keys
+ordinary classroom displays, and 132 px in compact layouts.
+The ChalkWright product identity remains visible as a compact lower-right
+system credit with the installed version and project website. Course-art keys
 match the friendly course title shown on screen. A configured countdown video
 takes priority over course art only during the class-ending countdown; other
 states continue to use course cover art.

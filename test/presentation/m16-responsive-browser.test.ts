@@ -387,6 +387,27 @@ test('school branding follows the legacy responsive logo widths', async () => {
       assert.equal(branding.alt, 'Example Academy');
       assert.equal(branding.wordmark, '');
       assert.equal(branding.objectFit, 'contain');
+      const credit = await page
+        .locator('.system-credit')
+        .evaluate((element) => {
+          const bounds = element.getBoundingClientRect();
+          const image = element.querySelector<HTMLImageElement>('img');
+          return {
+            text: element.textContent?.trim() ?? '',
+            iconPath: image?.getAttribute('src') ?? '',
+            left: bounds.left,
+            rightGap: window.innerWidth - bounds.right,
+            bottomGap: window.innerHeight - bounds.bottom,
+          };
+        });
+      assert.equal(
+        credit.text,
+        'ChalkWright Classroom Screen System v.0.1.0: www.chalkwright.org',
+      );
+      assert.equal(credit.iconPath, '/classroom-screen/assets/chalkwright.svg');
+      assert.ok(credit.left >= 0);
+      assert.ok(credit.rightGap >= 0 && credit.rightGap <= 25);
+      assert.ok(credit.bottomGap >= 0 && credit.bottomGap <= 17);
       await context.close();
     }
   } finally {

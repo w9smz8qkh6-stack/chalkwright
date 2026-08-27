@@ -141,6 +141,39 @@ a {
   object-position: left center;
 }
 
+.header-brand-slot {
+  min-width: 0;
+}
+
+.system-credit {
+  position: fixed;
+  z-index: 20;
+  right: clamp(0.75rem, 1.25vw, 1.5rem);
+  bottom: clamp(0.625rem, 1vw, 1rem);
+  max-width: calc(100vw - 1.5rem);
+  padding: 0.35rem 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  border: 1px solid rgba(226, 232, 240, 0.14);
+  border-radius: 0.5rem;
+  color: rgba(226, 232, 240, 0.78);
+  background: rgba(2, 6, 23, 0.62);
+  font-size: clamp(0.55rem, 0.7vw, 0.75rem);
+  font-weight: 650;
+  line-height: 1.2;
+  text-align: right;
+  box-shadow: 0 0.35rem 1.25rem rgba(2, 6, 23, 0.2);
+  backdrop-filter: blur(0.5rem);
+}
+
+.system-credit img {
+  width: clamp(0.875rem, 1.1vw, 1.25rem);
+  height: auto;
+  flex: 0 0 auto;
+}
+
 @media (max-width: 1500px), (max-height: 850px) {
   .brand-school img {
     width: 168px;
@@ -1665,7 +1698,7 @@ a {
   position: fixed;
   z-index: 30;
   right: 1rem;
-  bottom: 1rem;
+  bottom: 3.5rem;
   max-width: 28rem;
   padding: 0.75rem 1rem;
   border: 1px solid #fbbf24;
@@ -1895,6 +1928,16 @@ a {
 
   .display-header {
     grid-template-columns: 1fr;
+  }
+
+  .header-brand-slot {
+    display: none;
+  }
+
+  .system-credit {
+    right: 0.5rem;
+    bottom: 0.5rem;
+    max-width: calc(100vw - 1rem);
   }
 
   .clock-group {

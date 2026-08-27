@@ -402,6 +402,18 @@ test('site branding replaces the Chalkwright header mark with legacy-sized schoo
   assert.doesNotMatch(html, /<span>Chalkwright<\/span>/u);
 });
 
+test('display shell moves the ChalkWright identity to a lower-right system credit', () => {
+  const html = renderDisplayPage(model('idle'));
+  assert.match(html, /class="header-brand-slot"/u);
+  assert.doesNotMatch(html, /<header[^>]*>[\s\S]*?<span>Chalkwright<\/span>/u);
+  assert.match(html, /<footer class="system-credit"/u);
+  assert.match(html, /src="\/assets\/chalkwright\.svg"/u);
+  assert.match(
+    html,
+    /ChalkWright Classroom Screen System v\.0\.1\.0: www\.chalkwright\.org/u,
+  );
+});
+
 test('site countdown video takes priority over course art only for dismissal', () => {
   const customized = {
     ...model('dismissal_warning'),
