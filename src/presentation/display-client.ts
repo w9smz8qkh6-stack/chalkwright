@@ -385,14 +385,16 @@
         Number.isFinite(subsecondsThreshold) &&
         remaining <= subsecondsThreshold * 1000
       ) {
+        countdown.dataset.countdownRapid = 'true';
         const totalHundredths = Math.ceil(remaining / 10);
         const minutes = Math.floor(totalHundredths / 6000);
         const seconds = Math.floor((totalHundredths % 6000) / 100);
         const hundredths = totalHundredths % 100;
-        value.textContent = `${minutes}:${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
+        value.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
         rapidCountdownActive ||= remaining > 0;
         continue;
       }
+      delete countdown.dataset.countdownRapid;
       const secondsThreshold = Number(
         countdown.dataset.countdownSecondsThreshold,
       );
