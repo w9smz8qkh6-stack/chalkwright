@@ -36,6 +36,9 @@ omitted.
 
 ### Changed
 
+- Restored friendly course names as the primary labels in Good Morning schedule
+  rows while retaining section identifiers in their existing pills.
+
 - Added guarded class-boundary chimes: the ascending tone sounds when the
   official class-start countdown reaches zero, and the descending tone sounds
   at official class end, without replaying on load, reload, or mirroring.
