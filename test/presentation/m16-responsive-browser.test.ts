@@ -613,6 +613,28 @@ test('during-class header timers remain readable without horizontal overflow', a
       assert.ok(waterBreak.left >= 0, viewport.name);
       assert.ok(waterBreak.right <= waterBreak.innerWidth, viewport.name);
       assert.ok(waterBreak.scrollWidth <= waterBreak.innerWidth, viewport.name);
+
+      await page.goto(
+        `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(`${b407Date}T08:45:05Z`)}`,
+        { waitUntil: 'domcontentloaded' },
+      );
+      const completedWaterBreak = await page
+        .locator('[data-header-water-break]')
+        .evaluate((timer) => ({
+          hidden: (timer as HTMLElement).hidden,
+          value: timer.querySelector<HTMLElement>('[data-water-break-value]')
+            ?.textContent,
+          ariaLabel: timer.getAttribute('aria-label'),
+        }));
+      assert.deepEqual(
+        completedWaterBreak,
+        {
+          hidden: false,
+          value: '0:00',
+          ariaLabel: 'Water break complete',
+        },
+        viewport.name,
+      );
       await context.close();
     }
   } finally {

@@ -99,6 +99,7 @@
     | undefined;
   let operatorAuthorization = '';
   const maximumBoundarySampleGapMs = 15_000;
+  const waterBreakCompletionHoldMs = 10_000;
   let serverClockAnchor = Date.parse(root?.dataset.evaluatedAt || '');
   let browserClockAnchor = Date.now();
 
@@ -240,15 +241,26 @@
       observedContinuously;
     observedWaterBreakKey = validWindow ? windowKey : '';
     previousWaterBreakNow = validWindow ? now : undefined;
-    const show =
+    const active =
       root?.dataset.state === 'in_class_content' &&
       validWindow &&
       now >= startsAt &&
       now < endsAt;
-    waterBreak.hidden = !show;
-    if (!show) {
+    const completed =
+      root?.dataset.state === 'in_class_content' &&
+      validWindow &&
+      now >= endsAt &&
+      now < endsAt + waterBreakCompletionHoldMs;
+    waterBreak.hidden = !active && !completed;
+    if (completed) {
       if (activeWaterBreakKey === windowKey && crossedEnd)
         playBoundaryTone('end');
+      activeWaterBreakKey = windowKey;
+      value.textContent = '0:00';
+      waterBreak.setAttribute('aria-label', 'Water break complete');
+      return;
+    }
+    if (!active) {
       activeWaterBreakKey = '';
       value.textContent = '';
       waterBreak.setAttribute('aria-label', 'Water break countdown');

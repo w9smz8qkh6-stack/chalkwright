@@ -62,6 +62,9 @@ omitted.
 
 ### Changed
 
+- Keep the Water Break timer visible at `0:00` for ten seconds after its end
+  chime, then clear it without replaying the sound on reload or later ticks.
+
 - Made water-break chimes resilient to bounded kiosk timer jitter and unloaded
   audio metadata while retaining silence on initial load and mirroring-sized
   clock discontinuities.
