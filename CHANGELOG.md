@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Raised the Coming Up copy block from geometric center to a bounded optical
+  center, approximately 5% of viewport height higher, while retaining the
+  vertically centered course title and responsive compact-layout balance.
+
 - Reduced the lower-right ChalkWright system credit to a borderless,
   transparent, grayscale watermark. During the final minute before Check In
   reaches class start, its countdown now advances in hundredths as `M:SS.hh`

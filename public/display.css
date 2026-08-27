@@ -719,6 +719,7 @@ a {
   justify-items: start;
   gap: clamp(1rem, 2vw, 1.75rem);
   text-align: left;
+  transform: translateY(clamp(-4rem, -5vh, -2rem));
 }
 
 .coming-up-panel.course-banner-copy {
@@ -1899,6 +1900,7 @@ a {
 
   .coming-up-panel {
     margin-bottom: 9.25rem;
+    transform: translateY(-1.5rem);
   }
 
   .scene-dismissal.banner-backed .scene-copy {
