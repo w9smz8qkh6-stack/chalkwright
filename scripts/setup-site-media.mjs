@@ -380,7 +380,8 @@ async function main() {
 
 if (
   process.argv[1] !== undefined &&
-  resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+  realpathSync(resolve(process.argv[1])) ===
+    realpathSync(fileURLToPath(import.meta.url))
 ) {
   main().catch((error) => {
     process.stderr.write(

@@ -17,6 +17,8 @@ omitted.
   without making a network request.
   The production release archive includes and validates the complete importer
   dependency chain before activation can proceed.
+  Direct invocation resolves the production `current` release symlink before
+  deciding whether to execute, preventing a successful no-op activation.
 
 - Added a versioned JSON site-media profile and bounded setup command for a
   school logo URL, friendly-name course cover-art URLs, and an optional

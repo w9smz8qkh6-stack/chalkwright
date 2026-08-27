@@ -6,10 +6,12 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import test from 'node:test';
 
 import { provisionProductionSiteMedia } from '../../scripts/operations/provision-production-site-media.mjs';
@@ -66,6 +68,28 @@ test('atomically provisions a local logo and updates the protected server refere
     );
     assert.equal(lstatSync(config.siteMediaManifestReference).mode & 0o077, 0);
     assert.equal(lstatSync(requestPath, { throwIfNoEntry: false }), undefined);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('production importer executes when invoked through the current-release symlink', () => {
+  const root = mkdtempSync(join(tmpdir(), 'chalkwright-site-media-link-'));
+  try {
+    const linkedEntrypoint = join(root, 'provision-production-site-media.mjs');
+    symlinkSync(
+      join(
+        process.cwd(),
+        'scripts/operations/provision-production-site-media.mjs',
+      ),
+      linkedEntrypoint,
+    );
+    const result = spawnSync(process.execPath, [linkedEntrypoint], {
+      encoding: 'utf8',
+      env: {},
+    });
+    assert.notEqual(result.status, 0);
+    assert.match(result.stderr, /production-site-media-root-required/u);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
