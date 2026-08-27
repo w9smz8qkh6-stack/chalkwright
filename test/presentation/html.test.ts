@@ -266,6 +266,10 @@ test('class content renders the legacy minutes-until-bell header contract', () =
   assert.match(inClass, /data-water-break-value/u);
   assert.match(
     inClass,
+    /data-class-chime data-class-start="2035-04-13T08:00:00Z" data-class-end="2035-04-13T09:00:00Z" hidden/u,
+  );
+  assert.match(
+    inClass,
     /<audio data-water-break-start-tone preload="auto" src="\/assets\/water-break-start\.wav"><\/audio>/u,
   );
   assert.match(

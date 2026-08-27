@@ -36,6 +36,10 @@ omitted.
 
 ### Changed
 
+- Added guarded class-boundary chimes: the ascending tone sounds when the
+  official class-start countdown reaches zero, and the descending tone sounds
+  at official class end, without replaying on load, reload, or mirroring.
+
 - Replaced water-break Web Audio oscillators with repository-owned WAV chimes
   loaded through static audio elements for Fully Kiosk autoplay compatibility.
 

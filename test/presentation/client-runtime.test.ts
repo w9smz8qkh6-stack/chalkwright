@@ -84,6 +84,9 @@ function clientHarness(options: {
         : undefined;
     },
   };
+  const classChime = {
+    dataset: {} as { classStart?: string; classEnd?: string },
+  };
   function tone() {
     let playCalls = 0;
     return {
@@ -130,6 +133,7 @@ function clientHarness(options: {
       if (selector === '[data-connection-status]') return connectionStatus;
       if (selector === '[data-header-bell]') return bell;
       if (selector === '[data-header-water-break]') return waterBreak;
+      if (selector === '[data-class-chime]') return classChime;
       if (selector === '[data-water-break-start-tone]')
         return waterBreakStartTone;
       if (selector === '[data-water-break-end-tone]') return waterBreakEndTone;
@@ -202,6 +206,7 @@ function clientHarness(options: {
     waterBreak,
     waterBreakValue,
     waterBreakAttributes,
+    classChime,
     waterBreakStartTone,
     waterBreakEndTone,
     dateLabel,
@@ -429,6 +434,52 @@ test('loading or reverse-mirroring during an active water break stays silent', a
   await new Promise((resolve) => setImmediate(resolve));
   assert.equal(harness.waterBreak.hidden, false);
   assert.equal(harness.waterBreakValue.textContent, '3:00');
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+});
+
+test('class tones follow actual start and end boundary crossings', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'check_in',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:29:59Z',
+      classStartsAt: '2035-04-13T08:30:00Z',
+      classEndsAt: '2035-04-13T09:15:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+
+  harness.advance(1_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreakStartTone.playCalls(), 1);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+
+  harness.advance(45 * 60_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreakStartTone.playCalls(), 1);
+  assert.equal(harness.waterBreakEndTone.playCalls(), 1);
+});
+
+test('loading or reverse-mirroring during an active class stays silent', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'in_class_content',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:45:00Z',
+      classStartsAt: '2035-04-13T08:30:00Z',
+      classEndsAt: '2035-04-13T09:15:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
   assert.equal(harness.waterBreakStartTone.playCalls(), 0);
   assert.equal(harness.waterBreakEndTone.playCalls(), 0);
 });

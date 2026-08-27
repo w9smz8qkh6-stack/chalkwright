@@ -430,6 +430,7 @@ export class B407MvpHttpController implements ClassroomHttpController {
           model.state === 'in_class_content'
             ? waterBreakWindow(model.currentMeeting)
             : undefined;
+        const chimeMeeting = model.currentMeeting ?? model.nextMeeting;
         return json({
           ...target,
           stateCase: target.state,
@@ -444,6 +445,8 @@ export class B407MvpHttpController implements ClassroomHttpController {
             model.state === 'in_class_content'
               ? (model.currentMeeting?.officialEndsAt ?? '')
               : '',
+          classStartsAt: chimeMeeting?.officialStartsAt ?? '',
+          classEndsAt: chimeMeeting?.officialEndsAt ?? '',
           waterBreakStartsAt: waterBreak?.startsAt ?? '',
           waterBreakEndsAt: waterBreak?.endsAt ?? '',
           dateLabel: displayDateLabel(model.date, model.timeZone),
