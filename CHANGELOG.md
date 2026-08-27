@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Normalize Vietnamese translated vocabulary headwords against the canonical
+  source term's casing, including matching mid-sentence uses, while preserving
+  sentence-initial capitals, proper names, and uncased Korean and Chinese text.
+
 - Raised the Coming Up copy block from geometric center to a bounded optical
   center, approximately 5% of viewport height higher, while retaining the
   vertically centered course title and responsive compact-layout balance.

@@ -40,6 +40,12 @@ for an already selected meeting but updates that meeting's display snapshot
 from the current catalog row, so teacher corrections such as capitalization or
 translation edits reach the active screen without rotating to a different
 term.
+For display, a Vietnamese translated headword follows the casing of the
+canonical source headword: a lowercase common-noun source lowers the first
+Vietnamese letter and matching mid-sentence uses, while sentence-initial forms
+and canonical proper names remain capitalized. Korean and Simplified Chinese
+pass through unchanged because those scripts have no uppercase/lowercase
+distinction.
 Entry and translation identities are bounded SHA-256 derivations of their
 source row and relevant content, so the longest accepted definitions cannot
 overflow the local catalog's identifier contract.
