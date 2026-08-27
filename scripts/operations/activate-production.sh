@@ -11,6 +11,11 @@ for path in "$config" /etc/chalkwright/production/calendar.json /etc/chalkwright
   [[ -f $path && ! -L $path ]] || reject production-activate-config-missing
 done
 [[ -L $release && -x "$release/scripts/operations/activate-production.sh" && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" && -f "$release/systemd/production/chalkwright-production-start.service.in" ]] || reject production-activate-release-invalid
+site_media=not-requested
+if [[ -e /tmp/chalkwright-site-profile.json || -L /tmp/chalkwright-site-profile.json ]]; then
+  /usr/bin/node "$release/scripts/operations/provision-production-site-media.mjs" || reject production-activate-site-media-failed
+  site_media=applied
+fi
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-glossary-refresh.service.in" /etc/systemd/system/chalkwright-glossary-refresh.service
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-glossary-refresh.timer.in" /etc/systemd/system/chalkwright-glossary-refresh.timer
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-production-start.service.in" /etc/systemd/system/chalkwright-production-start.service
@@ -35,7 +40,11 @@ timers=(
   chalkwright-backup.timer
   chalkwright-deploy.timer
 )
-/usr/bin/systemctl start chalkwright.service || reject production-activate-server-failed
+if [[ $site_media == applied ]]; then
+  /usr/bin/systemctl restart chalkwright.service || reject production-activate-server-failed
+else
+  /usr/bin/systemctl start chalkwright.service || reject production-activate-server-failed
+fi
 for _ in {1..20}; do
   if /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/health" && /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null "$health_url/ready"; then break; fi
   /usr/bin/sleep 0.25
@@ -68,4 +77,4 @@ done
 /usr/bin/systemctl add-wants multi-user.target chalkwright-production-start.service || reject production-activate-startup-enable-failed
 if [[ ${#degraded[@]} -eq 0 ]]; then status=active-internal; else status=active-degraded; fi
 joined=$(IFS=,; echo "${degraded[*]}")
-echo "{\"status\":\"$status\",\"displayHealth\":true,\"planRefresh\":\"$([[ $plan_refreshed == true ]] && echo started || echo failed)\",\"classroomRefresh\":\"attempted\",\"calendarSync\":\"$([[ $plan_refreshed == true ]] && echo attempted || echo skipped-plan-refresh-failed)\",\"glossaryRefresh\":\"attempted\",\"timersStarted\":7,\"bootStartupEnabled\":true,\"degraded\":[${joined:+\"${joined//,/\",\"}\"}],\"routeChanges\":0,\"legacyServicesStopped\":0}"
+echo "{\"status\":\"$status\",\"displayHealth\":true,\"siteMedia\":\"$site_media\",\"planRefresh\":\"$([[ $plan_refreshed == true ]] && echo started || echo failed)\",\"classroomRefresh\":\"attempted\",\"calendarSync\":\"$([[ $plan_refreshed == true ]] && echo attempted || echo skipped-plan-refresh-failed)\",\"glossaryRefresh\":\"attempted\",\"timersStarted\":7,\"bootStartupEnabled\":true,\"degraded\":[${joined:+\"${joined//,/\",\"}\"}],\"routeChanges\":0,\"legacyServicesStopped\":0}"

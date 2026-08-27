@@ -115,6 +115,14 @@ states continue to use course cover art.
 To change URLs, generate a new output directory and then update the manifest
 reference. Existing directories are never overwritten by the setup command.
 
+For a migration from an existing local installation, `school.logoFile` may be
+used instead of `school.logoUrl`. The path must be absolute and point to one
+ordinary, unlinked PNG, JPEG, or WebP file. Production activation accepts one
+owner-only request at `/tmp/chalkwright-site-profile.json`, copies the asset
+into a new service-owned media directory, retains an owner-only backup of the
+previous server configuration, removes the staging request, and restarts the
+display. Runtime never depends on continued access to the legacy file.
+
 ## Supported public-preview workflow
 
 The supported public-preview workflow is presently the fixture-backed demo and

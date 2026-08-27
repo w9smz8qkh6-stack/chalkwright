@@ -65,3 +65,39 @@ test('recognizes only supported image signatures', () => {
     /site-media-type-unsupported/u,
   );
 });
+
+test('copies a supported legacy local logo without a network request', async () => {
+  const root = mkdtempSync(join(tmpdir(), 'chalkwright-site-local-'));
+  try {
+    chmodSync(root, 0o700);
+    const logo = join(root, 'legacy-logo.webp');
+    const webp = Buffer.concat([
+      Buffer.from('RIFF'),
+      Buffer.alloc(4),
+      Buffer.from('WEBPVP8 '),
+      Buffer.alloc(12),
+    ]);
+    writeFileSync(logo, webp, { mode: 0o600 });
+    const profile = join(root, 'site.json');
+    const output = join(root, 'media');
+    writeFileSync(
+      profile,
+      JSON.stringify({
+        version: 1,
+        school: { name: 'Example Academy', logoFile: logo },
+      }),
+      { mode: 0o600 },
+    );
+    const result = await buildSiteMedia(profile, output, async () => {
+      throw new Error('network-must-not-be-called');
+    });
+    assert.equal(result.providerRequests, 0);
+    const manifest = JSON.parse(
+      readFileSync(join(output, 'manifest.json'), 'utf8'),
+    );
+    assert.equal(manifest.school.logo.sourcePath, logo);
+    assert.equal(manifest.school.logo.sourceUrl, undefined);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
