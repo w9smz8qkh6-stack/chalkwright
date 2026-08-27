@@ -25,6 +25,7 @@
     readonly bellEndsAt?: unknown;
     readonly classStartsAt?: unknown;
     readonly classEndsAt?: unknown;
+    readonly checkInOpensAt?: unknown;
     readonly waterBreakStartsAt?: unknown;
     readonly waterBreakEndsAt?: unknown;
     readonly dateLabel?: unknown;
@@ -99,6 +100,8 @@
     | undefined;
   let operatorAuthorization = '';
   const maximumBoundarySampleGapMs = 15_000;
+  const boundaryPollAllowanceMs = 25;
+  const minimumBoundaryPollDelayMs = 50;
   const waterBreakCompletionHoldMs = 10_000;
   let serverClockAnchor = Date.parse(root?.dataset.evaluatedAt || '');
   let browserClockAnchor = Date.now();
@@ -820,6 +823,29 @@
     pollTimer = window.setTimeout(pollTarget, delay);
   }
 
+  function healthyPollDelay(payload: TargetPayload): number {
+    if (
+      payload.state !== 'morning_overview' &&
+      payload.state !== 'idle' &&
+      payload.state !== 'post_end'
+    )
+      return polling.healthyIntervalMs;
+    if (
+      typeof payload.checkInOpensAt !== 'string' ||
+      payload.checkInOpensAt.length > 64
+    )
+      return polling.healthyIntervalMs;
+    const boundary = Date.parse(payload.checkInOpensAt);
+    if (!Number.isFinite(boundary)) return polling.healthyIntervalMs;
+    const untilBoundary = boundary - displayNow().getTime();
+    if (untilBoundary < 0 || untilBoundary >= polling.healthyIntervalMs)
+      return polling.healthyIntervalMs;
+    return Math.max(
+      minimumBoundaryPollDelayMs,
+      untilBoundary + boundaryPollAllowanceMs,
+    );
+  }
+
   async function pollTarget(): Promise<void> {
     if (!root?.dataset.targetUrl) return;
     const controller = new AbortController();
@@ -838,10 +864,10 @@
       const payload: unknown = await response.json();
       if (payload === null || typeof payload !== 'object')
         throw new Error('target-invalid');
-      if (!applyTargetPayload(payload as TargetPayload))
-        throw new Error('target-invalid');
+      const targetPayload = payload as TargetPayload;
+      if (!applyTargetPayload(targetPayload)) throw new Error('target-invalid');
       failureCount = 0;
-      schedulePoll(polling.healthyIntervalMs);
+      schedulePoll(healthyPollDelay(targetPayload));
     } catch {
       failureCount += 1;
       setConnectionDegraded(true);

@@ -317,6 +317,38 @@ test('unchanged healthy polls retain the scene DOM without replaying transitions
   assert.equal(harness.root.dataset.evaluatedAt, '2035-04-13T08:02:30.000Z');
 });
 
+test('coming-up state polls at the exact check-in opening boundary', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-b407',
+    payloads: [
+      {
+        presentationHtml: '<section>Coming Up</section>',
+        state: 'idle',
+        meetingId: '',
+        courseLabel: 'Web Design',
+        evaluatedAt: '2035-04-13T07:54:40Z',
+        checkInOpensAt: '2035-04-13T07:55:00Z',
+      },
+      {
+        presentationHtml: '<section>Check In</section>',
+        state: 'pre_checkin',
+        meetingId: 'meeting-b407-a',
+        courseLabel: 'Web Design',
+        evaluatedAt: '2035-04-13T07:55:00.025Z',
+      },
+    ],
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  assert.equal(harness.fetchCalls(), 1);
+  assert.equal(harness.main.innerHTML, '<section>Coming Up</section>');
+
+  harness.advance(20_025);
+  await harness.runTimeout(20_025);
+  assert.equal(harness.fetchCalls(), 2);
+  assert.equal(harness.root.dataset.state, 'pre_checkin');
+  assert.equal(harness.main.innerHTML, '<section>Check In</section>');
+});
+
 test('legacy header bell rounds class time up to minutes and hides outside class content', async () => {
   const first = {
     presentationHtml: '<section>Robotics</section>',

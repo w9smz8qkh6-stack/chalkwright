@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Make Coming Up schedule a precise boundary refresh so Check In begins at
+  exactly five minutes before class instead of waiting up to 30 seconds for
+  the next routine display poll.
+
 - Made each Coming Up illustration's localized light motif visibly brighten
   and drift through a gentle nine-second cycle, while retaining a static
   highlight when reduced motion is requested.
