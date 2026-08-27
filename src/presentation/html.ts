@@ -535,7 +535,7 @@ function dismissalScene(model: DisplayPresentationModel): string {
   return `<section class="scene scene-dismissal${mediaBacked ? ' media-pending' : ' banner-backed'}" aria-labelledby="dismissal-title"${mediaBacked ? ' data-media-scene' : ''} data-dismissal-scene>
   ${visual}
   <div class="scene-copy${banner === undefined ? '' : ' course-banner-copy'}"${mediaBacked ? ' data-media-reveal' : ''}>
-    <p class="eyebrow">Dismissal begins soon</p>
+    <p class="eyebrow">Dismissing soon</p>
     <h1 id="dismissal-title">${escapeHtml(model.dismissalMessage ?? 'Please push in your chair and make your area tidy.')}</h1>
     <p class="dismissal-countdown-label">Class ends in</p>
     ${sceneCountdown(

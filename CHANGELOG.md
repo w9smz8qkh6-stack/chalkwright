@@ -62,6 +62,9 @@ omitted.
 
 ### Changed
 
+- Changed the Dismissal Soon scene eyebrow to the direct wording
+  “Dismissing soon.”
+
 - Make Coming Up schedule a precise boundary refresh so Check In begins at
   exactly five minutes before class instead of waiting up to 30 seconds for
   the next routine display poll.
