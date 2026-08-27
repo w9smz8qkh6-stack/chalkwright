@@ -189,12 +189,24 @@ function meetingList(meetings: readonly PresentationMeeting[]): string {
   return `<ol class="meeting-list">${meetings
     .map(
       (meeting) => `<li>
-  <span class="block-badge">${escapeHtml(meeting.blockLabel)}</span>
   <span class="meeting-course">${escapeHtml(meeting.courseLabel)}</span>
+  <span class="block-badge">${escapeHtml(meeting.blockLabel)}</span>
   <time datetime="${escapeHtml(meeting.officialStartsAt)}" data-local-time="${escapeHtml(meeting.officialStartsAt)}"></time>
 </li>`,
     )
     .join('')}</ol>`;
+}
+
+function overviewMontage(model: DisplayPresentationModel): string {
+  const images = (model.meetings ?? []).flatMap((meeting) => {
+    const path = safeLocalRoute(meeting.bannerPath);
+    return path === undefined
+      ? []
+      : [`<img src="${escapeHtml(localPath(model.basePath, path))}" alt="">`];
+  });
+  return images.length === 0
+    ? ''
+    : `<div class="overview-montage" aria-hidden="true">${images.join('')}</div>`;
 }
 
 function meetingWindow(meeting: PresentationMeeting | undefined): string {
@@ -531,7 +543,7 @@ function mainScene(model: DisplayPresentationModel): string {
     case 'no_classes':
       return `<section class="scene scene-no-classes" aria-labelledby="scene-title"><p class="eyebrow">${escapeHtml(displayDateLabel(model.date, model.timeZone))}</p><h1 id="scene-title">No classes scheduled</h1><p>Enjoy the day.</p></section>`;
     case 'morning_overview':
-      return `<section class="scene scene-overview" aria-labelledby="scene-title"><p class="eyebrow">Good morning</p><h1 id="scene-title">Today in this room</h1>${meetingList(meetings)}${countdown(next?.checkInOpensAt, 'Check-in opens in')}</section>`;
+      return `<section class="scene scene-overview" aria-labelledby="scene-title">${overviewMontage(model)}<div class="overview-content"><p class="eyebrow">Good morning</p><h1 id="scene-title">Today in this room</h1>${meetingList(meetings)}${countdown(next?.checkInOpensAt, 'Check-in opens in')}</div></section>`;
     case 'idle':
       return comingUpScene(model);
     case 'pre_checkin':

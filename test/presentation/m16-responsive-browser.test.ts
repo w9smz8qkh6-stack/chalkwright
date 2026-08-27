@@ -86,6 +86,40 @@ test('renders every accepted display state across the bounded kiosk viewport env
             `${viewport.name}:${state}:coming-up-panel-vertical-center`,
           );
         }
+        if (state === 'morning_overview') {
+          const overview = await page
+            .locator('.scene-overview')
+            .evaluate((scene) => {
+              const firstRow =
+                scene.querySelector<HTMLElement>('.meeting-list li');
+              const course =
+                firstRow?.querySelector<HTMLElement>('.meeting-course');
+              const badge =
+                firstRow?.querySelector<HTMLElement>('.block-badge');
+              const time = firstRow?.querySelector<HTMLElement>('time');
+              const heading = scene.querySelector<HTMLElement>('h1');
+              if (!firstRow || !course || !badge || !time || !heading)
+                throw new Error('morning-overview-layout-missing');
+              return {
+                montageImages: scene.querySelectorAll('.overview-montage img')
+                  .length,
+                courseLeft: course.getBoundingClientRect().left,
+                badgeLeft: badge.getBoundingClientRect().left,
+                timeLeft: time.getBoundingClientRect().left,
+                rowFontSize: Number.parseFloat(
+                  getComputedStyle(firstRow).fontSize,
+                ),
+                headingFontSize: Number.parseFloat(
+                  getComputedStyle(heading).fontSize,
+                ),
+              };
+            });
+          assert.ok(overview.montageImages > 0, viewport.name);
+          assert.ok(overview.courseLeft < overview.badgeLeft, viewport.name);
+          assert.ok(overview.badgeLeft < overview.timeLeft, viewport.name);
+          assert.ok(overview.rowFontSize >= 21.6, viewport.name);
+          assert.ok(overview.headingFontSize <= 56, viewport.name);
+        }
         if (
           state === 'idle' ||
           state === 'pre_checkin' ||

@@ -346,8 +346,49 @@ a {
 }
 
 .scene-overview {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   align-content: start;
   background: linear-gradient(160deg, #0c4a6e, #0f172a 60%);
+}
+
+.overview-montage {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  opacity: 0.48;
+  filter: saturate(0.8) contrast(1.08);
+}
+
+.overview-montage::after {
+  position: absolute;
+  content: '';
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 20, 38, 0.48),
+    rgba(7, 20, 38, 0.7)
+  );
+}
+
+.overview-montage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overview-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.scene-overview h1 {
+  font-size: clamp(1.5rem, 3.5vw, 3.5rem);
 }
 
 .scene-day-complete {
@@ -368,7 +409,7 @@ a {
 }
 
 .meeting-list {
-  width: min(60rem, 100%);
+  width: min(76rem, 100%);
   margin: 2rem auto;
   padding: 0;
   display: grid;
@@ -379,17 +420,18 @@ a {
 
 .meeting-list li {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: minmax(0, 1fr) minmax(7.5em, auto) auto;
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.25rem;
   border: 1px solid var(--line);
   border-radius: 1rem;
-  background: rgba(2, 6, 23, 0.55);
-  font-size: clamp(1rem, 1.8vw, 1.65rem);
+  background: rgba(2, 6, 23, 0.72);
+  font-size: clamp(1.35rem, 2.4vw, 2.25rem);
 }
 
 .block-badge {
+  justify-self: start;
   min-width: 2.5em;
   padding: 0.35em 0.5em;
   border-radius: 999px;
@@ -1746,11 +1788,17 @@ a {
   }
 
   .meeting-list li {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(6.75em, auto);
   }
 
   .meeting-list time {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .meeting-list .block-badge {
     grid-column: 2;
+    grid-row: 1 / span 2;
   }
 
   .next-day-row {
