@@ -144,11 +144,14 @@ test('all eight display states render their semantic scenes with the intentional
   );
 });
 
-test('morning overview shows each class pill without a duplicate plain-text course label', () => {
+test('morning overview pairs each section pill with its friendly course label', () => {
   const html = renderDisplayScene(model('morning_overview'));
 
   assert.match(html, /<span class="block-badge">A<\/span>/u);
-  assert.doesNotMatch(html, />Synthetic Computing<\/span>/u);
+  assert.match(
+    html,
+    /<span class="meeting-course">Synthetic Computing<\/span>/u,
+  );
 });
 
 test('class content includes accessible carousel controls, hold state, and reveal timing hooks', () => {
