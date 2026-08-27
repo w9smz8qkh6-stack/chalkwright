@@ -70,11 +70,54 @@ const model: DisplayPresentationModel = {
   pinnedAt: '2035-04-13T08:30:00Z',
 };
 
-async function startVocabularyServer(): Promise<{
+const ordinaryModel: DisplayPresentationModel = {
+  ...model,
+  cards: [
+    {
+      cardId: 'card-glossary-ordinary',
+      type: 'vocabulary',
+      title: 'Word of the day',
+      lines: [],
+      vocabulary: {
+        term: 'battery',
+        definition:
+          'The rechargeable part that supplies electrical energy to the robot.',
+        example:
+          'The team discussed the battery while improving the robot for the challenge.',
+        translations: [
+          {
+            languageCode: 'vi',
+            term: 'pin',
+            definition:
+              'Bộ phận có thể sạc lại cung cấp năng lượng điện cho robot.',
+            example:
+              'Nhóm đã thảo luận về pin khi cải tiến robot cho thử thách.',
+          },
+          {
+            languageCode: 'ko',
+            term: '배터리',
+            definition: '로봇에 전기 에너지를 공급하는 충전식 부품.',
+            example: '팀은 로봇을 개선하면서 배터리에 대해 논의했다.',
+          },
+          {
+            languageCode: 'zh-Hans',
+            term: '电池',
+            definition: '为机器人提供电能的可充电部件。',
+            example: '团队在改进机器人时讨论了电池。',
+          },
+        ],
+      },
+    },
+  ],
+};
+
+async function startVocabularyServer(
+  presentation: DisplayPresentationModel = model,
+): Promise<{
   readonly origin: string;
   readonly close: () => Promise<void>;
 }> {
-  const html = renderDisplayPage(model);
+  const html = renderDisplayPage(presentation);
   const css = readFileSync('public/display.css');
   const client = readFileSync('dist/client/display-client.js');
   const server = createServer((request, response) => {
@@ -241,6 +284,72 @@ test('multilingual vocabulary keeps English anchored while the panel flips throu
   }
 });
 
+test('ordinary vocabulary uses the maximum readable scale and translation spacing', async () => {
+  const fixture = await startVocabularyServer(ordinaryModel);
+  const browser = await chromium.launch({
+    executablePath: '/usr/bin/google-chrome',
+    headless: true,
+  });
+  try {
+    const context = await browser.newContext({
+      viewport: { width: 1_920, height: 1_080 },
+      reducedMotion: 'no-preference',
+    });
+    const page = await context.newPage();
+    await page.goto(fixture.origin, { waitUntil: 'domcontentloaded' });
+    const result = await page.locator('.card-vocabulary').evaluate((card) => {
+      const metric = (selector: string): number =>
+        Number.parseFloat(
+          getComputedStyle(card.querySelector<HTMLElement>(selector)!).fontSize,
+        );
+      const anchor = card
+        .querySelector<HTMLElement>('.vocabulary-anchor')!
+        .getBoundingClientRect();
+      const panel = card
+        .querySelector<HTMLElement>('.vocabulary-panel')!
+        .getBoundingClientRect();
+      return {
+        className: card.className,
+        term: metric('.vocabulary-anchor h2'),
+        definition: metric('.vocabulary-anchor-definition'),
+        example: metric('.vocabulary-anchor-example'),
+        translationTerm: metric('.vocabulary-translation-term'),
+        translationDefinition: metric('.vocabulary-definition'),
+        translationExample: metric('.vocabulary-example'),
+        gap: panel.top - anchor.bottom,
+        clippedFaces: [
+          ...card.querySelectorAll<HTMLElement>('.vocabulary-panel-face'),
+        ].filter((face) => face.scrollHeight > face.clientHeight).length,
+        documentWidth: document.documentElement.scrollWidth,
+        viewportWidth: window.innerWidth,
+        documentHeight: document.documentElement.scrollHeight,
+        viewportHeight: window.innerHeight,
+      };
+    });
+    assert.doesNotMatch(result.className, /content-(?:tight|compact)/u);
+    assert.ok(result.term >= 120, JSON.stringify(result));
+    assert.ok(result.definition >= 48, JSON.stringify(result));
+    assert.ok(result.example >= 32, JSON.stringify(result));
+    assert.ok(result.translationTerm >= 88, JSON.stringify(result));
+    assert.ok(result.translationDefinition >= 44, JSON.stringify(result));
+    assert.ok(result.translationExample >= 32, JSON.stringify(result));
+    assert.ok(result.gap >= 36, JSON.stringify(result));
+    assert.equal(result.clippedFaces, 0, JSON.stringify(result));
+    assert.ok(
+      result.documentWidth <= result.viewportWidth,
+      JSON.stringify(result),
+    );
+    assert.ok(
+      result.documentHeight <= result.viewportHeight,
+      JSON.stringify(result),
+    );
+    await context.close();
+  } finally {
+    await browser.close();
+    await fixture.close();
+  }
+});
+
 test('reduced motion preserves one readable vocabulary face without overflow', async () => {
   const fixture = await startVocabularyServer();
   const browser = await chromium.launch({
@@ -272,6 +381,20 @@ test('reduced motion preserves one readable vocabulary face without overflow', a
           viewportWidth: window.innerWidth,
           scrollHeight: document.documentElement.scrollHeight,
           bodyMargin: getComputedStyle(document.body).margin,
+          termFontSize: Number.parseFloat(
+            getComputedStyle(
+              stage.querySelector<HTMLElement>('.vocabulary-anchor h2')!,
+            ).fontSize,
+          ),
+          englishTranslationGap: (() => {
+            const anchor = stage
+              .querySelector<HTMLElement>('.vocabulary-anchor')!
+              .getBoundingClientRect();
+            const panel = stage
+              .querySelector<HTMLElement>('.vocabulary-panel')!
+              .getBoundingClientRect();
+            return panel.top - anchor.bottom;
+          })(),
           clippedFaces: [
             ...stage.querySelectorAll<HTMLElement>('.vocabulary-panel-face'),
           ].filter((face) => face.scrollHeight > face.clientHeight).length,
@@ -291,6 +414,14 @@ test('reduced motion preserves one readable vocabulary face without overflow', a
         `translated-face-overflow:${JSON.stringify({ viewport, faceBounds: result.faceBounds })}`,
       );
       assert.equal(result.bodyMargin, '0px');
+      assert.ok(
+        result.termFontSize >= (viewport.width >= 1_000 ? 76 : 48),
+        `responsive-term-scale:${JSON.stringify({ viewport, result })}`,
+      );
+      assert.ok(
+        result.englishTranslationGap >= 20,
+        `responsive-translation-gap:${JSON.stringify({ viewport, result })}`,
+      );
       assert.ok(
         result.stageBottom <= result.viewportHeight,
         `stage-bounds:${JSON.stringify({ viewport, result })}`,
