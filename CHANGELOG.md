@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Made each Coming Up illustration's localized light motif visibly brighten
+  and drift through a gentle nine-second cycle, while retaining a static
+  highlight when reduced motion is requested.
+
 - Show the Dismissal Soon countdown with two-digit minutes, seconds, and
   hundredths during its final minute, ending at `00:00.00`.
 

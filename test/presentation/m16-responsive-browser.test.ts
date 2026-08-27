@@ -716,6 +716,9 @@ test('Coming Up animates only the localized course-art motif', async () => {
           image: getComputedStyle(art.querySelector('img') as HTMLImageElement)
             .animationName,
           motif: getComputedStyle(art, '::before').animationName,
+          duration: getComputedStyle(art, '::before').animationDuration,
+          opacity: Number.parseFloat(getComputedStyle(art, '::before').opacity),
+          transform: getComputedStyle(art, '::before').transform,
         }));
       assert.equal(animation.image, 'none', reducedMotion);
       assert.equal(
@@ -723,6 +726,30 @@ test('Coming Up animates only the localized course-art motif', async () => {
         reducedMotion === 'reduce' ? 'none' : 'course-motif-glimmer',
         reducedMotion,
       );
+      if (reducedMotion === 'no-preference') {
+        assert.equal(animation.duration, '9s');
+        await page.waitForTimeout(2_500);
+        const laterAnimation = await page
+          .locator('.course-banner')
+          .evaluate((art) => ({
+            opacity: Number.parseFloat(
+              getComputedStyle(art, '::before').opacity,
+            ),
+            transform: getComputedStyle(art, '::before').transform,
+          }));
+        assert.ok(
+          Math.abs(laterAnimation.opacity - animation.opacity) >= 0.25,
+          'course motif should visibly brighten during its cycle',
+        );
+        assert.notEqual(
+          laterAnimation.transform,
+          animation.transform,
+          'course motif should move within the illustration',
+        );
+      } else {
+        assert.equal(animation.opacity, 0.18);
+        assert.equal(animation.transform, 'none');
+      }
       const surfaces = await page
         .locator('.scene-coming-up')
         .evaluate((scene) => {

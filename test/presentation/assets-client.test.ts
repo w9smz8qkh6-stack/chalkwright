@@ -164,6 +164,10 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /font-variant-numeric: tabular-nums/u);
   assert.match(css, /\.course-banner/u);
   assert.match(css, /@keyframes course-motif-glimmer/u);
+  assert.match(
+    css,
+    /\.scene-coming-up \.course-banner::before \{[\s\S]*--motif-x: 74%;[\s\S]*animation: course-motif-glimmer 9s/u,
+  );
   assert.doesNotMatch(css, /course-banner-drift/u);
   assert.match(css, /\.checkin-display\.banner-backed/u);
   assert.match(css, /\.next-day-schedule/u);
