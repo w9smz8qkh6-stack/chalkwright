@@ -388,6 +388,7 @@ a {
 }
 
 .scene-overview h1 {
+  margin-inline: auto;
   font-size: clamp(1.5rem, 3.5vw, 3.5rem);
 }
 
