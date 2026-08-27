@@ -93,6 +93,7 @@ function clientHarness(options: {
       countdownTarget?: string;
       countdownSecondsThreshold?: string;
       countdownSubsecondsThreshold?: string;
+      countdownRapid?: string;
     },
     querySelector(selector: string) {
       return selector === '[data-countdown-value]' ? countdownValue : undefined;
@@ -602,7 +603,7 @@ test('coming-up countdowns reveal seconds only in the final ten minutes', async 
   assert.equal(harness.countdownValue.textContent, '10:00');
 });
 
-test('check-in uses hundredths during the final minute and chimes at zero', async () => {
+test('rapid countdowns use two-digit minutes and hundredths during the final minute', async () => {
   const harness = clientHarness({ targetUrl: '' });
   await new Promise((resolve) => setImmediate(resolve));
   harness.classChime.dataset.classStart = '2035-04-13T08:01:00Z';
@@ -610,24 +611,36 @@ test('check-in uses hundredths during the final minute and chimes at zero', asyn
   harness.countdown.dataset.countdownTarget = '2035-04-13T08:01:00Z';
   harness.countdown.dataset.countdownSubsecondsThreshold = '60';
   harness.tickClock();
-  assert.equal(harness.countdownValue.textContent, '1:00.00');
+  assert.equal(harness.countdownValue.textContent, '01:00.00');
+  assert.equal(harness.countdown.dataset.countdownRapid, 'true');
   assert.equal(harness.waterBreakStartTone.playCalls(), 0);
 
   harness.advance(10);
   await harness.runTimeout(10);
-  assert.equal(harness.countdownValue.textContent, '0:59.99');
+  assert.equal(harness.countdownValue.textContent, '00:59.99');
 
   harness.advance(59_980);
   await harness.runTimeout(10);
-  assert.equal(harness.countdownValue.textContent, '0:00.01');
+  assert.equal(harness.countdownValue.textContent, '00:00.01');
   assert.equal(harness.waterBreakStartTone.playCalls(), 0);
 
   harness.advance(10);
   await harness.runTimeout(10);
-  assert.equal(harness.countdownValue.textContent, '0:00.00');
+  assert.equal(harness.countdownValue.textContent, '00:00.00');
+  assert.equal(harness.countdown.dataset.countdownRapid, 'true');
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
   harness.tickClock();
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
+});
+
+test('rapid styling clears outside a configured final-minute window', async () => {
+  const harness = clientHarness({ targetUrl: '' });
+  await new Promise((resolve) => setImmediate(resolve));
+  harness.countdown.dataset.countdownTarget = '2035-04-13T08:01:01Z';
+  harness.countdown.dataset.countdownSubsecondsThreshold = '60';
+  harness.tickClock();
+  assert.equal(harness.countdownValue.textContent, '1:01');
+  assert.equal(harness.countdown.dataset.countdownRapid, undefined);
 });
 
 test('loading or reverse-mirroring during an active class stays silent', async () => {

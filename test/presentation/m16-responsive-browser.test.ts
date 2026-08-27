@@ -175,6 +175,37 @@ test('renders every accepted display state across the bounded kiosk viewport env
             'rgba(0, 0, 0, 0)',
             `${viewport.name}:dismissal-copy-background`,
           );
+          await page.goto(
+            `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(`${b407Date}T08:59:30Z`)}`,
+            { waitUntil: 'domcontentloaded' },
+          );
+          const rapidCountdown = await page
+            .locator('.scene-dismissal .scene-countdown')
+            .evaluate((countdown) => {
+              const value = countdown.querySelector<HTMLElement>(
+                '[data-countdown-value]',
+              );
+              const scene = countdown.closest<HTMLElement>('.scene-dismissal');
+              if (value === null || scene === null)
+                throw new Error('dismissal-rapid-countdown-missing');
+              const valueRectangle = value.getBoundingClientRect();
+              const sceneRectangle = scene.getBoundingClientRect();
+              return {
+                value: value.textContent,
+                rapid: countdown.getAttribute('data-countdown-rapid'),
+                left: valueRectangle.left,
+                right: valueRectangle.right,
+                sceneLeft: sceneRectangle.left,
+                sceneRight: sceneRectangle.right,
+              };
+            });
+          assert.equal(rapidCountdown.value, '00:30.00', viewport.name);
+          assert.equal(rapidCountdown.rapid, 'true', viewport.name);
+          assert.ok(
+            rapidCountdown.left >= rapidCountdown.sceneLeft &&
+              rapidCountdown.right <= rapidCountdown.sceneRight,
+            `${viewport.name}:dismissal-rapid-countdown-bounds`,
+          );
         }
         if (state === 'in_class_content') {
           assert.doesNotMatch(
@@ -436,7 +467,7 @@ test('school branding follows the legacy responsive logo widths', async () => {
           scrollWidth: document.documentElement.scrollWidth,
           innerWidth: window.innerWidth,
         }));
-      assert.equal(rapidCountdown.text, '0:29.88');
+      assert.equal(rapidCountdown.text, '00:29.88');
       assert.equal(rapidCountdown.numericSpacing, 'tabular-nums');
       assert.ok(rapidCountdown.scrollWidth <= rapidCountdown.innerWidth);
       await context.close();

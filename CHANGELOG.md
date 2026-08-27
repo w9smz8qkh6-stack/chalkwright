@@ -62,6 +62,9 @@ omitted.
 
 ### Changed
 
+- Show the Dismissal Soon countdown with two-digit minutes, seconds, and
+  hundredths during its final minute, ending at `00:00.00`.
+
 - Enlarged the Word of the Day composition across its English term,
   definition, example sentence, and rotating translations, and added a clearer
   visual pause between the anchored English content and translation panel.

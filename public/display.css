@@ -1764,6 +1764,12 @@ a {
   font-size: clamp(6rem, 11vw, 11rem);
 }
 
+.scene-dismissal.banner-backed
+  .scene-countdown[data-countdown-rapid='true']
+  strong {
+  font-size: clamp(4rem, 7.5vw, 7rem);
+}
+
 .scene-dismissal .scene-copy h1 {
   max-width: 30ch;
   margin: 0;
