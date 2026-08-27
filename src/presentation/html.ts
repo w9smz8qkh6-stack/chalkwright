@@ -151,7 +151,7 @@ function header(model: DisplayPresentationModel): string {
   );
   const brand =
     model.branding === undefined
-      ? `<div class="brand"><img src="${escapeHtml(icon)}" alt="" width="44" height="44"><span>Chalkwright</span></div>`
+      ? '<div class="header-brand-slot" aria-hidden="true"></div>'
       : `<div class="brand brand-school"><img src="${escapeHtml(icon)}" alt="${escapeHtml(model.branding.schoolName)}"></div>`;
   const waterBreak = waterBreakWindow(model);
   const bellTarget =
@@ -184,6 +184,14 @@ function header(model: DisplayPresentationModel): string {
     <audio data-water-break-end-tone preload="auto" src="${escapeHtml(localPath(model.basePath, '/assets/water-break-end.wav'))}"></audio>
   </div>
 </header>`;
+}
+
+function systemCredit(model: DisplayPresentationModel): string {
+  const icon = localPath(model.basePath, '/assets/chalkwright.svg');
+  return `<footer class="system-credit" aria-label="ChalkWright Classroom Screen System version 0.1.0">
+  <img src="${escapeHtml(icon)}" alt="" width="20" height="20">
+  <span>ChalkWright Classroom Screen System v.0.1.0: www.chalkwright.org</span>
+</footer>`;
 }
 
 function countdown(target: string | undefined, label: string): string {
@@ -611,6 +619,7 @@ export function renderDisplayPage(model: DisplayPresentationModel): string {
   const body = `  <a class="skip-link" href="#display-main">Skip to display content</a>
   ${header(model)}
   <main id="display-main" tabindex="-1">${renderDisplayScene(model)}</main>
+  ${systemCredit(model)}
   <div class="connection-status" role="status" aria-live="polite" data-connection-status ${model.degraded === true ? '' : 'hidden'}>Updates are delayed. Showing the last successful display.</div>
   <div class="visually-hidden" aria-live="polite" data-announcer></div>
   <script type="application/json" id="presentation-bootstrap">${safeJson({

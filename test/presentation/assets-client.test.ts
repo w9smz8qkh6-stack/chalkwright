@@ -144,6 +144,9 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /\.state-day_complete \.meeting-label/u);
   assert.match(css, /\.media-layers\.mirrored/u);
   assert.match(css, /\.scene-countdown-footer/u);
+  assert.match(css, /\.system-credit \{[\s\S]*position: fixed/u);
+  assert.match(css, /\.system-credit \{[\s\S]*right:/u);
+  assert.match(css, /\.system-credit \{[\s\S]*bottom:/u);
   assert.match(css, /\.course-banner/u);
   assert.match(css, /@keyframes course-motif-glimmer/u);
   assert.doesNotMatch(css, /course-banner-drift/u);
