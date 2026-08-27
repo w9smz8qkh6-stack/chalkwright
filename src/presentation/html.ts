@@ -151,10 +151,12 @@ function header(model: DisplayPresentationModel): string {
     model.state === 'in_class_content'
       ? model.currentMeeting?.officialEndsAt
       : undefined;
+  const chimeMeeting = model.currentMeeting ?? model.nextMeeting;
   return `<header class="display-header">
   <div class="brand"><img src="${escapeHtml(icon)}" alt="" width="44" height="44"><span>Chalkwright</span></div>
   <div class="meeting-label" data-course-label>${escapeHtml(meetingLabel(model.currentMeeting) || meetingLabel(model.nextMeeting))}</div>
   <div class="header-status">
+    <div data-class-chime${chimeMeeting === undefined ? '' : ` data-class-start="${escapeHtml(chimeMeeting.officialStartsAt)}" data-class-end="${escapeHtml(chimeMeeting.officialEndsAt)}"`} hidden></div>
     <div class="clock-group">
       <time class="clock" data-clock datetime="${escapeHtml(model.evaluatedAt)}">--:--</time>
       <span class="date-label" data-display-date>${escapeHtml(displayDateLabel(model.date, model.timeZone))}</span>

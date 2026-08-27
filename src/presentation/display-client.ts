@@ -23,6 +23,8 @@
     readonly meetingId?: unknown;
     readonly courseLabel?: unknown;
     readonly bellEndsAt?: unknown;
+    readonly classStartsAt?: unknown;
+    readonly classEndsAt?: unknown;
     readonly waterBreakStartsAt?: unknown;
     readonly waterBreakEndsAt?: unknown;
     readonly dateLabel?: unknown;
@@ -84,6 +86,16 @@
   let activeWaterBreakKey = '';
   let observedWaterBreakKey = '';
   let previousWaterBreakNow: number | undefined;
+  let observedClassBoundary:
+    | {
+        key: string;
+        startsAt: number;
+        endsAt: number;
+        previousNow: number;
+        startPlayed: boolean;
+        endPlayed: boolean;
+      }
+    | undefined;
   let operatorAuthorization = '';
   let serverClockAnchor = Date.parse(root?.dataset.evaluatedAt || '');
   let browserClockAnchor = Date.now();
@@ -159,6 +171,7 @@
     updateCountdowns(now.getTime());
     updateHeaderBellCountdown(now.getTime());
     updateWaterBreakCountdown(now.getTime());
+    updateClassBoundaryChimes(now.getTime());
   }
 
   function updateHeaderBellCountdown(now: number): void {
@@ -220,7 +233,7 @@
     waterBreak.hidden = !show;
     if (!show) {
       if (activeWaterBreakKey === windowKey && now >= endsAt)
-        playWaterBreakTone('end');
+        playBoundaryTone('end');
       activeWaterBreakKey = '';
       value.textContent = '';
       waterBreak.setAttribute('aria-label', 'Water break countdown');
@@ -228,7 +241,7 @@
     }
     if (activeWaterBreakKey !== windowKey) {
       activeWaterBreakKey = windowKey;
-      if (crossedStart) playWaterBreakTone('start');
+      if (crossedStart) playBoundaryTone('start');
     }
     const seconds = Math.max(0, Math.ceil((endsAt - now) / 1000));
     const nextValue = `${Math.floor(seconds / 60)}:${String(
@@ -241,7 +254,50 @@
     );
   }
 
-  function playWaterBreakTone(kind: 'start' | 'end'): void {
+  function updateClassBoundaryChimes(now: number): void {
+    if (observedClassBoundary) {
+      const boundary = observedClassBoundary;
+      if (
+        !boundary.endPlayed &&
+        boundary.previousNow < boundary.endsAt &&
+        now >= boundary.endsAt
+      ) {
+        playBoundaryTone('end');
+        boundary.endPlayed = true;
+      } else if (
+        !boundary.startPlayed &&
+        boundary.previousNow < boundary.startsAt &&
+        now >= boundary.startsAt &&
+        now < boundary.endsAt
+      ) {
+        playBoundaryTone('start');
+        boundary.startPlayed = true;
+      }
+      boundary.previousNow = now;
+    }
+
+    const marker = document.querySelector<HTMLElement>('[data-class-chime]');
+    const startsAt = Date.parse(marker?.dataset.classStart || '');
+    const endsAt = Date.parse(marker?.dataset.classEnd || '');
+    if (
+      !Number.isFinite(startsAt) ||
+      !Number.isFinite(endsAt) ||
+      endsAt <= startsAt
+    )
+      return;
+    const key = `${startsAt}:${endsAt}`;
+    if (observedClassBoundary?.key === key) return;
+    observedClassBoundary = {
+      key,
+      startsAt,
+      endsAt,
+      previousNow: now,
+      startPlayed: now >= startsAt,
+      endPlayed: now >= endsAt,
+    };
+  }
+
+  function playBoundaryTone(kind: 'start' | 'end'): void {
     const audio = document.querySelector<HTMLAudioElement>(
       kind === 'start'
         ? '[data-water-break-start-tone]'
@@ -599,6 +655,24 @@
       ) {
         waterBreak.dataset.waterBreakStart = payload.waterBreakStartsAt;
         waterBreak.dataset.waterBreakEnd = payload.waterBreakEndsAt;
+      }
+    }
+    const classChime =
+      document.querySelector<HTMLElement>('[data-class-chime]');
+    if (classChime) {
+      delete classChime.dataset.classStart;
+      delete classChime.dataset.classEnd;
+      if (
+        typeof payload.classStartsAt === 'string' &&
+        typeof payload.classEndsAt === 'string' &&
+        payload.classStartsAt.length <= 64 &&
+        payload.classEndsAt.length <= 64 &&
+        Number.isFinite(Date.parse(payload.classStartsAt)) &&
+        Number.isFinite(Date.parse(payload.classEndsAt)) &&
+        Date.parse(payload.classEndsAt) > Date.parse(payload.classStartsAt)
+      ) {
+        classChime.dataset.classStart = payload.classStartsAt;
+        classChime.dataset.classEnd = payload.classEndsAt;
       }
     }
     const dateLabel = document.querySelector('[data-display-date]');
