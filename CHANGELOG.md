@@ -62,6 +62,10 @@ omitted.
 
 ### Changed
 
+- Made water-break chimes resilient to bounded kiosk timer jitter and unloaded
+  audio metadata while retaining silence on initial load and mirroring-sized
+  clock discontinuities.
+
 - Normalize Vietnamese translated vocabulary headwords against the canonical
   source term's casing, including matching mid-sentence uses, while preserving
   sentence-initial capitals, proper names, and uncased Korean and Chinese text.

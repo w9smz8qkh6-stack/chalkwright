@@ -98,7 +98,7 @@
       }
     | undefined;
   let operatorAuthorization = '';
-  const maximumBoundarySampleGapMs = 5_000;
+  const maximumBoundarySampleGapMs = 15_000;
   let serverClockAnchor = Date.parse(root?.dataset.evaluatedAt || '');
   let browserClockAnchor = Date.now();
 
@@ -324,9 +324,36 @@
         : '[data-water-break-end-tone]',
     );
     if (!audio) return;
-    audio.currentTime = 0;
-    const playback = audio.play();
-    if (playback !== undefined) void playback.catch(() => undefined);
+    try {
+      if (audio.readyState > 0) audio.currentTime = 0;
+    } catch {
+      // A first play remains valid when a kiosk has not exposed media metadata.
+    }
+    try {
+      const playback = audio.play();
+      if (playback !== undefined)
+        void playback.catch((error: unknown) => {
+          if (playbackFailureName(error) !== 'AbortError') return;
+          window.setTimeout(() => retryBoundaryTone(audio), 250);
+        });
+    } catch {
+      // Browser autoplay policy remains an operator-controlled kiosk setting.
+    }
+  }
+
+  function retryBoundaryTone(audio: HTMLAudioElement): void {
+    try {
+      const playback = audio.play();
+      if (playback !== undefined) void playback.catch(() => undefined);
+    } catch {
+      // A transient media interruption must not break the display clock.
+    }
+  }
+
+  function playbackFailureName(error: unknown): string {
+    if (typeof error !== 'object' || error === null || !('name' in error))
+      return '';
+    return typeof error.name === 'string' ? error.name : '';
   }
 
   function updateCountdowns(now: number): boolean {

@@ -102,6 +102,7 @@ function clientHarness(options: {
     let playCalls = 0;
     return {
       currentTime: -1,
+      readyState: 4,
       play() {
         playCalls += 1;
         return Promise.resolve();
@@ -433,6 +434,49 @@ test('water-break timer and tones follow actual boundary crossings', async () =>
   assert.equal(harness.waterBreakStartTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.playCalls(), 1);
   assert.equal(harness.waterBreakEndTone.currentTime, 0);
+});
+
+test('water-break start tolerates bounded foreground timer jitter', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'in_class_content',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:39:59Z',
+      waterBreakStartsAt: '2035-04-13T08:40:00Z',
+      waterBreakEndsAt: '2035-04-13T08:45:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  harness.waterBreakStartTone.readyState = 0;
+  harness.advance(8_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakValue.textContent, '4:53');
+  assert.equal(harness.waterBreakStartTone.playCalls(), 1);
+  assert.equal(harness.waterBreakStartTone.currentTime, -1);
+});
+
+test('water-break start stays silent after a mirroring-sized clock discontinuity', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'in_class_content',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:39:59Z',
+      waterBreakStartsAt: '2035-04-13T08:40:00Z',
+      waterBreakEndsAt: '2035-04-13T08:45:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+  harness.advance(30_000);
+  harness.tickClock();
+  assert.equal(harness.waterBreak.hidden, false);
+  assert.equal(harness.waterBreakStartTone.playCalls(), 0);
 });
 
 test('loading or reverse-mirroring during an active water break stays silent', async () => {
