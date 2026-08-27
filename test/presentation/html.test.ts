@@ -478,6 +478,8 @@ test('dismissal scene defaults to the tidy-area instruction and promotes its cou
     model('dismissal_warning');
   const html = renderDisplayPage(withoutDismissalMessage);
   assert.match(html, /Please push in your chair and make your area tidy\./u);
+  assert.match(html, /<p class="eyebrow">Dismissing soon<\/p>/u);
+  assert.doesNotMatch(html, /Dismissal (?:begins|starts) soon/u);
   assert.match(html, /class="dismissal-countdown-label">Class ends in/u);
   assert.match(html, /class="scene-countdown countdown"/u);
   assert.match(html, /data-countdown-subseconds-threshold="60"/u);
