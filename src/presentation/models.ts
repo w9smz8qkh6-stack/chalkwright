@@ -85,6 +85,12 @@ export interface DisplayPresentationModel {
   readonly dismissalMessage?: string;
   /** False renders the local poster without requesting an optional MP4. */
   readonly dismissalMediaAvailable?: boolean;
+  readonly branding?: {
+    readonly schoolName: string;
+    readonly logoPath: string;
+  };
+  /** A site-configured local video that takes priority in countdown scenes. */
+  readonly countdownVideoPath?: string;
   readonly nextClassDayLabel?: 'Tomorrow' | 'Next Week' | 'Next Class Day';
   readonly nextClassDayDate?: IsoDate;
   readonly nextClassDayMeetings?: readonly PresentationMeeting[];

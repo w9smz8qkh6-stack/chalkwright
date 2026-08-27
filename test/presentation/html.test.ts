@@ -388,6 +388,38 @@ test('course banners render only from safe local routes and preserve the media f
   assert.match(unsafe, /data-media-scene/u);
 });
 
+test('site branding replaces the Chalkwright header mark with legacy-sized school art', () => {
+  const html = renderDisplayPage({
+    ...model('idle'),
+    branding: {
+      schoolName: 'Example Academy',
+      logoPath: '/assets/site-school-logo',
+    },
+  });
+  assert.match(html, /class="brand brand-school"/u);
+  assert.match(html, /src="\/assets\/site-school-logo"/u);
+  assert.match(html, /alt="Example Academy"/u);
+  assert.doesNotMatch(html, /<span>Chalkwright<\/span>/u);
+});
+
+test('site countdown video takes priority over course art only for dismissal', () => {
+  const customized = {
+    ...model('dismissal_warning'),
+    currentMeeting: {
+      ...meeting,
+      bannerPath: '/assets/site-course-cover-0',
+    },
+    countdownVideoPath: '/media/site-countdown-video',
+  } satisfies DisplayPresentationModel;
+  const dismissal = renderDisplayPage(customized);
+  assert.match(dismissal, /src="\/media\/site-countdown-video"/u);
+  assert.doesNotMatch(dismissal, /src="\/assets\/site-course-cover-0"/u);
+
+  const checkIn = renderDisplayPage({ ...customized, state: 'pre_checkin' });
+  assert.match(checkIn, /src="\/assets\/site-course-cover-0"/u);
+  assert.doesNotMatch(checkIn, /src="\/media\/site-countdown-video"/u);
+});
+
 test('every course banner receives its localized Coming Up motif class', () => {
   const mappings = [
     ['/assets/banner-advisory-v1.png', 'course-art-advisory'],

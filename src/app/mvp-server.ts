@@ -31,6 +31,7 @@ import {
   presentationAssetRegistry,
   type DismissalMediaReference,
 } from '../presentation/index.js';
+import type { SitePresentationCustomization } from './site-media.js';
 
 const fixtureInstant = '2035-04-13T07:00:00Z';
 
@@ -118,6 +119,7 @@ export async function startFixtureBackedMvp(
     readonly clock?: MvpRuntimeClock;
     readonly legacyRouteCompatibility?: boolean;
     readonly dismissalMedia?: DismissalMediaReference;
+    readonly presentationCustomization?: SitePresentationCustomization;
   } = {},
 ): Promise<RunningMvpApplication> {
   const stateDirectory = mkdtempSync(join(tmpdir(), 'classroom-hub-m05-'));
@@ -153,6 +155,7 @@ export async function startFixtureBackedMvp(
         media.ready,
         options.clock ?? anchoredFixtureClock(),
         legacyRouteCompatibility ? '/classroom-screen' : '',
+        options.presentationCustomization,
       ),
       host: config.host,
       port: config.port,

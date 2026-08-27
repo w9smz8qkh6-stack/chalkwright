@@ -51,6 +51,7 @@
     "publication:check": "node scripts/check-publication.mjs",
     "publication:history:check": "node scripts/check-publication-history.mjs",
     "smoke": "node scripts/smoke.mjs",
+    "setup:site-media": "node scripts/setup-site-media.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "test": "npm run client:build --silent && tsc -p tsconfig.test.json && node --test --test-concurrency=1 \".test-dist/test/**/*.test.js\" \"test/**/*.test.mjs\"",
     "check": "npm run docs:check && npm run fixtures:check && npm run ops:verify && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js",

@@ -225,6 +225,17 @@ an absolute external `path`, exact `byteLength`, and lowercase SHA-256
 signatures, and digest drift. When the field is absent, the display remains
 healthy and reveals the poster fallback instead.
 
+## School branding and course media
+
+An installation can use a versioned JSON site profile to name its school and
+provide HTTPS URLs for a school logo, friendly-name course cover art, and an
+optional class-ending countdown video. `npm run setup:site-media` downloads
+and validates those files into a new owner-only local directory; production
+then serves only checksum-bound local copies. The school logo replaces the
+Chalkwright header mark using the responsive sizing proven in the legacy
+classroom display. See the [configuration guide](docs/configuration.md) for
+the profile and activation steps.
+
 ## Documentation
 
 - [Product vision](docs/product-vision.md)
