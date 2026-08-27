@@ -145,13 +145,30 @@ test('all eight display states render their semantic scenes with the intentional
 });
 
 test('morning overview pairs each section pill with its friendly course label', () => {
-  const html = renderDisplayScene(model('morning_overview'));
+  const html = renderDisplayScene({
+    ...model('morning_overview'),
+    meetings: [
+      {
+        ...meeting,
+        bannerPath: '/assets/banner-robotics-v2.png',
+      },
+      {
+        ...meeting,
+        meetingId: 'meeting-beta',
+        courseLabel: 'Web Design',
+        blockLabel: 'IC009.1',
+        bannerPath: '/assets/banner-web-design-v2.png',
+      },
+    ],
+  });
 
-  assert.match(html, /<span class="block-badge">A<\/span>/u);
   assert.match(
     html,
-    /<span class="meeting-course">Synthetic Computing<\/span>/u,
+    /<span class="meeting-course">Synthetic Computing<\/span>\s*<span class="block-badge">A<\/span>/u,
   );
+  assert.match(html, /class="overview-montage" aria-hidden="true"/u);
+  assert.match(html, /banner-robotics-v2\.png/u);
+  assert.match(html, /banner-web-design-v2\.png/u);
 });
 
 test('class content includes accessible carousel controls, hold state, and reveal timing hooks', () => {

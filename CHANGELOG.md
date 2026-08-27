@@ -36,6 +36,10 @@ omitted.
 
 ### Changed
 
+- Redesigned Good Morning with friendly course names before independently
+  aligned section pills, a half-size scene heading, larger schedule rows, and a
+  subdued background montage assembled from that day's course artwork.
+
 - Restored friendly course names as the primary labels in Good Morning schedule
   rows while retaining section identifiers in their existing pills.
 
