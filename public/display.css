@@ -308,6 +308,22 @@ a {
   display: none;
 }
 
+.water-break-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(0.4rem, 0.7vw, 0.65rem);
+}
+
+.water-break-bottle-icon {
+  width: clamp(1.5rem, 2vw, 2.5rem);
+  height: clamp(1.5rem, 2vw, 2.5rem);
+  flex: 0 0 auto;
+  color: #7dd3fc;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 0.625rem rgba(125, 211, 252, 0.24));
+}
+
 .header-water-break strong {
   color: #fff;
   font-size: clamp(3.5rem, 5vw, 6rem);

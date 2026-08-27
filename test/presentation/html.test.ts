@@ -283,6 +283,11 @@ test('class content renders the legacy minutes-until-bell header contract', () =
     inClass,
     /class="header-water-break" data-header-water-break data-water-break-start="2035-04-13T08:40:00\.000Z" data-water-break-end="2035-04-13T08:45:00\.000Z" hidden aria-label="Water break countdown"/u,
   );
+  assert.match(
+    inClass,
+    /class="water-break-bottle-icon"[\s\S]*aria-hidden="true"/u,
+  );
+  assert.match(inClass, /class="water-break-label"/u);
   assert.match(inClass, /data-water-break-value/u);
   assert.match(
     inClass,
