@@ -73,6 +73,6 @@
     "@googleapis/classroom": "14.0.0",
     "@googleapis/drive": "21.0.0",
     "playwright-core": "1.62.0",
-    "tldts": "7.4.9"
+    "tldts": "7.4.10"
   }
 }
