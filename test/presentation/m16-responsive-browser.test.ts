@@ -334,6 +334,67 @@ test('renders every accepted display state across the bounded kiosk viewport env
   }
 });
 
+test('school branding follows the legacy responsive logo widths', async () => {
+  const application = await startFixtureBackedMvp(
+    {
+      nodeEnv: 'test',
+      logLevel: 'warn',
+      host: '127.0.0.1',
+      port: 0,
+    },
+    process.cwd(),
+    {
+      legacyRouteCompatibility: true,
+      presentationCustomization: {
+        school: {
+          name: 'Example Academy',
+          logoPath: '/assets/banner-advisory-v1.png',
+        },
+        courseBanners: {},
+      },
+    },
+  );
+  const browser = await chromium.launch({
+    executablePath: '/usr/bin/google-chrome',
+    headless: true,
+  });
+  try {
+    assertSupportedChromeVersion(browser.version());
+    for (const viewport of [
+      { width: 1_920, height: 1_080, expected: 204 },
+      { width: 1_366, height: 768, expected: 168 },
+      { width: 480, height: 800, expected: 132 },
+    ]) {
+      const context = await browser.newContext({
+        viewport: { width: viewport.width, height: viewport.height },
+      });
+      const page = await context.newPage();
+      await page.goto(
+        `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(b407StateInstants.pre_checkin)}`,
+        { waitUntil: 'domcontentloaded' },
+      );
+      const branding = await page.locator('.brand-school').evaluate((brand) => {
+        const image = brand.querySelector<HTMLImageElement>('img');
+        if (image === null) throw new Error('school-logo-missing');
+        return {
+          width: image.getBoundingClientRect().width,
+          alt: image.alt,
+          wordmark: brand.textContent?.trim() ?? '',
+          objectFit: getComputedStyle(image).objectFit,
+        };
+      });
+      assert.equal(branding.width, viewport.expected);
+      assert.equal(branding.alt, 'Example Academy');
+      assert.equal(branding.wordmark, '');
+      assert.equal(branding.objectFit, 'contain');
+      await context.close();
+    }
+  } finally {
+    await browser.close();
+    await application.close();
+  }
+});
+
 test('during-class header timers remain readable without horizontal overflow', async () => {
   const application = await startFixtureBackedMvp(
     {

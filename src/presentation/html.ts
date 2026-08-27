@@ -145,7 +145,14 @@ function waterBreakWindow(
 }
 
 function header(model: DisplayPresentationModel): string {
-  const icon = localPath(model.basePath, '/assets/chalkwright.svg');
+  const icon = localPath(
+    model.basePath,
+    safeLocalRoute(model.branding?.logoPath) ?? '/assets/chalkwright.svg',
+  );
+  const brand =
+    model.branding === undefined
+      ? `<div class="brand"><img src="${escapeHtml(icon)}" alt="" width="44" height="44"><span>Chalkwright</span></div>`
+      : `<div class="brand brand-school"><img src="${escapeHtml(icon)}" alt="${escapeHtml(model.branding.schoolName)}"></div>`;
   const waterBreak = waterBreakWindow(model);
   const bellTarget =
     model.state === 'in_class_content'
@@ -153,7 +160,7 @@ function header(model: DisplayPresentationModel): string {
       : undefined;
   const chimeMeeting = model.currentMeeting ?? model.nextMeeting;
   return `<header class="display-header">
-  <div class="brand"><img src="${escapeHtml(icon)}" alt="" width="44" height="44"><span>Chalkwright</span></div>
+  ${brand}
   <div class="meeting-label" data-course-label>${escapeHtml(meetingLabel(model.currentMeeting) || meetingLabel(model.nextMeeting))}</div>
   <div class="header-status">
     <div data-class-chime${chimeMeeting === undefined ? '' : ` data-class-start="${escapeHtml(chimeMeeting.officialStartsAt)}" data-class-end="${escapeHtml(chimeMeeting.officialEndsAt)}"`} hidden></div>
@@ -438,11 +445,12 @@ function mediaLayers(
   basePath: '' | '/classroom-screen' | undefined,
   mirrored = false,
   available = true,
+  mediaPath = '/media/dismissal',
 ): string {
   const poster = localPath(basePath, '/assets/dismissal-poster.svg');
   if (!available)
     return `<div class="media-layers poster-only${mirrored ? ' mirrored' : ''}" aria-hidden="true"><img class="dismissal-media active" src="${escapeHtml(poster)}" alt=""></div>`;
-  const media = localPath(basePath, '/media/dismissal');
+  const media = localPath(basePath, mediaPath);
   return `<div class="media-layers${mirrored ? ' mirrored' : ''}" aria-hidden="true">
     <video class="dismissal-media active" data-media-layer muted playsinline preload="auto" poster="${escapeHtml(poster)}"><source src="${escapeHtml(media)}" type="video/mp4"></video>
     <video class="dismissal-media" data-media-layer muted playsinline preload="auto" poster="${escapeHtml(poster)}"><source src="${escapeHtml(media)}" type="video/mp4"></video>
@@ -495,11 +503,24 @@ function comingUpScene(model: DisplayPresentationModel): string {
 }
 
 function dismissalScene(model: DisplayPresentationModel): string {
-  const banner = courseBanner(model, model.currentMeeting);
-  const fallback = banner === undefined;
-  return `<section class="scene scene-dismissal${fallback ? ' media-pending' : ' banner-backed'}" aria-labelledby="dismissal-title"${fallback ? ' data-media-scene' : ''} data-dismissal-scene>
-  ${banner ?? mediaLayers(model.basePath, false, model.dismissalMediaAvailable !== false)}
-  <div class="scene-copy${banner === undefined ? '' : ' course-banner-copy'}"${fallback ? ' data-media-reveal' : ''}>
+  const countdownVideoPath = safeLocalRoute(model.countdownVideoPath);
+  const banner =
+    countdownVideoPath === undefined
+      ? courseBanner(model, model.currentMeeting)
+      : undefined;
+  const mediaBacked = countdownVideoPath !== undefined || banner === undefined;
+  const visual =
+    countdownVideoPath === undefined
+      ? (banner ??
+        mediaLayers(
+          model.basePath,
+          false,
+          model.dismissalMediaAvailable !== false,
+        ))
+      : mediaLayers(model.basePath, false, true, countdownVideoPath);
+  return `<section class="scene scene-dismissal${mediaBacked ? ' media-pending' : ' banner-backed'}" aria-labelledby="dismissal-title"${mediaBacked ? ' data-media-scene' : ''} data-dismissal-scene>
+  ${visual}
+  <div class="scene-copy${banner === undefined ? '' : ' course-banner-copy'}"${mediaBacked ? ' data-media-reveal' : ''}>
     <p class="eyebrow">Dismissal begins soon</p>
     <h1 id="dismissal-title">${escapeHtml(model.dismissalMessage ?? 'Please push in your chair and make your area tidy.')}</h1>
     <p class="dismissal-countdown-label">Class ends in</p>

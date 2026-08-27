@@ -10,6 +10,17 @@ omitted.
 
 ### Added
 
+- Added a versioned JSON site-media profile and bounded setup command for a
+  school logo URL, friendly-name course cover-art URLs, and an optional
+  class-ending countdown-video URL. Downloads become owner-only,
+  digest-pinned local assets before the display can use them; connector
+  credentials remain outside this non-secret presentation profile.
+
+- Added installation-specific header branding using the legacy classroom
+  logo's responsive 204/168/132-pixel treatment, custom per-course art
+  overrides, and an explicitly configured countdown video that takes priority
+  during the class-ending scene.
+
 - Added a small upper-right water-break countdown for each class: it appears
   40 minutes after official class start and counts down the optional five-minute
   break.

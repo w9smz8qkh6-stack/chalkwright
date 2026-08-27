@@ -57,6 +57,64 @@ is missing, linked, malformed, or does not match its size and digest. Omitting
 the entire field is supported and leaves the application healthy with the
 repository-owned poster fallback.
 
+## School branding and site media
+
+Use JSON, not Markdown, for installation settings. Markdown is useful for
+instructions but is ambiguous as an application contract; versioned JSON can
+be validated before Chalkwright downloads or changes anything.
+
+A site-media profile may define any combination of a school logo, friendly
+course-name-to-cover-art mappings, and one video for the class-ending
+countdown:
+
+```json
+{
+  "version": 1,
+  "school": {
+    "name": "Example Academy",
+    "logoUrl": "https://media.example.invalid/school-logo.webp"
+  },
+  "courseCoverArtUrls": {
+    "Advisory": "https://media.example.invalid/advisory.png",
+    "Robotics": "https://media.example.invalid/robotics.jpg"
+  },
+  "countdownVideoUrl": "https://media.example.invalid/dismissal.mp4"
+}
+```
+
+The URLs must use HTTPS. Logos and course art may be PNG, JPEG, or WebP; the
+countdown video must be MP4. Run the setup command with absolute paths and a
+new output directory:
+
+```sh
+npm run setup:site-media -- \
+  --profile /etc/chalkwright/site-profile.json \
+  --output /var/lib/chalkwright/production/site-media
+```
+
+The command follows only bounded HTTPS redirects, limits images to 20 MB and
+video to 100 MB, checks file signatures, and creates owner-only local copies
+plus `manifest.json`. It does not put downloaded media in Git. Add the reported
+manifest path to the protected production-server JSON:
+
+```json
+{
+  "siteMediaManifestReference": "/var/lib/chalkwright/production/site-media/manifest.json"
+}
+```
+
+On startup, Chalkwright rechecks each local file's type, length, location, and
+SHA-256 digest. The browser requests local Chalkwright routes, not the source
+websites. A configured school logo replaces the Chalkwright header mark and
+follows the legacy responsive width treatment: 204 px at full size, 168 px on
+ordinary classroom displays, and 132 px in compact layouts. Course-art keys
+match the friendly course title shown on screen. A configured countdown video
+takes priority over course art only during the class-ending countdown; other
+states continue to use course cover art.
+
+To change URLs, generate a new output directory and then update the manifest
+reference. Existing directories are never overwritten by the setup command.
+
 ## Supported public-preview workflow
 
 The supported public-preview workflow is presently the fixture-backed demo and
@@ -68,10 +126,10 @@ Their existence in source does not make them safe to run against another site.
 See `.env.example` for the complete non-secret placeholder inventory and
 `docs/operations.md` for the current operational boundaries.
 
-## Planned installer-facing format
+## Connector onboarding roadmap
 
-The intended self-hosted setup layer will use one versioned, human-authored,
-non-secret configuration for:
+Site presentation now has the versioned human-authored profile described
+above. The remaining guided self-hosted setup layer will cover:
 
 - site timezone and academic calendar;
 - rooms, screens, display labels, and browser URL;
@@ -84,8 +142,11 @@ non-secret configuration for:
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files
 and inert service templates. It must support validation and preview without
-provider access or service changes. This guided layer is future roadmap work;
-the repository does not claim it exists today.
+provider access or service changes. Connector enrollment remains future
+roadmap work; the repository does not yet claim a general guided production
+installer. Google OAuth grants, PowerSchool browser state, Calendar writer
+authority, and operator tokens must remain in separate owner-only files rather
+than being embedded in the site profile.
 
 ## Safety rules
 

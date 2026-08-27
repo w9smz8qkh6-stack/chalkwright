@@ -132,6 +132,21 @@ a {
   flex: 0 0 auto;
 }
 
+.brand-school img {
+  display: block;
+  width: clamp(132px, 15vw, 204px);
+  height: auto;
+  max-height: 4rem;
+  object-fit: contain;
+  object-position: left center;
+}
+
+@media (max-width: 1500px), (max-height: 850px) {
+  .brand-school img {
+    width: 168px;
+  }
+}
+
 .meeting-label {
   min-width: 0;
   overflow-wrap: anywhere;
@@ -1874,6 +1889,10 @@ a {
 }
 
 @media (max-width: 32rem) {
+  .brand-school img {
+    width: 132px;
+  }
+
   .display-header {
     grid-template-columns: 1fr;
   }

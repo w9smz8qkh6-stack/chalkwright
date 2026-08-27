@@ -34,6 +34,8 @@ export interface ProductionServerConfig {
   readonly checkInOpenMinutesBefore: number;
   readonly dismissalWarningMinutesBefore: number;
   readonly dismissalMedia?: DismissalMediaReference;
+  /** Generated, digest-pinned media manifest created from a human site profile. */
+  readonly siteMediaManifestReference?: string;
 }
 
 interface ProductionServerPayload {
@@ -54,6 +56,7 @@ interface ProductionServerPayload {
   readonly checkInOpenMinutesBefore: number;
   readonly dismissalWarningMinutesBefore: number;
   readonly dismissalMedia?: unknown;
+  readonly siteMediaManifestReference?: unknown;
 }
 
 /** Load the inert M-16 production-server contract from one owner-only JSON reference. */
@@ -175,7 +178,25 @@ function loadProductionServerPayload(
             repositoryRoot,
           ),
         }),
+    ...(payload.siteMediaManifestReference === undefined
+      ? {}
+      : {
+          siteMediaManifestReference: parseSiteMediaManifestReference(
+            payload.siteMediaManifestReference,
+            managedRoot,
+          ),
+        }),
   };
+}
+
+function parseSiteMediaManifestReference(
+  value: unknown,
+  managedRoot: string,
+): string {
+  if (typeof value !== 'string') throw new Error('production-config-invalid');
+  const path = protectedPath('siteMediaManifestReference', value, managedRoot);
+  if (path === managedRoot) throw new Error('production-config-invalid');
+  return path;
 }
 
 function parseDismissalMediaReference(
@@ -239,11 +260,15 @@ function isProductionPayload(value: unknown): value is ProductionServerPayload {
     'timeZone',
     'version',
   ].sort();
-  const keysWithoutOptional = keys.filter((key) => key !== 'dismissalMedia');
+  const keysWithoutOptional = keys.filter(
+    (key) => key !== 'dismissalMedia' && key !== 'siteMediaManifestReference',
+  );
   return (
     keysWithoutOptional.length === required.length &&
     keysWithoutOptional.every((key, index) => key === required[index]) &&
     (record.dismissalMedia === undefined || keys.includes('dismissalMedia')) &&
+    (record.siteMediaManifestReference === undefined ||
+      keys.includes('siteMediaManifestReference')) &&
     record.version === 1 &&
     typeof record.instanceId === 'string' &&
     typeof record.roomId === 'string' &&

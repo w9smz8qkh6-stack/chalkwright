@@ -10,6 +10,7 @@ import {
   type MvpRuntimeClock,
 } from './mvp-controller.js';
 import { loadAssets, loadDismissalMedia } from './mvp-server.js';
+import { loadSiteMedia } from './site-media.js';
 import { createPersistentDisplayController } from './shadow-server.js';
 
 export interface RunningProductionApplication extends RunningClassroomHttpServer {
@@ -32,6 +33,7 @@ export async function startProductionApplication(
   });
   const display = createPersistentDisplayController(config, database);
   const media = loadDismissalMedia(config.dismissalMedia);
+  const siteMedia = loadSiteMedia(config.siteMediaManifestReference);
   try {
     const running = await startClassroomHttpServer({
       controller: new B407MvpHttpController(
@@ -39,12 +41,13 @@ export async function startProductionApplication(
         media.ready,
         { now: () => options.clock?.now() ?? new Date().toISOString() },
         '/classroom-screen',
+        siteMedia.presentation,
       ),
       host: config.host,
       port: config.port,
       mutationToken: operatorToken,
-      assets: loadAssets(projectRoot),
-      media: media.resources,
+      assets: { ...loadAssets(projectRoot), ...siteMedia.assets },
+      media: { ...media.resources, ...siteMedia.media },
       routePrefix: '/classroom-screen',
       legacyRouteCompatibility: true,
       screenIdAliases: { b407: config.screenId },

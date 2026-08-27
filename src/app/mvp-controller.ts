@@ -37,6 +37,7 @@ import {
   type PresentationCard,
   type PresentationMeeting,
 } from '../presentation/index.js';
+import type { SitePresentationCustomization } from './site-media.js';
 
 const defaultInstant = '2035-04-13T08:00:00Z';
 
@@ -128,12 +129,17 @@ function presentationSectionLabel(meeting: DayPlanMeeting): string {
 
 export function presentationCourseBanner(
   meeting: DayPlanMeeting,
+  overrides: Readonly<Record<string, string>> = {},
 ): string | undefined {
-  return courseBanners[presentationCourseLabel(meeting)];
+  const label = presentationCourseLabel(meeting);
+  return overrides[label] ?? courseBanners[label];
 }
 
-function presentationMeeting(meeting: DayPlanMeeting): PresentationMeeting {
-  const bannerPath = presentationCourseBanner(meeting);
+function presentationMeeting(
+  meeting: DayPlanMeeting,
+  courseBannerOverrides: Readonly<Record<string, string>> = {},
+): PresentationMeeting {
+  const bannerPath = presentationCourseBanner(meeting, courseBannerOverrides);
   return {
     meetingId: meeting.meetingId,
     courseLabel: presentationCourseLabel(meeting),
@@ -211,6 +217,7 @@ function requirePresentation(
   target: DisplayTargetResult,
   basePath: '' | '/classroom-screen' = '',
   dismissalMediaAvailable = true,
+  customization: SitePresentationCustomization = { courseBanners: {} },
 ): DisplayPresentationModel {
   if (target.plan === undefined || target.state === undefined)
     throw new DisplayRuntimeInputError('display-unavailable');
@@ -226,12 +233,34 @@ function requirePresentation(
     evaluatedAt: target.evaluatedAt,
     state: target.state.state,
     dismissalMediaAvailable,
-    meetings: target.plan.meetings.map(presentationMeeting),
+    ...(customization.school === undefined
+      ? {}
+      : {
+          branding: {
+            schoolName: customization.school.name,
+            logoPath: customization.school.logoPath,
+          },
+        }),
+    ...(customization.countdownVideoPath === undefined
+      ? {}
+      : { countdownVideoPath: customization.countdownVideoPath }),
+    meetings: target.plan.meetings.map((meeting) =>
+      presentationMeeting(meeting, customization.courseBanners),
+    ),
     cards: target.content.cards.map(presentationCard),
     ...(current === undefined
       ? {}
-      : { currentMeeting: presentationMeeting(current) }),
-    ...(next === undefined ? {} : { nextMeeting: presentationMeeting(next) }),
+      : {
+          currentMeeting: presentationMeeting(
+            current,
+            customization.courseBanners,
+          ),
+        }),
+    ...(next === undefined
+      ? {}
+      : {
+          nextMeeting: presentationMeeting(next, customization.courseBanners),
+        }),
     ...(attendanceUrl === undefined &&
     target.attendanceClassCode === undefined &&
     target.attendance === undefined
@@ -292,8 +321,10 @@ function requirePresentation(
       ? {}
       : {
           nextClassDayDate: target.nextClassDayPlan.date,
-          nextClassDayMeetings:
-            target.nextClassDayPlan.meetings.map(presentationMeeting),
+          nextClassDayMeetings: target.nextClassDayPlan.meetings.map(
+            (meeting) =>
+              presentationMeeting(meeting, customization.courseBanners),
+          ),
         }),
     degraded: target.degraded,
     diagnostics: target.diagnostics,
@@ -335,6 +366,9 @@ export class B407MvpHttpController implements ClassroomHttpController {
     private readonly mediaReady: boolean,
     private readonly clock: MvpRuntimeClock = { now: () => defaultInstant },
     private readonly basePath: '' | '/classroom-screen' = '',
+    private readonly customization: SitePresentationCustomization = {
+      courseBanners: {},
+    },
   ) {}
 
   async handle(
@@ -424,6 +458,7 @@ export class B407MvpHttpController implements ClassroomHttpController {
           target,
           this.basePath,
           this.mediaReady,
+          this.customization,
         );
         if (request.kind === 'display') return html(renderDisplayPage(model));
         const waterBreak =
@@ -463,6 +498,7 @@ export class B407MvpHttpController implements ClassroomHttpController {
           preview,
           this.basePath,
           this.mediaReady,
+          this.customization,
         );
         if (request.query.view === 'display')
           return html(renderDisplayPage({ ...model, pinnedAt: at }));
@@ -505,7 +541,12 @@ export class B407MvpHttpController implements ClassroomHttpController {
         return html(
           renderOperatorOverridePage(
             this.operatorModel(
-              requirePresentation(target, this.basePath, this.mediaReady),
+              requirePresentation(
+                target,
+                this.basePath,
+                this.mediaReady,
+                this.customization,
+              ),
               target,
               {
                 ...(value === undefined
@@ -538,6 +579,7 @@ export class B407MvpHttpController implements ClassroomHttpController {
           target,
           this.basePath,
           this.mediaReady,
+          this.customization,
         );
         const current =
           target.plan === undefined ||

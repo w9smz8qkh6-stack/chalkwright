@@ -1,10 +1,12 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import {
   existsSync,
   mkdirSync,
   mkdtempSync,
   rmSync,
   symlinkSync,
+  writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -16,6 +18,7 @@ import type { ClassId } from '../../src/domain/identities.js';
 import { b407Plan } from '../../src/infrastructure/fixture/b407.js';
 import { SqliteDatabase } from '../../src/infrastructure/sqlite/database.js';
 import { SqliteApplicationStateRepository } from '../../src/infrastructure/sqlite/repository.js';
+import { writeNewProtectedJson } from '../../src/infrastructure/filesystem/protected-json.js';
 
 const token = 'synthetic-production-operator-authority';
 
@@ -29,6 +32,28 @@ test('starts the inert non-fixture production composition on the exact legacy mo
   mkdirSync(stateDirectory, { mode: 0o700 });
   mkdirSync(backupDirectory, { mode: 0o700 });
   mkdirSync(secretsDirectory, { mode: 0o700 });
+  const siteMediaDirectory = join(managedRoot, 'site-media');
+  mkdirSync(siteMediaDirectory, { mode: 0o700 });
+  const logo = Buffer.from(
+    '89504e470d0a1a0a0000000d49484452000000010000000108060000001f15c4890000000d49444154789c63600000020001e221bc330000000049454e44ae426082',
+    'hex',
+  );
+  const logoPath = join(siteMediaDirectory, 'school-logo.png');
+  writeFileSync(logoPath, logo, { mode: 0o600 });
+  const siteMediaManifestReference = join(siteMediaDirectory, 'manifest.json');
+  writeNewProtectedJson(siteMediaManifestReference, {
+    version: 1,
+    school: {
+      name: 'Synthetic Academy',
+      logo: {
+        sourceUrl: 'https://school.example.invalid/logo.png',
+        path: logoPath,
+        byteLength: logo.byteLength,
+        sha256: createHash('sha256').update(logo).digest('hex'),
+        contentType: 'image/png',
+      },
+    },
+  });
   const databasePath = join(stateDirectory, 'classroom-hub.sqlite');
   const config: ProductionServerConfig = {
     version: 1,
@@ -60,6 +85,7 @@ test('starts the inert non-fixture production composition on the exact legacy mo
     ],
     checkInOpenMinutesBefore: 5,
     dismissalWarningMinutesBefore: 5,
+    siteMediaManifestReference,
   };
   const database = new SqliteDatabase(databasePath, {
     migration: { appliedAt: '2035-04-13T00:00:00.000Z' },
@@ -85,7 +111,18 @@ test('starts the inert non-fixture production composition on the exact legacy mo
         `${application.origin}/classroom-screen/b407`,
       );
       assert.equal(display.status, 200);
-      assert.match(await display.text(), /state-in_class_content/u);
+      const displayHtml = await display.text();
+      assert.match(displayHtml, /state-in_class_content/u);
+      assert.match(displayHtml, /class="brand brand-school"/u);
+      assert.match(displayHtml, /alt="Synthetic Academy"/u);
+      assert.equal(
+        (
+          await fetch(
+            `${application.origin}/classroom-screen/assets/site-school-logo`,
+          )
+        ).status,
+        200,
+      );
       assert.equal(
         (await fetch(`${application.origin}/classroom-screen/api/target/b407`))
           .status,

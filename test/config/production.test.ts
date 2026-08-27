@@ -90,6 +90,31 @@ test('accepts one optional external digest-bound dismissal media reference', () 
   }
 });
 
+test('accepts a generated site-media manifest inside the managed root', () => {
+  const root = mkdtempSync(join(tmpdir(), 'classroom-hub-production-config-'));
+  try {
+    chmodSync(root, 0o700);
+    const value = payload(root);
+    const reference = join(root, 'server.json');
+    const siteMediaManifestReference = join(
+      value.managedRoot,
+      'site-media',
+      'manifest.json',
+    );
+    writeNewProtectedJson(reference, {
+      ...value,
+      siteMediaManifestReference,
+    });
+    assert.equal(
+      loadProductionServerConfig(reference, join(root, 'synthetic-repository'))
+        .siteMediaManifestReference,
+      siteMediaManifestReference,
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('rejects augmented, shadow, broad, and state-coupled production configuration', () => {
   const root = mkdtempSync(join(tmpdir(), 'classroom-hub-production-config-'));
   try {
