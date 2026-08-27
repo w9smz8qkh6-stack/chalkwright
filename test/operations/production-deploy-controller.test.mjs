@@ -23,6 +23,14 @@ const activation = readFileSync(
   'scripts/operations/activate-production.sh',
   'utf8',
 );
+const releaseBuilder = readFileSync(
+  'scripts/operations/build-production-release.sh',
+  'utf8',
+);
+const releaseInstaller = readFileSync(
+  'scripts/operations/install-production-release.sh',
+  'utf8',
+);
 
 test('production deploy waits for restarted display liveness before rollback', () => {
   const restart = deploy.indexOf('systemctl restart chalkwright.service');
@@ -93,6 +101,7 @@ test('production activation consumes only the fixed protected site-media request
   const request = activation.indexOf('/tmp/chalkwright-site-profile.json');
   const provision = activation.indexOf(
     'scripts/operations/provision-production-site-media.mjs',
+    request,
   );
   const restart = activation.indexOf(
     '/usr/bin/systemctl restart chalkwright.service',
@@ -100,6 +109,23 @@ test('production activation consumes only the fixed protected site-media request
   assert.ok(request > 0 && provision > request && restart > provision);
   assert.match(activation, /site_media=not-requested/u);
   assert.match(activation, /site_media=applied/u);
+});
+
+test('production releases contain and validate the complete site-media import path', () => {
+  for (const required of [
+    'scripts/setup-site-media.mjs',
+    'scripts/operations/provision-production-site-media.mjs',
+  ]) {
+    assert.match(
+      releaseBuilder,
+      new RegExp(required.replaceAll('/', '\\/'), 'u'),
+    );
+    assert.match(
+      releaseInstaller,
+      new RegExp(required.replaceAll('/', '\\/'), 'u'),
+    );
+    assert.match(activation, new RegExp(required.replaceAll('/', '\\/'), 'u'));
+  }
 });
 
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
