@@ -464,6 +464,7 @@ test('check-in scene centers the countdown and keeps the QR and class code in a 
   assert.match(html, /Attendance check-in QR code/u);
   assert.match(html, /<span>Class code<\/span>C509/u);
   assert.match(html, /Class begins in/u);
+  assert.match(html, /data-countdown-subseconds-threshold="60"/u);
   assert.doesNotMatch(html, /class="checkin-stats"/u);
 });
 

@@ -84,6 +84,7 @@
   let carouselState: CarouselState | undefined;
   let lastPresentationHtml: string | undefined;
   let activeWaterBreakKey = '';
+  let rapidCountdownTimer: number | undefined;
   let observedWaterBreakKey = '';
   let previousWaterBreakNow: number | undefined;
   let observedClassBoundary:
@@ -169,10 +170,11 @@
         element.textContent = instant.toISOString().slice(11, 16);
       }
     }
-    updateCountdowns(now.getTime());
+    const rapidCountdownActive = updateCountdowns(now.getTime());
     updateHeaderBellCountdown(now.getTime());
     updateWaterBreakCountdown(now.getTime());
     updateClassBoundaryChimes(now.getTime());
+    synchronizeRapidCountdown(rapidCountdownActive);
   }
 
   function updateHeaderBellCountdown(now: number): void {
@@ -327,7 +329,8 @@
     if (playback !== undefined) void playback.catch(() => undefined);
   }
 
-  function updateCountdowns(now: number): void {
+  function updateCountdowns(now: number): boolean {
+    let rapidCountdownActive = false;
     for (const countdown of document.querySelectorAll<HTMLElement>(
       '[data-countdown-target]',
     )) {
@@ -336,6 +339,21 @@
       if (!value || !Number.isFinite(target)) continue;
       const remaining = Math.max(0, target - now);
       const totalSeconds = Math.ceil(remaining / 1000);
+      const subsecondsThreshold = Number(
+        countdown.dataset.countdownSubsecondsThreshold,
+      );
+      if (
+        Number.isFinite(subsecondsThreshold) &&
+        remaining <= subsecondsThreshold * 1000
+      ) {
+        const totalHundredths = Math.ceil(remaining / 10);
+        const minutes = Math.floor(totalHundredths / 6000);
+        const seconds = Math.floor((totalHundredths % 6000) / 100);
+        const hundredths = totalHundredths % 100;
+        value.textContent = `${minutes}:${String(seconds).padStart(2, '0')}.${String(hundredths).padStart(2, '0')}`;
+        rapidCountdownActive ||= remaining > 0;
+        continue;
+      }
       const secondsThreshold = Number(
         countdown.dataset.countdownSecondsThreshold,
       );
@@ -360,6 +378,24 @@
           ? `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
           : `${minutes}:${String(seconds).padStart(2, '0')}`;
     }
+    return rapidCountdownActive;
+  }
+
+  function synchronizeRapidCountdown(active: boolean): void {
+    if (!active || root?.dataset.pinnedAt) {
+      if (rapidCountdownTimer !== undefined)
+        window.clearTimeout(rapidCountdownTimer);
+      rapidCountdownTimer = undefined;
+      return;
+    }
+    if (rapidCountdownTimer !== undefined) return;
+    rapidCountdownTimer = window.setTimeout(() => {
+      rapidCountdownTimer = undefined;
+      const now = displayNow().getTime();
+      const stillActive = updateCountdowns(now);
+      updateClassBoundaryChimes(now);
+      synchronizeRapidCountdown(stillActive);
+    }, 10);
   }
 
   function stopCarouselTimer(): void {

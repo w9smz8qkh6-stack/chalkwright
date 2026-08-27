@@ -469,10 +469,11 @@ function sceneCountdown(
   target: string | undefined,
   detail: string,
   delaySeconds = false,
+  subsecondsThreshold?: number,
 ): string {
   return target === undefined
     ? ''
-    : `<p class="scene-countdown countdown" data-countdown-target="${escapeHtml(target)}"${delaySeconds ? ' data-countdown-seconds-threshold="600"' : ''}><strong data-countdown-value>--:--</strong><span>${escapeHtml(detail)}</span></p>`;
+    : `<p class="scene-countdown countdown" data-countdown-target="${escapeHtml(target)}"${delaySeconds ? ' data-countdown-seconds-threshold="600"' : ''}${subsecondsThreshold === undefined ? '' : ` data-countdown-subseconds-threshold="${subsecondsThreshold}"`}><strong data-countdown-value>--:--</strong><span>${escapeHtml(detail)}</span></p>`;
 }
 
 const courseArtClasses: Readonly<Record<string, string>> = {
@@ -550,7 +551,7 @@ function checkInScene(model: DisplayPresentationModel): string {
   const banner = courseBanner(model, current);
   return `<section class="checkin-display${banner === undefined ? '' : ' banner-backed'}" aria-labelledby="scene-title">
   ${banner ?? ''}
-  <div class="checkin-main"><p class="eyebrow">Attendance window open</p><h1 id="scene-title">Check In</h1><p class="checkin-display-subtitle">${escapeHtml(classLabel)} - ${meetingWindow(current)}</p><p class="checkin-countdown-label">Class begins in</p>${sceneCountdown(current?.contentStartsAt, 'remaining')}</div>
+  <div class="checkin-main"><p class="eyebrow">Attendance window open</p><h1 id="scene-title">Check In</h1><p class="checkin-display-subtitle">${escapeHtml(classLabel)} - ${meetingWindow(current)}</p><p class="checkin-countdown-label">Class begins in</p>${sceneCountdown(current?.contentStartsAt, 'remaining', false, 60)}</div>
   ${qr}
 </section>`;
 }
