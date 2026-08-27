@@ -62,6 +62,11 @@ omitted.
 
 ### Changed
 
+- Reduced the lower-right ChalkWright system credit to a borderless,
+  transparent, grayscale watermark. During the final minute before Check In
+  reaches class start, its countdown now advances in hundredths as `M:SS.hh`
+  and uses the existing continuity-protected class-start chime at zero.
+
 - Removed the translucent card, border, blur, and shadow treatments behind the
   Coming Up title block and class-start countdown so the typography sits
   directly over the deliberately darkened left side of each course artwork.

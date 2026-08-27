@@ -151,27 +151,31 @@ a {
   right: clamp(0.75rem, 1.25vw, 1.5rem);
   bottom: clamp(0.625rem, 1vw, 1rem);
   max-width: calc(100vw - 1.5rem);
-  padding: 0.35rem 0.55rem;
+  padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: flex-end;
   gap: 0.4rem;
-  border: 1px solid rgba(226, 232, 240, 0.14);
-  border-radius: 0.5rem;
-  color: rgba(226, 232, 240, 0.78);
-  background: rgba(2, 6, 23, 0.62);
-  font-size: clamp(0.55rem, 0.7vw, 0.75rem);
-  font-weight: 650;
+  border: 0;
+  color: #e2e8f0;
+  background: transparent;
+  font-size: clamp(0.48rem, 0.58vw, 0.625rem);
+  font-weight: 500;
   line-height: 1.2;
+  letter-spacing: 0.015em;
+  opacity: 0.38;
+  pointer-events: none;
+  user-select: none;
   text-align: right;
-  box-shadow: 0 0.35rem 1.25rem rgba(2, 6, 23, 0.2);
-  backdrop-filter: blur(0.5rem);
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .system-credit img {
-  width: clamp(0.875rem, 1.1vw, 1.25rem);
+  width: clamp(0.75rem, 0.9vw, 1rem);
   height: auto;
   flex: 0 0 auto;
+  filter: grayscale(1);
 }
 
 @media (max-width: 1500px), (max-height: 850px) {
@@ -897,6 +901,7 @@ a {
   font-size: clamp(7rem, 17vw, 17rem);
   line-height: 0.8;
   letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
   text-shadow: 0 0.75rem 2.25rem rgba(4, 12, 22, 0.28);
 }
 

@@ -395,6 +395,11 @@ test('school branding follows the legacy responsive logo widths', async () => {
           return {
             text: element.textContent?.trim() ?? '',
             iconPath: image?.getAttribute('src') ?? '',
+            opacity: getComputedStyle(element).opacity,
+            backgroundColor: getComputedStyle(element).backgroundColor,
+            borderWidth: getComputedStyle(element).borderTopWidth,
+            boxShadow: getComputedStyle(element).boxShadow,
+            iconFilter: image === null ? '' : getComputedStyle(image).filter,
             left: bounds.left,
             rightGap: window.innerWidth - bounds.right,
             bottomGap: window.innerHeight - bounds.bottom,
@@ -405,9 +410,30 @@ test('school branding follows the legacy responsive logo widths', async () => {
         'ChalkWright Classroom Screen System v.0.1.0: www.chalkwright.org',
       );
       assert.equal(credit.iconPath, '/classroom-screen/assets/chalkwright.svg');
+      assert.equal(credit.opacity, '0.38');
+      assert.equal(credit.backgroundColor, 'rgba(0, 0, 0, 0)');
+      assert.equal(credit.borderWidth, '0px');
+      assert.equal(credit.boxShadow, 'none');
+      assert.equal(credit.iconFilter, 'grayscale(1)');
       assert.ok(credit.left >= 0);
       assert.ok(credit.rightGap >= 0 && credit.rightGap <= 25);
       assert.ok(credit.bottomGap >= 0 && credit.bottomGap <= 17);
+
+      await page.goto(
+        `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(`${b407Date}T07:59:30.120Z`)}`,
+        { waitUntil: 'domcontentloaded' },
+      );
+      const rapidCountdown = await page
+        .locator('.checkin-display .scene-countdown strong')
+        .evaluate((value) => ({
+          text: value.textContent,
+          numericSpacing: getComputedStyle(value).fontVariantNumeric,
+          scrollWidth: document.documentElement.scrollWidth,
+          innerWidth: window.innerWidth,
+        }));
+      assert.equal(rapidCountdown.text, '0:29.88');
+      assert.equal(rapidCountdown.numericSpacing, 'tabular-nums');
+      assert.ok(rapidCountdown.scrollWidth <= rapidCountdown.innerWidth);
       await context.close();
     }
   } finally {

@@ -155,6 +155,9 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /\.system-credit \{[\s\S]*position: fixed/u);
   assert.match(css, /\.system-credit \{[\s\S]*right:/u);
   assert.match(css, /\.system-credit \{[\s\S]*bottom:/u);
+  assert.match(css, /\.system-credit \{[\s\S]*opacity: 0\.38/u);
+  assert.match(css, /\.system-credit \{[\s\S]*background: transparent/u);
+  assert.match(css, /font-variant-numeric: tabular-nums/u);
   assert.match(css, /\.course-banner/u);
   assert.match(css, /@keyframes course-motif-glimmer/u);
   assert.doesNotMatch(css, /course-banner-drift/u);
