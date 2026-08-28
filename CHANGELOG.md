@@ -62,6 +62,9 @@ omitted.
 
 ### Changed
 
+- Centered the Water Break countdown directly beneath its icon-and-text label
+  within the header display window.
+
 - Changed the Dismissal Soon scene eyebrow to the direct wording
   “Dismissing soon.”
 
