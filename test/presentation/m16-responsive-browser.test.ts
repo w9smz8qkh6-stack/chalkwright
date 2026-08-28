@@ -629,6 +629,10 @@ test('during-class header timers remain readable without horizontal overflow', a
           if (icon === null) throw new Error('water-break-icon-missing');
           const rectangle = timer.getBoundingClientRect();
           const iconRectangle = icon.getBoundingClientRect();
+          const label = timer.querySelector<HTMLElement>('.water-break-label');
+          if (label === null) throw new Error('water-break-label-missing');
+          const labelRectangle = label.getBoundingClientRect();
+          const valueRectangle = value.getBoundingClientRect();
           return {
             hidden: element.hidden,
             value: value.textContent,
@@ -641,6 +645,10 @@ test('during-class header timers remain readable without horizontal overflow', a
             right: rectangle.right,
             scrollWidth: document.documentElement.scrollWidth,
             innerWidth: window.innerWidth,
+            labelCenter: labelRectangle.left + labelRectangle.width / 2,
+            valueCenter: valueRectangle.left + valueRectangle.width / 2,
+            windowCenter: rectangle.left + rectangle.width / 2,
+            valueTextAlignment: getComputedStyle(value).textAlign,
           };
         });
       assert.equal(waterBreak.hidden, false, viewport.name);
@@ -653,6 +661,15 @@ test('during-class header timers remain readable without horizontal overflow', a
       assert.ok(waterBreak.left >= 0, viewport.name);
       assert.ok(waterBreak.right <= waterBreak.innerWidth, viewport.name);
       assert.ok(waterBreak.scrollWidth <= waterBreak.innerWidth, viewport.name);
+      assert.ok(
+        Math.abs(waterBreak.labelCenter - waterBreak.windowCenter) <= 1,
+        `${viewport.name}:water-break-label-centering`,
+      );
+      assert.ok(
+        Math.abs(waterBreak.valueCenter - waterBreak.windowCenter) <= 1,
+        `${viewport.name}:water-break-value-centering`,
+      );
+      assert.equal(waterBreak.valueTextAlignment, 'center', viewport.name);
 
       await page.goto(
         `${application.origin}/classroom-screen/preview/b407?view=display&now=${encodeURIComponent(`${b407Date}T08:45:05Z`)}`,
