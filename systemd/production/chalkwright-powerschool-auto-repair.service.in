@@ -1,0 +1,36 @@
+# chalkwright-template-status=permanent-production-inert
+[Unit]
+Description=Chalkwright bounded automatic PowerSchool recovery
+After=network-online.target user@1000.service chalkwright-plan-refresh.service
+Wants=network-online.target user@1000.service
+StartLimitIntervalSec=30min
+StartLimitBurst=1
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/opt/chalkwright/current
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /opt/chalkwright/current/scripts/operations/auto-repair-production-powerschool.mjs
+TimeoutStartSec=30min
+TimeoutStopSec=30s
+UMask=0077
+NoNewPrivileges=false
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictRealtime=true
+RestrictSUIDSGID=true
+MemoryMax=256M
+TasksMax=64
+
+# This root one-shot is invoked only by the failed read-only plan unit. Its
+# release-bound controller may call the separately digest-pinned repair helper,
+# which stages a bounded user-manager browser and reads exactly three fixed
+# 1Password references. It never starts Calendar reconciliation.

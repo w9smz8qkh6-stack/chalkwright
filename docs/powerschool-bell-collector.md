@@ -358,6 +358,18 @@ directory together with the high-authority browser profile. Routine
 retained-profile collection neither depends on nor can
 obtain the user repair unit or its temporary 1Password authority.
 
+On 2026-08-29 the user explicitly authorized unattended production recovery
+using those already provisioned fixed 1Password references. The production
+plan service now activates a separate root recovery coordinator only after a
+failed plan attempt. The coordinator treats the dedicated authentication-
+required status as authority for at most three bounded repair attempts; it may
+also remove a stale lock only after exact metadata, age, process, open-file,
+and identity verification. A successful repair is followed by a
+credential-free plan retry and only the read-only Classroom and
+glossary/objective refreshes. Calendar reconciliation is excluded. The
+coordinator itself is rate-limited to one activation per 30 minutes, while
+unrecognized identity challenges continue to fail closed.
+
 The authentication request boundary keeps ordinary top-level PowerSchool
 navigations GET/HEAD-only. After it observes a top-level request to the fixed
 Google identity origin, it may consume exactly one top-level PowerSchool POST

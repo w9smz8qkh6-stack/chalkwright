@@ -10,6 +10,14 @@ omitted.
 
 ### Added
 
+- Added bounded, unattended production PowerSchool recovery. A failed plan
+  refresh can now remove only a rigorously verified abandoned session lock or,
+  for the dedicated authentication-required result, invoke the existing
+  fixed-reference 1Password repair up to three times before retrying the
+  credential-free plan and downstream Classroom/objective reads. The recovery
+  never starts Calendar reconciliation, reports zero provider writes, and
+  leaves unfamiliar identity challenges failed closed.
+
 - Added deterministic, documentation-backed learning-objective enrichment.
   The existing read-only Drive refresh can import explicitly structured Google
   Docs, text, or Markdown from a per-course folder into a local SQLite catalog.

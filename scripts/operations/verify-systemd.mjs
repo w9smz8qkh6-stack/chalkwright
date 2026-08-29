@@ -244,6 +244,7 @@ function verifyPermanentProductionArtifacts(directory, fail) {
     'chalkwright-integrity.timer.in',
     'chalkwright-plan-refresh.service.in',
     'chalkwright-plan-refresh.timer.in',
+    'chalkwright-powerschool-auto-repair.service.in',
     'chalkwright-powerschool-repair.service.in',
     'chalkwright-production-start.service.in',
     'chalkwright.service.in',
@@ -355,6 +356,35 @@ function verifyPermanentProductionArtifacts(directory, fail) {
   if (!planRefresh.includes('RestrictNamespaces=~cgroup ipc uts time'))
     fail(
       'chalkwright-plan-refresh.service.in is missing the Chromium namespace policy',
+    );
+  for (const required of [
+    'OnFailure=chalkwright-powerschool-auto-repair.service',
+    'OnFailureJobMode=replace',
+  ])
+    if (!planRefresh.includes(required))
+      fail(`chalkwright-plan-refresh.service.in is missing ${required}`);
+  const autoRepair = readFileSync(
+    join(production, 'chalkwright-powerschool-auto-repair.service.in'),
+    'utf8',
+  );
+  for (const required of [
+    'After=network-online.target user@1000.service chalkwright-plan-refresh.service',
+    'StartLimitIntervalSec=30min',
+    'StartLimitBurst=1',
+    'User=root',
+    'ExecStart=/usr/bin/node /opt/chalkwright/current/scripts/operations/auto-repair-production-powerschool.mjs',
+    'TimeoutStartSec=30min',
+    'NoNewPrivileges=false',
+    'MemoryMax=256M',
+    'TasksMax=64',
+  ])
+    if (!autoRepair.includes(required))
+      fail(
+        `chalkwright-powerschool-auto-repair.service.in is missing ${required}`,
+      );
+  if (/calendar-sync|EnvironmentFile=/iu.test(autoRepair))
+    fail(
+      'chalkwright-powerschool-auto-repair.service.in widens provider or secret authority',
     );
   for (const name of [
     'chalkwright-backup.service.in',

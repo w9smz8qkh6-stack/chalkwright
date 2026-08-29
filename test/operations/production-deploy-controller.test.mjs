@@ -19,6 +19,22 @@ const repairUnit = readFileSync(
   'systemd/production/chalkwright-powerschool-repair.service.in',
   'utf8',
 );
+const autoRepair = readFileSync(
+  'scripts/operations/auto-repair-production-powerschool.mjs',
+  'utf8',
+);
+const autoRepairInstaller = readFileSync(
+  'scripts/operations/install-production-powerschool-auto-repair.sh',
+  'utf8',
+);
+const autoRepairUnit = readFileSync(
+  'systemd/production/chalkwright-powerschool-auto-repair.service.in',
+  'utf8',
+);
+const planRefreshUnit = readFileSync(
+  'systemd/production/chalkwright-plan-refresh.service.in',
+  'utf8',
+);
 const activation = readFileSync(
   'scripts/operations/activate-production.sh',
   'utf8',
@@ -97,6 +113,38 @@ test('production activation keeps the display and timers online when provider re
   assert.doesNotMatch(activation, /stop_permanent/u);
 });
 
+test('production plan failures invoke one rate-limited automatic repair unit', () => {
+  assert.match(
+    planRefreshUnit,
+    /^OnFailure=chalkwright-powerschool-auto-repair\.service$/mu,
+  );
+  assert.match(planRefreshUnit, /^OnFailureJobMode=replace$/mu);
+  assert.match(autoRepairUnit, /^StartLimitIntervalSec=30min$/mu);
+  assert.match(autoRepairUnit, /^StartLimitBurst=1$/mu);
+  assert.match(autoRepairUnit, /^TimeoutStartSec=30min$/mu);
+  assert.match(autoRepairUnit, /auto-repair-production-powerschool\.mjs/u);
+  assert.doesNotMatch(autoRepairUnit, /calendar-sync|EnvironmentFile=/iu);
+});
+
+test('automatic PowerSchool recovery is bounded and never starts Calendar', () => {
+  assert.match(autoRepair, /maximumRepairAttempts = 3/u);
+  assert.match(autoRepair, /repairRetryDelayMs = 30 \* 1_000/u);
+  assert.match(autoRepair, /providerWrites: 0/gu);
+  assert.match(autoRepair, /chalkwright-classroom-refresh\.service/u);
+  assert.match(autoRepair, /chalkwright-glossary-refresh\.service/u);
+  assert.doesNotMatch(autoRepair, /chalkwright-calendar-sync/u);
+  assert.match(autoRepair, /ExecMainStatus/u);
+});
+
+test('automatic repair unit installation snapshots, verifies, and restores units', () => {
+  assert.match(autoRepairInstaller, /systemd-analyze verify/u);
+  assert.match(autoRepairInstaller, /plan\.previous/u);
+  assert.match(autoRepairInstaller, /auto\.previous/u);
+  assert.match(autoRepairInstaller, /restore/u);
+  assert.match(autoRepairInstaller, /systemctl daemon-reload/u);
+  assert.doesNotMatch(autoRepairInstaller, /systemctl (?:start|enable)/u);
+});
+
 test('production activation consumes only the fixed protected site-media request before restart', () => {
   const request = activation.indexOf('/tmp/chalkwright-site-profile.json');
   const provision = activation.indexOf(
@@ -126,6 +174,20 @@ test('production releases contain and validate the complete site-media import pa
     );
     assert.match(activation, new RegExp(required.replaceAll('/', '\\/'), 'u'));
   }
+});
+
+test('production releases contain the complete automatic PowerSchool recovery path', () => {
+  for (const required of [
+    'scripts/operations/auto-repair-production-powerschool.mjs',
+    'scripts/operations/install-production-powerschool-auto-repair.sh',
+    'systemd/production/chalkwright-powerschool-auto-repair.service.in',
+  ]) {
+    assert.match(
+      releaseInstaller,
+      new RegExp(required.replaceAll('/', '\\/'), 'u'),
+    );
+  }
+  assert.match(activation, /chalkwright-powerschool-auto-repair\.service\.in/u);
 });
 
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
