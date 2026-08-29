@@ -77,6 +77,12 @@ omitted.
 
 ### Changed
 
+- Extended deterministic learning-objective matching with exact documented
+  Classroom-title aliases and a one-level publisher activity-to-lesson
+  fallback. CodeHS assignments such as `Quiz 3.9.2` can now use the explicit
+  `3.9` lesson objectives, while named or supplemental assignments participate
+  only through a source-authored alias; conflicts continue to fail closed.
+
 - Added a conservative full-title fallback for learning-objective matching so
   publisher sequences that use `L01` labels or restart lesson numbers inside
   named units can participate without synthetic numbering in Classroom.

@@ -60,6 +60,23 @@ the lesson identifier, such as `Lesson 2.4.1 notes`:
 Learning objective: Students will build a semantic navigation menu.
 ```
 
+When a Classroom assignment has no publisher lesson identifier, bind its exact
+teacher-facing title explicitly instead of asking Chalkwright to infer a
+relationship:
+
+```text
+Assignment: Science and Health Video
+Assignment alias: Science & Health Video
+Publisher source: StoryMaker Filming 90-Second Stories
+Learning objectives:
+- Students will put key camera and audio methods into practice.
+- Students will adapt filming choices to a defined audience.
+```
+
+Aliases may also be attached to a coded lesson. A plural alias block accepts
+bullets or numbered lines. Each entry may contain at most twelve distinct
+aliases, and an alias must be unique within the document.
+
 Supported identifiers contain two through four numeric components, such as
 `2.4`, `6.10.2`, or `3.2.1.4`. Objective lines may start with `Learning
 objective:`, `Learning objectives:`, `Objective:`, or `Students will`. A labeled
@@ -68,14 +85,18 @@ plural block may contain bullet or numbered objectives.
 ## Matching and fallback
 
 For each fresh upcoming Classroom item, Chalkwright searches the assignment
-title, description, and material titles for lesson identifiers. It tries the
-most specific identifier first. When a publisher restarts lesson numbering
-inside named units or uses labels such as `L01`, Chalkwright may instead match
-the normalized full lesson title from the objective entry. Title matching
-requires at least 12 characters and uses only the longest unique explicit
-title, so a generic word such as “Introduction” cannot select an objective.
-The objective becomes the featured slide text; the assignment title, compact
-directions, Classroom reminder, and due date remain as supporting details.
+title, description, and material titles for lesson identifiers. It first tries
+the most specific exact identifier. It then tries an exact normalized
+assignment-title alias. When a CodeHS activity identifier such as `3.9.2` has
+no exact entry, Chalkwright may use the immediately enclosing lesson `3.9`; it
+never removes more than one component, and conflicting parent matches fail
+closed. When a publisher restarts lesson numbering inside named units or uses
+labels such as `L01`, Chalkwright may finally match the normalized full lesson
+title from the objective entry. Title matching requires at least 12 characters
+and uses only the longest unique explicit title, so a generic word such as
+“Introduction” cannot select an objective. The objective becomes the featured
+slide text; the assignment title, compact directions, Classroom reminder, and
+due date remain as supporting details.
 
 Unstructured prose is never interpreted, and conflicting identifier or title
 entries never win by guessing. When no exact unique match exists—or Drive

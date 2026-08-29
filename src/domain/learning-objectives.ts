@@ -15,9 +15,11 @@ export interface LearningObjectiveSource {
 export interface LearningObjectiveEntry {
   readonly entryId: OpaqueId;
   readonly sourceId: OpaqueId;
-  readonly lessonCode: string;
+  readonly lessonCode?: string;
   readonly objectives: readonly string[];
   readonly title?: string;
+  /** Exact teacher-facing Classroom titles explicitly bound in the source. */
+  readonly assignmentAliases?: readonly string[];
 }
 
 export interface LearningObjectiveCatalogImport {
@@ -27,9 +29,10 @@ export interface LearningObjectiveCatalogImport {
 }
 
 interface ParsedSection {
-  readonly lessonCode: string;
+  readonly lessonCode?: string;
   readonly title?: string;
   readonly objectives: readonly string[];
+  readonly assignmentAliases: readonly string[];
 }
 
 const lessonHeaderPatterns = [
@@ -40,9 +43,13 @@ const lessonHeaderPatterns = [
 
 const objectiveLabel =
   /^(?:[-*•]\s*)?(?:learning\s+objectives?|objectives?)\s*[:–—-]\s*(.*)$/iu;
+const assignmentHeader = /^(?:#{1,6}\s*)?assignment\s*[:–—-]\s*(.+)$/iu;
+const assignmentAliasLabel =
+  /^(?:[-*•]\s*)?(?:assignment\s+alias(?:es)?|classroom\s+titles?)\s*[:–—-]\s*(.*)$/iu;
 const studentOutcome = /^(?:[-*•]\s*)?students?\s+will\b.+/iu;
 const bullet = /^(?:[-*•]|\d+[.)])\s+(.+)$/u;
 const maximumObjectivesPerLesson = 12;
+const maximumAssignmentAliasesPerEntry = 12;
 
 export function normalizeLessonCode(value: unknown): string | undefined {
   const text = compactText(value).toUpperCase();
@@ -75,6 +82,11 @@ function boundedObjective(value: string): string | undefined {
     : undefined;
 }
 
+function boundedAssignmentAlias(value: string): string | undefined {
+  const alias = compactText(value.replace(/^[-*•]\s*/u, ''));
+  return alias.length >= 3 && alias.length <= 512 ? alias : undefined;
+}
+
 /**
  * Extracts explicitly labeled lesson objectives from a plain-text document.
  * It deliberately does not infer objectives from arbitrary prose.
@@ -97,17 +109,35 @@ export function parseLearningObjectiveDocument(options: {
 
   const sections: ParsedSection[] = [];
   let current:
-    { lessonCode: string; title?: string; objectives: string[] } | undefined;
-  let collectingObjectives = false;
+    | {
+        lessonCode?: string;
+        title?: string;
+        objectives: string[];
+        assignmentAliases: string[];
+      }
+    | undefined;
+  let collecting: 'objectives' | 'assignment-aliases' | undefined;
 
   const flush = () => {
-    if (current === undefined || current.objectives.length === 0) return;
+    if (
+      current === undefined ||
+      current.objectives.length === 0 ||
+      (current.lessonCode === undefined &&
+        current.assignmentAliases.length === 0)
+    )
+      return;
     sections.push({
-      lessonCode: current.lessonCode,
       objectives: [...new Set(current.objectives)].slice(
         0,
         maximumObjectivesPerLesson,
       ),
+      assignmentAliases: [...new Set(current.assignmentAliases)].slice(
+        0,
+        maximumAssignmentAliasesPerEntry,
+      ),
+      ...(current.lessonCode === undefined
+        ? {}
+        : { lessonCode: current.lessonCode }),
       ...(current.title === undefined ? {} : { title: current.title }),
     });
   };
@@ -118,58 +148,92 @@ export function parseLearningObjectiveDocument(options: {
   for (const rawLine of lines) {
     const line = compactText(rawLine);
     if (line.length === 0) {
-      collectingObjectives = false;
+      collecting = undefined;
       continue;
     }
     const header = lessonHeader(line);
     if (header !== undefined) {
       flush();
-      current = { ...header, objectives: [] };
-      collectingObjectives = false;
+      current = { ...header, objectives: [], assignmentAliases: [] };
+      collecting = undefined;
+      continue;
+    }
+    const assignment = assignmentHeader.exec(line);
+    if (assignment !== null) {
+      const alias = boundedAssignmentAlias(assignment[1] ?? '');
+      if (alias === undefined) continue;
+      flush();
+      current = { objectives: [], assignmentAliases: [alias] };
+      collecting = undefined;
+      continue;
+    }
+    const aliasLabel = assignmentAliasLabel.exec(line);
+    if (aliasLabel !== null) {
+      if (current === undefined) continue;
+      const alias = boundedAssignmentAlias(aliasLabel[1] ?? '');
+      if (alias !== undefined) current.assignmentAliases.push(alias);
+      collecting = 'assignment-aliases';
       continue;
     }
     const labeled = objectiveLabel.exec(line);
     if (labeled !== null) {
       current ??= {
-        lessonCode: fileLessonCode ?? '',
         objectives: [],
+        assignmentAliases: [],
+        ...(fileLessonCode === undefined ? {} : { lessonCode: fileLessonCode }),
       };
       const objective = boundedObjective(labeled[1] ?? '');
       if (objective !== undefined) current.objectives.push(objective);
-      collectingObjectives = true;
+      collecting = 'objectives';
       continue;
     }
     if (studentOutcome.test(line)) {
       current ??= {
-        lessonCode: fileLessonCode ?? '',
         objectives: [],
+        assignmentAliases: [],
+        ...(fileLessonCode === undefined ? {} : { lessonCode: fileLessonCode }),
       };
       const objective = boundedObjective(line);
       if (objective !== undefined) current.objectives.push(objective);
-      collectingObjectives = true;
+      collecting = 'objectives';
       continue;
     }
-    if (collectingObjectives && current !== undefined) {
+    if (collecting !== undefined && current !== undefined) {
       const continuation = bullet.exec(line)?.[1];
       if (continuation !== undefined) {
-        const objective = boundedObjective(continuation);
-        if (objective !== undefined) current.objectives.push(objective);
+        if (collecting === 'objectives') {
+          const objective = boundedObjective(continuation);
+          if (objective !== undefined) current.objectives.push(objective);
+        } else {
+          const alias = boundedAssignmentAlias(continuation);
+          if (alias !== undefined) current.assignmentAliases.push(alias);
+        }
         continue;
       }
-      collectingObjectives = false;
+      collecting = undefined;
     }
   }
   flush();
 
   const validSections = sections.filter(
-    (section) => normalizeLessonCode(section.lessonCode) !== undefined,
+    (section) =>
+      (section.lessonCode !== undefined &&
+        normalizeLessonCode(section.lessonCode) !== undefined) ||
+      section.assignmentAliases.length > 0,
   );
   if (validSections.length === 0)
     throw new Error('learning-objective-document-no-entries');
   const duplicateCodes = validSections
-    .map((section) => section.lessonCode)
+    .flatMap((section) =>
+      section.lessonCode === undefined ? [] : [section.lessonCode],
+    )
     .filter((code, index, all) => all.indexOf(code) !== index);
   if (duplicateCodes.length > 0)
+    throw new Error('learning-objective-document-ambiguous');
+  const normalizedAliases = validSections.flatMap((section) =>
+    section.assignmentAliases.map(normalizedLessonTitle),
+  );
+  if (new Set(normalizedAliases).size !== normalizedAliases.length)
     throw new Error('learning-objective-document-ambiguous');
 
   return {
@@ -190,12 +254,18 @@ export function parseLearningObjectiveDocument(options: {
       entryId: stableId(
         'learning-objective',
         options.sourceId,
-        section.lessonCode,
+        section.lessonCode ??
+          `assignment:${section.assignmentAliases.map(normalizedLessonTitle).join('\u0000')}`,
       ),
       sourceId: options.sourceId,
-      lessonCode: section.lessonCode,
       objectives: section.objectives,
+      ...(section.lessonCode === undefined
+        ? {}
+        : { lessonCode: section.lessonCode }),
       ...(section.title === undefined ? {} : { title: section.title }),
+      ...(section.assignmentAliases.length === 0
+        ? {}
+        : { assignmentAliases: section.assignmentAliases }),
     })),
   };
 }
@@ -254,6 +324,31 @@ export function learningObjectivesForCoursework(
     if (matches.length === 0) continue;
     return objectivesFromUniqueMatches(matches);
   }
+
+  const assignmentTitle = normalizedLessonTitle(item.title);
+  const aliasMatches = entries.filter((entry) =>
+    entry.assignmentAliases?.some(
+      (alias) => normalizedLessonTitle(alias) === assignmentTitle,
+    ),
+  );
+  if (aliasMatches.length > 0) return objectivesFromUniqueMatches(aliasMatches);
+
+  const parentCodes = [
+    ...new Set(
+      codes.flatMap((code) => {
+        const components = code.split('.');
+        return components.length >= 3
+          ? [components.slice(0, -1).join('.')]
+          : [];
+      }),
+    ),
+  ];
+  const parentMatches = entries.filter(
+    (entry) =>
+      entry.lessonCode !== undefined && parentCodes.includes(entry.lessonCode),
+  );
+  if (parentMatches.length > 0)
+    return objectivesFromUniqueMatches(parentMatches);
 
   const courseworkText = normalizedLessonTitle(
     [
