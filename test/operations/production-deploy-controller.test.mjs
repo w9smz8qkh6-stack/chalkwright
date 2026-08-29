@@ -137,12 +137,38 @@ test('automatic PowerSchool recovery is bounded and never starts Calendar', () =
 });
 
 test('automatic repair unit installation snapshots, verifies, and restores units', () => {
+  assert.match(autoRepairInstaller, /cmp --silent/u);
+  assert.match(autoRepairInstaller, /unitsInstalled":0/u);
   assert.match(autoRepairInstaller, /systemd-analyze verify/u);
   assert.match(autoRepairInstaller, /plan\.previous/u);
   assert.match(autoRepairInstaller, /auto\.previous/u);
   assert.match(autoRepairInstaller, /restore/u);
   assert.match(autoRepairInstaller, /systemctl daemon-reload/u);
   assert.doesNotMatch(autoRepairInstaller, /systemctl (?:start|enable)/u);
+});
+
+test('production deploy converges the automatic repair hook without provider jobs', () => {
+  assert.match(deploy, /converge_powerschool_auto_repair/u);
+  assert.match(deploy, /\.powerschool-auto-repair-convergence/u);
+  assert.match(
+    deploy,
+    /systemctl restart chalkwright-production-start\.service/u,
+  );
+  assert.match(activation, /production-powerschool-auto-repair-converged/u);
+  const convergence = activation.indexOf('convergence_request=');
+  const convergenceExit = activation.indexOf('exit 0', convergence);
+  const providerJobs = activation.indexOf(
+    'start_optional chalkwright-integrity',
+  );
+  assert.ok(
+    convergence > 0 &&
+      convergenceExit > convergence &&
+      providerJobs > convergenceExit,
+  );
+  assert.match(activation, /install-production-powerschool-auto-repair\.sh/u);
+  assert.match(activation, /providerRequests":0/u);
+  assert.match(activation, /providerWrites":0/u);
+  assert.match(activation, /servicesStarted":0/u);
 });
 
 test('production activation consumes only the fixed protected site-media request before restart', () => {

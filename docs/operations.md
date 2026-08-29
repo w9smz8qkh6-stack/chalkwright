@@ -415,10 +415,12 @@ three authentication attempts and one automatic activation per 30 minutes,
 then retries the plan and starts only the read-only Classroom and
 glossary/objective jobs. It never starts Calendar reconciliation. Unknown
 identity challenges, CAPTCHA, passkeys, recovery, browser rejection, and
-policy violations continue to fail closed. Install this steady-state hook once
-from the selected production release with
-`install-production-powerschool-auto-repair.sh`; the installer verifies and
-atomically replaces the system units but starts no unit.
+policy violations continue to fail closed. The protected deploy controller
+automatically asks the existing boot coordinator to converge this steady-state
+hook after selecting a release. The request is root-owned and bound to the
+selected commit; this path installs no provider job. The standalone
+`install-production-powerschool-auto-repair.sh` remains a manual fallback. Its
+installer verifies and atomically replaces the system units but starts no unit.
 
 ADR-0024 replaces the legacy OpenClaw state bridge as Chalkwright's intended
 steady-state authentication repair. The native repair is deliberately absent

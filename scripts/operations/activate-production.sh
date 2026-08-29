@@ -10,7 +10,20 @@ config=/etc/chalkwright/production/server.json
 for path in "$config" /etc/chalkwright/production/calendar.json /etc/chalkwright/production/glossary.json /etc/chalkwright/production/jobs/plan-refresh.env /etc/chalkwright/production/jobs/classroom-refresh.env /etc/chalkwright/production/jobs/glossary-refresh.env /etc/chalkwright/production/jobs/maintenance.env; do
   [[ -f $path && ! -L $path ]] || reject production-activate-config-missing
 done
-[[ -L $release && -x "$release/scripts/operations/activate-production.sh" && -f "$release/scripts/setup-site-media.mjs" && -f "$release/scripts/operations/provision-production-site-media.mjs" && -f "$release/scripts/operations/auto-repair-production-powerschool.mjs" && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" && -f "$release/systemd/production/chalkwright-plan-refresh.service.in" && -f "$release/systemd/production/chalkwright-powerschool-auto-repair.service.in" && -f "$release/systemd/production/chalkwright-production-start.service.in" ]] || reject production-activate-release-invalid
+[[ -L $release && -x "$release/scripts/operations/activate-production.sh" && -f "$release/scripts/setup-site-media.mjs" && -f "$release/scripts/operations/provision-production-site-media.mjs" && -f "$release/scripts/operations/auto-repair-production-powerschool.mjs" && -x "$release/scripts/operations/install-production-powerschool-auto-repair.sh" && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" && -f "$release/systemd/production/chalkwright-plan-refresh.service.in" && -f "$release/systemd/production/chalkwright-powerschool-auto-repair.service.in" && -f "$release/systemd/production/chalkwright-production-start.service.in" ]] || reject production-activate-release-invalid
+convergence_request=/var/lib/chalkwright/deploy/.powerschool-auto-repair-convergence
+if [[ -e $convergence_request || -L $convergence_request ]]; then
+  [[ -f $convergence_request && ! -L $convergence_request && $(/usr/bin/stat -c %U:%G:%a:%h:%s "$convergence_request") == root:root:600:1:41 ]] || reject production-activate-convergence-request-unsafe
+  convergence_identity=$(/usr/bin/stat -c %d:%i "$convergence_request")
+  convergence_commit=$(/usr/bin/head -n 1 "$convergence_request") || reject production-activate-convergence-request-invalid
+  [[ $convergence_commit =~ ^[a-f0-9]{40}$ ]] && /usr/bin/grep -Fqx "{\"version\":1,\"commit\":\"$convergence_commit\"}" "$release/.chalkwright-release.json" || reject production-activate-convergence-request-invalid
+  [[ $(/usr/bin/stat -c %d:%i "$convergence_request") == "$convergence_identity" ]] || reject production-activate-convergence-request-changed
+  /usr/bin/bash "$release/scripts/operations/install-production-powerschool-auto-repair.sh" || reject production-activate-convergence-install-failed
+  [[ $(/usr/bin/stat -c %d:%i "$convergence_request") == "$convergence_identity" ]] || reject production-activate-convergence-request-changed
+  /usr/bin/rm -- "$convergence_request"
+  echo '{"status":"production-powerschool-auto-repair-converged","providerRequests":0,"providerWrites":0,"servicesStarted":0}'
+  exit 0
+fi
 site_media=not-requested
 if [[ -e /tmp/chalkwright-site-profile.json || -L /tmp/chalkwright-site-profile.json ]]; then
   /usr/bin/node "$release/scripts/operations/provision-production-site-media.mjs" || reject production-activate-site-media-failed

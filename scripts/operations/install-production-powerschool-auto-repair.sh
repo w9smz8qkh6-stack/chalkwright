@@ -20,6 +20,12 @@ if [[ -e "$unit_root/$auto" || -L "$unit_root/$auto" ]]; then
 else
   auto_existed=0
 fi
+if [[ $auto_existed -eq 1 ]] &&
+   /usr/bin/cmp --silent "$release/systemd/production/$plan.in" "$unit_root/$plan" &&
+   /usr/bin/cmp --silent "$release/systemd/production/$auto.in" "$unit_root/$auto"; then
+  echo '{"status":"production-powerschool-auto-repair-up-to-date","unitsInstalled":0,"unitsStarted":0,"providerRequests":0,"providerWrites":0}'
+  exit 0
+fi
 for candidate in "$plan_candidate" "$auto_candidate"; do
   [[ ! -e $candidate && ! -L $candidate ]] || reject production-powerschool-auto-repair-install-candidate-exists
 done
