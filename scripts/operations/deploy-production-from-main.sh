@@ -14,9 +14,30 @@ calendar=/etc/chalkwright/production/calendar.json
 /usr/bin/git -C "$source_root" fetch --quiet origin main || reject production-deploy-fetch-failed
 commit=$(/usr/bin/git -C "$source_root" rev-parse --verify origin/main) || reject production-deploy-commit-invalid
 [[ $commit =~ ^[a-f0-9]{40}$ ]] || reject production-deploy-commit-invalid
+converge_powerschool_auto_repair() {
+  local request=/var/lib/chalkwright/deploy/.powerschool-auto-repair-convergence
+  local candidate
+  [[ -d /var/lib/chalkwright/deploy && ! -L /var/lib/chalkwright/deploy && $(/usr/bin/stat -c %U:%G:%a /var/lib/chalkwright/deploy) == root:root:700 ]] || reject production-deploy-convergence-root-invalid
+  if /usr/bin/cmp --silent "$release_root/current/systemd/production/chalkwright-plan-refresh.service.in" /etc/systemd/system/chalkwright-plan-refresh.service &&
+     /usr/bin/cmp --silent "$release_root/current/systemd/production/chalkwright-powerschool-auto-repair.service.in" /etc/systemd/system/chalkwright-powerschool-auto-repair.service; then
+    return 0
+  fi
+  if [[ -e $request || -L $request ]]; then
+    [[ -f $request && ! -L $request && $(/usr/bin/stat -c %U:%G:%a:%h:%s "$request") == root:root:600:1:41 ]] || reject production-deploy-convergence-request-unsafe
+  fi
+  candidate=$(/usr/bin/mktemp /var/lib/chalkwright/deploy/.powerschool-auto-repair-convergence.XXXXXXXX)
+  /usr/bin/printf '%s\n' "$commit" > "$candidate"
+  /usr/bin/chown root:root "$candidate"
+  /usr/bin/chmod 0600 "$candidate"
+  /usr/bin/mv -T "$candidate" "$request"
+  /usr/bin/systemctl restart chalkwright-production-start.service || reject production-deploy-convergence-start-failed
+  /usr/bin/cmp --silent "$release_root/current/systemd/production/chalkwright-plan-refresh.service.in" /etc/systemd/system/chalkwright-plan-refresh.service &&
+    /usr/bin/cmp --silent "$release_root/current/systemd/production/chalkwright-powerschool-auto-repair.service.in" /etc/systemd/system/chalkwright-powerschool-auto-repair.service || reject production-deploy-convergence-incomplete
+}
 if [[ -L "$release_root/current" ]]; then
   current=$(/usr/bin/readlink "$release_root/current")
   if [[ $current =~ ^releases/[a-f0-9]{64}$ ]] && /usr/bin/grep -Fqx "{\"version\":1,\"commit\":\"$commit\"}" "$release_root/$current/.chalkwright-release.json"; then
+    converge_powerschool_auto_repair
     echo "{\"status\":\"up-to-date\",\"commit\":\"$commit\"}"
     exit 0
   fi
@@ -69,4 +90,5 @@ if ! /usr/bin/curl --fail --silent --show-error --max-time 2 --output /dev/null 
   rollback
   reject production-deploy-health-failed
 fi
+converge_powerschool_auto_repair
 echo "{\"status\":\"deployed\",\"commit\":\"$commit\",\"release\":\"sha256:$digest\",\"calendarPreflight\":\"deferred-until-canonical-plan\",\"health\":\"passed\"}"

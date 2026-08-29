@@ -34,9 +34,13 @@ Calendar, change Calendar targets, or start provider refresh jobs directly.
 The already enabled refresh and Calendar timers continue using the atomically
 selected release.
 
-PowerSchool authentication recovery is automatic after its one-time unit
-installation. Install the release-bound failure hook without starting any unit
-or contacting a provider:
+PowerSchool authentication recovery is installed automatically by the
+protected deploy controller. After a release containing the hook is selected,
+the controller sends one root-owned, commit-bound local convergence request to
+the existing boot coordinator. That coordinator installs the release-bound
+units without starting a provider job; later deploy polls are exact no-ops when
+the installed files already match. The following command remains a manual
+fallback and likewise starts no unit or provider request:
 
 ```sh
 sudo /opt/chalkwright/current/scripts/operations/install-production-powerschool-auto-repair.sh
