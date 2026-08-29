@@ -92,6 +92,9 @@
   handoff status. The standalone lane now serves the existing classroom path;
   its timers and owned-Calendar follower are active, while the shadow remains
   available only as a rollback reference pending stabilization and M-18.
+- [M-18 legacy-retirement record](migration/m18-retirement-record.md) —
+  explicit retirement approvals, fail-closed execution gates, completed
+  runtime/repository actions, and retained cold-recovery artifacts.
 - [Offline PowerSchool collector](powerschool-bell-collector.md) — safe
   configuration, filtered and persistent protected-state handling, four-way
   passive/manual/JIT/compatibility capability split, containment limits, and

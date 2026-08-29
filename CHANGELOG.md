@@ -8,6 +8,16 @@ omitted.
 
 ## [Unreleased]
 
+### Migration
+
+- Approved the M-18 retirement boundary for the original Classroom Screen
+  runtime, dedicated Tailnet handler, private source repository, and the
+  migration-era shadow service/timer. Final source changes were preserved and
+  verified before archival; local repositories, state, backups, unit
+  definitions, route snapshots, and rollback instructions remain retained.
+  Live execution fails closed until Chalkwright passes the current Sunday
+  readiness and recovery gates.
+
 ### Added
 
 - Added bounded, unattended production PowerSchool recovery. A failed plan
