@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import test from 'node:test';
 
 const deploy = readFileSync(
@@ -180,13 +180,26 @@ test('production releases contain the complete automatic PowerSchool recovery pa
   for (const required of [
     'scripts/operations/auto-repair-production-powerschool.mjs',
     'scripts/operations/install-production-powerschool-auto-repair.sh',
-    'systemd/production/chalkwright-powerschool-auto-repair.service.in',
   ]) {
+    assert.match(
+      releaseBuilder,
+      new RegExp(required.replaceAll('/', '\\/'), 'u'),
+    );
     assert.match(
       releaseInstaller,
       new RegExp(required.replaceAll('/', '\\/'), 'u'),
     );
   }
+  assert.match(
+    releaseInstaller,
+    /systemd\/production\/chalkwright-powerschool-auto-repair\.service\.in/u,
+  );
+  assert.match(releaseBuilder, /systemd\/production/u);
+  assert.equal(
+    statSync('scripts/operations/install-production-powerschool-auto-repair.sh')
+      .mode & 0o777,
+    0o755,
+  );
   assert.match(activation, /chalkwright-powerschool-auto-repair\.service\.in/u);
 });
 
