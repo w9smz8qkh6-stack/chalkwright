@@ -10,6 +10,13 @@ omitted.
 
 ### Added
 
+- Added deterministic, documentation-backed learning-objective enrichment.
+  The existing read-only Drive refresh can import explicitly structured Google
+  Docs, text, or Markdown from a per-course folder into a local SQLite catalog.
+  Fresh Classroom assignments match exact lesson identifiers and feature the
+  teacher-authored objective while preserving assignment context; ambiguous or
+  missing matches keep the prior assignment-title fallback without an LLM call.
+
 - Moved the ChalkWright product mark out of the display header and into a
   responsive lower-right system credit showing the Classroom Screen System
   version and `www.chalkwright.org`, while preserving configured school
@@ -61,6 +68,17 @@ omitted.
   translation call is used.
 
 ### Changed
+
+- Added a conservative full-title fallback for learning-objective matching so
+  publisher sequences that use `L01` labels or restart lesson numbers inside
+  named units can participate without synthetic numbering in Classroom.
+  Dotted identifiers still take priority; title matches must be sufficiently
+  specific, longest, and unambiguous or the prior assignment-title fallback is
+  retained.
+
+- Raised the bounded per-lesson learning-objective limit from six to twelve so
+  publisher documentation with longer explicit outcome lists is imported
+  without silently dropping valid objectives.
 
 - Centered the Water Break countdown directly beneath its icon-and-text label
   within the header display window.

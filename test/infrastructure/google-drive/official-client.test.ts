@@ -3,7 +3,7 @@ import test from 'node:test';
 
 import { createDriveGlossaryReadTransport } from '../../../src/infrastructure/google-drive/official-client.js';
 
-test('Drive glossary transport admits only parent-bounded list and CSV-byte reads', async () => {
+test('Drive transport admits only parent-bounded list and bounded document reads', async () => {
   const calls: unknown[] = [];
   const transport = createDriveGlossaryReadTransport({
     files: {
@@ -21,6 +21,14 @@ test('Drive glossary transport admits only parent-bounded list and CSV-byte read
         calls.push({ params, options });
         return {
           data: new TextEncoder().encode('Term,Definition\na,b\n').buffer,
+        };
+      },
+      async export(params, options) {
+        calls.push({ params, options });
+        return {
+          data: new TextEncoder().encode(
+            'Lesson 1.2.3\nLearning objective: Students will test exports.',
+          ).buffer,
         };
       },
     },
@@ -73,6 +81,24 @@ test('Drive glossary transport admits only parent-bounded list and CSV-byte read
       timeout: 5_000,
     },
   });
+  assert.match(
+    await transport.readTextDocument!({
+      fileId: 'file-id-123',
+      sourceMimeType: 'application/vnd.google-apps.document',
+      signal,
+      timeoutMs: 5_000,
+    }),
+    /Students will test exports/u,
+  );
+  assert.deepEqual(calls[2], {
+    params: { fileId: 'file-id-123', mimeType: 'text/plain' },
+    options: {
+      responseType: 'arraybuffer',
+      retry: false,
+      signal,
+      timeout: 5_000,
+    },
+  });
 });
 
 test('Drive glossary transport maps provider details to finite codes', async () => {
@@ -82,6 +108,9 @@ test('Drive glossary transport maps provider details to finite codes', async () 
         throw { response: { status: 403 }, privateDetail: 'must-not-escape' };
       },
       async get() {
+        throw { response: { status: 500 } };
+      },
+      async export() {
         throw { response: { status: 500 } };
       },
     },

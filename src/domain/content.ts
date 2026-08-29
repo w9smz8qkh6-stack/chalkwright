@@ -123,7 +123,12 @@ function objectiveCard(
   title: string,
 ): ContentCard {
   const unit = assignmentUnitLabel(item.title);
+  const learningObjectives = item.learningObjectives ?? [];
   const details = [
+    ...learningObjectives.slice(1),
+    ...(learningObjectives.length === 0
+      ? []
+      : [`Assignment: ${item.title || 'Upcoming Classroom assignment'}.`]),
     ...(unit === undefined ? [] : [`Unit ${unit} focus.`]),
     ...compactDirections(item.description),
     classroomFollowUp,
@@ -134,12 +139,16 @@ function objectiveCard(
   return {
     type: 'objective',
     title,
-    featured: item.title || 'Upcoming Classroom assignment',
+    featured:
+      learningObjectives[0] ?? item.title ?? 'Upcoming Classroom assignment',
     details,
     accent: 'warm',
     durationSeconds: 12,
     ...(item.dueDate === undefined ? {} : { dueDate: item.dueDate }),
-    lines: [item.title || 'Upcoming Classroom assignment', ...details],
+    lines: [
+      learningObjectives[0] ?? item.title ?? 'Upcoming Classroom assignment',
+      ...details,
+    ],
   };
 }
 

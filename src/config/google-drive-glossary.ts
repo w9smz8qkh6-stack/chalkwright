@@ -14,6 +14,7 @@ export interface GoogleDriveGlossaryCourseConfig {
   readonly courseName: string;
   readonly className?: string;
   readonly glossaryFolderPath?: readonly string[];
+  readonly objectiveFolderPath?: readonly string[];
 }
 
 export interface GoogleDriveGlossaryConfig {
@@ -68,7 +69,7 @@ function courseConfig(value: unknown): GoogleDriveGlossaryCourseConfig {
     throw new Error('glossary-config-invalid');
   const record = value as Record<string, unknown>;
   const required = ['classId', 'defaultLanguage', 'courseName', 'subject'];
-  const optional = ['className', 'glossaryFolderPath'];
+  const optional = ['className', 'glossaryFolderPath', 'objectiveFolderPath'];
   const keys = Object.keys(record);
   if (
     required.some((key) => !keys.includes(key)) ||
@@ -79,7 +80,9 @@ function courseConfig(value: unknown): GoogleDriveGlossaryCourseConfig {
     !boundedText(record.courseName, 256) ||
     (record.className !== undefined && !boundedText(record.className, 512)) ||
     (record.glossaryFolderPath !== undefined &&
-      !folderPath(record.glossaryFolderPath))
+      !folderPath(record.glossaryFolderPath)) ||
+    (record.objectiveFolderPath !== undefined &&
+      !folderPath(record.objectiveFolderPath))
   )
     throw new Error('glossary-config-invalid');
   return {
@@ -93,6 +96,9 @@ function courseConfig(value: unknown): GoogleDriveGlossaryCourseConfig {
     ...(record.glossaryFolderPath === undefined
       ? {}
       : { glossaryFolderPath: [...(record.glossaryFolderPath as string[])] }),
+    ...(record.objectiveFolderPath === undefined
+      ? {}
+      : { objectiveFolderPath: [...(record.objectiveFolderPath as string[])] }),
   };
 }
 

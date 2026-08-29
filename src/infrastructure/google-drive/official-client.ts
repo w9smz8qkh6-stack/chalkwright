@@ -46,6 +46,18 @@ interface NarrowDriveClient {
         readonly timeout: number;
       },
     ): Promise<{ readonly data: unknown }>;
+    export(
+      params: {
+        readonly fileId: string;
+        readonly mimeType: 'text/plain';
+      },
+      options: {
+        readonly responseType: 'arraybuffer';
+        readonly retry: false;
+        readonly signal: AbortSignal;
+        readonly timeout: number;
+      },
+    ): Promise<{ readonly data: unknown }>;
   };
 }
 
@@ -116,6 +128,41 @@ export function createDriveGlossaryReadTransport(
         )
           throw new GoogleDriveGlossaryError('drive-read-unavailable');
         return new Uint8Array(response.data);
+      } catch (error) {
+        if (error instanceof GoogleDriveGlossaryError) throw error;
+        throw classify(error, request.signal);
+      }
+    },
+    async readTextDocument(request) {
+      if (!identifier(request.fileId) || !boundedTimeout(request.timeoutMs))
+        throw new GoogleDriveGlossaryError('drive-read-unavailable');
+      try {
+        const options = {
+          responseType: 'arraybuffer' as const,
+          retry: false as const,
+          signal: request.signal,
+          timeout: request.timeoutMs,
+        };
+        const response =
+          request.sourceMimeType === 'application/vnd.google-apps.document'
+            ? await client.files.export(
+                { fileId: request.fileId, mimeType: 'text/plain' },
+                options,
+              )
+            : await client.files.get(
+                {
+                  fileId: request.fileId,
+                  alt: 'media',
+                  supportsAllDrives: true,
+                },
+                options,
+              );
+        if (
+          !(response.data instanceof ArrayBuffer) ||
+          response.data.byteLength > 1_000_000
+        )
+          throw new GoogleDriveGlossaryError('drive-read-unavailable');
+        return new TextDecoder('utf-8', { fatal: true }).decode(response.data);
       } catch (error) {
         if (error instanceof GoogleDriveGlossaryError) throw error;
         throw classify(error, request.signal);

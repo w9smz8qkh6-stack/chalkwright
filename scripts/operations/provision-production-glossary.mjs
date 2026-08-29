@@ -181,6 +181,7 @@ function assertConfig(value) {
             'courseName',
             'defaultLanguage',
             'glossaryFolderPath',
+            'objectiveFolderPath',
             'subject',
           ].includes(key),
       ) ||
@@ -193,21 +194,28 @@ function assertConfig(value) {
     )
       throw new Error('production-glossary-provision-config-invalid');
     if (
-      item.glossaryFolderPath !== undefined &&
-      (!Array.isArray(item.glossaryFolderPath) ||
-        item.glossaryFolderPath.length < 1 ||
-        item.glossaryFolderPath.length > 4 ||
-        item.glossaryFolderPath.some(
-          (segment) =>
-            typeof segment !== 'string' ||
-            segment.length < 1 ||
-            segment.length > 256 ||
-            /[\r\n\0]/u.test(segment),
-        ))
+      !validOptionalFolderPath(item.glossaryFolderPath) ||
+      !validOptionalFolderPath(item.objectiveFolderPath)
     )
       throw new Error('production-glossary-provision-config-invalid');
     classIds.add(item.classId);
   }
+}
+
+function validOptionalFolderPath(value) {
+  return (
+    value === undefined ||
+    (Array.isArray(value) &&
+      value.length >= 1 &&
+      value.length <= 4 &&
+      value.every(
+        (segment) =>
+          typeof segment === 'string' &&
+          segment.length >= 1 &&
+          segment.length <= 256 &&
+          !/[\r\n\0]/u.test(segment),
+      ))
+  );
 }
 
 function assertCredential(value) {

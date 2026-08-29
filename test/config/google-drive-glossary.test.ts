@@ -22,6 +22,7 @@ function payload(root: string) {
         courseName: 'Web Design',
         defaultLanguage: 'en',
         glossaryFolderPath: ['Resources', 'Unit Glossaries'],
+        objectiveFolderPath: ['Resources', 'Learning Objectives'],
       },
     ],
   };
@@ -39,6 +40,10 @@ test('loads a protected exact hierarchy mapping without reading credentials', ()
     assert.deepEqual(config.courses[0]?.glossaryFolderPath, [
       'Resources',
       'Unit Glossaries',
+    ]);
+    assert.deepEqual(config.courses[0]?.objectiveFolderPath, [
+      'Resources',
+      'Learning Objectives',
     ]);
     assert.equal(config.maximumFilesPerCourse, 20);
     assert.equal(config.requestTimeoutMs, 15_000);
@@ -62,6 +67,10 @@ test('rejects duplicate class bindings and unexpected fields', () => {
       {
         ...base,
         courses: [{ ...base.courses[0], glossaryFolderPath: [] }],
+      },
+      {
+        ...base,
+        courses: [{ ...base.courses[0], objectiveFolderPath: [] }],
       },
     ]) {
       writeFileSync(path, JSON.stringify(value), { mode: 0o600 });

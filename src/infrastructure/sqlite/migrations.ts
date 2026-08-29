@@ -435,6 +435,43 @@ export const schemaMigrations: readonly SchemaMigration[] = [
         ON glossary_media(entry_id, translation_id, media_role);
     `,
   },
+  {
+    version: 8,
+    name: 'learning-objective-catalog',
+    sql: `
+      CREATE TABLE learning_objective_sources (
+        source_id TEXT PRIMARY KEY,
+        class_id TEXT NOT NULL,
+        academic_year TEXT NOT NULL,
+        source_reference TEXT NOT NULL,
+        content_hash TEXT NOT NULL,
+        imported_at TEXT NOT NULL,
+        CHECK (length(source_id) BETWEEN 1 AND 256),
+        CHECK (length(class_id) BETWEEN 1 AND 128),
+        CHECK (length(academic_year) = 7),
+        CHECK (length(source_reference) BETWEEN 1 AND 2048),
+        CHECK (length(content_hash) = 71)
+      ) STRICT;
+
+      CREATE TABLE learning_objective_entries (
+        entry_id TEXT PRIMARY KEY,
+        source_id TEXT NOT NULL REFERENCES learning_objective_sources(source_id)
+          ON DELETE CASCADE,
+        lesson_code TEXT NOT NULL,
+        title TEXT,
+        objectives_json TEXT NOT NULL CHECK (json_valid(objectives_json)),
+        CHECK (length(entry_id) BETWEEN 1 AND 256),
+        CHECK (length(lesson_code) BETWEEN 1 AND 31),
+        CHECK (title IS NULL OR length(title) BETWEEN 1 AND 512),
+        UNIQUE (source_id, lesson_code)
+      ) STRICT;
+
+      CREATE INDEX learning_objective_sources_class_scope
+        ON learning_objective_sources(class_id, academic_year);
+      CREATE INDEX learning_objective_entries_lesson
+        ON learning_objective_entries(lesson_code, source_id);
+    `,
+  },
 ] as const;
 
 const migrationTableSql = `

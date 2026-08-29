@@ -14,6 +14,7 @@ import type { EffectiveDayPlan } from '../../src/domain/plans.js';
 import { runProductionGlossaryRefresh } from '../../src/entrypoints/production-glossary-refresh.js';
 import { SqliteDatabase } from '../../src/infrastructure/sqlite/database.js';
 import { SqliteDisplayContentProjection } from '../../src/infrastructure/sqlite/display-content-projection.js';
+import { SqliteLearningObjectiveCatalog } from '../../src/infrastructure/sqlite/learning-objective-catalog.js';
 import { SqliteApplicationStateRepository } from '../../src/infrastructure/sqlite/repository.js';
 
 test('production glossary refresh imports Drive CSV and publishes a provider-free meeting selection', async () => {
@@ -53,6 +54,21 @@ test('production glossary refresh imports Drive CSV and publishes a provider-fre
                   name: 'Glossaries',
                   mimeType: 'application/vnd.google-apps.folder',
                 },
+                {
+                  id: 'objective-folder-123',
+                  name: 'Learning Objectives',
+                  mimeType: 'application/vnd.google-apps.folder',
+                },
+              ],
+            };
+          if (request.parentId === 'objective-folder-123')
+            return {
+              files: [
+                {
+                  id: 'objective-file-123',
+                  name: 'Unit 6 objectives',
+                  mimeType: 'application/vnd.google-apps.document',
+                },
               ],
             };
           return {
@@ -70,6 +86,9 @@ test('production glossary refresh imports Drive CSV and publishes a provider-fre
             'term,definition,language,lessons,sample_sentence_en,term_vi,definition_vi,sample_sentence_vi,term_ko,definition_ko,sample_sentence_ko,term_zh,definition_zh,sample_sentence_zh\nlayout,The arrangement of a page,en,1,Use layout to organize the page.,bố cục,Cách sắp xếp một trang,Dùng bố cục để sắp xếp trang.,레이아웃,페이지 배열,레이아웃으로 페이지를 구성하세요.,布局,页面的排列方式,使用布局组织页面。\n',
           );
         },
+        async readTextDocument() {
+          return 'Lesson 6.10.2 — Nested conditionals\nLearning objective: Students will trace nested conditional branches.';
+        },
       }),
     });
     assert.deepEqual(output, {
@@ -77,6 +96,8 @@ test('production glossary refresh imports Drive CSV and publishes a provider-fre
       status: 'succeeded',
       imported: 1,
       unchangedImports: 0,
+      objectiveImports: 1,
+      unchangedObjectiveImports: 0,
       selected: 1,
       unchangedSelections: 0,
       unavailableSelections: 0,
@@ -98,6 +119,13 @@ test('production glossary refresh imports Drive CSV and publishes a provider-fre
       ['vi', 'ko', 'zh-Hans'],
     );
     assert.equal(card?.vocabulary?.example, 'Use layout to organize the page.');
+    assert.deepEqual(
+      new SqliteLearningObjectiveCatalog(verified).listEntries({
+        classId: 'web-design-a' as never,
+        academicYear: '2034-35',
+      })[0]?.objectives,
+      ['Students will trace nested conditional branches.'],
+    );
   } finally {
     fixture.close();
   }
@@ -155,6 +183,7 @@ function createFixture() {
         subject: 'Web Design',
         courseName: 'Web Design',
         defaultLanguage: 'en',
+        objectiveFolderPath: ['Learning Objectives'],
       },
     ],
   };

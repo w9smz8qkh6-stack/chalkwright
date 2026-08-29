@@ -15,6 +15,7 @@ import {
 } from '../domain/identities.js';
 import type { EffectiveDayPlan } from '../domain/plans.js';
 import { resolveClassContent } from '../domain/content.js';
+import { learningObjectivesForCoursework } from '../domain/learning-objectives.js';
 import { stableId } from '../domain/pure-values.js';
 import type { ShadowConfig } from '../config/shadow.js';
 import {
@@ -30,6 +31,7 @@ import { SqliteClassroomEnrichmentCache } from '../infrastructure/sqlite/classro
 import { SqliteApplicationStateRepository } from '../infrastructure/sqlite/repository.js';
 import { SqliteAttendanceProjectionSource } from '../infrastructure/sqlite/attendance-projection.js';
 import { SqliteDisplayContentProjection } from '../infrastructure/sqlite/display-content-projection.js';
+import { SqliteLearningObjectiveCatalog } from '../infrastructure/sqlite/learning-objective-catalog.js';
 import {
   B407MvpHttpController,
   type MvpRuntimeClock,
@@ -81,10 +83,12 @@ class ShadowPlanSource implements DisplayPlanSource, DisplayNextClassDaySource {
 class ShadowContentSource implements DisplayContentSource {
   private readonly cache: SqliteClassroomEnrichmentCache;
   private readonly local: SqliteDisplayContentProjection;
+  private readonly objectives: SqliteLearningObjectiveCatalog;
 
   constructor(database: SqliteDatabase) {
     this.cache = new SqliteClassroomEnrichmentCache(database);
     this.local = new SqliteDisplayContentProjection(database);
+    this.objectives = new SqliteLearningObjectiveCatalog(database);
   }
 
   async read(
@@ -95,6 +99,10 @@ class ShadowContentSource implements DisplayContentSource {
   ) {
     const entry = await this.cache.load(classId, date, observedAt);
     const local = this.local.read(classId, date, meetingId);
+    const objectiveEntries = this.objectives.listEntries({
+      classId,
+      academicYear: academicYearForDate(date),
+    });
     if (
       entry?.enrichment === undefined &&
       (local.staticContent.items?.length ?? 0) === 0 &&
@@ -113,7 +121,15 @@ class ShadowContentSource implements DisplayContentSource {
             coursework: [
               ...entry.enrichment.recent,
               ...entry.enrichment.upcoming,
-            ],
+            ].map((item) => {
+              const learningObjectives = learningObjectivesForCoursework(
+                item,
+                objectiveEntries,
+              );
+              return learningObjectives === undefined
+                ? item
+                : { ...item, learningObjectives };
+            }),
             courseworkFresh: entry.enrichment.freshness === 'fresh',
           }),
     });
@@ -136,6 +152,13 @@ class ShadowContentSource implements DisplayContentSource {
       ],
     };
   }
+}
+
+function academicYearForDate(date: IsoDate): string {
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const start = month >= 7 ? year : year - 1;
+  return `${start}-${String(start + 1).slice(-2)}`;
 }
 
 function localDate(instant: string, timeZone: string): IsoDate {

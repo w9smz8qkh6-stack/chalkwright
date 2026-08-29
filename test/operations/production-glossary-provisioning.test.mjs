@@ -34,6 +34,7 @@ test('builds protected production glossary payloads without widening Drive scope
           courseName: 'Web Design',
           defaultLanguage: 'en',
           glossaryFolderPath: ['Resources', 'Unit Glossaries'],
+          objectiveFolderPath: ['Resources', 'Learning Objectives'],
         },
       ],
     },
@@ -47,6 +48,10 @@ test('builds protected production glossary payloads without widening Drive scope
   assert.deepEqual(payload.config.courses[0].glossaryFolderPath, [
     'Resources',
     'Unit Glossaries',
+  ]);
+  assert.deepEqual(payload.config.courses[0].objectiveFolderPath, [
+    'Resources',
+    'Learning Objectives',
   ]);
   assert.deepEqual(Object.keys(payload.environment).sort(), [
     'CLASSROOM_HUB_GLOSSARY_CONFIG_REFERENCE',

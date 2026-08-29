@@ -92,6 +92,8 @@ export interface NormalizedCourseworkItem {
   readonly dueLabel?: string;
   readonly alternateLink?: string;
   readonly bucket: 'recent' | 'upcoming';
+  /** Locally matched, teacher-authored objectives; never supplied by Classroom. */
+  readonly learningObjectives?: readonly string[];
 }
 
 export interface CourseworkItemsResult {
