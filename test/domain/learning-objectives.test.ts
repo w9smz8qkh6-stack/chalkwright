@@ -124,6 +124,117 @@ test('matches the most specific explicit code and rejects conflicting duplicates
   );
 });
 
+test('falls back only one level from a publisher activity code to its lesson', () => {
+  const coursework = item({ title: 'Quiz 3.9.2' });
+  const parent = {
+    entryId: 'entry-parent',
+    sourceId: 'source-a',
+    lessonCode: '3.9',
+    objectives: [
+      'Students will apply HTML styling to make pages visually appealing.',
+    ],
+  } as const;
+
+  assert.deepEqual(learningObjectivesForCoursework(coursework, [parent]), [
+    'Students will apply HTML styling to make pages visually appealing.',
+  ]);
+  assert.equal(
+    learningObjectivesForCoursework(
+      item({
+        title: 'Compare Quiz 3.9.2 with Quiz 3.8.2',
+      }),
+      [
+        parent,
+        {
+          ...parent,
+          entryId: 'entry-other-parent',
+          lessonCode: '3.8',
+          objectives: ['Students will create tables in their web pages.'],
+        },
+      ],
+    ),
+    undefined,
+  );
+  assert.equal(
+    learningObjectivesForCoursework(item({ title: 'Quiz 3.9.2.1' }), [parent]),
+    undefined,
+  );
+});
+
+test('extracts and exactly matches explicit Classroom assignment aliases', () => {
+  const parsed = parseLearningObjectiveDocument({
+    text: `
+Assignment: Science and Health Video
+Assignment alias: Science & Health Video
+Publisher source: StoryMaker Filming 90-Second Stories
+Learning objectives:
+- Students will put key camera and audio methods into practice.
+- Students will adapt filming choices to a defined audience.
+`,
+    fileName: 'StoryMaker objectives.txt',
+    classId,
+    academicYear: '2034-35',
+    sourceId: 'objective-source-alias',
+    sourceReference: 'google-drive:folder/file-alias',
+    contentHash: `sha256:${'e'.repeat(64)}`,
+    importedAt,
+  });
+
+  assert.deepEqual(parsed.entries[0]?.assignmentAliases, [
+    'Science and Health Video',
+    'Science & Health Video',
+  ]);
+  assert.equal(parsed.entries[0]?.lessonCode, undefined);
+  assert.deepEqual(
+    learningObjectivesForCoursework(
+      item({ title: 'science & health video' }),
+      parsed.entries,
+    ),
+    [
+      'Students will put key camera and audio methods into practice.',
+      'Students will adapt filming choices to a defined audience.',
+    ],
+  );
+  assert.equal(
+    learningObjectivesForCoursework(
+      item({ title: 'Submit Science & Health Video' }),
+      parsed.entries,
+    ),
+    undefined,
+  );
+});
+
+test('accepts a bounded alias list on a coded publisher lesson', () => {
+  const parsed = parseLearningObjectiveDocument({
+    text: `
+Lesson 2.4 - Robot Soccer Conclusion
+Assignment aliases:
+- Robot Soccer: Check Your Understanding (1)
+- Robot Soccer: Test Your Understanding (2)
+Learning objective: Students will reflect on their Robot Soccer learning.
+`,
+    fileName: 'VEX EXP objectives.txt',
+    classId,
+    academicYear: '2034-35',
+    sourceId: 'objective-source-alias-list',
+    sourceReference: 'google-drive:folder/file-alias-list',
+    contentHash: `sha256:${'f'.repeat(64)}`,
+    importedAt,
+  });
+
+  assert.deepEqual(parsed.entries[0]?.assignmentAliases, [
+    'Robot Soccer: Check Your Understanding (1)',
+    'Robot Soccer: Test Your Understanding (2)',
+  ]);
+  assert.deepEqual(
+    learningObjectivesForCoursework(
+      item({ title: 'Robot Soccer: Test Your Understanding (2)' }),
+      parsed.entries,
+    ),
+    ['Students will reflect on their Robot Soccer learning.'],
+  );
+});
+
 test('matches a unique explicit lesson title when publisher numbering differs', () => {
   const coursework = item({
     title: 'Team Freeze Tag — L2 Driving with the EXP Controller',

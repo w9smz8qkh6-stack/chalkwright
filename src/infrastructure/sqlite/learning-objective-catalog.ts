@@ -10,9 +10,10 @@ import type { SqliteDatabase } from './database.js';
 interface EntryRow {
   readonly entry_id: string;
   readonly source_id: string;
-  readonly lesson_code: string;
+  readonly lesson_code: string | null;
   readonly title: string | null;
   readonly objectives_json: string;
+  readonly assignment_aliases_json: string;
 }
 
 export class SqliteLearningObjectiveCatalog implements LearningObjectiveCatalog {
@@ -58,16 +59,18 @@ export class SqliteLearningObjectiveCatalog implements LearningObjectiveCatalog 
         );
       const insert = this.database.connection.prepare(
         `INSERT INTO learning_objective_entries(
-           entry_id, source_id, lesson_code, title, objectives_json
-         ) VALUES (?, ?, ?, ?, ?)`,
+           entry_id, source_id, lesson_code, title, objectives_json,
+           assignment_aliases_json
+         ) VALUES (?, ?, ?, ?, ?, ?)`,
       );
       for (const entry of input.entries)
         insert.run(
           entry.entryId,
           entry.sourceId,
-          entry.lessonCode,
+          entry.lessonCode ?? null,
           entry.title ?? null,
           JSON.stringify(entry.objectives),
+          JSON.stringify(entry.assignmentAliases ?? []),
         );
     });
     return { status: 'imported' as const, acceptedCount: input.entries.length };
@@ -79,7 +82,8 @@ export class SqliteLearningObjectiveCatalog implements LearningObjectiveCatalog 
   }): readonly LearningObjectiveEntry[] {
     const rows = this.database.connection
       .prepare(
-        `SELECT e.entry_id, e.source_id, e.lesson_code, e.title, e.objectives_json
+        `SELECT e.entry_id, e.source_id, e.lesson_code, e.title,
+                e.objectives_json, e.assignment_aliases_json
            FROM learning_objective_entries e
            JOIN learning_objective_sources s ON s.source_id = e.source_id
           WHERE s.class_id = ? AND s.academic_year = ?
@@ -95,19 +99,25 @@ export class SqliteLearningObjectiveCatalog implements LearningObjectiveCatalog 
 
 function entryFromRow(row: EntryRow): LearningObjectiveEntry {
   let objectives: unknown;
+  let assignmentAliases: unknown;
   try {
     objectives = JSON.parse(row.objectives_json);
+    assignmentAliases = JSON.parse(row.assignment_aliases_json);
   } catch {
     throw new Error('learning-objective-catalog-row-invalid');
   }
-  if (!validObjectives(objectives))
+  if (
+    !validObjectives(objectives) ||
+    !validAssignmentAliases(assignmentAliases)
+  )
     throw new Error('learning-objective-catalog-row-invalid');
   return {
     entryId: row.entry_id,
     sourceId: row.source_id,
-    lessonCode: row.lesson_code,
     objectives,
+    ...(row.lesson_code === null ? {} : { lessonCode: row.lesson_code }),
     ...(row.title === null ? {} : { title: row.title }),
+    ...(assignmentAliases.length === 0 ? {} : { assignmentAliases }),
   };
 }
 
@@ -123,15 +133,23 @@ function validImport(input: LearningObjectiveCatalogImport): boolean {
     isIsoInstant(source.importedAt) &&
     input.entries.length >= 1 &&
     input.entries.length <= 1_000 &&
-    new Set(input.entries.map((entry) => entry.lessonCode)).size ===
-      input.entries.length &&
+    new Set(
+      input.entries.flatMap((entry) =>
+        entry.lessonCode === undefined ? [] : [entry.lessonCode],
+      ),
+    ).size ===
+      input.entries.filter((entry) => entry.lessonCode !== undefined).length &&
     input.entries.every(
       (entry) =>
         entry.sourceId === source.sourceId &&
         bounded(entry.entryId, 256) &&
-        /^\d{1,3}(?:\.\d{1,3}){1,3}$/u.test(entry.lessonCode) &&
+        (entry.lessonCode === undefined ||
+          /^\d{1,3}(?:\.\d{1,3}){1,3}$/u.test(entry.lessonCode)) &&
         optional(entry.title, 512) &&
-        validObjectives(entry.objectives),
+        validObjectives(entry.objectives) &&
+        validAssignmentAliases(entry.assignmentAliases ?? []) &&
+        (entry.lessonCode !== undefined ||
+          (entry.assignmentAliases?.length ?? 0) > 0),
     )
   );
 }
@@ -140,8 +158,17 @@ function validObjectives(value: unknown): value is readonly string[] {
   return (
     Array.isArray(value) &&
     value.length >= 1 &&
-    value.length <= 6 &&
+    value.length <= 12 &&
     value.every((objective) => bounded(objective, 1_000))
+  );
+}
+
+function validAssignmentAliases(value: unknown): value is readonly string[] {
+  return (
+    Array.isArray(value) &&
+    value.length <= 12 &&
+    new Set(value).size === value.length &&
+    value.every((alias) => bounded(alias, 512) && alias.length >= 3)
   );
 }
 

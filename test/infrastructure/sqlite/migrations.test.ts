@@ -44,7 +44,7 @@ describe('forward-only SQLite migrations', () => {
     assert.equal(statSync(path).mode & 0o777, 0o600);
     assert.deepEqual(
       appliedVersions(database.connection),
-      [1, 2, 3, 4, 5, 6, 7, 8],
+      [1, 2, 3, 4, 5, 6, 7, 8, 9],
     );
     assert.deepEqual(
       appliedMigrationRows(database.connection),
@@ -77,6 +77,25 @@ describe('forward-only SQLite migrations', () => {
   });
 
   test('supports every explicit target without applying later migrations', () => {
+    const baseTables = [
+      'application_records',
+      'calendar_execution_journal',
+      'calendar_execution_steps',
+      'calendar_writer_leases',
+      'classroom_enrichment_cache',
+      'continuity_records',
+      'glossary_entries',
+      'glossary_import_runs',
+      'glossary_media',
+      'glossary_sources',
+      'glossary_translations',
+      'import_rejections',
+      'import_runs',
+      'learning_objective_entries',
+      'learning_objective_sources',
+      'plan_snapshots',
+      'schema_migrations',
+    ];
     const expectedTables = [
       ['schema_migrations'],
       ['application_records', 'plan_snapshots', 'schema_migrations'],
@@ -146,25 +165,8 @@ describe('forward-only SQLite migrations', () => {
         'plan_snapshots',
         'schema_migrations',
       ],
-      [
-        'application_records',
-        'calendar_execution_journal',
-        'calendar_execution_steps',
-        'calendar_writer_leases',
-        'classroom_enrichment_cache',
-        'continuity_records',
-        'glossary_entries',
-        'glossary_import_runs',
-        'glossary_media',
-        'glossary_sources',
-        'glossary_translations',
-        'import_rejections',
-        'import_runs',
-        'learning_objective_entries',
-        'learning_objective_sources',
-        'plan_snapshots',
-        'schema_migrations',
-      ],
+      baseTables,
+      baseTables,
     ];
 
     for (
@@ -212,7 +214,7 @@ describe('forward-only SQLite migrations', () => {
     assert.equal(userVersion(current.connection), schemaMigrations.length);
     assert.deepEqual(
       appliedVersions(current.connection),
-      [1, 2, 3, 4, 5, 6, 7, 8],
+      [1, 2, 3, 4, 5, 6, 7, 8, 9],
     );
     assert.equal(
       scalar(
@@ -304,6 +306,55 @@ describe('forward-only SQLite migrations', () => {
     );
   });
 
+  test('version nine preserves objective entries and initializes empty aliases', () => {
+    const path = temporaryDatabasePath();
+    {
+      using versionEight = openDatabase(path, 8);
+      versionEight.connection
+        .prepare(
+          `INSERT INTO learning_objective_sources(
+             source_id, class_id, academic_year, source_reference,
+             content_hash, imported_at
+           ) VALUES (?, ?, ?, ?, ?, ?)`,
+        )
+        .run(
+          'source-before-v9',
+          'class-before-v9',
+          '2034-35',
+          'google-drive:folder/file',
+          `sha256:${'a'.repeat(64)}`,
+          appliedAt,
+        );
+      versionEight.connection
+        .prepare(
+          `INSERT INTO learning_objective_entries(
+             entry_id, source_id, lesson_code, title, objectives_json
+           ) VALUES (?, ?, ?, ?, ?)`,
+        )
+        .run(
+          'entry-before-v9',
+          'source-before-v9',
+          '3.9',
+          'HTML Styling',
+          '["Students will apply HTML styling."]',
+        );
+    }
+
+    using current = openDatabase(path);
+    assert.equal(userVersion(current.connection), 9);
+    const migrated = current.connection
+      .prepare(
+        `SELECT lesson_code, assignment_aliases_json
+           FROM learning_objective_entries
+          WHERE entry_id = ?`,
+      )
+      .get('entry-before-v9');
+    assert.deepEqual(
+      { ...migrated },
+      { lesson_code: '3.9', assignment_aliases_json: '[]' },
+    );
+  });
+
   test('rolls back the entire failed migration before recording its version', () => {
     const path = temporaryDatabasePath();
     const connection = new DatabaseSync(path);
@@ -327,7 +378,7 @@ describe('forward-only SQLite migrations', () => {
     assert.equal(tableNames(connection).includes('continuity_records'), false);
 
     applyMigrations(connection, { appliedAt });
-    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7, 8]);
+    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
     connection.close();
   });
 
@@ -377,8 +428,8 @@ describe('forward-only SQLite migrations', () => {
     );
 
     applyMigrations(connection, { appliedAt });
-    assert.equal(userVersion(connection), 8);
-    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7, 8]);
+    assert.equal(userVersion(connection), 9);
+    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
     assert.equal(
       scalar(
         connection,

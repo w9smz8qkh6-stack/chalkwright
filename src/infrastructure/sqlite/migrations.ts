@@ -472,6 +472,46 @@ export const schemaMigrations: readonly SchemaMigration[] = [
         ON learning_objective_entries(lesson_code, source_id);
     `,
   },
+  {
+    version: 9,
+    name: 'learning-objective-assignment-aliases',
+    sql: `
+      ALTER TABLE learning_objective_entries
+        RENAME TO learning_objective_entries_v8;
+
+      CREATE TABLE learning_objective_entries (
+        entry_id TEXT PRIMARY KEY,
+        source_id TEXT NOT NULL REFERENCES learning_objective_sources(source_id)
+          ON DELETE CASCADE,
+        lesson_code TEXT,
+        title TEXT,
+        objectives_json TEXT NOT NULL CHECK (json_valid(objectives_json)),
+        assignment_aliases_json TEXT NOT NULL DEFAULT '[]'
+          CHECK (json_valid(assignment_aliases_json)),
+        CHECK (length(entry_id) BETWEEN 1 AND 256),
+        CHECK (lesson_code IS NULL OR length(lesson_code) BETWEEN 1 AND 31),
+        CHECK (title IS NULL OR length(title) BETWEEN 1 AND 512),
+        CHECK (json_type(assignment_aliases_json) = 'array'),
+        CHECK (
+          lesson_code IS NOT NULL OR
+          json_array_length(assignment_aliases_json) >= 1
+        ),
+        UNIQUE (source_id, lesson_code)
+      ) STRICT;
+
+      INSERT INTO learning_objective_entries(
+        entry_id, source_id, lesson_code, title, objectives_json,
+        assignment_aliases_json
+      )
+      SELECT entry_id, source_id, lesson_code, title, objectives_json, '[]'
+        FROM learning_objective_entries_v8;
+
+      DROP TABLE learning_objective_entries_v8;
+
+      CREATE INDEX learning_objective_entries_lesson
+        ON learning_objective_entries(lesson_code, source_id);
+    `,
+  },
 ] as const;
 
 const migrationTableSql = `

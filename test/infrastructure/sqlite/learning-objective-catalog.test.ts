@@ -47,6 +47,35 @@ test('learning-objective catalog replaces documents atomically and scopes by cou
       })[0]?.objectives,
       ['Students will implement nested conditionals.'],
     );
+
+    const aliasOnly = {
+      ...replacement,
+      source: {
+        ...replacement.source,
+        contentHash: `sha256:${'c'.repeat(64)}`,
+      },
+      entries: [
+        {
+          entryId: 'objective-entry-alias',
+          sourceId: input.source.sourceId,
+          assignmentAliases: ['Science and Health Video'],
+          objectives: [
+            'Students will apply camera and audio methods while filming.',
+          ],
+        },
+      ],
+    };
+    assert.deepEqual(await catalog.replaceSource(aliasOnly), {
+      status: 'imported',
+      acceptedCount: 1,
+    });
+    assert.deepEqual(
+      catalog.listEntries({
+        classId: input.source.classId,
+        academicYear: '2034-35',
+      }),
+      aliasOnly.entries,
+    );
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -69,6 +98,7 @@ function sampleImport(): LearningObjectiveCatalogImport {
         sourceId: 'objective-source-a',
         lessonCode: '6.10.2',
         title: 'Nested conditionals',
+        assignmentAliases: ['Quiz 6.10.2'],
         objectives: ['Students will trace nested conditional branches.'],
       },
     ],
