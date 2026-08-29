@@ -3,6 +3,8 @@
 Description=Chalkwright production PowerSchool plan refresh
 After=network-online.target
 Wants=network-online.target
+OnFailure=chalkwright-powerschool-auto-repair.service
+OnFailureJobMode=replace
 
 [Service]
 Type=oneshot

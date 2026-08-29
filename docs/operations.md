@@ -406,6 +406,20 @@ Calendar named `Auto Lesson 2`. Candidate alerts are report-only.
 
 ### Native PowerSchool authentication repair
 
+The permanent production lane now composes this separately privileged repair
+behind `chalkwright-plan-refresh.service`'s failure hook. The routine plan
+process remains credential-free. Only its dedicated authentication-required
+exit status can invoke the fixed, 1Password-backed repair; a tightly verified
+abandoned lock can be removed without credentials. Recovery is limited to
+three authentication attempts and one automatic activation per 30 minutes,
+then retries the plan and starts only the read-only Classroom and
+glossary/objective jobs. It never starts Calendar reconciliation. Unknown
+identity challenges, CAPTCHA, passkeys, recovery, browser rejection, and
+policy violations continue to fail closed. Install this steady-state hook once
+from the selected production release with
+`install-production-powerschool-auto-repair.sh`; the installer verifies and
+atomically replaces the system units but starts no unit.
+
 ADR-0024 replaces the legacy OpenClaw state bridge as Chalkwright's intended
 steady-state authentication repair. The native repair is deliberately absent
 from the routine plan unit and has no timer. Its inert systemd service reads the

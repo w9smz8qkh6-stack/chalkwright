@@ -1,5 +1,11 @@
 import assert from 'node:assert/strict';
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
@@ -20,6 +26,12 @@ const request = {
   maxHeaderSize: 8 * 1024,
 };
 `;
+const autoRepairPath =
+  'scripts/operations/auto-repair-production-powerschool.mjs';
+const exactAutoRepair = readFileSync(
+  new URL(`../../${autoRepairPath}`, import.meta.url),
+  'utf8',
+);
 
 test('permits only the exact unwired offline Telegram adapter', () => {
   const fixture = createFixture();
@@ -63,6 +75,41 @@ test('rejects broadened alert transport authority and runtime wiring', () => {
     );
   } finally {
     rmSync(fixture, { recursive: true, force: true });
+  }
+});
+
+test('permits only the bounded production PowerSchool recovery controller', () => {
+  const fixture = createFixture();
+  try {
+    write(fixture, autoRepairPath, exactAutoRepair);
+    assert.deepEqual(verifyRepositorySafety(fixture), { candidates: 1 });
+  } finally {
+    rmSync(fixture, { recursive: true, force: true });
+  }
+
+  for (const broaden of [
+    (source) =>
+      source.replace(
+        "'chalkwright-glossary-refresh.service',",
+        "'chalkwright-calendar-sync.service',",
+      ),
+    (source) =>
+      source.replace(
+        'const maximumRepairAttempts = 3;',
+        'const maximumRepairAttempts = 4;',
+      ),
+    (source) => `${source}\nconst leaked = 'OP_SERVICE_ACCOUNT_TOKEN';\n`,
+  ]) {
+    const broadened = createFixture();
+    try {
+      write(broadened, autoRepairPath, broaden(exactAutoRepair));
+      assert.throws(
+        () => verifyRepositorySafety(broadened),
+        /forbidden operational dependency/u,
+      );
+    } finally {
+      rmSync(broadened, { recursive: true, force: true });
+    }
   }
 });
 

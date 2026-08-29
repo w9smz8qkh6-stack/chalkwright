@@ -54,6 +54,8 @@ const offlineTelegramAdapter =
   'src/infrastructure/operations/telegram-alert-transport.ts';
 const telegramQualificationEntrypoint =
   'src/entrypoints/m16-alert-live-qualification.ts';
+const productionPowerSchoolAutoRepair =
+  'scripts/operations/auto-repair-production-powerschool.mjs';
 
 export function verifyRepositorySafety(repositoryRoot = defaultRoot) {
   const root = resolve(repositoryRoot);
@@ -104,7 +106,8 @@ export function verifyRepositorySafety(repositoryRoot = defaultRoot) {
       ) &&
       relativePath !== 'scripts/operations/verify-repository-safety.mjs' &&
       !isExactOfflineTelegramAdapter(relativePath, source) &&
-      !isExactM17ManifestSupersession(relativePath, source)
+      !isExactM17ManifestSupersession(relativePath, source) &&
+      !isExactProductionPowerSchoolAutoRepair(relativePath, source)
     ) {
       findings.push(`${relativePath}: forbidden operational dependency`);
     }
@@ -131,6 +134,33 @@ export function verifyRepositorySafety(repositoryRoot = defaultRoot) {
 
   if (findings.length > 0) throw new Error(findings.join('\n'));
   return { candidates: candidates.length };
+}
+
+function isExactProductionPowerSchoolAutoRepair(relativePath, source) {
+  if (relativePath !== productionPowerSchoolAutoRepair) return false;
+  const required = [
+    "const planUnit = 'chalkwright-plan-refresh.service';",
+    "'chalkwright-classroom-refresh.service',",
+    "'chalkwright-glossary-refresh.service',",
+    "'/var/lib/chalkwright/production-session';",
+    "'/usr/local/lib/chalkwright-production-admin/repair-production-powerschool.sh';",
+    'const maximumRepairAttempts = 3;',
+    'const repairRetryDelayMs = 30 * 1_000;',
+    "command('/usr/bin/systemctl', ['start', planUnit]",
+    "command('/usr/bin/systemctl', ['start', '--no-block', unit]",
+    "command('/usr/bin/bash', [repairController]",
+    'process.geteuid?.() !== 0',
+    'constants.O_RDONLY | constants.O_NOFOLLOW',
+    'providerWrites: 0,',
+  ];
+  return (
+    required.every((value) => source.includes(value)) &&
+    (source.match(/from ['"]node:child_process['"]/gu)?.length ?? 0) === 1 &&
+    (source.match(/spawnSync\s*\(/gu)?.length ?? 0) === 1 &&
+    !/chalkwright-calendar-sync|\b(?:exec|execFile|execSync|fork|spawn)\s*\(|\bop\s+read\b|OP_SERVICE_ACCOUNT_TOKEN/u.test(
+      source,
+    )
+  );
 }
 
 function isExactOfflineTelegramAdapter(relativePath, source) {

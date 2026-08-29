@@ -10,7 +10,7 @@ config=/etc/chalkwright/production/server.json
 for path in "$config" /etc/chalkwright/production/calendar.json /etc/chalkwright/production/glossary.json /etc/chalkwright/production/jobs/plan-refresh.env /etc/chalkwright/production/jobs/classroom-refresh.env /etc/chalkwright/production/jobs/glossary-refresh.env /etc/chalkwright/production/jobs/maintenance.env; do
   [[ -f $path && ! -L $path ]] || reject production-activate-config-missing
 done
-[[ -L $release && -x "$release/scripts/operations/activate-production.sh" && -f "$release/scripts/setup-site-media.mjs" && -f "$release/scripts/operations/provision-production-site-media.mjs" && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" && -f "$release/systemd/production/chalkwright-production-start.service.in" ]] || reject production-activate-release-invalid
+[[ -L $release && -x "$release/scripts/operations/activate-production.sh" && -f "$release/scripts/setup-site-media.mjs" && -f "$release/scripts/operations/provision-production-site-media.mjs" && -f "$release/scripts/operations/auto-repair-production-powerschool.mjs" && -f "$release/dist/entrypoints/production-server.js" && -f "$release/dist/entrypoints/production-glossary-refresh.js" && -f "$release/systemd/production/chalkwright-glossary-refresh.service.in" && -f "$release/systemd/production/chalkwright-glossary-refresh.timer.in" && -f "$release/systemd/production/chalkwright-plan-refresh.service.in" && -f "$release/systemd/production/chalkwright-powerschool-auto-repair.service.in" && -f "$release/systemd/production/chalkwright-production-start.service.in" ]] || reject production-activate-release-invalid
 site_media=not-requested
 if [[ -e /tmp/chalkwright-site-profile.json || -L /tmp/chalkwright-site-profile.json ]]; then
   /usr/bin/node "$release/scripts/operations/provision-production-site-media.mjs" || reject production-activate-site-media-failed
@@ -18,9 +18,11 @@ if [[ -e /tmp/chalkwright-site-profile.json || -L /tmp/chalkwright-site-profile.
 fi
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-glossary-refresh.service.in" /etc/systemd/system/chalkwright-glossary-refresh.service
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-glossary-refresh.timer.in" /etc/systemd/system/chalkwright-glossary-refresh.timer
+/usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-plan-refresh.service.in" /etc/systemd/system/chalkwright-plan-refresh.service
+/usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-powerschool-auto-repair.service.in" /etc/systemd/system/chalkwright-powerschool-auto-repair.service
 /usr/bin/install -o root -g root -m 0644 "$release/systemd/production/chalkwright-production-start.service.in" /etc/systemd/system/chalkwright-production-start.service
 /usr/bin/systemctl daemon-reload
-for unit in chalkwright.service chalkwright-backup.service chalkwright-calendar-sync.service chalkwright-classroom-refresh.service chalkwright-deploy.service chalkwright-glossary-refresh.service chalkwright-integrity.service chalkwright-plan-refresh.service chalkwright-production-start.service; do
+for unit in chalkwright.service chalkwright-backup.service chalkwright-calendar-sync.service chalkwright-classroom-refresh.service chalkwright-deploy.service chalkwright-glossary-refresh.service chalkwright-integrity.service chalkwright-plan-refresh.service chalkwright-powerschool-auto-repair.service chalkwright-production-start.service; do
   [[ -f "/etc/systemd/system/$unit" && ! -L "/etc/systemd/system/$unit" ]] || reject production-activate-unit-missing
 done
 

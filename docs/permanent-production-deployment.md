@@ -34,21 +34,39 @@ Calendar, change Calendar targets, or start provider refresh jobs directly.
 The already enabled refresh and Calendar timers continue using the atomically
 selected release.
 
-PowerSchool authentication repair remains an explicit operator action:
+PowerSchool authentication recovery is automatic after its one-time unit
+installation. Install the release-bound failure hook without starting any unit
+or contacting a provider:
 
 ```sh
-sudo -n /usr/local/sbin/chalkwright-production-admin repair-powerschool
+sudo /opt/chalkwright/current/scripts/operations/install-production-powerschool-auto-repair.sh
 ```
 
-The constrained root controller stages the fixed repair authority under the
-logged-in desktop owner's private runtime directory and starts the inert
+After that installation, a plan refresh that exits with the dedicated
+authentication-required status invokes the constrained root controller. It
+stages the fixed repair authority under the logged-in desktop owner's private
+runtime directory and starts the inert
 `chalkwright-powerschool-repair.service` through that owner's systemd user
 manager. The user manager supplies the real graphical-session environment;
 Chrome uses only a fresh profile beneath the private repair runtime. On success the
 controller copies only validated, filtered PowerSchool state to the
 credential-free routine account and deletes the temporary authority and
-high-authority browser profile. The
-repair has no timer and neither invokes nor depends on OpenClaw.
+high-authority browser profile. It then retries the plan refresh and starts only
+the read-only Classroom and glossary/objective refreshes. The automatic path is
+limited to three repair attempts and one activation per 30 minutes. It has no
+timer, never starts Calendar reconciliation, and neither invokes nor depends on
+OpenClaw. CAPTCHA, passkey/security-key, recovery, browser-rejection, unknown
+challenge, and policy-violation states still fail closed for account safety.
+
+The same failure hook can remove an abandoned PowerSchool session lock without
+opening 1Password, but only after exact path, owner, mode, link, size, age,
+process, open-file, and file-identity checks. Other plan failures are left
+untouched for diagnosis. The manual constrained repair command remains
+available as a diagnostic fallback:
+
+```sh
+sudo -n /usr/local/sbin/chalkwright-production-admin repair-powerschool
+```
 
 Before the deploy timer is active, an operator can trigger the same fixed
 controller manually through the constrained admin wrapper. The wrapper calls a

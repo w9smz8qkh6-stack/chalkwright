@@ -7,6 +7,9 @@
 - **Later qualification:** [ADR-0021](0021-persistent-powerschool-compatibility-lane.md)
   permits this explicit repair worker to target a separate retained
   compatibility profile; disposable repair remains the default.
+- **Production authorization update:** On 2026-08-29 the user explicitly
+  authorized bounded unattended invocation using the already provisioned fixed
+  1Password references, as recorded below.
 
 ## Context
 
@@ -84,6 +87,27 @@ operator-present and fail closed rather than being bypassed.
 The repair module becomes a high-authority component requiring stricter review
 than the passive collector. It must remain absent from production server,
 scheduler, provider-refresh, and Calendar-writer import graphs.
+
+## 2026-08-29 unattended production recovery authorization
+
+The user explicitly superseded the manual-start restriction for the permanent
+production recovery path after observing the existing headed repair complete
+successfully without intervention. Routine collection remains unchanged and
+credential-free. A separate system failure coordinator may invoke the existing
+fixed-reference repair only when the plan job returns its dedicated
+authentication-required status. It may try no more than three times, and
+systemd limits the coordinator to one activation per 30 minutes. On success it
+retries the credential-free plan and starts only downstream read jobs; Calendar
+reconciliation is outside this authority.
+
+The same coordinator may recover an abandoned session lock without credential
+access only after fixed-path, owner, group, mode, link-count, size, age,
+process-liveness, open-file, and inode-identity checks. Unknown plan failures
+receive no repair authority. Unknown identity challenges, CAPTCHA,
+passkey/security-key, recovery, browser rejection, timeout, and policy
+violations still fail closed. This update authorizes unattended orchestration;
+it does not authorize provider writes, broader secret selection, challenge
+bypass, or credential access by the routine plan service.
 
 ## Offline implementation disposition
 

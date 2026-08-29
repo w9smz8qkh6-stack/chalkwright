@@ -27,6 +27,7 @@ system_units=(
   chalkwright-integrity.timer
   chalkwright-plan-refresh.service
   chalkwright-plan-refresh.timer
+  chalkwright-powerschool-auto-repair.service
   chalkwright-production-start.service
 )
 user_unit=chalkwright-powerschool-repair.service
@@ -80,4 +81,4 @@ done
 /usr/bin/bash "$source_root/scripts/operations/switch-production-release.sh" "$digest" >/dev/null
 created_units=0
 created_source=0
-echo "{\"status\":\"provisioned-inert\",\"release\":\"sha256:$digest\",\"unitsInstalled\":17,\"unitsStarted\":0,\"routeChanges\":0,\"providerRequests\":0}"
+echo "{\"status\":\"provisioned-inert\",\"release\":\"sha256:$digest\",\"unitsInstalled\":18,\"unitsStarted\":0,\"routeChanges\":0,\"providerRequests\":0}"
