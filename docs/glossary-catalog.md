@@ -50,8 +50,9 @@ Entry and translation identities are bounded SHA-256 derivations of their
 source row and relevant content, so the longest accepted definitions cannot
 overflow the local catalog's identifier contract.
 
-The provider boundary has only two capabilities: list the direct children of a
-known folder and download a bounded CSV file. It accepts no Drive write,
+The provider boundary has only three capabilities: list the direct children of
+a known folder, download a bounded CSV file, and read a bounded objective text
+document. It accepts no Drive write,
 sharing, delete, or global-search capability. Protected production
 configuration binds one known academic-year folder ID and, for each mapped
 class, an exact course name. By default the importer resolves only the
@@ -84,3 +85,8 @@ legacy English/Vietnamese two-face presentation remains supported.
 
 No AI translation call is made by this workflow. Translations come only from
 the teacher-supplied CSV.
+
+The same read-only scheduled import boundary can also index explicitly
+structured course documentation for assignment learning objectives. See
+[Documentation-backed learning objectives](learning-objectives.md). This does
+not change glossary selection or introduce an AI provider.

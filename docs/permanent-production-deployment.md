@@ -91,6 +91,9 @@ sudo -n /usr/local/sbin/chalkwright-production-admin provision-glossary
 The fixed controller validates the exact `drive.readonly` authorized-user
 shape, rewrites its reference to the isolated production provider path, and
 creates only the protected config, provider credential, and job environment.
+Each course may also declare an `objectiveFolderPath`; the same job then
+imports structured objective documents into the local catalog without an LLM.
+See [Documentation-backed learning objectives](learning-objectives.md).
 It prints no protected value, contacts no provider, and starts no unit.
 
 Later course-binding or exact-folder-path changes use the separately fixed,

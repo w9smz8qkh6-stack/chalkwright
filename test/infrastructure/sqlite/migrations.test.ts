@@ -44,7 +44,7 @@ describe('forward-only SQLite migrations', () => {
     assert.equal(statSync(path).mode & 0o777, 0o600);
     assert.deepEqual(
       appliedVersions(database.connection),
-      [1, 2, 3, 4, 5, 6, 7],
+      [1, 2, 3, 4, 5, 6, 7, 8],
     );
     assert.deepEqual(
       appliedMigrationRows(database.connection),
@@ -69,6 +69,8 @@ describe('forward-only SQLite migrations', () => {
       'glossary_translations',
       'import_rejections',
       'import_runs',
+      'learning_objective_entries',
+      'learning_objective_sources',
       'plan_snapshots',
       'schema_migrations',
     ]);
@@ -144,6 +146,25 @@ describe('forward-only SQLite migrations', () => {
         'plan_snapshots',
         'schema_migrations',
       ],
+      [
+        'application_records',
+        'calendar_execution_journal',
+        'calendar_execution_steps',
+        'calendar_writer_leases',
+        'classroom_enrichment_cache',
+        'continuity_records',
+        'glossary_entries',
+        'glossary_import_runs',
+        'glossary_media',
+        'glossary_sources',
+        'glossary_translations',
+        'import_rejections',
+        'import_runs',
+        'learning_objective_entries',
+        'learning_objective_sources',
+        'plan_snapshots',
+        'schema_migrations',
+      ],
     ];
 
     for (
@@ -191,7 +212,7 @@ describe('forward-only SQLite migrations', () => {
     assert.equal(userVersion(current.connection), schemaMigrations.length);
     assert.deepEqual(
       appliedVersions(current.connection),
-      [1, 2, 3, 4, 5, 6, 7],
+      [1, 2, 3, 4, 5, 6, 7, 8],
     );
     assert.equal(
       scalar(
@@ -306,7 +327,7 @@ describe('forward-only SQLite migrations', () => {
     assert.equal(tableNames(connection).includes('continuity_records'), false);
 
     applyMigrations(connection, { appliedAt });
-    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7]);
+    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7, 8]);
     connection.close();
   });
 
@@ -356,8 +377,8 @@ describe('forward-only SQLite migrations', () => {
     );
 
     applyMigrations(connection, { appliedAt });
-    assert.equal(userVersion(connection), 7);
-    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7]);
+    assert.equal(userVersion(connection), 8);
+    assert.deepEqual(appliedVersions(connection), [1, 2, 3, 4, 5, 6, 7, 8]);
     assert.equal(
       scalar(
         connection,

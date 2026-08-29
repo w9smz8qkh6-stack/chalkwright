@@ -139,6 +139,26 @@ test('normalizes legacy display/class identities and assignment unit labels', ()
   assert.equal(assignmentUnitLabel('Lesson 7.2.1 Quiz'), '7');
 });
 
+test('features a matched teacher-authored objective while retaining assignment context', () => {
+  const cards = objectiveCardsForCoursework([
+    {
+      ...objectiveCoursework()[0]!,
+      learningObjectives: [
+        'Students will trace nested conditional branches.',
+        'Students will select conditions that model a stated rule.',
+      ],
+    },
+  ]);
+  assert.equal(
+    cards[0]?.featured,
+    'Students will trace nested conditional branches.',
+  );
+  assert.deepEqual(cards[0]?.details?.slice(0, 2), [
+    'Students will select conditions that model a stated rule.',
+    'Assignment: Quiz 6.11.1.',
+  ]);
+});
+
 test('normalizes complete coursework fields in meeting-date windows with legacy order and caps', () => {
   const first = normalizeGolden();
   const second = normalizeGolden();

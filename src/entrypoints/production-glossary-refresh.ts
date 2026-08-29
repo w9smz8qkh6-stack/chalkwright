@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { importDriveGlossaryCourse } from '../application/glossary/import-drive.js';
 import { selectGlossaryVocabularyForPlan } from '../application/glossary/select-vocabulary.js';
+import { importDriveLearningObjectivesCourse } from '../application/objectives/import-drive.js';
 import { loadGoogleDriveGlossaryConfig } from '../config/google-drive-glossary.js';
 import { loadProductionServerConfig } from '../config/production.js';
 import type { IsoDate } from '../contracts/v1/common.js';
@@ -10,6 +11,7 @@ import { loadOfficialDriveGlossaryTransport } from '../infrastructure/google-dri
 import { SqliteClassroomEnrichmentCache } from '../infrastructure/sqlite/classroom-cache.js';
 import { SqliteDatabase } from '../infrastructure/sqlite/database.js';
 import { SqliteGlossaryCatalog } from '../infrastructure/sqlite/glossary-catalog.js';
+import { SqliteLearningObjectiveCatalog } from '../infrastructure/sqlite/learning-objective-catalog.js';
 import { SqliteApplicationStateRepository } from '../infrastructure/sqlite/repository.js';
 import type { DriveGlossaryReadTransport } from '../infrastructure/google-drive/contracts.js';
 import { isDirectEntrypoint } from './direct-invocation.js';
@@ -21,6 +23,8 @@ export interface ProductionGlossaryRefreshOutput {
   readonly code?: string;
   readonly imported: number;
   readonly unchangedImports: number;
+  readonly objectiveImports: number;
+  readonly unchangedObjectiveImports: number;
   readonly selected: number;
   readonly unchangedSelections: number;
   readonly unavailableSelections: number;
@@ -37,6 +41,8 @@ export async function runProductionGlossaryRefresh(options: {
   const empty = {
     imported: 0,
     unchangedImports: 0,
+    objectiveImports: 0,
+    unchangedObjectiveImports: 0,
     selected: 0,
     unchangedSelections: 0,
     unavailableSelections: 0,
@@ -83,11 +89,14 @@ export async function runProductionGlossaryRefresh(options: {
       academicYearEndForDate: () => production.academicYearEnd,
     });
     const catalog = new SqliteGlossaryCatalog(database);
+    const objectiveCatalog = new SqliteLearningObjectiveCatalog(database);
     const transport =
       options.transportForRun?.() ??
       loadOfficialDriveGlossaryTransport(glossary.credentialReferencePath);
     let imported = 0;
     let unchangedImports = 0;
+    let objectiveImports = 0;
+    let unchangedObjectiveImports = 0;
     const failures: string[] = [];
     for (const course of glossary.courses) {
       try {
@@ -106,6 +115,22 @@ export async function runProductionGlossaryRefresh(options: {
         for (const result of results) {
           if (result.status === 'imported') imported += 1;
           else unchangedImports += 1;
+        }
+        const objectiveResults = await importDriveLearningObjectivesCourse({
+          course,
+          academicYear: glossary.academicYear,
+          academicYearFolderId: glossary.academicYearFolderId,
+          importedAt: observedAt,
+          transport,
+          catalog: objectiveCatalog,
+          requestTimeoutMs: glossary.requestTimeoutMs,
+          maximumPages: glossary.maximumPagesPerSource,
+          maximumFiles: glossary.maximumFilesPerCourse,
+          signal: options.signal ?? new AbortController().signal,
+        });
+        for (const result of objectiveResults) {
+          if (result.status === 'imported') objectiveImports += 1;
+          else unchangedObjectiveImports += 1;
         }
       } catch (error: unknown) {
         failures.push(sanitizedFailure(error));
@@ -133,6 +158,8 @@ export async function runProductionGlossaryRefresh(options: {
     const resultCounts = {
       imported,
       unchangedImports,
+      objectiveImports,
+      unchangedObjectiveImports,
       selected: selection.selected,
       unchangedSelections: selection.unchanged,
       unavailableSelections: selection.unavailable,
@@ -189,6 +216,20 @@ const safeFailures = new Set([
   'glossary-drive-pagination-invalid',
   'glossary-drive-page-budget-exceeded',
   'glossary-catalog-write-rejected',
+  'learning-objective-drive-transport-unavailable',
+  'learning-objective-drive-course-folder-missing',
+  'learning-objective-drive-course-folder-ambiguous',
+  'learning-objective-drive-folder-missing',
+  'learning-objective-drive-folder-ambiguous',
+  'learning-objective-drive-document-missing',
+  'learning-objective-drive-document-ambiguous',
+  'learning-objective-drive-file-budget-exceeded',
+  'learning-objective-drive-pagination-invalid',
+  'learning-objective-drive-page-budget-exceeded',
+  'learning-objective-document-too-large',
+  'learning-objective-document-no-entries',
+  'learning-objective-document-ambiguous',
+  'learning-objective-catalog-write-rejected',
 ]);
 
 function sanitizedFailure(error: unknown): string {

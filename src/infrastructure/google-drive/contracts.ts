@@ -20,6 +20,13 @@ export interface DriveGlossaryReadTransport {
     readonly signal: AbortSignal;
     readonly timeoutMs: number;
   }): Promise<Uint8Array>;
+  /** Optional for compatibility; required only when objective documents are configured. */
+  readTextDocument?(request: {
+    readonly fileId: string;
+    readonly sourceMimeType: string;
+    readonly signal: AbortSignal;
+    readonly timeoutMs: number;
+  }): Promise<string>;
 }
 
 export class GoogleDriveGlossaryError extends Error {

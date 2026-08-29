@@ -325,7 +325,7 @@ function courseworkItem(
         'updateTime',
         'workType',
       ],
-      ['alternateLink', 'dueAt', 'dueDate', 'dueLabel'],
+      ['alternateLink', 'dueAt', 'dueDate', 'dueLabel', 'learningObjectives'],
     ) ||
     item.classId !== classId ||
     item.bucket !== bucket ||
@@ -349,6 +349,16 @@ function courseworkItem(
     (item.dueAt !== undefined && !isIsoInstant(item.dueAt)) ||
     (item.dueLabel !== undefined && typeof item.dueLabel !== 'string') ||
     (item.alternateLink !== undefined && !safeUrl(item.alternateLink)) ||
+    (item.learningObjectives !== undefined &&
+      (!Array.isArray(item.learningObjectives) ||
+        item.learningObjectives.length < 1 ||
+        item.learningObjectives.length > 6 ||
+        !item.learningObjectives.every(
+          (objective) =>
+            typeof objective === 'string' &&
+            objective.length >= 8 &&
+            objective.length <= 1_000,
+        ))) ||
     !Array.isArray(item.materials) ||
     item.materials.length > 20 ||
     !item.materials.every(courseworkMaterial)
