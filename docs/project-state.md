@@ -13,9 +13,9 @@ docs:sync`. Repository documentation is not a live-service probe.
 
 - Reviewed: `2026-08-30` (0 days ago; maximum 7)
 - Implementation files covered: 513
-- Implementation fingerprint: `8abdc70bb20876ebeb3748bf15d9d95257673f0c66f48821c0632137d67ccc2f`
+- Implementation fingerprint: `c6b6aed63a77492919ee6c7fd3dd4f6dd340ad9ec1853d934e044fdd9fd51dcb`
 - Semantic review: **CURRENT**
-- Review statement: The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, tiered project hooks, quiet global resume and compaction refresh, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f and the documentation-automation implementation. Concurrent roadmap, landing-page, and synthetic-display worktrees remain separately owned and were not incorporated by this review; no new live application or provider probe was performed.
+- Review statement: The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, documentation foundation, and synthetic B407 display-polish implementation were reviewed together against origin/main commit 0f8f65f and documentation-foundation commit 7876763. Concurrent roadmap and landing-page worktrees remain separately owned and were not incorporated by this review; no new live application or provider probe was performed.
 - Working-tree classification is evaluated live by hooks and documentation gates; volatile change counts are intentionally excluded from this tracked view.
 
 ## Development position
@@ -88,7 +88,7 @@ separate activation authority; `fixture-supported`, `planned`, and
 
 - Status: `active`
 - Outcome: Keep fixture-backed captures representative of current objectives, assignments, and multilingual vocabulary without introducing private classroom data.
-- Present state: The B407 synthetic fixture and preview evidence include richer Web Design and Robotics carousel content. Coursework retains an explicit Google Classroom presentation, the Robotics assignment includes synthetic task and due-date details, and an unconfigured school-brand slot uses the ChalkWright placeholder logo; corresponding display assertions are updated.
+- Present state: The B407 synthetic fixture and preview evidence include richer Web Design and Robotics carousel content. Coursework retains an explicit Google Classroom presentation, the Robotics assignment includes synthetic task and due-date details, and an unconfigured school-brand slot uses the ChalkWright placeholder logo; corresponding controller and presentation assertions are updated.
 - Capabilities: `classroom-display`, `lesson-enrichment`, `fixture-evaluation`
 - Next: Verify the accepted viewport envelope and regenerate only reproducible synthetic preview evidence when presentation behavior changes.
 - Documentation: [`docs/b407-display-mvp.md`](b407-display-mvp.md), [`docs/project-state.md`](project-state.md)

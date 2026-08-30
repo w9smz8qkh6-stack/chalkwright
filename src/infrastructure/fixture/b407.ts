@@ -138,15 +138,15 @@ export const b407FixtureData: DisplayFixtureData = {
           type: 'objective',
           title: "Today's objective",
           lines: [
-            'Explain a deterministic state transition.',
-            'Review the state diagram.',
-            'Open Classroom for full directions.',
+            'Create a responsive layout for multiple screen sizes.',
+            'Compare the desktop and mobile breakpoints.',
+            'Open Classroom for the design requirements.',
             'Due Tue, April 17.',
           ],
-          featured: 'Explain a deterministic state transition.',
+          featured: 'Create a responsive layout for multiple screen sizes.',
           details: [
-            'Review the state diagram.',
-            'Open Classroom for full directions.',
+            'Compare the desktop and mobile breakpoints.',
+            'Open Classroom for the design requirements.',
             'Due Tue, April 17.',
           ],
           durationSeconds: 12,
@@ -154,15 +154,41 @@ export const b407FixtureData: DisplayFixtureData = {
         {
           cardId: 'coursework-b407-a',
           type: 'coursework',
-          title: 'Synthetic coursework',
-          lines: ['Complete the fixture-backed comparison.'],
+          title: 'Responsive layout practice',
+          lines: ['Complete the breakpoint comparison in Classroom.'],
           durationSeconds: 12,
         },
         {
           cardId: 'vocabulary-b407-a',
           type: 'vocabulary',
-          title: 'Idempotent',
-          lines: ['A repeated operation produces the same durable result.'],
+          title: 'responsive design',
+          lines: [
+            'A design approach that adapts a layout to different screen sizes.',
+          ],
+          vocabulary: {
+            term: 'responsive design',
+            definition:
+              'A design approach that adapts a layout to different screen sizes.',
+            translations: [
+              {
+                languageCode: 'vi',
+                term: 'thiết kế đáp ứng',
+                definition:
+                  'Phương pháp thiết kế giúp bố cục thích ứng với nhiều kích thước màn hình.',
+              },
+              {
+                languageCode: 'ko',
+                term: '반응형 디자인',
+                definition:
+                  '다양한 화면 크기에 맞게 레이아웃을 조정하는 디자인 방식입니다.',
+              },
+              {
+                languageCode: 'zh-Hans',
+                term: '响应式设计',
+                definition: '一种使布局适应不同屏幕尺寸的设计方法。',
+              },
+            ],
+          },
           durationSeconds: 12,
         },
       ],
@@ -174,7 +200,61 @@ export const b407FixtureData: DisplayFixtureData = {
           cardId: 'objective-b407-b',
           type: 'objective',
           title: "Today's objective",
-          lines: ['Verify an isolated display scope.'],
+          lines: [
+            'Program a robot to respond to sensor input.',
+            'Test the routine with two different thresholds.',
+            'Document one improvement in Classroom.',
+          ],
+          featured: 'Program a robot to respond to sensor input.',
+          details: [
+            'Test the routine with two different thresholds.',
+            'Document one improvement in Classroom.',
+          ],
+          durationSeconds: 12,
+        },
+        {
+          cardId: 'coursework-b407-b',
+          type: 'coursework',
+          title: 'Sensor response challenge',
+          lines: [],
+          featured: 'Build, test, and refine the sensor routine.',
+          details: [
+            'Submit the final routine and a short test log.',
+            'Due Fri, April 13.',
+          ],
+          durationSeconds: 12,
+        },
+        {
+          cardId: 'vocabulary-b407-b',
+          type: 'vocabulary',
+          title: 'feedback loop',
+          lines: [
+            'A process that uses its output to adjust what happens next.',
+          ],
+          vocabulary: {
+            term: 'feedback loop',
+            definition:
+              'A process that uses its output to adjust what happens next.',
+            translations: [
+              {
+                languageCode: 'vi',
+                term: 'vòng phản hồi',
+                definition:
+                  'Một quá trình sử dụng kết quả đầu ra để điều chỉnh bước tiếp theo.',
+              },
+              {
+                languageCode: 'ko',
+                term: '피드백 루프',
+                definition:
+                  '출력 결과를 사용하여 다음 동작을 조정하는 과정입니다.',
+              },
+              {
+                languageCode: 'zh-Hans',
+                term: '反馈回路',
+                definition: '利用输出结果来调整下一步操作的过程。',
+              },
+            ],
+          },
           durationSeconds: 12,
         },
       ],

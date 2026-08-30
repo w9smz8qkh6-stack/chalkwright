@@ -141,8 +141,9 @@ a {
   object-position: left center;
 }
 
-.header-brand-slot {
-  min-width: 0;
+.brand-school.brand-placeholder img {
+  width: clamp(48px, 4.5vw, 72px);
+  max-height: 4.5rem;
 }
 
 .system-credit {
@@ -373,6 +374,10 @@ a {
   text-transform: uppercase;
   font-size: clamp(0.85rem, 1.3vw, 1.25rem);
   font-weight: 800;
+}
+
+.card-coursework .card-type {
+  color: #8ab4f8;
 }
 
 #display-main {
@@ -1990,6 +1995,10 @@ a {
 }
 
 @media (max-width: 64rem) {
+  .brand-placeholder {
+    display: none;
+  }
+
   .display-page {
     height: auto;
     grid-template-rows: auto auto;
@@ -2072,10 +2081,6 @@ a {
 
   .display-header {
     grid-template-columns: 1fr;
-  }
-
-  .header-brand-slot {
-    display: none;
   }
 
   .system-credit {

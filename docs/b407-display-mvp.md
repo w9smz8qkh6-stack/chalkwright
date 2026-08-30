@@ -37,8 +37,9 @@ fetches or regenerates media.
 - Display, target, day-plan, preview, override, hold, QR, media, asset,
   manifest, health, and readiness routes.
 - All eight frozen display states and exact meeting timing boundaries.
-- Objectives, coursework, vocabulary, attendance links, and a readable QR code
-  derived only from synthetic fixture contracts.
+- Objectives, coursework identified as Google Classroom content, vocabulary,
+  attendance links, and a readable QR code derived only from synthetic fixture
+  contracts.
 - Automatic carousel behavior, local controls, and durable screen/meeting/plan-
   scoped holds in a temporary SQLite database.
 - Mutation-free previews plus bounded, locally authorized synthetic overrides.

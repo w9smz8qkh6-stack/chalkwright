@@ -151,7 +151,7 @@ function header(model: DisplayPresentationModel): string {
   );
   const brand =
     model.branding === undefined
-      ? '<div class="header-brand-slot" aria-hidden="true"></div>'
+      ? `<div class="brand brand-school brand-placeholder"><img src="${escapeHtml(icon)}" alt="ChalkWright placeholder logo"></div>`
       : `<div class="brand brand-school"><img src="${escapeHtml(icon)}" alt="${escapeHtml(model.branding.schoolName)}"></div>`;
   const waterBreak = waterBreakWindow(model);
   const bellTarget =
@@ -332,7 +332,7 @@ function objectiveDetailMarkup(detail: string): string {
 function cardDetailsMarkup(card: PresentationCard): string {
   const details = card.details ?? [];
   if (details.length === 0) return '';
-  if (card.type === 'objective') {
+  if (card.type === 'objective' || card.type === 'coursework') {
     return `<div class="card-details" data-reveal><ul class="objective-detail-list">${details.map(objectiveDetailMarkup).join('')}</ul></div>`;
   }
   return `<div class="card-details" data-reveal>${details.map((line) => `<p>${escapeHtml(line)}</p>`).join('')}</div>`;
@@ -422,8 +422,12 @@ function cardMarkup(card: PresentationCard, index: number): string {
     card.type === 'bellringer'
       ? card.title.replace(/^bellringer\s*:\s*/iu, '')
       : card.title;
+  const typeLabel =
+    card.type === 'coursework'
+      ? 'Google Classroom'
+      : card.type.replaceAll('_', ' ');
   return `<article class="carousel-card card-${escapeHtml(card.type)} accent-${escapeHtml(card.accent ?? 'ink')}" data-carousel-card data-card-id="${escapeHtml(card.cardId)}" data-duration-ms="${Math.max(5, durationSeconds) * 1000}" ${index === 0 ? '' : 'hidden'}>
-  ${vocabulary === undefined ? `<p class="card-type">${escapeHtml(card.type.replaceAll('_', ' '))}</p>` : ''}
+  ${vocabulary === undefined ? `<p class="card-type">${escapeHtml(typeLabel)}</p>` : ''}
   ${vocabulary === undefined ? `<h2>${escapeHtml(title)}</h2>` : vocabulary}
   ${card.featured === undefined ? '' : `<p class="featured">${escapeHtml(card.featured)}</p>`}
   ${vocabulary !== undefined || card.lines.length === 0 ? '' : `<ul>${card.lines.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}</ul>`}

@@ -123,6 +123,13 @@ omitted.
 
 ### Changed
 
+- Kept unconfigured displays visibly branded by using the local ChalkWright
+  logo as a compact school-brand placeholder, while configured school logos
+  retain their responsive treatment. Coursework cards now keep an explicit
+  Google Classroom label and structured task, due-date, and reveal details.
+  The synthetic B407 fixture and preview evidence now exercise richer Web
+  Design and Robotics objectives, assignments, and multilingual vocabulary.
+
 - Serve the next verified locally stored class day when the current local date
   has no exact plan. Display readiness and the classroom page now remain usable
   on bounded-lookahead days such as Sunday, presenting a morning overview

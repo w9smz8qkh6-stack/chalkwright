@@ -407,16 +407,39 @@ test('site branding replaces the Chalkwright header mark with legacy-sized schoo
   assert.doesNotMatch(html, /<span>Chalkwright<\/span>/u);
 });
 
-test('display shell moves the ChalkWright identity to a lower-right system credit', () => {
+test('display shell uses the ChalkWright logo until school branding is configured', () => {
   const html = renderDisplayPage(model('idle'));
-  assert.match(html, /class="header-brand-slot"/u);
-  assert.doesNotMatch(html, /<header[^>]*>[\s\S]*?<span>Chalkwright<\/span>/u);
+  assert.match(
+    html,
+    /class="brand brand-school brand-placeholder"[\s\S]*?src="\/assets\/chalkwright\.svg"/u,
+  );
+  assert.match(html, /alt="ChalkWright placeholder logo"/u);
   assert.match(html, /<footer class="system-credit"/u);
   assert.match(html, /src="\/assets\/chalkwright\.svg"/u);
   assert.match(
     html,
     /ChalkWright Classroom Screen System v\.0\.1\.0: www\.chalkwright\.org/u,
   );
+});
+
+test('coursework cards retain their Google Classroom presentation', () => {
+  const html = renderDisplayPage({
+    ...model('in_class_content'),
+    cards: [
+      {
+        cardId: 'coursework-example',
+        type: 'coursework',
+        title: 'Sensor response challenge',
+        lines: [],
+        featured: 'Build and test the routine.',
+        details: ['Submit a short test log.', 'Due Fri, April 13.'],
+      },
+    ],
+  });
+  assert.match(html, /class="carousel-card card-coursework/u);
+  assert.match(html, /<p class="card-type">Google Classroom<\/p>/u);
+  assert.match(html, /class="date-badge"/u);
+  assert.match(html, /Submit a short test log\./u);
 });
 
 test('site countdown video takes priority over course art only for dismissal', () => {

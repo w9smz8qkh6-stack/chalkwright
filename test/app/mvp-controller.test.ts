@@ -128,3 +128,15 @@ test('preserves structured Classroom objective content for presentation icons', 
     },
   );
 });
+
+test('preserves coursework as Google Classroom presentation content', () => {
+  assert.equal(
+    presentationCard({
+      cardId: 'coursework-example',
+      type: 'coursework',
+      title: 'Sensor response challenge',
+      lines: ['Build and test the routine.'],
+    }).type,
+    'coursework',
+  );
+});

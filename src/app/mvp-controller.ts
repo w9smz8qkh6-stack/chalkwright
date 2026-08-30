@@ -169,6 +169,7 @@ export function presentationCard(card: DisplayCard): PresentationCard {
     card.type === 'announcement' ||
     card.type === 'bellringer' ||
     card.type === 'objective' ||
+    card.type === 'coursework' ||
     card.type === 'vocabulary'
       ? card.type
       : 'generic';
