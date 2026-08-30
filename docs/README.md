@@ -2,6 +2,9 @@
 
 ## Product and migration planning
 
+- [Current project state](project-state.md) — continuously checked phase,
+  milestone, deployment evidence basis, capability maturity, active
+  workstreams, limits, and next decisions.
 - [Product vision](product-vision.md) — users, workflows, target capabilities,
   MVP boundary, safety, non-goals, and measurable success.
 - [B407 Classroom Display MVP](b407-display-mvp.md) — immediate offline M-05
@@ -106,9 +109,14 @@ a summary does not authorize retirement.
 
 ## Environment and tooling
 
+- [Structured project knowledge](project-knowledge.json) — semantic source for
+  the generated current-state view and per-prompt Codex digest.
 - [Engineering standards](engineering-standards.md) — documentation and comment
   policy, dependency/build practices, testing, migrations, and definition of
   done.
+- [Documentation maintenance system](documentation-system.md) — generated
+  facts and inventory, Codex lifecycle context, host automation, semantic
+  review boundaries, verification, and recovery.
 - [Changelog](../CHANGELOG.md) — consequential unreleased product, contract,
   operational, security, and runtime changes.
 - [Working environment](../.codex/environment.md) — repository-scoped Codex
@@ -122,3 +130,84 @@ confirm that the generated tooling index matches the canonical deployment
 host. Run
 `npm run docs:check-links` when network access is authorized to validate
 canonical external links.
+
+<!-- prettier-ignore-start -->
+
+<!-- BEGIN GENERATED DOCUMENTATION INVENTORY -->
+## Complete generated inventory
+
+This exhaustive list is generated from every Markdown file under `docs/`.
+The curated sections above explain authority and routing; this inventory makes
+new, renamed, and removed documentation discoverable without manual indexing.
+
+- [Architecture principles](architecture-principles.md) — `architecture-principles.md`
+- [B407 Classroom Display MVP](b407-display-mvp.md) — `b407-display-mvp.md`
+- [Configuration](configuration.md) — `configuration.md`
+- [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`
+- [ADR-0002: Canonical day plan and SQLite state](decisions/0002-canonical-plan-and-sqlite-state.md) — `decisions/0002-canonical-plan-and-sqlite-state.md`
+- [ADR-0003: Bounded external-system effects](decisions/0003-bounded-external-system-effects.md) — `decisions/0003-bounded-external-system-effects.md`
+- [ADR-0004: Separate sensitive material and runtime state](decisions/0004-separate-sensitive-and-runtime-state.md) — `decisions/0004-separate-sensitive-and-runtime-state.md`
+- [ADR-0005: systemd and Tailnet-only deployment](decisions/0005-systemd-and-tailnet-deployment.md) — `decisions/0005-systemd-and-tailnet-deployment.md`
+- [ADR-0006: Parity-first migration and single writer](decisions/0006-parity-first-migration-and-single-writer.md) — `decisions/0006-parity-first-migration-and-single-writer.md`
+- [ADR-0007: First-class screens and rooms](decisions/0007-first-class-screens-and-rooms.md) — `decisions/0007-first-class-screens-and-rooms.md`
+- [ADR-0008: Server-controlled carousel holds](decisions/0008-server-controlled-carousel-holds.md) — `decisions/0008-server-controlled-carousel-holds.md`
+- [ADR-0009: Initial UI delivery strategy](decisions/0009-initial-ui-delivery-strategy.md) — `decisions/0009-initial-ui-delivery-strategy.md`
+- [ADR-0010: Direct PowerSchool browser/auth adapter](decisions/0010-direct-powerschool-auth-adapter.md) — `decisions/0010-direct-powerschool-auth-adapter.md`
+- [ADR-0011: Google Classroom client, credential model, and scopes](decisions/0011-google-client-and-scopes.md) — `decisions/0011-google-client-and-scopes.md`
+- [ADR-0012: Alert delivery transport](decisions/0012-alert-delivery-transport.md) — `decisions/0012-alert-delivery-transport.md`
+- [ADR-0013: State retention and recovery](decisions/0013-state-retention-and-recovery.md) — `decisions/0013-state-retention-and-recovery.md`
+- [ADR-0014: Filtered PowerSchool session state and separate manual repair](decisions/0014-filtered-powerschool-session-state.md) — `decisions/0014-filtered-powerschool-session-state.md`
+- [ADR-0015: Aggregate-only attendance continuity and transient matrix](decisions/0015-aggregate-attendance-continuity.md) — `decisions/0015-aggregate-attendance-continuity.md`
+- [ADR-0016: Calendar read identity and ownership classification](decisions/0016-calendar-read-identity-and-ownership.md) — `decisions/0016-calendar-read-identity-and-ownership.md`
+- [ADR-0017: Isolated Calendar writer qualification](decisions/0017-calendar-writer-qualification.md) — `decisions/0017-calendar-writer-qualification.md`
+- [ADR-0018: Bounded production Calendar trial](decisions/0018-bounded-production-calendar-trial.md) — `decisions/0018-bounded-production-calendar-trial.md`
+- [ADR-0019: Bounded cutover and rollback rehearsal](decisions/0019-bounded-cutover-rehearsal.md) — `decisions/0019-bounded-cutover-rehearsal.md`
+- [ADR-0020: Just-in-time PowerSchool session repair](decisions/0020-just-in-time-powerschool-repair.md) — `decisions/0020-just-in-time-powerschool-repair.md`
+- [ADR-0021: Persistent PowerSchool compatibility lane](decisions/0021-persistent-powerschool-compatibility-lane.md) — `decisions/0021-persistent-powerschool-compatibility-lane.md`
+- [ADR-0022: Isolated parallel production canary before final handoff](decisions/0022-parallel-production-canary.md) — `decisions/0022-parallel-production-canary.md`
+- [ADR-0023: Chalkwright public identity and compatibility migration](decisions/0023-chalkwright-public-identity.md) — `decisions/0023-chalkwright-public-identity.md`
+- [ADR-0024: Application-owned PowerSchool authentication lifecycle](decisions/0024-application-owned-powerschool-authentication.md) — `decisions/0024-application-owned-powerschool-authentication.md`
+- [ADR-0025: Permanent production delivery lane](decisions/0025-permanent-production-delivery.md) — `decisions/0025-permanent-production-delivery.md`
+- [Architecture decision records](decisions/README.md) — `decisions/README.md`
+- [Documentation maintenance system](documentation-system.md) — `documentation-system.md`
+- [Engineering standards](engineering-standards.md) — `engineering-standards.md`
+- [Future parity roadmap](future-parity-roadmap.md) — `future-parity-roadmap.md`
+- [Offline glossary catalog](glossary-catalog.md) — `glossary-catalog.md`
+- [Documentation-backed learning objectives](learning-objectives.md) — `learning-objectives.md`
+- [Legacy parity inventory](legacy-parity-inventory.md) — `legacy-parity-inventory.md`
+- [Migration execution plan](migration-plan.md) — `migration-plan.md`
+- [Migration strategy](migration-strategy.md) — `migration-strategy.md`
+- [M-01 contract and sanitized-evidence review package](migration/m01-review-package.md) — `migration/m01-review-package.md`
+- [M-02 domain ports and canonical-plan review package](migration/m02-review-package.md) — `migration/m02-review-package.md`
+- [M-03 pure plan, state, and enrichment review package](migration/m03-review-package.md) — `migration/m03-review-package.md`
+- [M-04 SQLite persistence and continuity review package](migration/m04-review-package.md) — `migration/m04-review-package.md`
+- [M-05 review package: B407 display and local controls](migration/m05-review-package.md) — `migration/m05-review-package.md`
+- [M-06 review package: offline operations and deployment artifacts](migration/m06-review-package.md) — `migration/m06-review-package.md`
+- [M-07A review package: synthetic direct PowerSchool adapter qualification](migration/m07a-review-package.md) — `migration/m07a-review-package.md`
+- [M-07B review package: bounded PowerSchool characterization](migration/m07b-review-package.md) — `migration/m07b-review-package.md`
+- [M-07C review package: filtered PowerSchool session integration](migration/m07c-review-package.md) — `migration/m07c-review-package.md`
+- [M-08 review package: Google Classroom read qualification](migration/m08-review-package.md) — `migration/m08-review-package.md`
+- [M-09 review package: attendance and continuity safety](migration/m09-review-package.md) — `migration/m09-review-package.md`
+- [M-10 review package: read-only integration gate](migration/m10-review-package.md) — `migration/m10-review-package.md`
+- [M-11 review package: isolated mutation-disabled shadow](migration/m11-review-package.md) — `migration/m11-review-package.md`
+- [M-12 review package: behavior comparison](migration/m12-review-package.md) — `migration/m12-review-package.md`
+- [M-13 review package: Calendar ownership audit without writes](migration/m13-review-package.md) — `migration/m13-review-package.md`
+- [M-14 review package: non-production Calendar writer qualification](migration/m14-review-package.md) — `migration/m14-review-package.md`
+- [M-15 review package: bounded production Calendar trial](migration/m15-review-package.md) — `migration/m15-review-package.md`
+- [M-16 review package: cutover and rollback rehearsal](migration/m16-review-package.md) — `migration/m16-review-package.md`
+- [M-17 review package: isolated parallel production canary](migration/m17-review-package.md) — `migration/m17-review-package.md`
+- [M-18 legacy-retirement record](migration/m18-retirement-record.md) — `migration/m18-retirement-record.md`
+- [Migration evidence index](migration/README.md) — `migration/README.md`
+- [Retirement decision log](migration/retirement-decisions.md) — `migration/retirement-decisions.md`
+- [Offline operations and future activation](operations.md) — `operations.md`
+- [Permanent production deployment](permanent-production-deployment.md) — `permanent-production-deployment.md`
+- [Offline PowerSchool session collector](powerschool-bell-collector.md) — `powerschool-bell-collector.md`
+- [Product vision](product-vision.md) — `product-vision.md`
+- [Current Chalkwright project state](project-state.md) — `project-state.md`
+- [Public history plan](publication-history-plan.md) — `publication-history-plan.md`
+- [Public-preview publication gate](publication-readiness.md) — `publication-readiness.md`
+- [Release and version policy](release-policy.md) — `release-policy.md`
+- [Tooling and canonical documentation](tooling.md) — `tooling.md`
+<!-- END GENERATED DOCUMENTATION INVENTORY -->
+
+<!-- prettier-ignore-end -->

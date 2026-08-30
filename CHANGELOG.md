@@ -40,6 +40,22 @@ omitted.
 
 ### Added
 
+- Added a durable, self-documenting Codex workflow with generated project
+  facts, an exhaustive documentation router, and a structured semantic state
+  registry covering phase, milestone, deployment evidence, capability
+  maturity, active workstreams, limits, and next decisions. Trusted lifecycle
+  hooks refresh and inject tiered repository context at session boundaries and
+  before prompts, while a user-level path watcher and timer keep generated
+  context current outside Codex. The documentation gate now fingerprints the
+  implementation surface, expires semantic reviews, validates capability
+  evidence, rejects unclassified worktree changes, and requires source or
+  configuration changes to include both durable documentation and an
+  Unreleased changelog entry. The tracked semantic-state view excludes
+  volatile dirty-worktree counts so a clean commit remains reproducible, while
+  hooks and gates still report those counts live. Repository guidance also
+  requires isolated `codex/<task>` worktrees for distinct or concurrent write
+  outcomes.
+
 - Added bounded, unattended production PowerSchool recovery. A failed plan
   refresh can now remove only a rigorously verified abandoned session lock or,
   for the dedicated authentication-required result, invoke the existing

@@ -239,6 +239,7 @@ the profile and activation steps.
 
 ## Documentation
 
+- [Current project state and capability registry](docs/project-state.md)
 - [Product vision](docs/product-vision.md)
 - [Architecture principles](docs/architecture-principles.md)
 - [Migration strategy](docs/migration-strategy.md)
@@ -249,6 +250,7 @@ the profile and activation steps.
 - [Engineering standards](docs/engineering-standards.md)
 - [Operations guide](docs/operations.md)
 - [Configuration guide](docs/configuration.md)
+- [Documentation maintenance system](docs/documentation-system.md)
 - [Publication readiness gate](docs/publication-readiness.md)
 - [Public history plan](docs/publication-history-plan.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)

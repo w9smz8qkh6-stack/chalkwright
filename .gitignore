@@ -1,5 +1,5 @@
 # Dependencies
-node_modules/
+node_modules
 
 # Environment and secrets
 .env
@@ -38,6 +38,11 @@ artifacts/
 tmp/
 temp/
 *.tsbuildinfo
+.codex/.environment.md.tmp-*
+.codex/.project-context.generated.md.tmp-*
+.codex/project-context.generated.md
+.codex/environment.generated.md
+docs/.README.md.tmp-*
 
 # Logs and process state
 logs/

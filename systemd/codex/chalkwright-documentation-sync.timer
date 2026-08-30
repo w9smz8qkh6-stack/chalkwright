@@ -1,0 +1,13 @@
+[Unit]
+Description=Periodic backstop for Chalkwright documentation context
+Documentation=file:/home/bren/src/chalkwright-m17-canary/docs/documentation-system.md
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=5min
+AccuracySec=30s
+Persistent=true
+Unit=chalkwright-documentation-sync.service
+
+[Install]
+WantedBy=timers.target

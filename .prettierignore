@@ -6,4 +6,5 @@ coverage/
 generated/
 artifacts/
 docs/tooling.md
+docs/project-state.md
 package-lock.json

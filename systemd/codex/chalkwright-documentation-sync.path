@@ -1,0 +1,22 @@
+[Unit]
+Description=Watch Chalkwright documentation inputs
+Documentation=file:/home/bren/src/chalkwright-m17-canary/docs/documentation-system.md
+
+[Path]
+PathChanged=/home/bren/src/chalkwright-m17-canary/package.json
+PathChanged=/home/bren/src/chalkwright-m17-canary/package-lock.json
+PathChanged=/home/bren/src/chalkwright-m17-canary/AGENTS.md
+PathChanged=/home/bren/src/chalkwright-m17-canary/README.md
+PathChanged=/home/bren/src/chalkwright-m17-canary/CHANGELOG.md
+PathChanged=/home/bren/src/chalkwright-m17-canary/.codex/config.toml
+PathModified=/home/bren/src/chalkwright-m17-canary/docs
+PathModified=/home/bren/src/chalkwright-m17-canary/src
+PathModified=/home/bren/src/chalkwright-m17-canary/test
+PathModified=/home/bren/src/chalkwright-m17-canary/scripts
+PathModified=/home/bren/src/chalkwright-m17-canary/systemd
+Unit=chalkwright-documentation-sync.service
+TriggerLimitIntervalSec=30s
+TriggerLimitBurst=20
+
+[Install]
+WantedBy=paths.target
