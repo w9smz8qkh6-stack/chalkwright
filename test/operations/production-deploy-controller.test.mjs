@@ -250,6 +250,15 @@ test('production release builds use a protected persistent cache and bounded fai
   assert.doesNotMatch(releaseBuilder, /HOME=/u);
 });
 
+test('production release extraction preserves SUID hardening compatibility', () => {
+  assert.match(releaseInstaller, /extractor=\/usr\/bin\/python3/u);
+  assert.match(releaseInstaller, /production-release-extractor-missing/u);
+  assert.match(releaseInstaller, /archive\.extractall/u);
+  assert.match(releaseInstaller, /filter="data"/u);
+  assert.match(releaseInstaller, /production-release-extraction-failed/u);
+  assert.doesNotMatch(releaseInstaller, /\/usr\/bin\/tar .* -xzf/u);
+});
+
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
   assert.match(repair, /desktop_user=bren/u);
   assert.match(repair, /desktop_profile=\$runtime\/profile/u);
