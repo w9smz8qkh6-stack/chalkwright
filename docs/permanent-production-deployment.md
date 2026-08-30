@@ -17,7 +17,10 @@ When `main` contains a new commit, the controller:
    protected deployment root, builds an immutable gzip archive, and binds the
    archive to a SHA-256 release directory under `/opt/chalkwright/releases`;
    if a prior retry already staged the identical same-commit archive/release,
-   the controller verifies the digest and release metadata before reuse;
+   the controller verifies the digest and release metadata before reuse. The
+   installer uses the host Python runtime's safe-data archive filter so
+   installation remains path-safe and compatible with the unit's
+   `RestrictSUIDSGID` hardening;
 3. runs the new release's Calendar **preflight** as `classroom-hub`; this is
    list-only and must prove the already configured owned boundary;
 4. atomically replaces `/opt/chalkwright/current` with the new release;

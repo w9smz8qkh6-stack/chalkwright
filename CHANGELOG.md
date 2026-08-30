@@ -16,6 +16,11 @@ omitted.
   protected deployment root, prefer cached packages without an audit request,
   and report a bounded cache, release-build, or runtime-dependency failure
   instead of an opaque process exit.
+- Kept `RestrictSUIDSGID` enabled on the protected deployment service while
+  restoring release extraction compatibility with the host Python runtime's
+  safe-data archive filter. This avoids GNU tar's blocked `openat2` path without
+  weakening the service sandbox or changing archive digest validation and
+  normalized release ownership or modes.
 
 ### Migration
 
