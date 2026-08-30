@@ -114,7 +114,7 @@ export interface DisplayAttendanceSource {
   >;
 }
 
-/** Optional local-only future-plan projection used by the day-complete scene. */
+/** Optional local-only future-plan projection used by no-plan and day-complete scenes. */
 export interface DisplayNextClassDaySource {
   readAfter(
     screenId: ScreenId,

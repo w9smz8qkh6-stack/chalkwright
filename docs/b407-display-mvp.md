@@ -45,6 +45,11 @@ fetches or regenerates media.
 - Local/offline HTML, CSS, TypeScript/JavaScript, media, icons, and manifest.
 - Polling with timeout, bounded backoff, recovery, and last-known-good display
   retention.
+- When the exact local date has no stored plan, the display and readiness
+  checks may use only the next verified class day already present in the local
+  bounded-lookahead store. The future plan renders as a morning overview; the
+  display does not fabricate a calendar-day fallback or contact a provider on
+  the request path.
 - Loopback-only startup, readiness, health, and graceful shutdown.
 
 ## Evidence required for closure

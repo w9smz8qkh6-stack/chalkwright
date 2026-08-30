@@ -15,7 +15,10 @@ import test from 'node:test';
 import { startProductionApplication } from '../../src/app/production-server.js';
 import type { ProductionServerConfig } from '../../src/config/production.js';
 import type { ClassId } from '../../src/domain/identities.js';
-import { b407Plan } from '../../src/infrastructure/fixture/b407.js';
+import {
+  b407NextClassPlan,
+  b407Plan,
+} from '../../src/infrastructure/fixture/b407.js';
 import { SqliteDatabase } from '../../src/infrastructure/sqlite/database.js';
 import { SqliteApplicationStateRepository } from '../../src/infrastructure/sqlite/repository.js';
 import { writeNewProtectedJson } from '../../src/infrastructure/filesystem/protected-json.js';
@@ -90,12 +93,17 @@ test('starts the inert non-fixture production composition on the exact legacy mo
   const database = new SqliteDatabase(databasePath, {
     migration: { appliedAt: '2035-04-13T00:00:00.000Z' },
   });
+  let revision = 0;
   const repository = new SqliteApplicationStateRepository(database, {
     clock: { now: () => '2035-04-13T00:00:00.000Z' },
-    nextRevision: () => 'production-test-revision',
+    nextRevision: () => `production-test-revision-${++revision}`,
     academicYearEndForDate: () => config.academicYearEnd,
   });
   assert.equal((await repository.storeEffective(b407Plan)).status, 'stored');
+  assert.equal(
+    (await repository.storeEffective(b407NextClassPlan)).status,
+    'stored',
+  );
   database.close();
 
   try {
@@ -165,6 +173,27 @@ test('starts the inert non-fixture production composition on the exact legacy mo
       assert.equal(authorized.status, 200);
     } finally {
       await application.close();
+    }
+
+    const futureApplication = await startProductionApplication(
+      config,
+      token,
+      process.cwd(),
+      { clock: { now: () => '2035-04-15T08:00:00.000Z' } },
+    );
+    try {
+      const display = await fetch(
+        `${futureApplication.origin}/classroom-screen/b407`,
+      );
+      assert.equal(display.status, 200);
+      assert.match(await display.text(), /state-morning_overview/u);
+      assert.equal(
+        (await fetch(`${futureApplication.origin}/classroom-screen/ready`))
+          .status,
+        200,
+      );
+    } finally {
+      await futureApplication.close();
     }
   } finally {
     rmSync(root, { recursive: true, force: true });

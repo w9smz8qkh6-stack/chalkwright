@@ -29,7 +29,7 @@ const status = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 const routes = [];
 for (const [hostPort, value] of Object.entries(status.Web ?? {})) {
   const handler = value?.Handlers?.['/'];
-  if (handler?.Proxy === 'http://127.0.0.1:4318') {
+  if (handler?.Proxy === 'http://127.0.0.1:20790') {
     const match = /:([0-9]{1,5})$/u.exec(hostPort);
     if (match !== null) routes.push([match[1], handler.Proxy]);
   }
@@ -40,7 +40,7 @@ NODE
 ) || reject production-route-legacy-route-ambiguous
 IFS=$'\t' read -r serve_port previous_target <<< "$route"
 [[ $serve_port =~ ^[0-9]{1,5}$ && $serve_port -ge 1 && $serve_port -le 65535 ]] || reject production-route-legacy-route-invalid
-[[ $previous_target == http://127.0.0.1:4318 ]] || reject production-route-legacy-target-invalid
+[[ $previous_target == http://127.0.0.1:20790 ]] || reject production-route-legacy-target-invalid
 /usr/bin/install -d -o root -g root -m 0700 "$routes"
 snapshot="$routes/before-production-$serve_port.json"
 [[ ! -e $snapshot && ! -L $snapshot ]] || reject production-route-snapshot-exists

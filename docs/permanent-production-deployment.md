@@ -201,11 +201,12 @@ enable timers, change routes, contact providers, or write to PowerSchool or
 Google Classroom.
 
 The controlled cutover changes only the exact current Tailscale Serve handler
-that points at the shadow's loopback listener. It snapshots the complete Serve
-configuration under `/var/lib/chalkwright/deploy/routes`, replaces that one
-handler with the ready permanent display, verifies the configured handler, and
-restores the snapshot if verification fails. It does not stop the legacy shadow
-service; that remains a local rollback reference until post-cutover acceptance.
+that points at the historical `classroom-screen` listener on loopback port
+`20790`. It snapshots the complete Serve configuration under
+`/var/lib/chalkwright/deploy/routes`, replaces that one handler with the ready
+permanent display, verifies the configured handler, and restores the snapshot
+if verification fails. It does not stop either retained legacy service; those
+remain local rollback references until post-cutover acceptance.
 
 ## Operator boundaries
 
