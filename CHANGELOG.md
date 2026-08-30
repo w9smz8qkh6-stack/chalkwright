@@ -8,6 +8,15 @@ omitted.
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed protected production release construction after the host package
+  manager began requiring a writable cache outside the service's inaccessible
+  home directory. Builds now validate and reuse an owner-only cache inside the
+  protected deployment root, prefer cached packages without an audit request,
+  and report a bounded cache, release-build, or runtime-dependency failure
+  instead of an opaque process exit.
+
 ### Migration
 
 - Approved the M-18 retirement boundary for the original Classroom Screen

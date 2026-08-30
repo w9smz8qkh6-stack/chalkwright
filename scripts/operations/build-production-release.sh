@@ -17,12 +17,20 @@ commit=$(/usr/bin/git -C "$source_root" rev-parse --verify HEAD) || reject produ
 stage=$(/usr/bin/mktemp -d /var/lib/chalkwright/deploy/.build.XXXXXXXX)
 cleanup() { /usr/bin/rm -rf -- "$stage"; }
 trap cleanup EXIT INT TERM
+npm_cache=/var/lib/chalkwright/deploy/npm-cache
+if [[ -e $npm_cache || -L $npm_cache ]]; then
+  [[ -d $npm_cache && ! -L $npm_cache && $(/usr/bin/stat -c %U:%G:%a "$npm_cache") == root:root:700 ]] || reject production-release-npm-cache-unsafe
+else
+  /usr/bin/install -d -o root -g root -m 0700 "$npm_cache"
+fi
 
-(
+if ! (
   cd "$source_root"
-  "$npm" ci --ignore-scripts --silent
-  "$npm" run build --silent
-)
+  NPM_CONFIG_CACHE="$npm_cache" "$npm" ci --ignore-scripts --no-audit --no-fund --prefer-offline --silent
+  NPM_CONFIG_CACHE="$npm_cache" "$npm" run build --silent
+); then
+  reject production-release-build-failed
+fi
 /usr/bin/install -d -m 0755 "$stage/runtime" "$stage/runtime/systemd" "$stage/runtime/scripts/operations"
 /usr/bin/cp -a "$source_root"/dist "$source_root"/public "$source_root"/package.json "$source_root"/package-lock.json "$stage/runtime/"
 /usr/bin/cp -a "$source_root"/systemd/production "$stage/runtime/systemd/"
@@ -33,10 +41,12 @@ trap cleanup EXIT INT TERM
 /usr/bin/install -m 0755 "$source_root/scripts/operations/install-production-powerschool-auto-repair.sh" "$stage/runtime/scripts/operations/install-production-powerschool-auto-repair.sh"
 /usr/bin/cp -a "$source_root"/scripts/operations/cutover-production-tailscale-route.sh "$source_root"/scripts/operations/migrate-production-plan-state.sh "$source_root"/scripts/operations/install-production-release.sh "$source_root"/scripts/operations/switch-production-release.sh "$source_root"/scripts/operations/deploy-production-from-main.sh "$source_root"/scripts/operations/provision-production-inert.sh "$stage/runtime/scripts/operations/"
 /usr/bin/printf '{"version":1,"commit":"%s"}\n' "$commit" > "$stage/runtime/.chalkwright-release.json"
-(
+if ! (
   cd "$stage/runtime"
-  "$npm" ci --omit=dev --ignore-scripts --silent
-)
+  NPM_CONFIG_CACHE="$npm_cache" "$npm" ci --omit=dev --ignore-scripts --no-audit --no-fund --prefer-offline --silent
+); then
+  reject production-release-runtime-dependencies-failed
+fi
 /usr/bin/tar --sort=name --mtime=@0 --owner=0 --group=0 --numeric-owner -cf - -C "$stage/runtime" . | /usr/bin/gzip -n -9 > "$archive"
 /usr/bin/chmod 0600 "$archive"
 digest=$(/usr/bin/sha256sum "$archive" | /usr/bin/cut -d ' ' -f 1)
