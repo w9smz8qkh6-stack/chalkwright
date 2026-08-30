@@ -229,6 +229,27 @@ test('production releases contain the complete automatic PowerSchool recovery pa
   assert.match(activation, /chalkwright-powerschool-auto-repair\.service\.in/u);
 });
 
+test('production release builds use a protected persistent cache and bounded failures', () => {
+  assert.match(
+    releaseBuilder,
+    /npm_cache=\/var\/lib\/chalkwright\/deploy\/npm-cache/u,
+  );
+  assert.match(releaseBuilder, /root:root:700/u);
+  assert.match(releaseBuilder, /production-release-npm-cache-unsafe/u);
+  assert.equal(
+    releaseBuilder.match(/NPM_CONFIG_CACHE="\$npm_cache"/gu)?.length,
+    3,
+  );
+  assert.equal(releaseBuilder.match(/--no-audit --no-fund/gu)?.length, 2);
+  assert.equal(releaseBuilder.match(/--prefer-offline/gu)?.length, 2);
+  assert.match(releaseBuilder, /production-release-build-failed/u);
+  assert.match(
+    releaseBuilder,
+    /production-release-runtime-dependencies-failed/u,
+  );
+  assert.doesNotMatch(releaseBuilder, /HOME=/u);
+});
+
 test('headed PowerSchool repair uses the desktop owner user manager', () => {
   assert.match(repair, /desktop_user=bren/u);
   assert.match(repair, /desktop_profile=\$runtime\/profile/u);

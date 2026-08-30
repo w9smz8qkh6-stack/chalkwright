@@ -13,8 +13,9 @@ isolated deployment checkout for `origin/main`.
 When `main` contains a new commit, the controller:
 
 1. checks out that exact remote commit in a disposable build directory;
-2. installs locked dependencies, builds an immutable gzip archive, and binds
-   the archive to a SHA-256 release directory under `/opt/chalkwright/releases`;
+2. installs locked dependencies through an owner-only cache inside the
+   protected deployment root, builds an immutable gzip archive, and binds the
+   archive to a SHA-256 release directory under `/opt/chalkwright/releases`;
    if a prior retry already staged the identical same-commit archive/release,
    the controller verifies the digest and release metadata before reuse;
 3. runs the new release's Calendar **preflight** as `classroom-hub`; this is
