@@ -83,17 +83,21 @@ Acceptance:
 
 ## 4. Preview and schedule confidence
 
-Implementation status: working in production. Current-day acquisition,
-unavailable-day distinction, bounded future lookahead, and physical
-next-class-day preview have passed. A natural Sunday acquisition of the next
-school week remains stabilization evidence rather than an implementation gap.
+Implementation status: working in production with one pending display fix.
+Current-day acquisition, unavailable-day distinction, bounded future
+lookahead, and physical next-class-day preview have passed. The natural Sunday
+2026-08-30 acquisition successfully stored the next verified class day, but
+the live display and readiness paths still considered only the missing exact
+Sunday plan. The pending correction serves the already stored next class day
+as a morning overview without provider access or calendar-day guessing.
 
 Goal: keep Sunday lookahead, morning verification, and end-of-day preview
 boring and trustworthy.
 
 Scope:
 
-- verify Sunday acquisition of the following class week;
+- deploy and verify next-class-day serving after the successful Sunday
+  acquisition of the following class week;
 - verify morning schedule checks against the live PowerSchool bell page;
 - distinguish "no classes found" from "not loaded yet"; and
 - retain day-complete next-class-day preview behavior.

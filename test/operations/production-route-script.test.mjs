@@ -16,6 +16,10 @@ test('production route cutover snapshots node serve status and restores the exac
     source,
     /tailscale serve --bg --https="\$serve_port" "\$previous_target"/u,
   );
-  assert.match(source, /previous_target == http:\/\/127\.0\.0\.1:4318/u);
+  assert.match(source, /previous_target == http:\/\/127\.0\.0\.1:20790/u);
+  assert.doesNotMatch(
+    source,
+    /handler\?\.Proxy === 'http:\/\/127\.0\.0\.1:4318'/u,
+  );
   assert.doesNotMatch(source, /tailscale serve (?:get|set)-config/u);
 });

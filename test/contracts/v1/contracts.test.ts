@@ -172,9 +172,18 @@ test('records agent-inspected visual evidence without implying approval', () => 
   assert.ok(
     visualViewports.every((viewport) => viewport.status === 'provisional'),
   );
-  assert.deepEqual(retirementDecisions, []);
+  assert.deepEqual(
+    retirementDecisions.map((decision) => decision.parityId),
+    ['DEP-001', 'OPS-004'],
+  );
+  assert.ok(
+    retirementDecisions.every(
+      (decision) =>
+        decision.approvedBy === 'Bren' && decision.approvedAt === '2026-08-30',
+    ),
+  );
   assert.match(
     readFileSync('docs/migration/retirement-decisions.md', 'utf8'),
-    /Approved retirements: \*\*None\.\*\*/,
+    /Approved retirements: \*\*2\.\*\*/,
   );
 });

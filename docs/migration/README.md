@@ -4,6 +4,10 @@ Migration evidence is versioned with the code or contract it reviews. A review
 package records what exists; it does not authorize promotion or the next plan
 step.
 
+- [M-18 legacy-retirement record](m18-retirement-record.md) — explicit
+  approvals, preservation boundary, live gates, completed actions, and retained
+  recovery artifacts for the original Classroom Screen and migration shadow.
+
 - [M-01 review package](m01-review-package.md) — approved initial versioned
   contracts, synthetic fixture cases, parity accounting, visual manifest,
   safety checks, and later gates.

@@ -179,7 +179,7 @@ export class FixtureBackedDisplayController {
     if (!isIsoInstant(evaluatedAt))
       throw new DisplayRuntimeInputError('instant-invalid');
     this.dependencies.holds.expire(evaluatedAt);
-    const result = await this.getPlan(screenId, this.dateFor(evaluatedAt));
+    const result = await this.servingPlan(screenId, this.dateFor(evaluatedAt));
     if (result.plan === undefined)
       return { ...result, evaluatedAt, content: structuredClone(emptyContent) };
     const naturalState = selectDisplayState(result.plan, evaluatedAt, {
@@ -645,7 +645,7 @@ export class FixtureBackedDisplayController {
     const missing: ScreenId[] = [];
     const degraded: ScreenId[] = [];
     for (const display of this.dependencies.data.displays) {
-      const result = await this.getPlan(display.screenId, date);
+      const result = await this.servingPlan(display.screenId, date);
       if (result.plan === undefined) missing.push(display.screenId);
       else if (result.degraded) degraded.push(display.screenId);
     }
@@ -655,6 +655,48 @@ export class FixtureBackedDisplayController {
       missingScreens: missing,
       degradedScreens: degraded,
     };
+  }
+
+  private async servingPlan(
+    screenId: ScreenId,
+    date: IsoDate,
+  ): Promise<DisplayPlanResult> {
+    const exact = await this.getPlan(screenId, date);
+    if (
+      exact.plan !== undefined ||
+      this.dependencies.nextClassDays === undefined
+    )
+      return exact;
+    const display = this.requireDisplay(screenId);
+    try {
+      const candidate = await this.dependencies.nextClassDays.readAfter(
+        screenId,
+        display.roomId,
+        date,
+      );
+      const selected = selectNextClassDay(
+        date,
+        screenId,
+        candidate === undefined || candidate.roomId !== display.roomId
+          ? []
+          : [candidate],
+      );
+      if (selected.plan === undefined) return exact;
+      this.degradedScreens.delete(screenId);
+      return {
+        plan: structuredClone(selected.plan),
+        source: 'current',
+        degraded: false,
+        diagnostics: [
+          diagnostic(
+            'display-next-class-day-serving',
+            'The next verified class day is serving because no exact plan is available for today.',
+          ),
+        ],
+      };
+    } catch {
+      return exact;
+    }
   }
 
   private requireDisplay(screenId: ScreenId): DisplayDescriptor {

@@ -8,6 +8,16 @@ omitted.
 
 ## [Unreleased]
 
+### Migration
+
+- Approved the M-18 retirement boundary for the original Classroom Screen
+  runtime, dedicated Tailnet handler, private source repository, and the
+  migration-era shadow service/timer. Final source changes were preserved and
+  verified before archival; local repositories, state, backups, unit
+  definitions, route snapshots, and rollback instructions remain retained.
+  Live execution fails closed until Chalkwright passes the current Sunday
+  readiness and recovery gates.
+
 ### Added
 
 - Added bounded, unattended production PowerSchool recovery. A failed plan
@@ -76,6 +86,16 @@ omitted.
   translation call is used.
 
 ### Changed
+
+- Serve the next verified locally stored class day when the current local date
+  has no exact plan. Display readiness and the classroom page now remain usable
+  on bounded-lookahead days such as Sunday, presenting a morning overview
+  without provider access, unverified fallback generation, or calendar-day
+  guessing.
+
+- Correct the controlled production route switch to recognize only the live
+  historical `classroom-screen` listener on loopback port 20790 before taking
+  its complete rollback snapshot and moving that one handler to Chalkwright.
 
 - Extended deterministic learning-objective matching with exact documented
   Classroom-title aliases and a one-level publisher activity-to-lesson

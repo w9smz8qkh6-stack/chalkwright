@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import test from 'node:test';
 
 import { FixtureBackedDisplayController } from '../../../src/application/display/controller.js';
+import type { DisplayNextClassDaySource } from '../../../src/application/display/contracts.js';
 import type { DisplayState } from '../../../src/contracts/v1/display.js';
 import { SqliteDatabase } from '../../../src/infrastructure/sqlite/database.js';
 import { SqliteApplicationStateRepository } from '../../../src/infrastructure/sqlite/repository.js';
@@ -29,6 +30,7 @@ const fixtureNow = '2035-04-13T07:00:00Z';
 function fixture(
   data = b407FixtureData,
   dateForInstant?: (instant: string) => string,
+  nextClassDays?: DisplayNextClassDaySource,
 ) {
   const directory = mkdtempSync(join(tmpdir(), 'classroom-hub-display-'));
   const database = new SqliteDatabase(join(directory, 'state.sqlite'), {
@@ -53,6 +55,7 @@ function fixture(
     planStore: persistence,
     overrides,
     holds: persistence,
+    ...(nextClassDays === undefined ? {} : { nextClassDays }),
     ...(dateForInstant === undefined ? {} : { dateForInstant }),
   });
   return {
@@ -365,6 +368,48 @@ test('readiness uses the configured local display date instead of the UTC date',
     assert.equal(ready.ready, true);
     assert.deepEqual(ready.missingScreens, []);
     assert.deepEqual(ready.degradedScreens, []);
+  } finally {
+    item.close();
+  }
+});
+
+test('serves the next verified class day when the local date has no exact plan', async () => {
+  const nextPlan = b407FixtureData.nextClassDayPlans[0];
+  const display = b407FixtureData.displays.find(
+    (entry) => entry.screenId === b407Screen,
+  );
+  assert.ok(nextPlan);
+  assert.ok(display);
+  const item = fixture(
+    { ...b407FixtureData, displays: [display] },
+    () => '2035-04-15',
+    {
+      async readAfter(screenId, roomId, date) {
+        assert.equal(screenId, b407Screen);
+        assert.equal(roomId, b407Room);
+        assert.equal(date, '2035-04-15');
+        return nextPlan;
+      },
+    },
+  );
+  try {
+    const target = await item.controller.getTarget(
+      b407Screen,
+      '2035-04-15T08:00:00Z',
+    );
+    assert.equal(target.plan?.date, nextPlan.date);
+    assert.equal(target.state?.state, 'morning_overview');
+    assert.equal(target.degraded, false);
+    assert.deepEqual(
+      target.diagnostics.map((entry) => entry.code),
+      ['display-next-class-day-serving'],
+    );
+
+    const ready = await item.controller.readiness('2035-04-15T08:00:00Z');
+    assert.equal(ready.ready, true);
+    assert.deepEqual(ready.missingScreens, []);
+    assert.deepEqual(ready.degradedScreens, []);
+    assert.equal(item.controller.health(fixtureNow).status, 'ok');
   } finally {
     item.close();
   }

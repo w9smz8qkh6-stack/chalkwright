@@ -28,6 +28,25 @@ function localClockMinutes(instant: IsoInstant, timeZone: string): number {
   }
 }
 
+function localDate(instant: IsoInstant, timeZone: string): IsoDate | undefined {
+  try {
+    const parts = Object.fromEntries(
+      new Intl.DateTimeFormat('en-CA', {
+        timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      })
+        .formatToParts(new Date(instant))
+        .map((part) => [part.type, part.value]),
+    );
+    const value = `${parts.year}-${parts.month}-${parts.day}`;
+    return /^\d{4}-\d{2}-\d{2}$/u.test(value) ? (value as IsoDate) : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function cutoffMinutes(value: string | undefined): number {
   const match = String(value ?? '07:30').match(/^(\d{1,2}):(\d{2})$/);
   if (match === null) return -1;
@@ -70,11 +89,11 @@ export function selectDisplayState(
   const firstOpen = epoch(first.checkInOpensAt) ?? Number.POSITIVE_INFINITY;
   const cutoff = cutoffMinutes(policy.morningOverviewUntil);
   const localMinutes = localClockMinutes(evaluatedAt, plan.timeZone);
+  const evaluatedDate = localDate(evaluatedAt, plan.timeZone);
   if (
     now < firstOpen &&
-    cutoff > 0 &&
-    localMinutes >= 0 &&
-    localMinutes < cutoff
+    ((evaluatedDate !== undefined && evaluatedDate < plan.date) ||
+      (cutoff > 0 && localMinutes >= 0 && localMinutes < cutoff))
   ) {
     return stateCase(plan, evaluatedAt, 'morning_overview', undefined, first);
   }
