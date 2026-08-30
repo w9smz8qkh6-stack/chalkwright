@@ -7,10 +7,9 @@ As of August 21, 2026, the standalone permanent Chalkwright lane is deployed
 from protected GitHub `main`, serves the existing classroom URL and display
 mount, and runs its permanent refresh, glossary, Calendar, integrity, backup,
 and deployment timers. Google Calendar follows the local canonical plan. The
-historical shadow service remains active only as an available rollback
-reference and is not the current serving path. Remaining M-17 work is
-stabilization evidence and an explicit transition to M-18 retirement; the
-detailed canary chronology below remains historical and is not rewritten.
+historical app and shadow were subsequently made inactive and disabled during
+the completed M-18 retirement. Their artifacts remain cold-recovery evidence;
+the detailed canary chronology below remains historical and is not rewritten.
 
 The final canary parity delta closed the derived-plan/persistence contract
 split that produced the last sanitized future-plan failure class: a period too

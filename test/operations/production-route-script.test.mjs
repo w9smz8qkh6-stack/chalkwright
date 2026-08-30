@@ -20,6 +20,10 @@ test('production route cutover snapshots node serve status and restores the exac
   assert.match(source, /serve_path == \/classroom-screen/u);
   assert.match(source, /value\?\.Handlers\?\.\[path\]\?\.Proxy === target/u);
   assert.match(source, /previous_target == http:\/\/127\.0\.0\.1:20790/u);
+  assert.match(
+    source,
+    /http:\/\/127\.0\.0\.1:\$\{value\.port\}\/classroom-screen/u,
+  );
   assert.doesNotMatch(
     source,
     /handler\?\.Proxy === 'http:\/\/127\.0\.0\.1:4318'/u,

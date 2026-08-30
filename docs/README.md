@@ -90,8 +90,8 @@
 - [M-17 parallel-canary and handoff record](migration/m17-review-package.md) —
   historical isolated-candidate evidence plus the current permanent-production
   handoff status. The standalone lane now serves the existing classroom path;
-  its timers and owned-Calendar follower are active, while the shadow remains
-  available only as a rollback reference pending stabilization and M-18.
+  its timers and owned-Calendar follower are active; the legacy app and shadow
+  were retired from active service in M-18 and retained only for cold recovery.
 - [M-18 legacy-retirement record](migration/m18-retirement-record.md) —
   explicit retirement approvals, fail-closed execution gates, completed
   runtime/repository actions, and retained cold-recovery artifacts.

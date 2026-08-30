@@ -891,16 +891,15 @@ final-handoff gate; candidate alerts remain report-only.
 
 ### M-17 — Run an isolated production canary, then hand off
 
-**Current status (2026-08-21):** The standalone permanent Chalkwright lane is
+**Current status (2026-08-30):** The standalone permanent Chalkwright lane is
 deployed from protected GitHub `main` and serves the existing classroom URL and
 display mount. Its production service and seven permanent timers are active;
 PowerSchool and Classroom remain read-only, the glossary display is sourced
 from the imported local catalog, and the owned Google Calendar is a follower of
-the local canonical plan. The historical shadow service remains active only as
-an available rollback reference and was not stopped during handoff. The
-detailed record below preserves the preceding canary and readiness evidence.
-Formal M-17 closure now requires only stabilization evidence and the explicit
-transition into M-18, not another serving-path migration.
+the local canonical plan. The detailed record below preserves the preceding
+canary and readiness evidence. M-17 closed with the permanent handoff; the
+historical app and shadow were subsequently retired from active service in
+M-18.
 
 **Historical implementation record:** Parallel-canary architecture accepted through ADR-0022 and the exact
 offline implementation passed its independent review in a clean isolated lane.
@@ -1006,7 +1005,18 @@ status update above supersedes that checkpoint.
   permanent Calendar disposition, then separately approves and observes the
   final handoff with no unexplained parity, ownership, routing, or alert defect.
 
-### M-18 — Stabilize and remove legacy dependencies
+### M-18 — Stabilize and retire legacy dependencies
+
+**Completion status (2026-08-30):** Completed. After a successful PowerSchool
+repair and Sunday acquisition, the bounded next-class-day display correction
+made direct health and readiness ready. The existing private
+`/classroom-screen` route was snapshotted and moved to Chalkwright's matching
+backend mount; the page and all local assets passed routed checks. The original
+user service and migration shadow service/timer are inactive and disabled, the
+private original-source repository is archived, and only the Chalkwright
+listener remains active among the three migration-era application ports. Local
+source, state, backups, unit definitions, route snapshot, and rollback
+instructions were retained as cold recovery.
 
 **Initial dependency scan (2026-08-21):** Active Chalkwright units, production
 entrypoints, systemd dependencies, package metadata, and protected production
@@ -1029,8 +1039,8 @@ routine state handoff/reuse and OpenClaw runtime separation as functional gates.
 The next natural scheduled refresh remains observation evidence, not a
 dependency gate.
 
-- **Objective:** Earn steady-state confidence before deleting rollback paths or
-  OpenClaw dependencies.
+- **Objective:** Earn steady-state confidence before retiring active rollback
+  paths or required OpenClaw dependencies.
 - **Scope:** Approved stabilization interval; displays; adapter freshness;
   Calendar convergence; jobs/alerts; database integrity/backups; dependency
   scans; operating docs; explicit legacy retirement/removal plan.
@@ -1042,12 +1052,14 @@ dependency gate.
   or explicitly retired; dependency scan finds no required OpenClaw edge.
 - **Parity evidence:** `DEP-001`, all `HEALTH-*`, `ALERT-001`, `OPS-*`,
   `PERSIST-*`, plus the complete inventory disposition ledger.
-- **Side-effect boundary:** Observation first. Legacy removal is a separate,
-  explicitly approved destructive operation limited to named artifacts.
+- **Side-effect boundary:** Observation first. Legacy retirement was a
+  separately approved operation limited to the named route, services, timer,
+  and repository archive; retained recovery artifacts were not deleted.
 - **Rollback:** Before removal, revert to the validated cutover rollback. After
   removal, restore only from approved retained backups/runbook.
-- **Completion gate:** User explicitly approves the end of stabilization and
-  each legacy retirement/removal action; steady state is self-contained.
+- **Completion gate:** Passed 2026-08-30: the user explicitly approved the end
+  of stabilization and each recorded legacy retirement action, and steady
+  state is self-contained.
 
 ### Post-roadmap distribution direction
 

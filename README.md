@@ -12,15 +12,15 @@ other lesson materials. The result is a classroom screen that changes with the
 schedule instead of acting as a static digital noticeboard.
 
 Chalkwright was developed from a working classroom automation system. The
-standalone service has now been launched and serves the classroom display in
-parallel with the historical shadow service, which remains active only as a
-safety rollback. It uses typed capability boundaries, SQLite state, synthetic
-fixtures, deterministic display behavior, fail-closed provider adapters, and a
-tested migration and rollback path.
+standalone service has now been launched and serves the classroom display. The
+historical app and migration shadow are inactive and disabled, with their local
+artifacts retained only for cold recovery. It uses typed capability boundaries,
+SQLite state, synthetic fixtures, deterministic display behavior, fail-closed
+provider adapters, and a tested migration and rollback path.
 
 > **Project status:** public 0.1.0 source release and live classroom deployment.
 > The standalone service is the display's serving path and source of truth; the
-> historical shadow service remains active only as a rollback option. The public
+> historical app and shadow are retired from active service. The public
 > release is suitable for inspection and fixture-backed evaluation, while
 > general installation support and public-production readiness for external
 > adopters are not yet claimed. See the
@@ -176,8 +176,9 @@ owned-Calendar reconciliation, integrity, backup, and deployment timers are
 active. Physical classroom use has accepted the course labels, stable polling,
 future-class-day preview, Classroom enrichment, and multilingual vocabulary.
 
-The historical shadow service remains active only as an available rollback
-reference; it is not the display's source of truth or current serving path.
+The historical app and migration shadow are inactive and disabled. Their local
+source, state, backups, unit definitions, and route snapshot are retained as
+cold-recovery evidence, not as an active serving path.
 Google Calendar remains a follower of Chalkwright's local canonical plan.
 
 M-17 used an isolated parallel canary with:
@@ -189,10 +190,10 @@ M-17 used an isolated parallel canary with:
 - report-only candidate alerts.
 
 Those parallel-canary controls remain documented as historical handoff and
-rollback evidence. The active roadmap is now stabilization, recovery proof,
-remaining enrichment slices, and an explicitly approved M-18 retirement of the
-retained legacy fallback. See the [migration plan](docs/migration-plan.md),
-[future parity roadmap](docs/future-parity-roadmap.md), and [M-17 review
+rollback evidence. M-18 retirement completed on 2026-08-30. The active roadmap
+is now post-retirement stabilization and remaining enrichment slices. See the
+[migration plan](docs/migration-plan.md), [future parity
+roadmap](docs/future-parity-roadmap.md), and [M-17 review
 package](docs/migration/m17-review-package.md).
 
 ## Configuration direction
