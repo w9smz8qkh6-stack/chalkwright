@@ -204,9 +204,10 @@ profiles, logs, or raw PowerSchool state, and it does not start services,
 enable timers, change routes, contact providers, or write to PowerSchool or
 Google Classroom.
 
-The controlled cutover changes only the exact current Tailscale Serve handler
-that points at the historical `classroom-screen` listener on loopback port
-`20790`. It snapshots the complete Serve configuration under
+The controlled cutover changes only the exact current Tailscale Serve
+`/classroom-screen` handler that points at the historical listener on loopback
+port `20790`. It preserves that mount path, snapshots the complete Serve
+configuration under
 `/var/lib/chalkwright/deploy/routes`, replaces that one handler with the ready
 permanent display, verifies the configured handler, and restores the snapshot
 if verification fails. It does not stop either retained legacy service; those

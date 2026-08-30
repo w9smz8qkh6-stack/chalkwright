@@ -14,8 +14,11 @@ test('production route cutover snapshots node serve status and restores the exac
   );
   assert.match(
     source,
-    /tailscale serve --bg --https="\$serve_port" "\$previous_target"/u,
+    /tailscale serve --bg --https="\$serve_port" --set-path="\$serve_path" "\$previous_target"/u,
   );
+  assert.match(source, /handlerPath === '\/classroom-screen'/u);
+  assert.match(source, /serve_path == \/classroom-screen/u);
+  assert.match(source, /value\?\.Handlers\?\.\[path\]\?\.Proxy === target/u);
   assert.match(source, /previous_target == http:\/\/127\.0\.0\.1:20790/u);
   assert.doesNotMatch(
     source,

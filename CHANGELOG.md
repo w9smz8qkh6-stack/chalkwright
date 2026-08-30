@@ -21,6 +21,10 @@ omitted.
   safe-data archive filter. This avoids GNU tar's blocked `openat2` path without
   weakening the service sandbox or changing archive digest validation and
   normalized release ownership or modes.
+- Corrected the production route handoff to discover, switch, verify, and
+  restore the exact `/classroom-screen` handler instead of assuming the legacy
+  loopback proxy occupied the HTTPS listener root. The existing path and full
+  pre-change Serve snapshot remain preserved across cutover and rollback.
 
 ### Migration
 

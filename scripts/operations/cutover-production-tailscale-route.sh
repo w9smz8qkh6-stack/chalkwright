@@ -28,18 +28,23 @@ import { readFileSync } from 'node:fs';
 const status = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 const routes = [];
 for (const [hostPort, value] of Object.entries(status.Web ?? {})) {
-  const handler = value?.Handlers?.['/'];
-  if (handler?.Proxy === 'http://127.0.0.1:20790') {
-    const match = /:([0-9]{1,5})$/u.exec(hostPort);
-    if (match !== null) routes.push([match[1], handler.Proxy]);
+  for (const [handlerPath, handler] of Object.entries(value?.Handlers ?? {})) {
+    if (
+      handlerPath === '/classroom-screen' &&
+      handler?.Proxy === 'http://127.0.0.1:20790'
+    ) {
+      const match = /:([0-9]{1,5})$/u.exec(hostPort);
+      if (match !== null) routes.push([match[1], handlerPath, handler.Proxy]);
+    }
   }
 }
 if (routes.length !== 1) process.exit(1);
 process.stdout.write(routes[0].join('\t'));
 NODE
 ) || reject production-route-legacy-route-ambiguous
-IFS=$'\t' read -r serve_port previous_target <<< "$route"
+IFS=$'\t' read -r serve_port serve_path previous_target <<< "$route"
 [[ $serve_port =~ ^[0-9]{1,5}$ && $serve_port -ge 1 && $serve_port -le 65535 ]] || reject production-route-legacy-route-invalid
+[[ $serve_path == /classroom-screen ]] || reject production-route-legacy-path-invalid
 [[ $previous_target == http://127.0.0.1:20790 ]] || reject production-route-legacy-target-invalid
 /usr/bin/install -d -o root -g root -m 0700 "$routes"
 snapshot="$routes/before-production-$serve_port.json"
@@ -48,19 +53,19 @@ snapshot="$routes/before-production-$serve_port.json"
 restored=0
 restore() {
   [[ $restored -eq 0 ]] || return 0
-  /usr/bin/tailscale serve --bg --https="$serve_port" "$previous_target" || true
+  /usr/bin/tailscale serve --bg --https="$serve_port" --set-path="$serve_path" "$previous_target" || true
   restored=1
 }
-if ! /usr/bin/tailscale serve --bg --https="$serve_port" "$target"; then
+if ! /usr/bin/tailscale serve --bg --https="$serve_port" --set-path="$serve_path" "$target"; then
   restore
   reject production-route-update-failed
 fi
-if ! /usr/bin/tailscale serve status --json > "$status" || ! /usr/bin/node --input-type=module - "$status" "$serve_port" "$target" <<'NODE'
+if ! /usr/bin/tailscale serve status --json > "$status" || ! /usr/bin/node --input-type=module - "$status" "$serve_port" "$serve_path" "$target" <<'NODE'
 import { readFileSync } from 'node:fs';
-const [statusPath, port, target] = process.argv.slice(2);
+const [statusPath, port, path, target] = process.argv.slice(2);
 const status = JSON.parse(readFileSync(statusPath, 'utf8'));
 const match = Object.entries(status.Web ?? {}).filter(([hostPort, value]) =>
-  hostPort.endsWith(`:${port}`) && value?.Handlers?.['/']?.Proxy === target,
+  hostPort.endsWith(`:${port}`) && value?.Handlers?.[path]?.Proxy === target,
 );
 process.exit(match.length === 1 ? 0 : 1);
 NODE
@@ -69,4 +74,4 @@ then
   reject production-route-verification-failed
 fi
 restored=1
-echo "{\"status\":\"cutover\",\"servePort\":$serve_port,\"routeSnapshot\":\"retained\",\"legacyServiceStopped\":false}"
+echo "{\"status\":\"cutover\",\"servePort\":$serve_port,\"servePath\":\"$serve_path\",\"routeSnapshot\":\"retained\",\"legacyServiceStopped\":false}"
