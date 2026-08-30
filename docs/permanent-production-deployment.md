@@ -142,8 +142,9 @@ first immutable release but does not start or enable any unit. These operations
 are separate from normal deploys because they create host state. They require a
 controlled first-release acceptance that proves display health/readiness,
 PowerSchool and Classroom freshness, Calendar convergence, verified backup,
-restore, and rollback. The shadow service and retained M-17 lane remain
-available during that acceptance window.
+restore, and rollback. The shadow service and retained M-17 lane remained
+available during that acceptance window; M-18 subsequently retired them from
+active service while preserving their local recovery artifacts.
 
 `scripts/operations/activate-production.sh` is the subsequent explicit
 activation step. It proves integrity and backup, runs both read-only refreshes,
@@ -209,9 +210,11 @@ The controlled cutover changes only the exact current Tailscale Serve
 port `20790`. It preserves that mount path, snapshots the complete Serve
 configuration under
 `/var/lib/chalkwright/deploy/routes`, replaces that one handler with the ready
-permanent display, verifies the configured handler, and restores the snapshot
-if verification fails. It does not stop either retained legacy service; those
-remain local rollback references until post-cutover acceptance.
+permanent display at its matching `/classroom-screen` backend mount, verifies
+the configured handler, and restores the snapshot if verification fails. It
+does not stop either retained legacy service; M-18 performed that separately
+after post-cutover acceptance, leaving the services inactive and disabled with
+their recovery artifacts retained.
 
 ## Operator boundaries
 

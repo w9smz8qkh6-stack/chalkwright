@@ -3,8 +3,9 @@
 This roadmap records the remaining parity work after the M-17 parallel canary
 and permanent-production handoff. Work resumed on August 21, 2026. The
 standalone Chalkwright service now serves the existing classroom display path;
-its permanent timers and owned-Calendar follower are active, while the
-historical shadow service remains available only as a rollback reference.
+its permanent timers and owned-Calendar follower are active. The historical
+app and migration shadow are inactive and disabled after completed M-18
+retirement, with local artifacts retained only for cold recovery.
 
 The priority order is user-directed: vocabulary first, on-disk lesson-reference
 slide enhancement second, and attendance-admin parity later.
@@ -83,20 +84,20 @@ Acceptance:
 
 ## 4. Preview and schedule confidence
 
-Implementation status: working in production with one pending display fix.
+Implementation status: complete and working in production.
 Current-day acquisition, unavailable-day distinction, bounded future
 lookahead, and physical next-class-day preview have passed. The natural Sunday
 2026-08-30 acquisition successfully stored the next verified class day, but
-the live display and readiness paths still considered only the missing exact
-Sunday plan. The pending correction serves the already stored next class day
-as a morning overview without provider access or calendar-day guessing.
+the exact Sunday plan was absent. The deployed correction serves the already
+stored next class day as a morning overview without provider access or
+calendar-day guessing; direct and routed readiness checks passed.
 
 Goal: keep Sunday lookahead, morning verification, and end-of-day preview
 boring and trustworthy.
 
 Scope:
 
-- deploy and verify next-class-day serving after the successful Sunday
+- maintain verified next-class-day serving after the successful Sunday
   acquisition of the following class week;
 - verify morning schedule checks against the live PowerSchool bell page;
 - distinguish "no classes found" from "not loaded yet"; and
@@ -110,13 +111,13 @@ Acceptance:
 
 ## 5. Operational stabilization and handoff evidence
 
-Implementation status: permanent handoff completed; stabilization remains.
+Implementation status: permanent handoff and M-18 retirement completed.
 The production service serves the existing classroom URL, all permanent timers
-are active, Calendar reconciliation converges, and the historical shadow stays
-available without serving the display. One successful full classroom day is
-recorded. Alert activation, a fresh restore/restart drill, a natural
-scheduled PowerSchool refresh, and the approved observation interval remain
-open before M-18 retirement.
+are active, Calendar reconciliation converges, and the historical app and
+shadow are inactive and disabled. One successful full classroom day and the
+Sunday acquisition/readiness gate are recorded. Alert activation and future
+restore/restart drills remain post-retirement operational improvements, not
+retirement gates.
 
 The August 21 OpenClaw dependency scan found no reference in any active
 Chalkwright unit, production entrypoint, systemd dependency, package dependency,
@@ -127,10 +128,9 @@ tests, and compiled releases. The unrelated dormant M-16 alert-provisioning
 script and deliberate publication/systemd denial guards still name OpenClaw but
 cannot be invoked by a production unit. Independent user-scoped OpenClaw
 services remain active on the shared host but are not a Chalkwright dependency.
-The PowerSchool-specific legacy Chrome instance is now disabled and stopped;
-its unit template and profile remain available for bounded rollback until final
-removal approval. M-18 must not remove unrelated OpenClaw workloads merely
-because they share the host.
+The PowerSchool-specific legacy Chrome instance is disabled and stopped; its
+unit template and profile remain as cold-recovery artifacts. M-18 did not
+remove unrelated OpenClaw workloads merely because they share the host.
 
 The active native repair runs in Bren's systemd user manager and is working:
 its last three recorded runs returned `authenticated` with exit code zero and
@@ -144,10 +144,11 @@ was disabled and stopped, a third credential-free refresh also succeeded and
 the display remained ready. The obsolete system-manager repair unit was moved
 to root-owned rollback storage; the working user-manager unit remains loaded.
 This closes native repair-to-routine state handoff and OpenClaw runtime
-separation as functional gates. Natural scheduled execution remains part of the
-stabilization observation interval.
+separation as functional gates. The later Sunday acquisition and readiness
+evidence closed the retirement observation gate; scheduled execution remains a
+normal ongoing operational check.
 
-Goal: prove the migrated app can run without babysitting before final handoff.
+Goal: keep the migrated app reliable after the completed final handoff.
 
 Scope:
 
@@ -155,13 +156,14 @@ Scope:
 - keep alerts report-only until their permanent ownership and destination are
   explicitly approved;
 - run Fully Kiosk smoke checks in representative states; and
-- retain redacted route, timer, writer, and recovery evidence for M-18.
+- retain redacted route, timer, writer, and recovery evidence for future
+  operations.
 
 Acceptance:
 
 - the migrated display runs through real school-day cycles with bounded,
   recoverable failures; and
-- final handoff has explicit rollback criteria.
+- bounded cold recovery retains explicit approval and rollback criteria.
 
 ## 6. Attendance-admin parity, deferred
 

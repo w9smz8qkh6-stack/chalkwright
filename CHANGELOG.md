@@ -23,18 +23,20 @@ omitted.
   normalized release ownership or modes.
 - Corrected the production route handoff to discover, switch, verify, and
   restore the exact `/classroom-screen` handler instead of assuming the legacy
-  loopback proxy occupied the HTTPS listener root. The existing path and full
-  pre-change Serve snapshot remain preserved across cutover and rollback.
+  loopback proxy occupied the HTTPS listener root. The replacement target now
+  preserves the same backend mount so routed assets resolve correctly. The
+  existing path and full pre-change Serve snapshot remain preserved across
+  cutover and rollback.
 
 ### Migration
 
-- Approved the M-18 retirement boundary for the original Classroom Screen
-  runtime, dedicated Tailnet handler, private source repository, and the
-  migration-era shadow service/timer. Final source changes were preserved and
-  verified before archival; local repositories, state, backups, unit
-  definitions, route snapshots, and rollback instructions remain retained.
-  Live execution fails closed until Chalkwright passes the current Sunday
-  readiness and recovery gates.
+- Completed M-18 retirement of the original Classroom Screen runtime, its
+  dedicated route backend, private source repository, and the migration-era
+  shadow service/timer after the Sunday plan, display, health, readiness,
+  routed-asset, permanent-timer, and single-listener gates passed. The private
+  repository is archived and the legacy services are inactive and disabled;
+  local source, state, backups, unit definitions, route snapshot, and rollback
+  instructions remain retained for cold recovery.
 
 ### Added
 

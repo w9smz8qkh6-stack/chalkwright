@@ -16,7 +16,7 @@ target=$(/usr/bin/node --input-type=module - "$config" <<'NODE'
 import { readFileSync } from 'node:fs';
 const value = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 if (value.host !== '127.0.0.1' || !Number.isInteger(value.port) || value.port < 1 || value.port > 65535) process.exit(1);
-process.stdout.write(`http://127.0.0.1:${value.port}`);
+process.stdout.write(`http://127.0.0.1:${value.port}/classroom-screen`);
 NODE
 ) || reject production-route-config-invalid
 status=$(/usr/bin/mktemp /var/lib/chalkwright/deploy/.tailscale-status.XXXXXXXX)
