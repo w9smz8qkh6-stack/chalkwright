@@ -13,11 +13,15 @@ billing, deployment, or public exposure.
   [feature acceptance matrix](core-and-hosted-feature-acceptance-matrix.md).
   A02 applied those boundaries in the authoritative
   [threat model](core-and-hosted-threat-model.md), including security invariants,
-  residual-risk dispositions, and 18 negative-test families.
-- **Next:** A03 resolves the security-significant implementation choices in
-  proposed ADR-0026 against the threat model.
-- **Architecture gate:** A04 through A08 remain incomplete. Do not begin Phase B
-  until A03-A08 are complete and the architecture-ready gate is satisfied.
+  residual-risk dispositions, and 18 negative-test families. A03 accepted
+  [ADR-0026](decisions/0026-public-core-and-hosted-shell.md) with project
+  references and restricted exports, GitHub Release tarballs, separate operator
+  and display processes, exact `0.x` Core/hosted pairing, and a typed feature-
+  region presentation seam.
+- **Next:** A04 defines workspace, actor, resource, and audit-scope contracts.
+- **Architecture gate:** A05 through A08 remain incomplete after A04. Do not
+  begin Phase B until A04-A08 are complete and the architecture-ready gate is
+  satisfied.
 
 ## Execution rules
 
@@ -88,6 +92,11 @@ Depends on: A01, A02.
 
 Complete when: no security-significant packaging choice remains implicit.
 
+Completed by: accepted
+[ADR-0026](decisions/0026-public-core-and-hosted-shell.md), including its
+incremental B01-B07 migration and rollback checkpoints. No reorganization was
+performed by A03.
+
 ### A04 — Define workspace and actor contracts
 
 Specify installation/workspace, organization when hosted, room, screen, date,
@@ -156,8 +165,9 @@ focused test.
 
 ### B02 — Introduce deliberate Core exports
 
-Implement the selected workspace/project-reference/package-export structure and
-prevent consumers from importing arbitrary internal paths.
+Implement the accepted TypeScript project-reference graph and one Core package
+with restricted exports; npm workspaces remain deferred. Prevent consumers from
+importing arbitrary internal paths or self-hosted entry points.
 
 Depends on: B01.
 
@@ -186,8 +196,10 @@ and shared packages remain independently testable.
 
 ### B05 — Separate operator and display ingress
 
-Provide separately bindable listeners or processes. Make operator ingress
-loopback/private by default while keeping class-code display admission separate.
+Create separate operator and display processes, service identities, route
+tables, cookies, caches, storage capabilities, and readiness endpoints. Make
+operator ingress explicitly loopback/Unix-socket private by default while
+keeping class-code display admission separate.
 
 Depends on: A02, A03, B04.
 
@@ -206,9 +218,9 @@ adapter fails.
 
 ### B07 — Produce an installable Core artifact
 
-Create the chosen local release artifact, checksums, examples, safe
-service/container templates, migrations, and source-build path without
-publishing it.
+Create the npm-compatible Core package tarball and complete self-hosted archive,
+machine-readable manifest, checksums/provenance, examples, safe service/container
+templates, migrations, and source-build path without publishing them.
 
 Depends on: B04–B06.
 

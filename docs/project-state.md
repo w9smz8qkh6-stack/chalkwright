@@ -15,7 +15,7 @@ docs:sync`. Repository documentation is not a live-service probe.
 - Implementation files covered: 513
 - Implementation fingerprint: `8abdc70bb20876ebeb3748bf15d9d95257673f0c66f48821c0632137d67ccc2f`
 - Semantic review: **CURRENT**
-- Review statement: The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, documentation automation, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f. The Core operator-panel and exploratory hosted-service roadmap, proposed ADR-0026, 49-task gated work breakdown, completed A01 feature acceptance matrix, and completed A02 threat model are incorporated as an active architecture-planning workstream; implementation has not begun. A03 is next and A04-A08 remain required for the architecture-ready gate. Landing-page and synthetic-display worktrees remain separately owned, and no new live application, provider, route, or service probe was performed.
+- Review statement: The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, documentation automation, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f. The Core operator-panel and exploratory hosted-service roadmap, accepted ADR-0026, 49-task gated work breakdown, completed A01 feature acceptance matrix, completed A02 threat model, and completed A03 boundary decisions are incorporated as an active architecture-planning workstream; implementation has not begun. A04 is next and A05-A08 remain required for the architecture-ready gate. Landing-page and synthetic-display worktrees remain separately owned, and no new live application, provider, route, or service probe was performed.
 - Working-tree classification is evaluated live by hooks and documentation gates; volatile change counts are intentionally excluded from this tracked view.
 
 ## Development position
@@ -36,7 +36,7 @@ docs:sync`. Repository documentation is not a live-service probe.
 
 - Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.
 - Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.
-- Advance the Core operator panel through its remaining A03-A08 architecture gate before package restructuring or UI implementation.
+- Advance the Core operator panel through its remaining A04-A08 architecture gate before package restructuring or UI implementation.
 - Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.
 - Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority.
 
@@ -98,9 +98,9 @@ separate activation authority; `fixture-supported`, `planned`, and
 
 - Status: `active`
 - Outcome: Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.
-- Present state: A01 and A02 are complete. The authoritative feature acceptance matrix freezes owning layers, edition and surface availability, MVP dispositions, exclusions, safety boundaries, acceptance evidence, task traceability, and unresolved-decision routing. The authoritative threat model now defines assets, actors, trust boundaries, entry/data flows, 32 stable threats, security invariants, residual-risk dispositions, 18 negative-test families, and downstream owners, with unresolved High residual risk blocking the affected release. The M-18-aware roadmap, exploratory hosted-service concept, proposed ADR-0026, and 49-task dependency-ordered work breakdown remain the governing planning set. The Core panel remains planned: no package restructuring, operator route, provider enrollment, hosted repository, billing integration, or deployment has begun.
+- Present state: A01 through A03 are complete. The authoritative feature acceptance matrix freezes product ownership, and the authoritative threat model defines 32 stable threats, security invariants, residual-risk dispositions, and 18 negative-test families. Accepted ADR-0026 now selects TypeScript project references and one restricted-export Core package, packed local and immutable GitHub Release artifacts with provenance and exact pins, separate operator/display processes, one exact Core/hosted pairing per 0.x release, a typed feature-region presentation seam, and an incremental B01-B07 migration with rollback checkpoints. The M-18-aware roadmap and 49-task dependency-ordered work breakdown remain governing. The Core panel remains planned: no package restructuring, operator/display process, artifact, operator route, provider enrollment, hosted repository, billing integration, or deployment has begun.
 - Capabilities: `guided-setup`, `preview-and-controls`, `durable-state`, `fixture-evaluation`
-- Next: Execute A03 to resolve proposed ADR-0026's security-significant package/artifact, process/listener, compatibility-window, and shared-presentation choices against the A02 threat model. Complete A04 through A08 in dependency order, and do not begin Phase B until the architecture-ready gate is satisfied.
+- Next: Execute A04 to define explicit installation/workspace, organization, room, screen, date, resource, actor, capability, and audit-scope contracts for both shells. Complete A05 through A08 in dependency order, and do not begin Phase B until the architecture-ready gate is satisfied.
 - Documentation: [`docs/core-and-hosted-feature-acceptance-matrix.md`](core-and-hosted-feature-acceptance-matrix.md), [`docs/core-and-hosted-threat-model.md`](core-and-hosted-threat-model.md), [`docs/core-and-hosted-implementation-work-breakdown.md`](core-and-hosted-implementation-work-breakdown.md), [`docs/project-state.md`](project-state.md)
 
 ## Known limits
@@ -115,5 +115,5 @@ separate activation authority; `fixture-supported`, `planned`, and
 
 - What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.
 - What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.
-- Which package/artifact, process/listener, compatibility-window, and shared-presentation choices A03 should resolve in proposed ADR-0026 against the A02 threat model.
+- Which explicit installation/workspace, organization, room, screen, date, resource, actor, capability, and audit-scope contracts A04 should require across Core and hosted shells.
 <!-- prettier-ignore-end -->

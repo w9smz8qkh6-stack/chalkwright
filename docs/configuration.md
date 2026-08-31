@@ -177,10 +177,13 @@ and render the selected date on demand rather than importing an unbounded future
 calendar.
 
 The public distribution remains a complete self-hosted application. Its
-operator and display listeners are separately bindable, and supplied deployment
-examples must not publish the operator listener by default. A separate
-commercial repository consumes versioned Core contracts below the HTTP layer
-rather than embedding the unauthenticated Core route table; see
+operator and display surfaces run as separate processes and service identities,
+with distinct route tables, cookies, caches, readiness, and storage
+capabilities. The operator process requires an explicit loopback address or Unix
+socket by default, and supplied deployment examples never publish it. A
+separate commercial repository consumes one exact verified Core package through
+restricted exports below the HTTP layer rather than embedding the
+unauthenticated Core route table; see
 [ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
 
 A setup command will validate that file, collect or reference protected values

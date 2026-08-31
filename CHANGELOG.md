@@ -40,6 +40,17 @@ omitted.
 
 ### Added
 
+- Accepted ADR-0026 and completed the A03 Core/hosted boundary decision. The
+  initial architecture uses TypeScript project references plus one restricted-
+  export Core package, packed local and immutable GitHub Release artifacts
+  rather than public npm, separate operator and display processes, one exact
+  Core/hosted pairing per `0.x` release, and route-independent typed feature
+  regions inside shell-owned HTML documents. The ADR records current repository
+  and version evidence, A02 threat/test traceability, B01-B07 migration and
+  rollback checkpoints, and superseding-ADR triggers. A04 is next; A05-A08
+  remain required, Phase B has not begun, and no package, process, repository,
+  artifact, route, service, or live effect occurred.
+
 - Completed the A02 architecture threat model for the frozen Core and hosted
   surfaces. Stable threats now cover private Core operator ingress, display
   admission, hosted accounts and tenant scope, OAuth/provider grants, untrusted

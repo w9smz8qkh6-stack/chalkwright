@@ -122,9 +122,9 @@ operator panel, previews, display, local persistence and files, jobs, setup,
 diagnostics, migrations, examples, and production packaging needed to reproduce
 the Core experience without a ChalkWrite.com account or commercial dependency.
 
-The commercial application should be a separate downstream consumer of
-versioned Core packages and contracts, not a fork and not a copy. Core owns
-domain behavior, use cases, ports, provider capability policy, display
+The commercial application is a separate downstream consumer of one packed,
+versioned Core package with restricted exports, not a fork, source link, or
+copy. Core owns domain behavior, use cases, ports, provider capability policy, display
 projection, and route-independent operator-panel presentation. The commercial
 repository owns accounts, sessions, organizations, roles, tenant isolation,
 billing, hosted storage, queues, support, and public operations.
@@ -136,19 +136,22 @@ derives the organization workspace on the server, and then calls a shared Core
 use case through a supported package export. The self-hosted shell supplies one
 installation-owned workspace through the same contract.
 
-The self-hosted package must also separate operator and display ingress. Its
-operator listener is loopback-only or otherwise private by default and is not
-published by repository-supplied deployment examples. The display listener is
-separately configured and may serve class-code-admitted viewers. Sharing
-business behavior below these shells prevents drift without sharing the wrong
-trust boundary.
+The self-hosted package uses separate operator and display processes and service
+identities. Its operator process is loopback/Unix-socket private by default and
+is not published by repository-supplied deployment examples. The display
+process has a distinct route table, cookies, cache, readiness, and storage
+capability and may serve class-code-admitted viewers through separately
+configured ingress. Sharing business behavior below these shells prevents drift
+without sharing the wrong trust boundary.
 
-Core releases should expose only deliberate, versioned package entry points.
-The commercial repository pins an exact Core release, runs the shared contract
-suite plus hosted tenant-isolation tests, and upgrades deliberately. A shared
-fix lands upstream in Core first when it affects both editions. The proposed
-directory shape, rejected alternatives, compatibility rules, and verification
-gates are recorded in
+Core releases expose only deliberate, versioned package entry points. During
+`0.x`, each commercial release pins exactly one SHA-256- and provenance-verified
+Core package tarball from an immutable GitHub Release and records the same
+artifact in its lockfile and release manifest. Public npm and npm workspaces are
+deferred. The shared contract suite plus hosted tenant-isolation tests run for
+every deliberate upgrade. A shared fix lands upstream in Core first when it
+affects both editions. The accepted mechanisms, rejected alternatives,
+compatibility rules, and rollback gates are recorded in
 [ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
 
 The primary hosted signed-in navigation should include:

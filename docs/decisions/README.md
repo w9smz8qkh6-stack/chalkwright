@@ -40,7 +40,7 @@ record is not authorization to implement its leading option.
 | [ADR-0023](0023-chalkwright-public-identity.md)                  | Accepted   | Chalkwright public identity and compatibility migration      |
 | [ADR-0024](0024-application-owned-powerschool-authentication.md) | Accepted   | Application-owned PowerSchool authentication lifecycle       |
 | [ADR-0025](0025-permanent-production-delivery.md)                | Accepted   | One permanent production delivery lane                       |
-| [ADR-0026](0026-public-core-and-hosted-shell.md)                 | Proposed   | Public Core upstream with self-hosted and commercial shells  |
+| [ADR-0026](0026-public-core-and-hosted-shell.md)                 | Accepted   | Project-referenced Core, separate processes, exact artifacts |
 
 ## Record policy
 
