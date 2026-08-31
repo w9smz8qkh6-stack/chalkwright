@@ -90,8 +90,11 @@ or live effect. It does not define or fixture hosted organizations, accounts,
 sessions, roles, OAuth state, billing, cross-tenant behavior, commercial
 framework selection, package hardening, or a hosted/Core integration boundary.
 
-The C01 application service and its real scenario adapter now consume the six
-configuration lifecycle expectations without adding a route or durable
-adapter. C02-C04 and C09 consume their own mapped scenarios next. C10 is the
-non-creator Core operator-panel acceptance gate. Phase B Core hardening and D00
-commercial architecture selection remain gated until C10 is accepted.
+The C01 application service and its real scenario adapter consume the six
+configuration lifecycle expectations without adding a durable adapter. The C02
+[Core operator shell](core-operator-shell.md) and its real scenario adapter now
+consume the exact private-reachability expectation through the A07 feature
+region and a separate explicit-loopback route table. C03, C04, and C09 consume
+their mapped scenarios next. C10 is the non-creator Core operator-panel
+acceptance gate. Phase B Core hardening and D00 commercial architecture
+selection remain gated until C10 is accepted.

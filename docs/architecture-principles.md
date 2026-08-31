@@ -89,6 +89,11 @@ reports use counts, opaque identifiers, and redacted errors.
 - One integration failure does not corrupt unrelated integration state.
 - Startup fails closed for unsafe configuration, schema, ownership, or writer
   conflicts while allowing diagnostic endpoints where safe.
+- The C02 Core operator process has an operator-only route table, readiness,
+  document wrapper, and explicit loopback bind. It cannot construct display
+  handlers, and the display HTTP server cannot resolve operator pages. Its
+  synthetic in-memory entry point is not an installed production service;
+  durable storage and OS-level process hardening remain later gates.
 
 ### 7. Idempotency and deterministic comparison
 

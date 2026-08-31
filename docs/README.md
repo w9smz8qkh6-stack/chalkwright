@@ -46,6 +46,10 @@
   — A07 stable navigation/pages, readiness and mutation semantics,
   planned-display keyboard behavior, finite states, responsive/accessibility
   acceptance, and the shell-neutral Core feature-region seam.
+- [Core operator shell](core-operator-shell.md) — C02 private-listener process,
+  closed route table, Host/Origin controls, server-rendered document shell,
+  capability/readiness discovery, responsive evidence, and explicit synthetic
+  and pre-C03 limits.
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) —
   A08 versioned synthetic self-hosted catalog, exact C01-C04/C09/C10 expected
   results, privacy rules, and reusable executable normalization interface.
@@ -178,6 +182,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) — `core-goal1-fixture-contract-suite.md`
 - [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
+- [Core operator shell](core-operator-shell.md) — `core-operator-shell.md`
 - [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`

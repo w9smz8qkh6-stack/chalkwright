@@ -64,6 +64,19 @@ omitted.
 
 ### Added
 
+- Completed C02 with a distinct explicit-loopback Core operator process, closed
+  operator-only route table, server-rendered seven-page shell, navigation,
+  capability/readiness discovery, finite error boundary, and responsive,
+  accessible no-JavaScript layout. Host, Origin, forwarding, method, content-
+  type, canonical request-target, and route negatives fail closed; authority-
+  form, dot-segment, encoded dot-segment, and backslash-normalized targets
+  cannot alias a route, and display ingress cannot resolve an operator handler.
+  The real shell adapter passes the exact A08 C02 scenario
+  under private-reachability authority with no account requirement. The only
+  executable composition is explicitly synthetic and in-memory; C02 adds no
+  mutation workflow, durable adapter, provider/account/authentication code,
+  installed service, deployment, public route, or live effect.
+
 - Completed C01 with a reusable Core versioned-configuration service,
   transactional persistence port, and bounded in-memory conformance adapter.
   Validated reads, exact optimistic draft/revision transitions, mutation-free

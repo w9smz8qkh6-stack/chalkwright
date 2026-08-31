@@ -221,9 +221,15 @@ provides the shared synthetic acceptance data for the first Core panel goal:
 one self-hosted installation, rooms/screens and reference-only class-code
 states, application-managed courses/schedule/vocabulary/media, two activated
 revisions, rollback, preview, redacted export, recovery preflight, and planned
-frames. C01 now consumes all six of its exact configuration expected results;
-C02-C04, C09, and C10 remain. Neither A08 nor C01 creates a production
-configuration format, route, durable adapter, or provider connection.
+frames. C01 consumes all six of its exact configuration expected results. C02
+now adds the separately bound [Core operator shell](core-operator-shell.md): a
+closed operator-only route table, server-rendered navigation/document wrapper,
+capability and readiness discovery, Host/Origin controls, finite errors, and
+the exact A08 private-reachability result. Its executable is synthetic-only and
+in-memory until a later durable composition is implemented. C03, C04, C09, and
+C10 remain. Neither A08, C01, nor C02 creates a production configuration format,
+durable adapter, provider connection, installed service, public route, or live
+effect.
 
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files

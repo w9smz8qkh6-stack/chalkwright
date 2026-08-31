@@ -250,10 +250,13 @@ configuration lifecycle, rooms/screens/class-code states, manual sources,
 planned-display projection, export, and recovery expectations that C01-C04,
 C09, and C10 must satisfy.
 
-A07 deliberately does not thread these contracts into use cases or adapters.
-It adds no parser, fetcher, OAuth client, provider grant, persistence adapter,
-schema migration, production route, operator listener, live UI, hosted
-repository, billing surface, service, deployment, merge, or publication. A08
-likewise adds only contracts, fixtures, validation, and an executable suite
-interface. C01 is next; Phase B and commercial architecture work remain gated
-behind C10.
+A07 deliberately did not thread these contracts into use cases or adapters.
+C02 now implements the [self-hosted Core operator shell](core-operator-shell.md)
+against this contract: all seven stable locations render through a separate
+explicit-loopback listener, while capability discovery leaves C03, C04, and
+C09 work visibly planned. The shell composes C01 reads with the escaped Core
+feature region and owns only its document, navigation, private-reachability
+warning, routes, headers, readiness, and finite errors. It adds no login,
+account UI, client script/framework/bundler, mutation handler, provider flow,
+durable adapter, installed service, deployment, or public/live effect. C03 is
+next; Phase B and commercial architecture work remain gated behind C10.
