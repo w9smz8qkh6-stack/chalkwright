@@ -7,6 +7,7 @@ import {
 import type { CoreOperatorCapability } from '../application/operator-panel/core-operator-shell-service.js';
 import type { DisplayProjection } from '../application/operator-panel/display-configuration-service.js';
 import type { SourceRegistryProjection } from '../application/operator-panel/source-registry-service.js';
+import type { PlannedDisplayProjection } from '../application/operator-panel/planned-display-projection-service.js';
 import { renderOperatorFeatureRegion } from './operator-panel-region.js';
 
 export const coreOperatorPagePaths = {
@@ -58,6 +59,7 @@ export function renderCoreOperatorShellDocument(options: {
   readonly capabilities: readonly CoreOperatorCapability[];
   readonly displayProjection?: DisplayProjection;
   readonly sourceProjection?: SourceRegistryProjection;
+  readonly plannedDisplayProjection?: PlannedDisplayProjection;
 }): string {
   const region = renderOperatorFeatureRegion(options.model);
   const displayControls =

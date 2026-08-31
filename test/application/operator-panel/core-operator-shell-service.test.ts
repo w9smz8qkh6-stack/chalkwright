@@ -5,6 +5,7 @@ import { VersionedConfigurationService } from '../../../src/application/configur
 import { createCoreGoal1OperatorShellScenarioExecutor } from '../../../src/application/operator-panel/core-goal1-operator-shell-adapter.js';
 import { CoreOperatorShellService } from '../../../src/application/operator-panel/core-operator-shell-service.js';
 import { DisplayConfigurationService } from '../../../src/application/operator-panel/display-configuration-service.js';
+import { PlannedDisplayProjectionService } from '../../../src/application/operator-panel/planned-display-projection-service.js';
 import {
   isOperatorFeatureRegionModel,
   forbiddenOperatorFeatureRegionFields,
@@ -40,6 +41,16 @@ function createShell(): CoreOperatorShellService {
         })),
       ),
       'https://display.synthetic.invalid',
+    ),
+    undefined,
+    new PlannedDisplayProjectionService(
+      coreGoal1FixtureCatalog.workspace,
+      configuration,
+      coreGoal1FixtureCatalog.plannedFrames,
+      () => new Date('2035-03-18T10:00:00.000Z'),
+      coreGoal1FixtureCatalog.preview.basis.kind === 'revision'
+        ? coreGoal1FixtureCatalog.preview.basis.revisionId
+        : null,
     ),
   );
 }
@@ -83,7 +94,7 @@ test('shell service discovers all stable pages and renders guarded C01-backed mo
       ['overview', 'available', 'C02'],
       ['displays', 'available', 'C03'],
       ['sources', 'available', 'C04'],
-      ['planned-display', 'planned', 'C09'],
+      ['planned-display', 'available', 'C09'],
       ['presentation', 'available', 'C02'],
       ['configuration', 'available', 'C01'],
       ['diagnostics-recovery', 'available', 'C02'],
@@ -113,5 +124,13 @@ test('shell service discovers all stable pages and renders guarded C01-backed mo
       .find((candidate) => candidate.itemKey === 'active-revision')?.value,
     coreGoal1FixtureCatalog.configurationStates.rolledBack.activePointer
       ?.revisionId,
+  );
+  const planned = await shell.page('planned-display');
+  assert.equal(planned.state, 'ready');
+  assert.equal(
+    planned.sections
+      .flatMap((section) => section.items)
+      .filter((item) => item.itemKey.startsWith('planned-frame-')).length,
+    4,
   );
 });

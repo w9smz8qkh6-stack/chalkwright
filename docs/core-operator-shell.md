@@ -1,6 +1,6 @@
 # Core operator shell
 
-Status: C02-C03 implemented for synthetic qualification. This document describes
+Status: C02-C04 and C09 implemented for synthetic qualification. This document describes
 the private, no-login self-hosted operator process and its deliberate limits.
 It does not claim a durable production configuration adapter, installed service,
 public ingress, or completed Core operator MVP.
@@ -69,15 +69,16 @@ inside the self-hosted document, navigation, fixed installation context, and
 authority warning.
 
 All seven stable pages render now so navigation and information architecture do
-not drift. Capability discovery marks C01-C03-backed areas available:
+not drift. Capability discovery marks C01-C04 and C09-backed areas available:
 
 - overview, presentation, configuration, and diagnostics/recovery are readable;
 - displays projects rooms, screens, timezone, display references, readiness,
   and protected viewer-admission controls from C03;
-- sources remains planned for C04; and
-- planned-display remains planned for C09.
+- sources records C04 teacher-entered draft definitions without acquisition; and
+- planned-display summarizes C09's injected, date-bound mutation-free frame
+  projection without supplying C10's contact-sheet or carousel controls.
 
-Planned pages remain visible with disabled actions and the owning WBS item.
+Later pages remain visible with disabled actions and the owning WBS item.
 C02-C03 do not implement later tasks early. Reading any page is mutation-free and
 does not advance the C01 state version or active revision.
 

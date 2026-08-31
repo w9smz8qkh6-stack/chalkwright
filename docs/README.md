@@ -53,6 +53,9 @@
 - [Core source registry and manual setup](core-source-registry.md) — C04
   teacher-entered source definitions, provenance/freshness projection,
   course/screen mapping, and the explicit no-acquisition boundary.
+- [Core planned-display projection](core-planned-display-projection.md) — C09
+  deterministic, bounded, mutation-free date/screen frame projection and its
+  explicit preview-basis boundary before C10 review controls.
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) —
   A08 versioned synthetic self-hosted catalog, exact C01-C04/C09/C10 expected
   results, privacy rules, and reusable executable normalization interface.
@@ -187,6 +190,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) — `core-goal1-fixture-contract-suite.md`
 - [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
 - [Core operator shell](core-operator-shell.md) — `core-operator-shell.md`
+- [Core planned-display projection](core-planned-display-projection.md) — `core-planned-display-projection.md`
 - [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
 - [Core source registry and manual setup](core-source-registry.md) — `core-source-registry.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`

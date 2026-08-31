@@ -13,6 +13,7 @@ import {
 import type { VersionedConfigurationService } from '../configuration/versioned-configuration-service.js';
 import type { DisplayConfigurationService } from './display-configuration-service.js';
 import type { SourceRegistryService } from './source-registry-service.js';
+import type { PlannedDisplayProjectionService } from './planned-display-projection-service.js';
 
 export type CoreOperatorCapabilityStatus = 'available' | 'planned';
 
@@ -48,6 +49,7 @@ const implementedTasks = new Set<CoreOperatorCapability['implementationTask']>([
   'C02',
   'C03',
   'C04',
+  'C09',
 ]);
 
 function sentenceLabel(value: string): string {
@@ -90,6 +92,7 @@ export class CoreOperatorShellService {
     readonly configuration: VersionedConfigurationService,
     readonly displays: DisplayConfigurationService,
     readonly sources?: SourceRegistryService,
+    readonly plannedDisplays?: PlannedDisplayProjectionService,
   ) {}
 
   discoverCapabilities(): readonly CoreOperatorCapability[] {
@@ -153,6 +156,14 @@ export class CoreOperatorShellService {
     const sourceProjection =
       pageKey === 'sources' && this.sources !== undefined
         ? await this.sources.project()
+        : null;
+    const plannedSelection =
+      pageKey === 'planned-display'
+        ? (this.plannedDisplays?.defaultSelection() ?? null)
+        : null;
+    const plannedProjection =
+      plannedSelection !== null && this.plannedDisplays !== undefined
+        ? await this.plannedDisplays.project(plannedSelection)
         : null;
     const readiness: OperatorReadinessSignal[] = [
       {
@@ -379,37 +390,87 @@ export class CoreOperatorShellService {
                   actions: [],
                 },
               ]
-            : [
-                {
-                  sectionKey: 'capability-summary',
-                  heading: page.label,
-                  summary: page.purpose,
-                  state: available
-                    ? ('ready' as const)
-                    : ('unavailable' as const),
-                  items: page.informationHierarchy.map((heading, index) =>
-                    item(
-                      `capability-${index + 1}`,
-                      heading,
-                      available
-                        ? 'Available in this shell'
-                        : `Planned in ${implementationTask}`,
-                      available
-                        ? 'Rendered from the accepted Core contract without account or provider authority.'
-                        : 'The stable page is present, but this capability remains intentionally inactive.',
-                      available ? 'ready' : 'disabled',
-                    ),
-                  ),
-                  actions: available
-                    ? []
-                    : page.primaryActions.map((actionKey) =>
-                        disabledAction(
-                          actionKey,
-                          `${implementationTask} must be completed before this action is available.`,
-                        ),
+            : pageKey === 'planned-display'
+              ? [
+                  {
+                    sectionKey: 'projection-basis',
+                    heading: 'Planned-display projection',
+                    summary:
+                      'This review is derived only from the selected configuration basis and injected normalized frames. It cannot acquire data or change configuration, Calendar, or provider state.',
+                    state:
+                      plannedProjection?.status === 'ready'
+                        ? ('ready' as const)
+                        : plannedProjection?.status === 'empty'
+                          ? ('empty' as const)
+                          : ('unavailable' as const),
+                    items:
+                      plannedProjection === null
+                        ? [
+                            item(
+                              'planned-display-empty',
+                              'No projected frame set is available',
+                              'Select a configured screen and date once a normalized fixture set is supplied.',
+                              'C09 does not fetch or create display content; C10 will add review controls around accepted projections.',
+                              'empty',
+                            ),
+                          ]
+                        : [
+                            item(
+                              'projection-status',
+                              'Projection status',
+                              plannedProjection.status,
+                              `Basis revision: ${plannedProjection.basisRevisionId ?? 'not configured'}; freshness: ${plannedProjection.freshness}; cache: ${plannedProjection.cacheDisposition}.`,
+                              plannedProjection.status === 'ready'
+                                ? 'ready'
+                                : plannedProjection.status === 'empty'
+                                  ? 'empty'
+                                  : 'unavailable',
+                            ),
+                            ...plannedProjection.frames.map((frame) =>
+                              item(
+                                `planned-frame-${frame.frameId}`,
+                                `Frame ${frame.sequence} · ${frame.state}`,
+                                frame.screenId === plannedProjection.screenId
+                                  ? 'Selected screen'
+                                  : 'Same school-date review',
+                                `Date: ${frame.schoolDate}; media references: ${frame.mediaIds.length}; projection is mutation-free.`,
+                              ),
+                            ),
+                          ],
+                    actions: [],
+                  },
+                ]
+              : [
+                  {
+                    sectionKey: 'capability-summary',
+                    heading: page.label,
+                    summary: page.purpose,
+                    state: available
+                      ? ('ready' as const)
+                      : ('unavailable' as const),
+                    items: page.informationHierarchy.map((heading, index) =>
+                      item(
+                        `capability-${index + 1}`,
+                        heading,
+                        available
+                          ? 'Available in this shell'
+                          : `Planned in ${implementationTask}`,
+                        available
+                          ? 'Rendered from the accepted Core contract without account or provider authority.'
+                          : 'The stable page is present, but this capability remains intentionally inactive.',
+                        available ? 'ready' : 'disabled',
                       ),
-                },
-              ];
+                    ),
+                    actions: available
+                      ? []
+                      : page.primaryActions.map((actionKey) =>
+                          disabledAction(
+                            actionKey,
+                            `${implementationTask} must be completed before this action is available.`,
+                          ),
+                        ),
+                  },
+                ];
 
     return {
       contractVersion,

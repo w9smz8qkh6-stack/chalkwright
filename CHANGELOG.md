@@ -67,6 +67,14 @@ omitted.
 
 ### Added
 
+- Completed C09 with a bounded, deterministic, mutation-free planned-display
+  projection service. The private Core shell can summarize injected normalized
+  date/screen frames with an explicit configuration/preview basis, SHA-256
+  input fingerprint, freshness, and rolling-window versus on-demand cache
+  disposition. It does not acquire sources, invoke a provider or Calendar,
+  change configuration, create a viewer route, or add C10 contact-sheet and
+  carousel controls.
+
 - Completed C04 with private, ordinary no-JavaScript source-registry forms for
   bounded teacher-entered application-managed source definitions, A06 stream
   selection, explicit provenance/freshness/validation, and optional

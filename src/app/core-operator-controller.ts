@@ -10,6 +10,7 @@ import type { DisplayConfigurationService } from '../application/operator-panel/
 import { scopeIdentifier } from '../contracts/v1/index.js';
 import type { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
 import { renderSourceMutationResultDocument } from '../presentation/core-operator-shell.js';
+import type { PlannedDisplayProjectionService } from '../application/operator-panel/planned-display-projection-service.js';
 
 /** Self-hosted document controller; account and hosted authority do not exist here. */
 export class SelfHostedCoreOperatorController implements CoreOperatorHttpController {
@@ -17,6 +18,7 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
     readonly shell: CoreOperatorShellService,
     readonly displays: DisplayConfigurationService,
     readonly sources: SourceRegistryService,
+    readonly plannedDisplays: PlannedDisplayProjectionService,
   ) {}
 
   capabilities(): unknown {
@@ -28,6 +30,10 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
   }
 
   async renderPage(pageKey: OperatorPageKey): Promise<string> {
+    const plannedSelection =
+      pageKey === 'planned-display'
+        ? this.plannedDisplays.defaultSelection()
+        : null;
     return renderCoreOperatorShellDocument({
       model: await this.shell.page(pageKey),
       capabilities: this.shell.discoverCapabilities(),
@@ -35,7 +41,12 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
         ? { displayProjection: await this.displays.project() }
         : pageKey === 'sources'
           ? { sourceProjection: await this.sources.project() }
-          : {}),
+          : plannedSelection !== null
+            ? {
+                plannedDisplayProjection:
+                  await this.plannedDisplays.project(plannedSelection),
+              }
+            : {}),
     });
   }
 

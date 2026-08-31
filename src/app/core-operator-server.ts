@@ -1,4 +1,7 @@
-import type { SelfHostedWorkspace } from '../contracts/v1/index.js';
+import type {
+  CoreGoal1PlannedFrameFixture,
+  SelfHostedWorkspace,
+} from '../contracts/v1/index.js';
 import { CoreOperatorShellService } from '../application/operator-panel/core-operator-shell-service.js';
 import type { VersionedConfigurationService } from '../application/configuration/versioned-configuration-service.js';
 import {
@@ -10,6 +13,7 @@ import { DisplayConfigurationService } from '../application/operator-panel/displ
 import { InMemoryDisplayAccessRepository } from '../infrastructure/memory/display-access.js';
 import type { DisplayAccessRepository } from '../ports/display-access.js';
 import { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
+import { PlannedDisplayProjectionService } from '../application/operator-panel/planned-display-projection-service.js';
 
 export interface CoreOperatorApplicationOptions {
   readonly host: '127.0.0.1' | '::1';
@@ -18,6 +22,8 @@ export interface CoreOperatorApplicationOptions {
   readonly configuration: VersionedConfigurationService;
   readonly displayAccess?: DisplayAccessRepository;
   readonly displayOrigin?: string;
+  readonly plannedFrames?: readonly CoreGoal1PlannedFrameFixture[];
+  readonly plannedDisplayBasisRevisionId?: string;
 }
 
 /**
@@ -37,14 +43,27 @@ export function startCoreOperatorApplication(
     options.workspace,
     options.configuration,
   );
+  const plannedDisplays = new PlannedDisplayProjectionService(
+    options.workspace,
+    options.configuration,
+    options.plannedFrames ?? [],
+    undefined,
+    options.plannedDisplayBasisRevisionId ?? null,
+  );
   const shell = new CoreOperatorShellService(
     options.workspace,
     options.configuration,
     displays,
     sources,
+    plannedDisplays,
   );
   return startCoreOperatorHttpServer({
-    controller: new SelfHostedCoreOperatorController(shell, displays, sources),
+    controller: new SelfHostedCoreOperatorController(
+      shell,
+      displays,
+      sources,
+      plannedDisplays,
+    ),
     host: options.host,
     ...(options.port === undefined ? {} : { port: options.port }),
   });
