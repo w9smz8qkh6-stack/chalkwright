@@ -269,8 +269,8 @@ not select an OAuth library or provider configuration.
 | `NT-17` | Default manifests and pilot plans expose only intended ingress and prove no shared identity, network, mount, secret, database, profile, backup, wildcard route, or control plane                       | Static policy + isolated deployment rehearsal | `T-CORE-01`, `T-CORE-04`, `T-INFRA-01`                                                 |
 | `NT-18` | Versioned fixtures enumerate every display/student field and fail when restricted, unclassified, raw-provider, account, diagnostic, internal-plan, or private-link data appears                        | Schema/contract + snapshot                    | `T-STUDENT-01`                                                                         |
 
-`A08` turns this catalog into versioned synthetic fixtures and a contract-suite
-interface. Individual implementation tasks add focused cases; `F04` runs the
+`A08` completed the versioned [shared synthetic fixture suite](core-shared-synthetic-fixture-suite.md)
+and adapter-free contract-suite interface. Individual implementation tasks add focused cases; `F04` runs the
 cross-surface abuse and capacity qualification and treats any unresolved High
 residual risk or failed `must never` invariant as a blocker.
 
@@ -287,7 +287,7 @@ residual risk or failed `must never` invariant as a blocker.
 | A controlled hosted pilot may share a physical Ubuntu host                                           | High inherent availability/operational-concentration risk; only Moderate residual is acceptable after strong identity/network/storage/ingress/control isolation and explicit human pilot acceptance. Any cross-service reachability or shared secret/control is a blocker.                                                     | Design and review in `F01`-`F05`; live effect only in authorized `F06`                                    |
 | Concrete scope/schema contracts, auth library, thresholds, infrastructure, and vendor choices        | Intentionally unresolved, not silently accepted. Each later task must preserve the accepted A03 mechanics and these invariants and record its own version-correct threat impact.                                                                                                                                               | `A04`-`A08`, `D02`, `D11`, `F01`-`F05` as assigned in the work breakdown                                  |
 
-## A02-A07 completion and next gate
+## A02-A08 completion and next gate
 
 A02 is complete because the A01 surfaces now have explicit assets,
 classifications, actors, trust boundaries, entry/data flows, stable threats,
@@ -327,5 +327,8 @@ remain shell-owned. Planned-display review is explicitly mutation-free.
 Focused synthetic tests exercise `T-FILE-01`/`T-FILE-02`, `T-SSRF-01`,
 `T-OAUTH-01`-`T-OAUTH-03`, `T-JOB-02`, and `T-DOS-01` contract boundaries;
 later adapters must still prove the controls in their real filesystem, network,
-provider, job, and persistence paths. A08 remains incomplete, Phase B has not
-begun, and A02 through A07 performed no production runtime or live effect.
+provider, job, and persistence paths. A08 now supplies deterministic
+cross-tenant, OAuth/replay, mutation-free preview, and privacy classification
+fixtures for `NT-03`, `NT-04`, `NT-09`, `NT-10`, `NT-11`, `NT-14`, and `NT-18`.
+The A01-A08 architecture gate is complete, Phase B has not begun, and the
+architecture work performed no production runtime or live effect.

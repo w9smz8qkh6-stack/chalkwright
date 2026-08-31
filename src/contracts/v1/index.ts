@@ -7,6 +7,7 @@ export * from './day-plan.js';
 export * from './display.js';
 export * from './operations.js';
 export * from './operator-panel.js';
+export * from './shared-fixture-suite.js';
 export * from './parity-coverage.js';
 export * from './retirement-decisions.js';
 export * from './runtime.js';

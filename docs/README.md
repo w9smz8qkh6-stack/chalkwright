@@ -46,6 +46,9 @@
   — A07 stable navigation/pages, readiness and mutation semantics,
   planned-display keyboard behavior, finite states, responsive/accessibility
   acceptance, and the shell-neutral Core feature-region seam.
+- [Core shared synthetic fixture suite](core-shared-synthetic-fixture-suite.md)
+  — A08 versioned deterministic installation, scope, configuration, source,
+  content, OAuth, preview, cross-tenant, and privacy conformance catalog.
 - [Offline glossary catalog](glossary-catalog.md) — normalized local vocabulary,
   translations, BLOB media, import limits, and review/provenance rules.
 - [Architecture decision records](decisions/README.md) — accepted direction and
@@ -174,6 +177,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Chalkwright Core and Hosted Threat Model](core-and-hosted-threat-model.md) — `core-and-hosted-threat-model.md`
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
 - [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
+- [Core shared synthetic fixture suite](core-shared-synthetic-fixture-suite.md) — `core-shared-synthetic-fixture-suite.md`
 - [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`

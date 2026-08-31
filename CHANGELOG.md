@@ -64,6 +64,23 @@ omitted.
 
 ### Added
 
+- Completed A08 with version 1.0.0 of the shared synthetic fixture catalog and
+  adapter-free contract-suite interface. Fixed JSON-safe cases now cover
+  self-hosted installation/hosted organization identity; A04 actor/capacity/
+  room/screen/date/resource scope; A05 draft, preview, validation, activation,
+  conflict, last-known-good, rollback, export/backup/import/restore; A06 source
+  modes/projections/freshness; synthetic course/schedule/vocabulary/media;
+  reference-only OAuth lifecycle; mutation-free previews; and accepted versus
+  independently denied cross-tenant/replay/stale/malformed attempts. Consumers
+  receive detached scenarios, never catalog expectations, and a committed
+  digest detects byte drift. The exact release registry enumerates every
+  display/student field and fails closed for arbitrary, misclassified, restricted,
+  unclassified, raw-provider, account, diagnostic, internal-plan, secret-like,
+  and private-link categories. No route, persistence adapter/schema, parser,
+  fetcher, provider/OAuth client, authentication framework, live UI, service,
+  or deployment changed. A01-A08 are architecture-ready; Phase B remains
+  unstarted.
+
 - Completed A07 with a versioned, route-independent Core operator-panel
   information architecture. Seven stable page contracts now cover setup,
   displays, sources, planned-display review, presentation, configuration, and

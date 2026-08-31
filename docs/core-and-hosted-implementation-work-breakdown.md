@@ -32,11 +32,13 @@ billing, deployment, or public exposure.
   seven stable page specifications, readiness/mutation/finite-state semantics,
   planned-display keyboard behavior, responsive/accessibility acceptance, and
   a tested shell-neutral Core feature-region reference without a live route.
-- **Next:** A08 establishes the shared synthetic fixture catalog and contract-
-  suite interface.
-- **Architecture gate:** A08 remains incomplete. Do not
-  begin Phase B until A04-A08 are complete and the architecture-ready gate is
-  satisfied.
+  A08 added the versioned [shared synthetic fixture suite](core-shared-synthetic-fixture-suite.md),
+  exact adapter-free consumer seam, deterministic positive/negative catalog,
+  cross-tenant denials, and field-level display/student projection privacy
+  inventory without a runtime integration.
+- **Architecture gate:** A01-A08 are complete and the architecture-ready gate
+  is satisfied. Phase B remains unstarted; its tasks require separate scoped
+  authorization and implementation work.
 
 ## Execution rules
 
@@ -195,6 +197,15 @@ and cross-tenant attempts.
 Depends on: A04–A06.
 
 Complete when: expected results and privacy rules are versioned and executable.
+
+Completed by: the versioned [Core shared synthetic fixture suite](core-shared-synthetic-fixture-suite.md),
+JSON-safe deterministic catalog, exact adapter-free consumer seam, every-family
+allow/deny coverage, expected no-effect results, full cross-tenant/replay/stale/
+malformed denial case, and display/student scalar field inventory. The suite
+rejects unclassified, restricted, raw-provider, account, diagnostic,
+internal-plan, secret-like, and private-link categories. No route, storage,
+provider, OAuth client, account/authentication framework, parser/fetcher,
+live UI, service, or deployment changed.
 
 ## Phase B — Core package and runtime boundaries
 
