@@ -27,10 +27,14 @@ billing, deployment, or public exposure.
   [source-mode contracts](core-source-mode-contracts.md), including the exact
   stream/mode/format matrix, bounded acquisition and consent/grant state,
   normalized provenance, explicit freshness, and executable last-known-good
-  behavior without implementing adapters.
-- **Next:** A07 specifies operator-panel information architecture against the
-  accepted source contracts.
-- **Architecture gate:** A07 and A08 remain incomplete. Do not
+  behavior without implementing adapters. A07 added the versioned
+  [operator-panel information architecture](core-operator-panel-information-architecture.md),
+  seven stable page specifications, readiness/mutation/finite-state semantics,
+  planned-display keyboard behavior, responsive/accessibility acceptance, and
+  a tested shell-neutral Core feature-region reference without a live route.
+- **Next:** A08 establishes the shared synthetic fixture catalog and contract-
+  suite interface.
+- **Architecture gate:** A08 remains incomplete. Do not
   begin Phase B until A04-A08 are complete and the architecture-ready gate is
   satisfied.
 
@@ -171,6 +175,16 @@ Depends on: A01, A04, A06.
 
 Complete when: page specifications cover the Core MVP without assuming Core
 authentication UI.
+
+Completed by: the versioned
+[Core operator-panel information architecture](core-operator-panel-information-architecture.md),
+route-independent runtime model/guard and escaped feature-region renderer,
+synthetic seven-page/finite-state fixtures, two registered visual concepts with
+an explicit selected direction, and a code-native nonproduction reference
+verified across required viewports, 200% effective reflow, reduced motion,
+keyboard focus/dialog return, shell composition, overflow, and browser errors.
+No production route, persistence, provider, authentication, or live UI behavior
+changed.
 
 ### A08 — Establish shared synthetic fixtures
 

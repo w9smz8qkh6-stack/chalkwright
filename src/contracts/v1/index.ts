@@ -6,6 +6,7 @@ export * from './configuration-state.js';
 export * from './day-plan.js';
 export * from './display.js';
 export * from './operations.js';
+export * from './operator-panel.js';
 export * from './parity-coverage.js';
 export * from './retirement-decisions.js';
 export * from './runtime.js';

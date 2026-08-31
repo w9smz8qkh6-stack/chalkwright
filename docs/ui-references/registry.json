@@ -1,0 +1,38 @@
+{
+  "references": [
+    {
+      "brief": "docs/ui-references/a07-code-native-reference/brief.md",
+      "id": "a07-code-native-reference",
+      "image": "docs/ui-references/a07-code-native-reference/evidence/overview-wide.png",
+      "implementation_notes": "docs/ui-references/a07-code-native-reference/implementation-notes.md",
+      "prompt": "docs/ui-references/a07-code-native-reference/prompt.md",
+      "status": "implemented",
+      "target": "Core operator feature-region gallery",
+      "title": "A07 code-native operator reference",
+      "viewports": ["390x844", "768x1024", "1366x768", "1920x1080"]
+    },
+    {
+      "brief": "docs/ui-references/a07-readiness-rail/brief.md",
+      "id": "a07-readiness-rail",
+      "image": "docs/ui-references/a07-readiness-rail/concept.png",
+      "implementation_notes": "docs/ui-references/a07-readiness-rail/implementation-notes.md",
+      "prompt": "docs/ui-references/a07-readiness-rail/prompt.md",
+      "status": "reference",
+      "target": "Core operator overview feature region",
+      "title": "A07 readiness rail",
+      "viewports": ["1920x1080"]
+    },
+    {
+      "brief": "docs/ui-references/a07-studio-board/brief.md",
+      "id": "a07-studio-board",
+      "image": "docs/ui-references/a07-studio-board/concept.png",
+      "implementation_notes": "docs/ui-references/a07-studio-board/implementation-notes.md",
+      "prompt": "docs/ui-references/a07-studio-board/prompt.md",
+      "status": "exploratory",
+      "target": "Core planned-display feature region",
+      "title": "A07 planned-display studio board",
+      "viewports": ["1920x1080"]
+    }
+  ],
+  "schema_version": 1
+}

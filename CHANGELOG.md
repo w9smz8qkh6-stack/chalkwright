@@ -64,6 +64,21 @@ omitted.
 
 ### Added
 
+- Completed A07 with a versioned, route-independent Core operator-panel
+  information architecture. Seven stable page contracts now cover setup,
+  displays, sources, planned-display review, presentation, configuration, and
+  diagnostics/recovery; executable guards and an escaped pure feature-region
+  renderer keep shell URLs, authentication, tenant selection, cookies,
+  authorization, billing, and raw HTML outside Core. Synthetic self-hosted and
+  hosted wrappers demonstrate byte-identical Core composition, explicit
+  readiness and draft/preview/revision/activation/rollback boundaries, all 13
+  finite states, planned-display keyboard/dialog/focus behavior, reduced
+  motion, four required viewports, and 200% effective reflow. Two registered
+  visual concepts and a selected code-native reference include reproducible
+  Chrome evidence. No production route, persistence adapter, provider flow,
+  authentication, schema, live UI, service, or deployment changed; A08 remains
+  the final Phase A architecture-gate task.
+
 - Completed A06 with versioned, adapter-neutral source-mode contracts. Every
   display stream now has an exact application-managed/uploaded/shared/connected
   disposition and a feasible first-release non-connected lane; closed logical

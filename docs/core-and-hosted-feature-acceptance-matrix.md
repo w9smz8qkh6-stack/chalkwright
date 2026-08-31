@@ -1,6 +1,6 @@
 # Chalkwright Core and Hosted Feature Acceptance Matrix
 
-Status: A01 architecture baseline with A02-A06 contract evidence; product
+Status: A01 architecture baseline with A02-A07 contract evidence; product
 implementation has not begun.
 
 This is the authoritative feature-ownership, edition-availability, MVP,
@@ -188,7 +188,7 @@ reinterpreted:
 | Project references and restricted exports; local/GitHub Release tarballs; separate operator/display processes; exact `0.x` pairing; typed feature-region rendering seam | `A03` complete; ADR-0026 Accepted. Workspaces and public npm are deferred; material changes require a superseding ADR.              | Governs package restructuring, Core artifacts, and hosted composition    |
 | Editable configuration, persistence ports, concurrency, migrations, backup/export, and rollback schemas                                                                 | `A05`                                                                                                                               | `C01` configuration implementation or hosted storage adapters            |
 | Exact first-release source formats, connected versus non-connected lanes, provenance, freshness, and provider-necessity exceptions                                      | `A06` complete; authoritative [source-mode contracts](core-source-mode-contracts.md)                                                | Source forms, uploads, shared acquisition, or connector implementation   |
-| Operator-panel information architecture, page-level responsive/accessibility requirements, and hosted presentation seams                                                | `A07`                                                                                                                               | `C02`, `C10`, `C11`, or `D07` UI implementation                          |
+| Operator-panel information architecture, page-level responsive/accessibility requirements, and hosted presentation seams                                                | `A07` complete; authoritative [operator-panel information architecture](core-operator-panel-information-architecture.md)            | `C02`, `C10`, `C11`, or `D07` UI implementation                          |
 | Synthetic installation, organization, OAuth, source, preview, and cross-tenant fixture contracts                                                                        | `A08`                                                                                                                               | Architecture-ready gate completion or shared contract-kit implementation |
 | Class-code length, alphabet, cadence, expiry, throttling thresholds, and viewer-session duration                                                                        | Threat constraints in `A02`; persistence in `A05`; implementation in `C03` and `D10`                                                | Viewer admission implementation                                          |
 | Student-safe field classification, especially attendance and provider-linked content                                                                                    | `A02` threat model and `E01` projection review                                                                                      | Student/viewer release                                                   |
@@ -230,5 +230,8 @@ persistence, export/backup, migration, and rollback contracts without changing
 A01 ownership. A06 now fixes the exact source-mode/format catalog, budgets,
 upload/shared/connected admission, consent/grant states, provenance, freshness,
 and commit-only-verified last-known-good behavior with synthetic negative-test
-evidence. A07 and A08 remain required before the architecture-ready gate is
-complete and Phase B may begin.
+evidence. A07 now fixes the route-independent seven-page catalog, readiness and
+mutation semantics, finite states, planned-display keyboard behavior,
+responsive/accessibility acceptance, and shell-neutral feature-region seam
+with synthetic browser evidence. A08 remains required before the architecture-
+ready gate is complete and Phase B may begin.

@@ -42,6 +42,10 @@
 - [Core source-mode contracts](core-source-mode-contracts.md) — A06 stream/mode
   matrix, closed formats and budgets, upload/shared/connected admission,
   provenance, freshness, and last-known-good invariants shared by adapters.
+- [Core operator-panel information architecture](core-operator-panel-information-architecture.md)
+  — A07 stable navigation/pages, readiness and mutation semantics,
+  planned-display keyboard behavior, finite states, responsive/accessibility
+  acceptance, and the shell-neutral Core feature-region seam.
 - [Offline glossary catalog](glossary-catalog.md) — normalized local vocabulary,
   translations, BLOB media, import limits, and review/provenance rules.
 - [Architecture decision records](decisions/README.md) — accepted direction and
@@ -169,6 +173,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Chalkwright Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md) — `core-and-hosted-implementation-work-breakdown.md`
 - [Chalkwright Core and Hosted Threat Model](core-and-hosted-threat-model.md) — `core-and-hosted-threat-model.md`
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
+- [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
 - [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`
@@ -237,6 +242,15 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Public-preview publication gate](publication-readiness.md) — `publication-readiness.md`
 - [Release and version policy](release-policy.md) — `release-policy.md`
 - [Tooling and canonical documentation](tooling.md) — `tooling.md`
+- [A07 code-native operator reference brief](ui-references/a07-code-native-reference/brief.md) — `ui-references/a07-code-native-reference/brief.md`
+- [A07 code-native reference implementation notes](ui-references/a07-code-native-reference/implementation-notes.md) — `ui-references/a07-code-native-reference/implementation-notes.md`
+- [A07 code-native translation specification](ui-references/a07-code-native-reference/prompt.md) — `ui-references/a07-code-native-reference/prompt.md`
+- [A07 concept brief — Readiness rail](ui-references/a07-readiness-rail/brief.md) — `ui-references/a07-readiness-rail/brief.md`
+- [Implementation notes](ui-references/a07-readiness-rail/implementation-notes.md) — `ui-references/a07-readiness-rail/implementation-notes.md`
+- [Generation prompt](ui-references/a07-readiness-rail/prompt.md) — `ui-references/a07-readiness-rail/prompt.md`
+- [A07 concept brief — Studio board](ui-references/a07-studio-board/brief.md) — `ui-references/a07-studio-board/brief.md`
+- [Implementation notes](ui-references/a07-studio-board/implementation-notes.md) — `ui-references/a07-studio-board/implementation-notes.md`
+- [Generation prompt](ui-references/a07-studio-board/prompt.md) — `ui-references/a07-studio-board/prompt.md`
 <!-- END GENERATED DOCUMENTATION INVENTORY -->
 
 <!-- prettier-ignore-end -->

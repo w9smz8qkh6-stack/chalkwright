@@ -307,9 +307,10 @@ same view-model fixtures and accessibility/presentation conformance suite.
 
 The current presentation module already has typed display, preview, and
 operator models and pure string renderers, but its shared document helper and
-base-path link construction remain coupled. `A07` specifies the exact view and
-action contracts; `B02`, `B04`, and `D07` separate feature regions from the two
-shell-owned document wrappers without redesigning presentation behavior in
+base-path link construction remain coupled. `A07` now supplies the exact
+route-independent view/action contracts and a conforming pure feature-region
+reference; `B02`, `B04`, and `D07` separate production feature regions from the
+two shell-owned document wrappers without redesigning presentation behavior in
 A03.
 
 This choice prevents hosted presentation reuse from importing the self-hosted

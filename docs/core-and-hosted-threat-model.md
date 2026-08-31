@@ -287,7 +287,7 @@ residual risk or failed `must never` invariant as a blocker.
 | A controlled hosted pilot may share a physical Ubuntu host                                           | High inherent availability/operational-concentration risk; only Moderate residual is acceptable after strong identity/network/storage/ingress/control isolation and explicit human pilot acceptance. Any cross-service reachability or shared secret/control is a blocker.                                                     | Design and review in `F01`-`F05`; live effect only in authorized `F06`                                    |
 | Concrete scope/schema contracts, auth library, thresholds, infrastructure, and vendor choices        | Intentionally unresolved, not silently accepted. Each later task must preserve the accepted A03 mechanics and these invariants and record its own version-correct threat impact.                                                                                                                                               | `A04`-`A08`, `D02`, `D11`, `F01`-`F05` as assigned in the work breakdown                                  |
 
-## A02-A06 completion and next gate
+## A02-A07 completion and next gate
 
 A02 is complete because the A01 surfaces now have explicit assets,
 classifications, actors, trust boundaries, entry/data flows, stable threats,
@@ -318,8 +318,14 @@ before a real shared-resource adapter. Strictly increasing attempt chronology,
 issued/expiry-bounded active grants, and coherent committed-state time
 validation prevent stale success or contradictory retained state from
 bypassing those transitions.
+A07 now adds a fail-closed route-independent feature-region model and escaped
+renderer. Its guards reject shell-owned authority, wrong-workspace targets,
+raw markup, malformed arrays, and hostile objects. Synthetic conformance
+fixtures prove the same Core region composes inside self-hosted and hosted
+shells while account, organization, route, cookie, and authorization surfaces
+remain shell-owned. Planned-display review is explicitly mutation-free.
 Focused synthetic tests exercise `T-FILE-01`/`T-FILE-02`, `T-SSRF-01`,
 `T-OAUTH-01`-`T-OAUTH-03`, `T-JOB-02`, and `T-DOS-01` contract boundaries;
 later adapters must still prove the controls in their real filesystem, network,
-provider, job, and persistence paths. A07 and A08 remain incomplete, Phase B
-has not begun, and A02 through A06 performed no runtime or live effect.
+provider, job, and persistence paths. A08 remains incomplete, Phase B has not
+begun, and A02 through A07 performed no production runtime or live effect.

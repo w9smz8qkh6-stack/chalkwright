@@ -13,6 +13,7 @@ export {
   renderOperatorPreviewPage,
   stateSceneNames,
 } from './html.js';
+export { renderOperatorFeatureRegion } from './operator-panel-region.js';
 export type { DismissalMediaReference, PresentationAsset } from './assets.js';
 export type {
   DisplayPresentationModel,

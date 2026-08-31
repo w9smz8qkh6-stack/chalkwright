@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "source": "repository-owned synthetic A07 Core operator fixtures",
+  "browser": "Google Chrome 150.0.7871.114",
+  "renderer": "native TypeScript server-rendered HTML/CSS reference gallery",
+  "requiredViewports": ["390x844", "768x1024", "1366x768", "1920x1080"],
+  "keyboardEvidence": "Automated browser test covers contact-sheet arrows, Enter, Escape, and focus return.",
+  "finiteStateCount": 13,
+  "finiteStateImage": "finite-states-compact.png",
+  "finiteStateSha256": "e6a6338ee8409782688fd085a2ce6164cb27a49d96fff15e4291434bf82bda73",
+  "cases": [
+    {
+      "name": "overview-mobile",
+      "pageKey": "overview",
+      "requestedViewport": { "width": 390, "height": 844 },
+      "reducedMotion": true,
+      "layout": {
+        "viewport": { "width": 390, "height": 844 },
+        "scrollWidth": 390,
+        "horizontalOverflow": 0,
+        "headingCount": 1,
+        "mainCount": 1,
+        "navigationCount": 1,
+        "reducedMotion": true,
+        "minimumTargetCssPixels": 45.75
+      },
+      "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
+      "image": "overview-mobile.png",
+      "sha256": "f5c89cce9e32a5399d7b2618e8cb879e8c654ce0b38bc3bb240f733040c6f01d"
+    },
+    {
+      "name": "overview-tablet",
+      "pageKey": "overview",
+      "requestedViewport": { "width": 768, "height": 1024 },
+      "reducedMotion": true,
+      "layout": {
+        "viewport": { "width": 768, "height": 1024 },
+        "scrollWidth": 768,
+        "horizontalOverflow": 0,
+        "headingCount": 1,
+        "mainCount": 1,
+        "navigationCount": 1,
+        "reducedMotion": true,
+        "minimumTargetCssPixels": 45.75
+      },
+      "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
+      "image": "overview-tablet.png",
+      "sha256": "2914f0e10b64a36657baca8d9d5ae695640d7ad662d69d8ea2dedb0b0daadb2f"
+    },
+    {
+      "name": "planned-display-compact",
+      "pageKey": "planned-display",
+      "requestedViewport": { "width": 1366, "height": 768 },
+      "reducedMotion": true,
+      "layout": {
+        "viewport": { "width": 1366, "height": 768 },
+        "scrollWidth": 1366,
+        "horizontalOverflow": 0,
+        "headingCount": 1,
+        "mainCount": 1,
+        "navigationCount": 1,
+        "reducedMotion": true,
+        "minimumTargetCssPixels": 45.75
+      },
+      "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
+      "image": "planned-display-compact.png",
+      "sha256": "70e833b798b2e03d6d4fce8395ab57172c12dbe95c4000f54e440760ce6ef5bd"
+    },
+    {
+      "name": "overview-wide",
+      "pageKey": "overview",
+      "requestedViewport": { "width": 1920, "height": 1080 },
+      "reducedMotion": true,
+      "layout": {
+        "viewport": { "width": 1920, "height": 1080 },
+        "scrollWidth": 1920,
+        "horizontalOverflow": 0,
+        "headingCount": 1,
+        "mainCount": 1,
+        "navigationCount": 1,
+        "reducedMotion": true,
+        "minimumTargetCssPixels": 45.75
+      },
+      "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
+      "image": "overview-wide.png",
+      "sha256": "38bb54fdf9c1efb0f8277511422cfec407db3d1cd8b59b5d3994c12d85988128"
+    },
+    {
+      "name": "configuration-200-percent-effective",
+      "pageKey": "configuration",
+      "requestedViewport": { "width": 683, "height": 384 },
+      "zoomEvidence": "1366x768 at 200% browser zoom exposes about 683x384 CSS pixels",
+      "reducedMotion": true,
+      "layout": {
+        "viewport": { "width": 683, "height": 384 },
+        "scrollWidth": 683,
+        "horizontalOverflow": 0,
+        "headingCount": 1,
+        "mainCount": 1,
+        "navigationCount": 1,
+        "reducedMotion": true,
+        "minimumTargetCssPixels": 45.75
+      },
+      "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
+      "image": "configuration-200-percent-effective.png",
+      "sha256": "f8bea328057069bc26867dd1b62862db3f05fac48ef30c3ddfc8650865da70f0"
+    }
+  ]
+}
