@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "c408ae48a9a34f6bb2a683677f262717b262dbded65eefa8b3be08e394044b7f",
-    "statement": "The phase, capabilities, workstreams, limits, repository-backed deployment claim, M-18 retirement record, and completed A01-A07 architecture work were reviewed together against the accepted A06 base commit 6e4fd98 and the A07 sources, fixtures, documentation, visual references, and browser evidence in this worktree. A07 now fixes seven stable Core operator areas; page scope, hierarchy, guidance, actions, feature traceability, readiness and mutation semantics; 13 finite states; planned-display keyboard behavior; responsive/reduced-motion/accessibility acceptance; authoritative ordinary-form and server-validation behavior without JavaScript; the persistent self-hosted private-listener authority warning; and the exact shell-neutral feature-region seam. Runtime guards reject shell authority, raw HTML, malformed arrays, hostile objects, contradictory blocker/non-blocker readiness, duplicate semantic target/readiness/section/action/item keys, and wrong-workspace targets both at the region boundary and in nested action resources; the pure renderer escapes content and emits no document, route, URL, form, account, cookie, or authorization surface. Synthetic fixtures prove identical Core composition inside self-hosted and hosted wrappers. Two ImageGen concepts were registered, the readiness-rail direction was selected, and the code-native nonproduction gallery was verified in Google Chrome at 390x844, 768x1024, 1366x768, 1920x1080, and an approximately 683x384 effective 200% zoom viewport with reduced motion, no horizontal overflow or browser errors, and working contact-sheet selection/dialog/focus return. A separate disabled-JavaScript browser check verifies legible content, actions, contact-sheet frames, and the self-hosted authority warning at 390x844. A07 changes no production route, listener, persistence adapter, schema, parser/fetcher, OAuth client, provider enrollment, authentication, billing, hosted repository, service, deployment, or live UI. A08 is now the only remaining Phase A architecture gate. Landing-page and synthetic-display worktrees remain separately owned, and no live application, provider, credential, route, or classroom-display probe was performed."
+    "implementationFingerprint": "3ead79b65f72c7f26c384300ebba3aae0344ec694fbae72768a6d324dd09e015",
+    "statement": "The phase, capabilities, workstreams, limits, repository-backed deployment claim, M-18 retirement record, and completed A01-A08 architecture work were reviewed together against accepted A07 commit 1962ae77 and the A08 contract, fixture catalog, focused tests, and governing documentation in this worktree. A08 fixes version 1.0.0 of the Core Goal 1 fixture interface: one synthetic self-hosted installation, two rooms/screens/courses, active and revoked reference-only class-code states, an application-managed manual schedule, vocabulary, bounded media metadata, fresh/first-active/second-active/rolled-back configuration snapshots, a mutation-free preview, redacted portable export, protected recovery manifest, and four ordered planned-display frames. Eleven exact normalized scenarios cover C01-C04, C09, and the non-creator C10 acceptance gate. Runtime validation rejects hosted or connected-account scope, non-synthetic identifiers, cross-workspace and relationship drift, incomplete task coverage, non-reserved URL hosts, email addresses, and sensitive fields. The runner clones catalog/scenario inputs, compares canonical JSON results exactly, and retains only finite diagnostics without observed payloads or thrown errors. A08 adds no runtime implementation, route, listener, form, parser, fetcher, persistence adapter, schema, OAuth client, provider enrollment, account/session/authentication, billing, commercial framework decision, package hardening, service, deployment, or live effect. C01 is next; Phase B and D00 remain gated behind C10. Landing-page and synthetic-display worktrees remain separately owned, and no live application, provider, credential, route, or classroom-display probe was performed."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -26,7 +26,7 @@
   "priorities": [
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
-    "Complete the remaining A08 shared-fixture architecture gate before package restructuring or live operator-panel implementation.",
+    "Begin C01 against the completed A08 Core Goal 1 fixture contract; keep C02-C04, C09, and C10 in the authoritative operator-first sequence.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
     "Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority."
   ],
@@ -35,13 +35,13 @@
     "M-18 removed the active legacy and shadow fallbacks; any temporary cold-recovery restoration now requires explicit incident authorization and must be disabled again after the bounded recovery window.",
     "PowerSchool and Google Classroom remain read-only; Calendar writes remain limited to verified application-owned events.",
     "Semantic documentation accuracy is a mandatory model-reviewed completion condition; documented deployment claims still require a separately authorized live probe before being reported as current live state.",
-    "The current strict runtime configuration is not yet the intended guided end-user setup experience. A04-A07 define workspace/actor, configuration-state, source-mode, and operator information-architecture contract surfaces, but no source parser, fetcher, OAuth client, persistence adapter, production route, live UI, or use case implements those new contracts yet and current SQLite schemas and runtime behavior are unchanged.",
+    "The current strict runtime configuration is not yet the intended guided end-user setup experience. A04-A08 define workspace/actor, configuration-state, source-mode, operator information-architecture, and the Core Goal 1 synthetic contract-suite surfaces, but no source parser, fetcher, OAuth client, persistence adapter, production route, live UI, or use case implements those new contracts yet and current SQLite schemas and runtime behavior are unchanged.",
     "The A06 shared-resource CIDR policy is a reviewed conservative snapshot, not a dynamic future-registry claim. The theoretical 2000::/3 IPv6 envelope is not treated as allocated: only current IANA IPv6 Global Unicast ALLOCATED rows are positive-listed before special-purpose subtraction. Re-review is required before shared-resource implementation and whenever a referenced IANA registry updates."
   ],
   "nextDecisions": [
     "What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.",
     "What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.",
-    "Which installation, organization, course, schedule, vocabulary, media, OAuth-state, preview, and cross-tenant synthetic fixtures A08 must version for the shared contract-suite interface."
+    "How C01 should bind its versioned configuration service to the A08 normalized scenario interface while preserving the existing A05 lifecycle semantics."
   ],
   "capabilities": [
     {
@@ -269,7 +269,7 @@
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "planned",
-      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts. A04 established the shared workspace and actor vocabulary; A05 established immutable detached configuration lifecycle and recovery contracts; A06 established every source stream's exact four-mode disposition and bounded acquisition behavior; and A07 now establishes seven stable operator areas, readiness and mutation semantics, 13 finite states, planned-display keyboard behavior, responsive/accessibility acceptance, ordinary-form and server-validation behavior without JavaScript, the persistent self-hosted authority warning, and a route-independent feature-region seam verified inside both shell types. The production panel, routes, adapters, OAuth clients, and persistence remain planned.",
+      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts. A04 established the shared workspace and actor vocabulary; A05 established immutable detached configuration lifecycle and recovery contracts; A06 established every source stream's exact four-mode disposition and bounded acquisition behavior; A07 established seven stable operator areas, finite states, progressive enhancement and the route-independent feature-region seam; and A08 now establishes a versioned, executable, privacy-safe self-hosted catalog with exact C01-C04, C09, and C10 expected results for rooms, screens, class-code states, courses, manual schedule, vocabulary, media, revision lifecycle, preview, redacted export, recovery, and planned frames. The production panel, routes, adapters, OAuth clients, and persistence remain planned.",
       "safety": "Core adds no account login, so operator reachability confers full authority. Accepted ADR-0026 requires a separate operator process on an explicit loopback address or Unix socket by default, isolated from display routes, identity, cookies, cache, readiness, and storage capabilities. Provider grants, OAuth material, tokens, browser profiles, and private values remain separate from portable non-secret configuration.",
       "implementation": [
         "src/config/production.ts",
@@ -282,6 +282,7 @@
         "src/contracts/v1/source-acquisition.ts",
         "src/contracts/v1/source-observation.ts",
         "src/contracts/v1/operator-panel.ts",
+        "src/contracts/v1/core-goal1-contract-suite.ts",
         "src/presentation/operator-panel-region.ts"
       ],
       "tests": [
@@ -292,6 +293,8 @@
         "test/contracts/v1/source-contracts.test.ts",
         "test/fixtures/source-contracts.ts",
         "test/contracts/v1/operator-panel.test.ts",
+        "test/contracts/v1/core-goal1-contract-suite.test.ts",
+        "test/fixtures/core-goal1.ts",
         "test/presentation/operator-panel-region.test.ts",
         "test/presentation/operator-panel-reference-browser.test.ts",
         "test/fixtures/operator-panel.ts"
@@ -304,6 +307,7 @@
         "docs/core-configuration-state-contracts.md",
         "docs/core-source-mode-contracts.md",
         "docs/core-operator-panel-information-architecture.md",
+        "docs/core-goal1-fixture-contract-suite.md",
         "docs/future-parity-roadmap.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/decisions/0026-public-core-and-hosted-shell.md"
@@ -446,10 +450,10 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A07 are complete. A01-A06 established feature ownership, threats, the accepted package/process/presentation seam, versioned workspace/actor and configuration lifecycle contracts, and bounded source modes. A07 now defines version 1.0.0 of the Core operator-panel contract: seven stable operator areas with explicit scope, hierarchy, guidance, actions, readiness effects, finite states, and Core MVP traceability; ordered setup that does not require provider consent; exact draft/preview/revision/activation/rollback boundaries; planned-display keyboard and focus behavior; responsive/reduced-motion/accessibility acceptance; ordinary-form and server-validation behavior for every Core MVP workflow without JavaScript; a persistent self-hosted private-listener authority warning; and explicit Core, self-hosted-shell, hosted-shell, and conformance obligations. The runtime guard rejects forbidden shell authority, top-level and nested wrong-workspace targets, contradictory blocker/non-blocker readiness, duplicate semantic targets/readiness/sections/actions/items, sparse/decorated arrays, and hostile objects. The escaped pure renderer emits only an inert feature region. Synthetic fixtures cover all pages and 13 states, prove byte-identical Core composition inside both shell types, and support a nonproduction native TypeScript/server-rendered HTML/CSS gallery. Two ImageGen concepts are registered with the readiness rail selected globally and the studio-board contact sheet retained only for planned display. Reproducible Google Chrome evidence covers 390x844, 768x1024, 1366x768, 1920x1080, an effective 200% zoom viewport, reduced motion, visible focus, landmarks, no horizontal overflow or browser errors, and contact-sheet Arrow/Enter/Escape/dialog focus return. A separate disabled-JavaScript check proves legible page content, actions, frames, and authority warning at 390x844. These contracts are not threaded into use cases or adapters; no parser, fetcher, OAuth client, production route, live UI, persistence schema, provider enrollment, account flow, hosted repository, billing integration, service, or deployment changed. A08 is the sole remaining Phase A architecture gate before Phase B.",
+      "currentState": "A01 through A08 are complete. A01-A07 established feature ownership, threats, the accepted package/process/presentation seam, versioned workspace/actor and configuration lifecycle contracts, bounded source modes, and the seven-area operator information architecture. A08 now adds version 1.0.0 of the executable Core Goal 1 fixture contract: one exact synthetic self-hosted installation with two rooms, screens, reference-only class-code states, courses, an application-managed manual schedule, vocabulary, bounded media metadata, fresh/first-active/second-active/rolled-back configuration snapshots, a mutation-free preview, redacted portable export, protected recovery manifest, and ordered planned frames. Eleven stable scenarios map exact canonical results to C01-C04, C09, and C10. The guard rejects hosted or connected-account scope, non-synthetic identifiers, relationship or workspace drift, incomplete task coverage, non-reserved URL hosts, email addresses, and sensitive fields. The runner clones inputs, compares normalized results exactly, and emits only finite diagnostics without observed payloads or thrown errors. No parser, fetcher, OAuth client, production route, live UI, persistence schema, provider enrollment, account flow, hosted repository, billing integration, commercial framework selection, package hardening, service, deployment, or live effect changed.",
       "nextSteps": [
-        "Execute A08 to establish the versioned shared synthetic fixture catalog and contract-suite interface, including privacy and cross-tenant expected results.",
-        "Do not begin Phase B until A08 is complete and the architecture-ready gate is satisfied."
+        "Execute C01 against the A08 configuration lifecycle, preview, export, and recovery expected results.",
+        "Continue the operator-first lane through C02, C03, C04, C09, and C10; do not begin Phase B or D00 before C10 is accepted."
       ],
       "capabilities": [
         "guided-setup",
@@ -470,6 +474,7 @@
         "docs/core-configuration-state-contracts.md",
         "docs/core-source-mode-contracts.md",
         "docs/core-operator-panel-information-architecture.md",
+        "docs/core-goal1-fixture-contract-suite.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/ui-references/registry.json",
         "docs/ui-references/**",
@@ -488,16 +493,19 @@
         "src/contracts/v1/source-acquisition.ts",
         "src/contracts/v1/source-observation.ts",
         "src/contracts/v1/operator-panel.ts",
+        "src/contracts/v1/core-goal1-contract-suite.ts",
         "src/contracts/v1/index.ts",
         "src/presentation/operator-panel-region.ts",
         "src/presentation/index.ts",
         "test/fixtures/configuration-state.ts",
         "test/fixtures/source-contracts.ts",
         "test/fixtures/operator-panel.ts",
+        "test/fixtures/core-goal1.ts",
         "test/contracts/v1/workspace.test.ts",
         "test/contracts/v1/configuration-state.test.ts",
         "test/contracts/v1/source-contracts.test.ts",
         "test/contracts/v1/operator-panel.test.ts",
+        "test/contracts/v1/core-goal1-contract-suite.test.ts",
         "test/presentation/operator-panel-region.test.ts",
         "test/presentation/operator-panel-reference-browser.test.ts",
         "test/reference/operator-panel-gallery.ts",
@@ -513,6 +521,7 @@
         "docs/core-configuration-state-contracts.md",
         "docs/core-source-mode-contracts.md",
         "docs/core-operator-panel-information-architecture.md",
+        "docs/core-goal1-fixture-contract-suite.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/project-state.md"
       ]

@@ -64,6 +64,19 @@ omitted.
 
 ### Added
 
+- Completed A08 with a versioned, executable Core Goal 1 synthetic fixture
+  catalog and contract-suite interface. One self-hosted installation now binds
+  rooms, screens, reference-only class-code states, courses, a manual schedule,
+  vocabulary, media, two activation states, rollback, mutation-free preview,
+  redacted portable export, protected recovery, and planned-display frames to
+  exact C01-C04, C09, and C10 expected results. Runtime validation rejects
+  hosted or connected-account scope, relationship drift, incomplete task
+  coverage, non-synthetic identifiers, non-reserved URLs, email addresses, and
+  sensitive fields; suite reports retain only finite diagnostics. No account,
+  authentication, OAuth, provider enrollment, billing, commercial framework,
+  package hardening, route, persistence, service, deployment, or live effect
+  was added. C01 is next, while Phase B and D00 remain gated behind C10.
+
 - Completed A07 with a versioned, route-independent Core operator-panel
   information architecture. Seven stable page contracts now cover setup,
   displays, sources, planned-display review, presentation, configuration, and

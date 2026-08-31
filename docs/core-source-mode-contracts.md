@@ -254,9 +254,11 @@ full-workspace collisions, consent/grant failure states, read-only scope,
 commit-only-verified transitions, degraded/stale last-known-good retention,
 serialization, nominal separation, and post-validation mutation detachment.
 
-A07 is next and specifies operator-panel information architecture using these
-contracts without inventing authentication inside Core. A08 later establishes
-the cross-feature shared fixture-suite interface. C04-C08/D08-D09 implement
-forms, adapters, storage, acquisition, enrollment, and refresh only after their
-dependencies and authorization gates. B03 later threads A04-A06 scope/state
-through current use cases. Phase B remains blocked until A07 and A08 complete.
+A07 specified operator-panel information architecture without inventing
+authentication inside Core. A08 now establishes the first cross-feature
+fixture-suite interface, deliberately using application-managed sources only
+for courses, schedules, vocabulary, and media; see the
+[Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md).
+C04 must consume those non-connected expected results. Connected enrollment,
+shared acquisition, and hosted source work remain in their later gated tasks;
+Phase B remains gated behind C10.

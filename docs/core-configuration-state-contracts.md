@@ -178,8 +178,11 @@ command/configuration, prior state, export source, preview request, migration
 bundle/plan, or backup after construction cannot change the detached returned
 snapshot, checksum, plan, or result.
 
-A06 has now specified source modes' concrete first-release formats, provenance,
+A06 specified source modes' concrete first-release formats, provenance,
 freshness, validation, consent/grant, and last-known-good behavior without
-changing this A05 state envelope. A07 is next. B03 later threads A04-A06 scope
-and state contracts through current use cases, ports, persistence, and
-snapshots. Phase B remains blocked until A07 and A08 complete.
+changing this A05 state envelope. A08 now composes fresh, two-active,
+rolled-back, preview, redacted-export, and protected-recovery cases into the
+versioned [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md).
+C01 is next and must implement these lifecycle results. B03 later threads the
+scope and state contracts more broadly through current use cases, but Phase B
+remains gated behind C10.

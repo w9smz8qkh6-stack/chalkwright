@@ -153,6 +153,15 @@ Failed bounded refresh retains the exact last-known-good projection while
 freshness degrades or becomes stale. The contracts do not implement current
 adapters, persistence, or provider enrollment.
 
+The completed A08
+[Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md)
+composes these boundaries into one executable self-hosted acceptance catalog.
+Its exact C01-C04, C09, and C10 results use application-managed courses,
+schedule, vocabulary, and media; exercise immutable revision, preview,
+activation, rollback, redacted export, and protected recovery; and reject
+hosted, connected-account, or sensitive fixture scope. This is a contract-test
+oracle, not a new runtime, persistence layer, or commercial boundary.
+
 ### 10. Screens and rooms are isolated first-class entities
 
 A room describes the physical/classroom context. A screen describes a client,

@@ -211,6 +211,16 @@ content and concrete budgets; connected data remains read-only and optional;
 only fully verified projections may replace last-known-good source state. These
 contracts are not yet wired into the current runtime or persistence adapters.
 
+The versioned A08
+[Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md)
+provides the shared synthetic acceptance data for the first Core panel goal:
+one self-hosted installation, rooms/screens and reference-only class-code
+states, application-managed courses/schedule/vocabulary/media, two activated
+revisions, rollback, preview, redacted export, recovery preflight, and planned
+frames. C01-C04, C09, and C10 must consume its exact expected results. It does
+not create a production configuration format, route, adapter, or provider
+connection.
+
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files
 and inert service templates. It must support validation and preview without

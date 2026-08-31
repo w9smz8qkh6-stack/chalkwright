@@ -235,10 +235,12 @@ separately configurable display listener. The proposed ownership, package,
 compatibility, and verification boundaries are recorded in
 [ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
 
-The first approved execution tranche is A01 through A08 in the
-[Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md).
-It freezes acceptance, threat, packaging, scope, persistence, source, panel,
-and fixture contracts before package or UI implementation begins.
+The completed A01-A08 architecture tranche now includes the versioned
+[Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md).
+The authoritative Goal 1 lane proceeds through C01, C02, C03, C04, C09, and
+the non-creator Core acceptance gate C10. Core package hardening and commercial
+architecture selection do not begin before C10; after that gate, Phase B and
+D00 proceed independently as their dependencies allow.
 
 ## 8. Commercial hosted service, exploratory
 

@@ -241,10 +241,19 @@ seam, escaping/fail-closed guards, every finite state, 200% effective reflow,
 the self-hosted authority warning and legible no-JavaScript reference, and
 planned-display keyboard selection/dialog/focus return.
 
-## Deferred implementation
+## A08 acceptance spine and deferred implementation
+
+A08 now supplies the versioned
+[Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md).
+Its exact self-hosted scenarios bind this information architecture to the
+configuration lifecycle, rooms/screens/class-code states, manual sources,
+planned-display projection, export, and recovery expectations that C01-C04,
+C09, and C10 must satisfy.
 
 A07 deliberately does not thread these contracts into use cases or adapters.
 It adds no parser, fetcher, OAuth client, provider grant, persistence adapter,
 schema migration, production route, operator listener, live UI, hosted
-repository, billing surface, service, deployment, merge, or publication.
-A08 remains the final Phase A architecture-gate task before Phase B may begin.
+repository, billing surface, service, deployment, merge, or publication. A08
+likewise adds only contracts, fixtures, validation, and an executable suite
+interface. C01 is next; Phase B and commercial architecture work remain gated
+behind C10.

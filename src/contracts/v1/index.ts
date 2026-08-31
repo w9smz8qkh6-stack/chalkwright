@@ -3,6 +3,7 @@ export * from './common.js';
 export * from './configuration-migration.js';
 export * from './configuration-persistence.js';
 export * from './configuration-state.js';
+export * from './core-goal1-contract-suite.js';
 export * from './day-plan.js';
 export * from './display.js';
 export * from './operations.js';
