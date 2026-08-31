@@ -8,12 +8,15 @@ import {
 } from '../presentation/core-operator-shell.js';
 import type { DisplayConfigurationService } from '../application/operator-panel/display-configuration-service.js';
 import { scopeIdentifier } from '../contracts/v1/index.js';
+import type { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
+import { renderSourceMutationResultDocument } from '../presentation/core-operator-shell.js';
 
 /** Self-hosted document controller; account and hosted authority do not exist here. */
 export class SelfHostedCoreOperatorController implements CoreOperatorHttpController {
   constructor(
     readonly shell: CoreOperatorShellService,
     readonly displays: DisplayConfigurationService,
+    readonly sources: SourceRegistryService,
   ) {}
 
   capabilities(): unknown {
@@ -30,7 +33,9 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
       capabilities: this.shell.discoverCapabilities(),
       ...(pageKey === 'displays'
         ? { displayProjection: await this.displays.project() }
-        : {}),
+        : pageKey === 'sources'
+          ? { sourceProjection: await this.sources.project() }
+          : {}),
     });
   }
 
@@ -103,6 +108,32 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
           ? 'The class code and every viewer session for this screen were revoked. Operator access is unchanged.'
           : 'The screen was not found. No class-code state changed.',
         result === 'revoked' ? 'success' : 'error',
+      ),
+    };
+  }
+
+  async mutateSource(
+    fields: Readonly<Record<string, string>>,
+  ): Promise<{ readonly status: number; readonly document: string }> {
+    const result = await this.sources.saveManualSource({
+      stream: fields.stream ?? '',
+      courseLabel: fields.courseLabel ?? '',
+      ...(fields.screenId === undefined ? {} : { screenId: fields.screenId }),
+    });
+    return {
+      status:
+        result.status === 'saved'
+          ? 200
+          : result.status === 'conflict'
+            ? 409
+            : 422,
+      document: renderSourceMutationResultDocument(
+        result.status === 'saved'
+          ? `Manual source draft version ${result.draftVersion} was saved. It is teacher-entered metadata only; no file, URL, provider, or active display changed.`
+          : result.status === 'conflict'
+            ? 'The source draft changed elsewhere. Reload before trying again; the active display is unchanged.'
+            : 'The manual source was not saved. Choose a supported stream, a course label, and an existing screen when mapping one.',
+        result.status === 'saved' ? 'success' : 'error',
       ),
     };
   }

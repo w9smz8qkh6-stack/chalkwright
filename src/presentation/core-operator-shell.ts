@@ -6,6 +6,7 @@ import {
 } from '../contracts/v1/index.js';
 import type { CoreOperatorCapability } from '../application/operator-panel/core-operator-shell-service.js';
 import type { DisplayProjection } from '../application/operator-panel/display-configuration-service.js';
+import type { SourceRegistryProjection } from '../application/operator-panel/source-registry-service.js';
 import { renderOperatorFeatureRegion } from './operator-panel-region.js';
 
 export const coreOperatorPagePaths = {
@@ -56,12 +57,18 @@ export function renderCoreOperatorShellDocument(options: {
   readonly model: OperatorFeatureRegionModel;
   readonly capabilities: readonly CoreOperatorCapability[];
   readonly displayProjection?: DisplayProjection;
+  readonly sourceProjection?: SourceRegistryProjection;
 }): string {
   const region = renderOperatorFeatureRegion(options.model);
   const displayControls =
     options.model.pageKey === 'displays' &&
     options.displayProjection !== undefined
       ? renderDisplayControls(options.displayProjection)
+      : '';
+  const sourceControls =
+    options.model.pageKey === 'sources' &&
+    options.sourceProjection !== undefined
+      ? renderSourceControls(options.sourceProjection)
       : '';
   return `<!doctype html>
 <html lang="en">
@@ -83,10 +90,25 @@ export function renderCoreOperatorShellDocument(options: {
       <div class="shell-context"><div><span>Installation workspace</span><strong>${escapeHtml(options.model.workspace.workspaceId)}</strong></div><div><span>Authority</span><strong>Private reachability</strong></div></div>
       <p class="shell-authority-warning">${escapeHtml(operatorDeliveryAcceptance.selfHostedAuthorityWarning.text)}</p>
     </header>
-    <main id="operator-main" tabindex="-1">${region}${displayControls}</main>
+    <main id="operator-main" tabindex="-1">${region}${displayControls}${sourceControls}</main>
   </div>
 </body>
 </html>`;
+}
+
+function renderSourceControls(projection: SourceRegistryProjection): string {
+  const streams = [
+    ...new Set(
+      projection.availableModes
+        .filter(
+          (entry) =>
+            entry.mode === 'application-managed' &&
+            entry.disposition === 'first-release',
+        )
+        .map((entry) => entry.stream),
+    ),
+  ];
+  return `<section class="display-controls" aria-label="Source controls"><form class="display-control" method="post" action="/actions/sources/save-manual"><h2>Record a manual source</h2><p>Use this first-goal path when you can supply course information yourself. It records only a draft definition and mapping; it does not read a file, fetch a shared URL, or connect a provider.</p><div class="field-grid"><label>Data stream<select name="stream" required>${streams.map((stream) => `<option value="${escapeHtml(stream)}">${escapeHtml(stream)}</option>`).join('')}</select></label><label>Course or source label<input name="courseLabel" required maxlength="120" autocomplete="off"></label><label>Optional display mapping<select name="screenId"><option value="">Not mapped to a screen</option>${projection.screens.map((screen) => `<option value="${escapeHtml(screen.screenId)}">${escapeHtml(screen.label)}</option>`).join('')}</select></label></div><button type="submit">Save manual source draft</button></form><section class="display-control"><h2>Other source modes</h2><p>Uploaded snapshots, shared resources, and connected accounts have defined contracts, provenance, freshness, and validation requirements. Their forms are intentionally unavailable until C05-C08 provide bounded import, acquisition, and consent behavior.</p><p>Manual source definitions are teacher-entered with <strong>managed-revision</strong> freshness and <strong>definition-recorded</strong> validation. They remain useful without any Workspace account connection.</p></section></section>`;
 }
 
 function renderDisplayControls(projection: DisplayProjection): string {
@@ -99,6 +121,13 @@ export function renderDisplayMutationResultDocument(
   state: 'success' | 'error',
 ): string {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Display control result · Chalkwright</title><link rel="stylesheet" href="/assets/operator-shell.css"></head><body><a class="skip-link" href="#operator-main">Skip to main content</a><main id="operator-main" tabindex="-1"><section class="error-boundary state-${state === 'success' ? 'ready' : 'validation'}" aria-labelledby="result-title"><p class="core-region-kicker">Core operator panel</p><h1 id="result-title">${state === 'success' ? 'Display control updated' : 'Display control not changed'}</h1><p role="status">${escapeHtml(message)}</p><div class="result-actions"><a href="/displays">Return to displays</a><a href="/overview">Overview</a></div></section></main></body></html>`;
+}
+
+export function renderSourceMutationResultDocument(
+  message: string,
+  state: 'success' | 'error',
+): string {
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Source control result · Chalkwright</title><link rel="stylesheet" href="/assets/operator-shell.css"></head><body><a class="skip-link" href="#operator-main">Skip to main content</a><main id="operator-main" tabindex="-1"><section class="error-boundary state-${state === 'success' ? 'ready' : 'validation'}" aria-labelledby="result-title"><p class="core-region-kicker">Core operator panel</p><h1 id="result-title">${state === 'success' ? 'Manual source recorded' : 'Manual source not changed'}</h1><p role="status">${escapeHtml(message)}</p><div class="result-actions"><a href="/sources">Return to sources</a><a href="/overview">Overview</a></div></section></main></body></html>`;
 }
 
 export function renderClassCodeRotatedDocument(

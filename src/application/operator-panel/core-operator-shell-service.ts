@@ -12,6 +12,7 @@ import {
 } from '../../contracts/v1/index.js';
 import type { VersionedConfigurationService } from '../configuration/versioned-configuration-service.js';
 import type { DisplayConfigurationService } from './display-configuration-service.js';
+import type { SourceRegistryService } from './source-registry-service.js';
 
 export type CoreOperatorCapabilityStatus = 'available' | 'planned';
 
@@ -46,6 +47,7 @@ const implementedTasks = new Set<CoreOperatorCapability['implementationTask']>([
   'C01',
   'C02',
   'C03',
+  'C04',
 ]);
 
 function sentenceLabel(value: string): string {
@@ -87,6 +89,7 @@ export class CoreOperatorShellService {
     readonly workspace: SelfHostedWorkspace,
     readonly configuration: VersionedConfigurationService,
     readonly displays: DisplayConfigurationService,
+    readonly sources?: SourceRegistryService,
   ) {}
 
   discoverCapabilities(): readonly CoreOperatorCapability[] {
@@ -147,6 +150,10 @@ export class CoreOperatorShellService {
         : null;
     const displayProjection =
       pageKey === 'displays' ? await this.displays.project() : null;
+    const sourceProjection =
+      pageKey === 'sources' && this.sources !== undefined
+        ? await this.sources.project()
+        : null;
     const readiness: OperatorReadinessSignal[] = [
       {
         signalKey: 'private-operator-boundary',
@@ -339,37 +346,70 @@ export class CoreOperatorShellService {
                 actions: [],
               })),
             ]
-          : [
-              {
-                sectionKey: 'capability-summary',
-                heading: page.label,
-                summary: page.purpose,
-                state: available
-                  ? ('ready' as const)
-                  : ('unavailable' as const),
-                items: page.informationHierarchy.map((heading, index) =>
-                  item(
-                    `capability-${index + 1}`,
-                    heading,
-                    available
-                      ? 'Available in this shell'
-                      : `Planned in ${implementationTask}`,
-                    available
-                      ? 'Rendered from the accepted Core contract without account or provider authority.'
-                      : 'The stable page is present, but this capability remains intentionally inactive.',
-                    available ? 'ready' : 'disabled',
-                  ),
-                ),
-                actions: available
-                  ? []
-                  : page.primaryActions.map((actionKey) =>
-                      disabledAction(
-                        actionKey,
-                        `${implementationTask} must be completed before this action is available.`,
-                      ),
+          : pageKey === 'sources' && sourceProjection !== null
+            ? [
+                {
+                  sectionKey: 'manual-source-registry',
+                  heading: 'Manual source registry',
+                  summary:
+                    'Teacher-entered source definitions are saved as a draft. No upload, URL fetch, provider connection, or parser runs here.',
+                  state:
+                    sourceProjection.status === 'ready'
+                      ? ('ready' as const)
+                      : ('unavailable' as const),
+                  items:
+                    sourceProjection.entries.length === 0
+                      ? [
+                          item(
+                            'manual-source-empty',
+                            'No manual sources recorded',
+                            'Start with a course and stream',
+                            'Choose an application-managed stream below; the form can optionally map it to one configured screen.',
+                            'empty',
+                          ),
+                        ]
+                      : sourceProjection.entries.map((entry) =>
+                          item(
+                            `source-${entry.sourceId}`,
+                            `${entry.courseLabel} · ${entry.stream}`,
+                            'Application-managed',
+                            `Provenance: ${entry.provenance}; freshness: ${entry.freshness}; validation: ${entry.validation}.${entry.screenId === null ? ' No screen mapping.' : ` Mapped to ${entry.screenId}.`}`,
+                          ),
+                        ),
+                  actions: [],
+                },
+              ]
+            : [
+                {
+                  sectionKey: 'capability-summary',
+                  heading: page.label,
+                  summary: page.purpose,
+                  state: available
+                    ? ('ready' as const)
+                    : ('unavailable' as const),
+                  items: page.informationHierarchy.map((heading, index) =>
+                    item(
+                      `capability-${index + 1}`,
+                      heading,
+                      available
+                        ? 'Available in this shell'
+                        : `Planned in ${implementationTask}`,
+                      available
+                        ? 'Rendered from the accepted Core contract without account or provider authority.'
+                        : 'The stable page is present, but this capability remains intentionally inactive.',
+                      available ? 'ready' : 'disabled',
                     ),
-              },
-            ];
+                  ),
+                  actions: available
+                    ? []
+                    : page.primaryActions.map((actionKey) =>
+                        disabledAction(
+                          actionKey,
+                          `${implementationTask} must be completed before this action is available.`,
+                        ),
+                      ),
+                },
+              ];
 
     return {
       contractVersion,
@@ -394,7 +434,9 @@ export class CoreOperatorShellService {
           ? 'preview-only'
           : pageKey === 'displays'
             ? 'draft-only'
-            : 'read-only',
+            : pageKey === 'sources'
+              ? 'draft-only'
+              : 'read-only',
       statusAnnouncement: null,
       readiness,
       sections,

@@ -10,6 +10,11 @@ export interface CoreOperatorHttpController {
   ):
     | { readonly status: number; readonly document: string }
     | Promise<{ readonly status: number; readonly document: string }>;
+  mutateSource(
+    fields: Readonly<Record<string, string>>,
+  ):
+    | { readonly status: number; readonly document: string }
+    | Promise<{ readonly status: number; readonly document: string }>;
 }
 
 export interface CoreOperatorHttpServerOptions {

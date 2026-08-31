@@ -82,7 +82,7 @@ test('shell service discovers all stable pages and renders guarded C01-backed mo
     [
       ['overview', 'available', 'C02'],
       ['displays', 'available', 'C03'],
-      ['sources', 'planned', 'C04'],
+      ['sources', 'available', 'C04'],
       ['planned-display', 'planned', 'C09'],
       ['presentation', 'available', 'C02'],
       ['configuration', 'available', 'C01'],

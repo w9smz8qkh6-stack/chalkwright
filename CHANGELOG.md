@@ -10,6 +10,9 @@ omitted.
 
 ### Fixed
 
+- Corrected C04 capability-discovery coverage so the implemented Sources page
+  is asserted as available rather than planned.
+
 - Corrected the A06 shared-resource and chronology contracts before
   acceptance. A table-driven, dependency-free network policy now denies the
   reviewed IANA IPv4/IPv6 special-purpose snapshot, IPv4 reserved space, and
@@ -63,6 +66,15 @@ omitted.
   instructions remain retained for cold recovery.
 
 ### Added
+
+- Completed C04 with private, ordinary no-JavaScript source-registry forms for
+  bounded teacher-entered application-managed source definitions, A06 stream
+  selection, explicit provenance/freshness/validation, and optional
+  course-to-screen mapping. Saves remain C01 drafts and preserve the active
+  last-known-good revision. The slice intentionally performs no upload,
+  parsing, shared-URL fetch, outbound request, OAuth/provider connection,
+  protected credential persistence, public route, durable production
+  composition, deployment, or live effect.
 
 - Completed C03 with private Core controls for IANA timezone, room/screen draft
   additions, HTTPS display references, class-code rotation/revocation, and

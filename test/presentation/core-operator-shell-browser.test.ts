@@ -170,3 +170,27 @@ test('C03 display controls reflow and expose the one-time class-code result with
   );
   await context.close();
 });
+
+test('C04 source controls retain a useful no-JavaScript manual path', async () => {
+  const context = await browser.newContext({
+    viewport: { width: 683, height: 384 },
+    javaScriptEnabled: false,
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  await page.goto(`${running.origin}/sources`, { waitUntil: 'load' });
+  assert.equal(await page.locator('h1').innerText(), 'Sources');
+  assert.equal(await page.locator('form[action$="save-manual"]').count(), 1);
+  assert.equal(
+    (await page.locator('select[name="stream"] option').count()) > 1,
+    true,
+  );
+  assert.ok(
+    (await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    )) <= 1,
+  );
+  await context.close();
+});

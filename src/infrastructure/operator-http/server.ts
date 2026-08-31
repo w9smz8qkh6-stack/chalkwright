@@ -39,6 +39,7 @@ type OperatorRoute =
       readonly kind: 'display-mutation';
       readonly action: 'save-draft' | 'rotate-class-code' | 'revoke-class-code';
     }
+  | { readonly kind: 'source-mutation' }
   | { readonly kind: 'redirect' };
 
 const routeTable = new Map<string, OperatorRoute>([
@@ -51,6 +52,7 @@ const routeTable = new Map<string, OperatorRoute>([
     '/actions/displays/save-draft',
     { kind: 'display-mutation', action: 'save-draft' },
   ],
+  ['/actions/sources/save-manual', { kind: 'source-mutation' }],
   [
     '/actions/displays/rotate-class-code',
     { kind: 'display-mutation', action: 'rotate-class-code' },
@@ -325,6 +327,24 @@ async function dispatchRoute(options: {
       route.action,
       await readForm(request),
     );
+    sendBytes(
+      response,
+      'GET',
+      result.status,
+      'text/html; charset=utf-8',
+      result.document,
+    );
+    return;
+  }
+  if (route.kind === 'source-mutation') {
+    if (method !== 'POST')
+      throw new OperatorProtocolError(
+        405,
+        'method_not_allowed',
+        'Method not allowed.',
+        { Allow: 'POST' },
+      );
+    const result = await controller.mutateSource(await readForm(request));
     sendBytes(
       response,
       'GET',

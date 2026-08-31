@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "b400c549b6cb4f0b4d8ee3e1f2a0aaf0799d65109555f2debca78079e975eea2",
-    "statement": "The phase, capabilities, workstreams, limits, repository-backed deployment claim, M-18 retirement record, completed A01-A08 architecture work, C01 configuration services, C02 operator shell, and C03 display controls were reviewed together against the A02 threat model, accepted ADR-0026, A05 lifecycle, A07 information architecture, exact A08 fixture suite, focused C01-C03 tests, browser evidence, and governing documentation in this worktree. C03 projects timezone, rooms, screens, HTTPS display references, class-code readiness, and ordinary no-JavaScript controls through the explicit-loopback C02 shell. Display drafts preserve the active revision. Generated codes are returned once; protected state stores only scrypt-v1 verifiers, viewer records store token digests, and bounded uniform admission failures retain no attempted values. Rotation and revocation atomically clear earlier viewer sessions while operator reachability remains available. The exact A08 C03 projection, same-origin action guards, display/operator route separation, and accepted viewport/accessibility envelope pass. The executable remains synthetic and in-memory, with no public viewer route, durable production adapter, provider integration, account/authentication, billing, commercial framework decision, package hardening, deployment, or live effect. C04 is next; Phase B and D00 remain gated behind C10. Landing-page and synthetic-display worktrees remain separately owned, and no live application, provider, credential, route, or classroom-display probe was performed."
+    "implementationFingerprint": "34a713202f0a44a49c8df9e9c2cbf9c95d8ed547297dad787fdeae39c6d5294b",
+    "statement": "The phase, capabilities, workstreams, limits, repository-backed deployment claim, M-18 retirement record, completed A01-A08 architecture work, and C01-C04 Core operator slices were reviewed together against the A02 threat model, accepted ADR-0026, A05 lifecycle, A06 source contract, A07 information architecture, exact A08 fixture suite, focused service/HTTP/browser evidence, and governing documentation in this worktree. C04 adds a private no-JavaScript teacher-entered application-managed source registry with bounded stream/label validation, explicit provenance/freshness/validation, and optional course-to-screen mapping. It writes a C01 draft only and preserves the active revision. Exact C02 same-origin URL-encoded form guards, bounded bodies, display/operator separation, and the accepted responsive envelope remain in force. The executable is synthetic/in-memory: no source parser/fetcher, upload, outbound request, OAuth/provider client, protected credential, durable production adapter, public viewer route, account/authentication, billing, framework decision, deployment, or live effect exists. C09 is next; Phase B and D00 remain gated behind C10. Landing-page and synthetic-display worktrees remain separately owned, and no live application, provider, credential, route, or classroom-display probe was performed."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -26,7 +26,7 @@
   "priorities": [
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
-    "Continue with C04 against the completed C03 display controls; keep C09 and C10 in the authoritative operator-first sequence.",
+    "Continue with C09 after the completed C04 manual source registry; keep C10 as the non-creator Core acceptance gate.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
     "Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority."
   ],
@@ -35,13 +35,13 @@
     "M-18 removed the active legacy and shadow fallbacks; any temporary cold-recovery restoration now requires explicit incident authorization and must be disabled again after the bounded recovery window.",
     "PowerSchool and Google Classroom remain read-only; Calendar writes remain limited to verified application-owned events.",
     "Semantic documentation accuracy is a mandatory model-reviewed completion condition; documented deployment claims still require a separately authorized live probe before being reported as current live state.",
-    "The current strict runtime configuration is not yet the complete guided end-user setup experience. C01 implements reusable configuration lifecycle use cases; C02 supplies the explicit-loopback shell; and C03 adds synthetic in-memory display draft, room/screen, timezone, display-reference, class-code, and viewer-session controls. No source parser/fetcher, OAuth client, durable production persistence adapter, installed service, public viewer route, production route, or live effect was added; current SQLite schemas and production runtime behavior are unchanged.",
+    "The current strict runtime configuration is not yet the complete guided end-user setup experience. C01 implements reusable configuration lifecycle use cases; C02 supplies the explicit-loopback shell; C03 adds synthetic in-memory display/class-code controls; and C04 adds teacher-entered source drafts and mappings. No source parser/fetcher, upload, shared-resource acquisition, OAuth client, durable production persistence adapter, installed service, public viewer route, production route, or live effect was added; current SQLite schemas and production runtime behavior are unchanged.",
     "The A06 shared-resource CIDR policy is a reviewed conservative snapshot, not a dynamic future-registry claim. The theoretical 2000::/3 IPv6 envelope is not treated as allocated: only current IANA IPv6 Global Unicast ALLOCATED rows are positive-listed before special-purpose subtraction. Re-review is required before shared-resource implementation and whenever a referenced IANA registry updates."
   ],
   "nextDecisions": [
     "What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.",
     "What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.",
-    "How C04 should add the closed first-goal manual source registry and forms without implementing uploads, shared-resource acquisition, or connected accounts early."
+    "How C09 should project bounded planned displays from the completed C01-C04 configuration without provider or Calendar mutation."
   ],
   "capabilities": [
     {
@@ -274,7 +274,7 @@
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "planned",
-      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts. A04-A08 established scope and acceptance contracts; C01 implements versioned configuration; C02 implements the separate explicit-loopback seven-page shell; and C03 implements timezone, room/screen draft, HTTPS display-reference, slowly hashed class-code, screen-scoped viewer-session, and readiness controls through that shell. Source forms, planned-display integration, durable production storage/composition, public viewer admission, and OAuth clients remain planned.",
+      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts. A04-A08 established scope and acceptance contracts; C01-C03 implement configuration, private shell, and display/class-code controls; C04 implements teacher-entered application-managed source forms with explicit provenance/freshness/validation and optional course/screen mapping. Planned-display integration, durable production storage/composition, public viewer admission, and OAuth clients remain planned.",
       "safety": "Core adds no account login, so operator reachability confers full authority. The operator process remains explicit-loopback and separate from display ingress. C03 accepts mutations only through exact same-origin bounded ordinary forms; generated codes are returned once, protected state retains only scrypt verifiers, viewer state retains only token digests and verifier versions, bounded failures retain timestamps only, and rotate/revoke atomically clears prior viewer sessions without coupling them to operator authority. Provider grants, OAuth material, browser profiles, and private values remain separate from portable non-secret configuration.",
       "implementation": [
         "src/config/production.ts",
@@ -304,7 +304,8 @@
         "src/application/operator-panel/display-configuration-service.ts",
         "src/application/operator-panel/core-goal1-display-configuration-adapter.ts",
         "src/ports/display-access.ts",
-        "src/infrastructure/memory/display-access.ts"
+        "src/infrastructure/memory/display-access.ts",
+        "src/application/operator-panel/source-registry-service.ts"
       ],
       "tests": [
         "test/config/production.test.ts",
@@ -326,7 +327,8 @@
         "test/entrypoints/core-operator-server.test.ts",
         "test/infrastructure/operator-http/server.test.ts",
         "test/presentation/core-operator-shell-browser.test.ts",
-        "test/application/operator-panel/display-configuration-service.test.ts"
+        "test/application/operator-panel/display-configuration-service.test.ts",
+        "test/application/operator-panel/source-registry-service.test.ts"
       ],
       "documentation": [
         "docs/configuration.md",
@@ -338,6 +340,7 @@
         "docs/core-operator-panel-information-architecture.md",
         "docs/core-operator-shell.md",
         "docs/core-display-configuration.md",
+        "docs/core-source-registry.md",
         "docs/core-goal1-fixture-contract-suite.md",
         "docs/future-parity-roadmap.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
@@ -481,10 +484,10 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A08 and C01-C03 are complete in this worktree. C01 provides versioned configuration and last-known-good semantics; C02 provides the guarded explicit-loopback no-login shell; and C03 adds timezone, room/screen draft, HTTPS display-reference, class-code, viewer-session, and readiness controls. Generated 128-bit codes are returned once and persist only as scrypt-v1 verifiers; viewer tokens persist only as digests; failures are uniform and bounded; and rotate/revoke clears earlier sessions atomically without affecting operator access. The exact A08 C03 projection, draft continuity, same-origin form guards, C02 ingress negatives, and accepted browser envelope pass. The executable remains synthetic/in-memory, with no source parser/fetcher, OAuth client, durable production schema/adapter, installed service, public viewer route, provider enrollment, account flow, hosted repository, billing integration, commercial framework selection, package hardening, deployment, or live effect.",
+      "currentState": "A01 through A08 and C01-C04 are complete in this worktree. C01 provides versioned configuration and last-known-good semantics; C02 provides the guarded explicit-loopback no-login shell; C03 adds display/class-code controls; and C04 adds application-managed teacher-entered source definitions with bounded stream and label validation, explicit provenance/freshness/validation, and optional course-to-screen mapping. C04 saves draft-only state and performs no acquisition. The executable remains synthetic/in-memory, with no source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, public viewer route, hosted repository, billing integration, commercial framework selection, deployment, or live effect.",
       "nextSteps": [
-        "Execute C04 through the completed private shell by adding the closed first-goal manual source registry and forms.",
-        "Continue the operator-first lane through C09 and C10; do not begin Phase B or D00 before C10 is accepted."
+        "Execute C09 through the completed private shell using bounded, mutation-free planned-display projection.",
+        "Continue the operator-first lane through C10; do not begin Phase B or D00 before C10 is accepted."
       ],
       "capabilities": [
         "guided-setup",
@@ -507,6 +510,7 @@
         "docs/core-operator-panel-information-architecture.md",
         "docs/core-operator-shell.md",
         "docs/core-display-configuration.md",
+        "docs/core-source-registry.md",
         "docs/core-goal1-fixture-contract-suite.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/ui-references/registry.json",

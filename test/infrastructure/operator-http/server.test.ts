@@ -281,6 +281,34 @@ test('same-origin display controls rotate and revoke viewer authority without ch
   assert.equal((await fetch(`${running.origin}/ready`)).status, 200);
 });
 
+test('same-origin source form records a draft without acquisition or display ingress', async () => {
+  const running = await startOperator();
+  const screenId = coreGoal1FixtureCatalog.screens[0]!.screenId;
+  const response = await fetch(
+    `${running.origin}/actions/sources/save-manual`,
+    {
+      method: 'POST',
+      headers: { Origin: running.origin },
+      body: new URLSearchParams({
+        stream: 'schedule-bells',
+        courseLabel: 'Web Design',
+        screenId,
+      }),
+    },
+  );
+  assert.equal(response.status, 200);
+  const body = await response.text();
+  assert.match(body, /Manual source recorded/u);
+  assert.match(body, /no file, URL, provider, or active display changed/u);
+  const sources = await fetch(`${running.origin}/sources`);
+  assert.equal(sources.status, 200);
+  assert.match(await sources.text(), /Web Design.*schedule-bells/u);
+  assert.equal(
+    (await fetch(`${running.origin}/display/${screenId}`)).status,
+    404,
+  );
+});
+
 test('request targets must be canonical origin-form paths before route lookup', async () => {
   const running = await startOperator();
   const exact = await rawRequest(running, '/overview');
@@ -306,6 +334,7 @@ test('operator bind must be explicit loopback and display ingress cannot resolve
     capabilities: () => [],
     readiness: () => ({ ready: true }),
     mutateDisplay: () => ({ status: 200, document: '<main>synthetic</main>' }),
+    mutateSource: () => ({ status: 200, document: '<main>synthetic</main>' }),
   };
   await assert.rejects(
     startCoreOperatorHttpServer({
@@ -343,6 +372,9 @@ test('unexpected controller failures render a finite HTML boundary without detai
     capabilities: () => [],
     readiness: () => ({ ready: false }),
     mutateDisplay: () => {
+      throw new Error('synthetic-private-canary-value');
+    },
+    mutateSource: () => {
       throw new Error('synthetic-private-canary-value');
     },
   };

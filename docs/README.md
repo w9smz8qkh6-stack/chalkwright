@@ -50,6 +50,9 @@
   closed route table, Host/Origin controls, server-rendered document shell,
   capability/readiness discovery, responsive evidence, and explicit synthetic
   and pre-C03 limits.
+- [Core source registry and manual setup](core-source-registry.md) — C04
+  teacher-entered source definitions, provenance/freshness projection,
+  course/screen mapping, and the explicit no-acquisition boundary.
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) —
   A08 versioned synthetic self-hosted catalog, exact C01-C04/C09/C10 expected
   results, privacy rules, and reusable executable normalization interface.
@@ -185,6 +188,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
 - [Core operator shell](core-operator-shell.md) — `core-operator-shell.md`
 - [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
+- [Core source registry and manual setup](core-source-registry.md) — `core-source-registry.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`
 - [ADR-0002: Canonical day plan and SQLite state](decisions/0002-canonical-plan-and-sqlite-state.md) — `decisions/0002-canonical-plan-and-sqlite-state.md`

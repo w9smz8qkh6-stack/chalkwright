@@ -9,6 +9,7 @@ import { SelfHostedCoreOperatorController } from './core-operator-controller.js'
 import { DisplayConfigurationService } from '../application/operator-panel/display-configuration-service.js';
 import { InMemoryDisplayAccessRepository } from '../infrastructure/memory/display-access.js';
 import type { DisplayAccessRepository } from '../ports/display-access.js';
+import { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
 
 export interface CoreOperatorApplicationOptions {
   readonly host: '127.0.0.1' | '::1';
@@ -32,13 +33,18 @@ export function startCoreOperatorApplication(
     options.displayAccess ?? new InMemoryDisplayAccessRepository(),
     options.displayOrigin ?? 'https://display.synthetic.invalid',
   );
+  const sources = new SourceRegistryService(
+    options.workspace,
+    options.configuration,
+  );
   const shell = new CoreOperatorShellService(
     options.workspace,
     options.configuration,
     displays,
+    sources,
   );
   return startCoreOperatorHttpServer({
-    controller: new SelfHostedCoreOperatorController(shell, displays),
+    controller: new SelfHostedCoreOperatorController(shell, displays, sources),
     host: options.host,
     ...(options.port === undefined ? {} : { port: options.port }),
   });
