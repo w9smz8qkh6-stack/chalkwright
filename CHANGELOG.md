@@ -40,6 +40,15 @@ omitted.
 
 ### Added
 
+- Reconciled the proposed Chalkwright Core operator-panel and commercial hosted-
+  service direction with the completed M-18 project baseline. The planning set
+  now records the private-by-default, unauthenticated Core operator boundary,
+  separately admitted display viewers, a public-Core/commercial-shell package
+  seam, direct least-privilege provider connections, planned-display review,
+  and a dependency-ordered 49-task implementation program. This planning work
+  does not authorize implementation, provider enrollment, repository creation,
+  billing, publication, or deployment.
+
 - Added a durable, self-documenting Codex workflow with generated project
   facts, an exhaustive documentation router, and a structured semantic state
   registry covering phase, milestone, deployment evidence, capability

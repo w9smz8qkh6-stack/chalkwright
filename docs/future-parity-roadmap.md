@@ -181,3 +181,79 @@ Acceptance later:
 - QR behavior remains stable in the display; and
 - admin/reporting work is treated as a separate parity slice rather than a
   blocker for display parity.
+
+## 7. Core operator panel with planned-display review
+
+Implementation status: architecture-planning workstream active; implementation
+has not begun.
+
+Goal: give every Chalkwright Core installation a browser-based operator panel
+for guided configuration, connection setup, visual review, and presentation
+preferences without editing internal runtime files.
+
+Core does not require a Chalkwright user account or login to reach this panel.
+Anyone who can reach it has operator authority, so the self-hosted deployment
+must keep it behind an operator-controlled local or private exposure boundary
+and must not publish it openly. Tailscale may provide that boundary but is not
+required. The operator configures the class code that classroom displays and
+students enter to reach the separate low-privilege display view; the class code
+does not protect the operator panel.
+
+The control center should cover schedule and content sources, approved
+connectors, rooms and screens, branding, languages, themes, transition
+profiles, readiness, source freshness, and protected enrollment workflows. A
+planned-display review presents each day's expected states and carousel cards
+as a contact sheet, supports enlarged single-frame review and a day carousel,
+and loads distant dates on demand outside a bounded rolling preview window.
+
+Every consequential source should support a connected-provider lane and the
+closest safe application-managed, shared-resource, or uploaded lane. A URL or
+Calendar ID does not itself grant access, and Google Classroom automation has
+no share-URL equivalent. Chalkwright will own Google OAuth, token storage,
+revocation, and official API calls directly; managed identity or integration
+brokers are not part of the selected architecture.
+
+The commercial service reuses this Core panel capability inside a complete
+authenticated account application and adds organizations, invitations and
+roles, billing, subscriptions, provider connections, account export/deletion,
+and hosted operations. Accounts and authorization belong to the hosted service
+rather than becoming a requirement of Core.
+
+Packaging must preserve Core as a complete public self-hosted application while
+also making it the upstream dependency for the commercial service. The hosted
+repository should consume versioned Core use cases, contracts, and presentation
+primitives below the HTTP boundary; it must not mount Core's unauthenticated
+self-hosted routes. Core supplies a private-by-default operator listener and a
+separately configurable display listener. The proposed ownership, package,
+compatibility, and verification boundaries are recorded in
+[ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
+
+The first approved execution tranche is A01 through A08 in the
+[Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md).
+It freezes acceptance, threat, packaging, scope, persistence, source, panel,
+and fixture contracts before package or UI implementation begins.
+
+## 8. Commercial hosted service, exploratory
+
+Implementation status: roadmap concept only; not authorized for deployment.
+
+Goal: offer a paid ChalkWrite.com service that hosts logical Chalkwright screen
+instances for teachers and schools that do not want to operate the free
+self-hosted application.
+
+The working concept charges $9.99 per active screen per month. An account
+manages its organization, screens, approved schedule and content sources,
+Google Classroom connection, branding, art, and language options through the
+signed-in application. Each screen receives an opaque URL and
+operator-configured class code. The same class-code-gated view may be opened on
+student devices, where presentation preferences such as a preferred translation
+language affect only that viewer.
+
+The architecture, Core-panel/hosted-account boundary, direct provider-
+authorization decision, security boundary, Ubuntu pilot constraints, tenant
+model, staged delivery plan, acceptance criteria, and open decisions are
+detailed in the
+[ChalkWrite.com Commercial Hosted App concept](chalkwrite-com-commercial-hosted-app.md).
+The service should use one tenant-isolated application rather than a separately
+deployed website per customer, and must remain operationally isolated from the
+existing private Chalkwright deployment.

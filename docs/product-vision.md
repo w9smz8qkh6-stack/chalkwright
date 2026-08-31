@@ -134,6 +134,16 @@ in the TV surface and integrations.
   surface plus a guided setup/upgrade/diagnostic workflow. The setup layer may
   generate the strict protected runtime files, but those machine-facing files
   remain exact-shape, least-privilege, and fail-closed.
+- Provide that surface in Core through a browser-based operator panel without a
+  built-in Chalkwright user account or login. Treat access to the panel as full
+  operator authority and keep it on an operator-controlled local or private
+  deployment boundary. The hosted service wraps the same capability in its
+  authenticated account application. In both editions, the separately
+  configured class code grants only low-privilege display and student-view
+  access.
+- Add a date-driven planned-display review that renders expected daily states
+  and carousel cards as a contact sheet, enlarged preview, and review carousel
+  while preserving the existing mutation-free preview boundary.
 - Keep credentials, OAuth grants, browser profiles, provider tokens, and other
   sensitive values outside the portable configuration. Configuration stores
   only opaque references and guides explicit authorization/repair workflows.
@@ -145,8 +155,18 @@ in the TV surface and integrations.
   explicit rollout approval.
 - Add richer operator diagnostics, comparison drill-down, mapping management,
   and controlled replay from sanitized fixtures.
-- Improve named operator identity and auditability if shared bearer-token
-  operation no longer meets the risk profile.
+- Do not turn self-hosted Core into an account-management system merely to
+  provide its operator panel. Named users, organization roles, and account
+  security belong to the commercial hosted application.
+- Keep the public Core repository complete and independently self-hostable while
+  exposing deliberate, versioned domain, use-case, contract, connector, and
+  presentation boundaries for a separate commercial shell. The commercial
+  application consumes those boundaries below HTTP routing; it never mounts the
+  unauthenticated Core server as its control plane.
+- Offer both direct least-privilege provider connections and documented
+  application-managed, shared-resource, and uploaded alternatives. Chalkwright
+  owns its Google OAuth and token lifecycle rather than requiring a managed
+  identity or integration broker.
 - Add richer historical reporting only when privacy, retention, and query value
   justify it.
 - Offer a stable client API for OpenClaw or other consumers after the
@@ -170,8 +190,10 @@ is needed at cutover.
   Git.
 - Student data is minimized in storage, logs, metrics, fixtures, alerts, and
   comparison reports. Golden fixtures are synthetic or irreversibly redacted.
-- Tailnet reachability is not operator authorization. Mutating local controls
-  require a distinct authorization boundary.
+- Never expose Core's unauthenticated operator panel as an unrestricted public
+  route. Access through its configured local or private deployment boundary
+  confers operator authority; Tailscale may supply that boundary but is not a
+  Core requirement.
 - Cutover occurs outside teaching hours with a validated backup, rollback
   procedure, ownership check, and health gate.
 

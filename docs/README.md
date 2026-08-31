@@ -18,9 +18,15 @@
 - [Migration execution plan](migration-plan.md) — dependency-ordered work,
   per-step verification and side-effect boundaries, and requirements
   traceability.
-- [Future parity roadmap](future-parity-roadmap.md) — paused post-M17 parity
-  plan prioritizing vocabulary, lesson-reference slide enhancement, and later
-  attendance-admin work.
+- [Future parity roadmap](future-parity-roadmap.md) — post-M18 parity and product
+  direction, including the planned Core operator panel and exploratory hosted
+  service.
+- [ChalkWrite.com Commercial Hosted App](chalkwrite-com-commercial-hosted-app.md)
+  — exploratory paid authenticated account application, source strategy,
+  tenant model, student-view boundary, security baseline, and delivery stages.
+- [Core and hosted implementation work breakdown](core-and-hosted-implementation-work-breakdown.md)
+  — dependency-ordered tasks from architecture decisions through the Core
+  operator panel, hosted account application, and paid-pilot qualification.
 - [Offline glossary catalog](glossary-catalog.md) — normalized local vocabulary,
   translations, BLOB media, import limits, and review/provenance rules.
 - [Architecture decision records](decisions/README.md) — accepted direction and
@@ -142,7 +148,9 @@ new, renamed, and removed documentation discoverable without manual indexing.
 
 - [Architecture principles](architecture-principles.md) — `architecture-principles.md`
 - [B407 Classroom Display MVP](b407-display-mvp.md) — `b407-display-mvp.md`
+- [ChalkWrite.com Commercial Hosted App](chalkwrite-com-commercial-hosted-app.md) — `chalkwrite-com-commercial-hosted-app.md`
 - [Configuration](configuration.md) — `configuration.md`
+- [Chalkwright Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md) — `core-and-hosted-implementation-work-breakdown.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`
 - [ADR-0002: Canonical day plan and SQLite state](decisions/0002-canonical-plan-and-sqlite-state.md) — `decisions/0002-canonical-plan-and-sqlite-state.md`
 - [ADR-0003: Bounded external-system effects](decisions/0003-bounded-external-system-effects.md) — `decisions/0003-bounded-external-system-effects.md`
@@ -168,6 +176,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [ADR-0023: Chalkwright public identity and compatibility migration](decisions/0023-chalkwright-public-identity.md) — `decisions/0023-chalkwright-public-identity.md`
 - [ADR-0024: Application-owned PowerSchool authentication lifecycle](decisions/0024-application-owned-powerschool-authentication.md) — `decisions/0024-application-owned-powerschool-authentication.md`
 - [ADR-0025: Permanent production delivery lane](decisions/0025-permanent-production-delivery.md) — `decisions/0025-permanent-production-delivery.md`
+- [ADR-0026: Public Core and separate hosted shell](decisions/0026-public-core-and-hosted-shell.md) — `decisions/0026-public-core-and-hosted-shell.md`
 - [Architecture decision records](decisions/README.md) — `decisions/README.md`
 - [Documentation maintenance system](documentation-system.md) — `documentation-system.md`
 - [Engineering standards](engineering-standards.md) — `engineering-standards.md`

@@ -117,7 +117,8 @@ From lowest to highest precedence:
 2. repository-owned non-secret configuration;
 3. imported continuity configuration after validation;
 4. deployment environment variables or environment files;
-5. explicit, authenticated operator overrides scoped by screen/date/class.
+5. explicit operator overrides obtained through the edition-appropriate access
+   boundary and scoped by screen/date/class.
 
 Secrets are references, not configuration values. Effective configuration is
 inspectable in redacted form and records its provenance.
@@ -180,6 +181,7 @@ before promotion.
 | Initial server-rendered UI/controller strategy      | Accepted | Bounded HTML/CSS/TypeScript views meet the offline B407 scope without a framework or client bundler; ADR-0009 records the verification gate.                                                                            |
 | Direct PowerSchool browser/auth implementation      | Accepted | Exact `playwright-core` with installed Chrome supplies protected-profile and dynamic-page support; ordinary acquisition is same-origin GET-first, mechanically read-only, and separate from explicit repair (ADR-0010). |
 | Direct Google client/credential mechanism           | Proposed | Needs a least-privilege, read/write-scope review and fixtureable adapter.                                                                                                                                               |
+| Public Core with separate self-hosted/hosted shells | Proposed | Keep Core independently self-hostable while the commercial account application consumes stable Core contracts below the unauthenticated self-hosted HTTP boundary; ADR-0026 defines the proposed packaging seam.        |
 | Alert delivery transport                            | Proposed | Legacy semantics are known; steady-state transport/ownership is not yet approved.                                                                                                                                       |
 
 See the [ADR index](decisions/README.md) for context, alternatives,

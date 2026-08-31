@@ -149,6 +149,40 @@ above. The remaining guided self-hosted setup layer will cover:
 - display timing and optional attendance links; and
 - backup, retention, and notification policy.
 
+The intended Chalkwright Core experience is a browser-based operator panel
+rather than permanent manual editing of these files. Core does not add a user
+account or login system around that panel. Anyone who can reach it has operator
+authority, so a self-hosted deployment must bind or route it only through an
+operator-controlled local or private boundary and must not publish it openly.
+That boundary does not have to be Tailscale.
+
+The operator uses the panel to manage configuration, connections, previews,
+readiness, and the class code used by classroom displays and students. The
+class code gates only the low-privilege display/viewer surface; it is not a
+credential for the operator panel. The commercial hosted edition places this
+same control capability inside its authenticated account application.
+
+Every consequential source will have a connected-provider lane and the closest
+safe application-managed, shared-resource, or uploaded lane. Chalkwright will
+manage Google OAuth, refresh tokens, revocation, and official API calls directly
+rather than requiring a managed integration broker. Operator-panel access
+remains separate from optional Classroom, Calendar, Drive, Docs, and Sheets
+authorization. Provider OAuth is still required for a connected source even
+though Core has no Chalkwright account login.
+
+The panel will include planned-display review: a date picker and bounded rolling
+window of daily contact sheets, enlarged frame review, and a carousel through
+the expected display states. Requests outside the rolling window will refresh
+and render the selected date on demand rather than importing an unbounded future
+calendar.
+
+The public distribution remains a complete self-hosted application. Its
+operator and display listeners are separately bindable, and supplied deployment
+examples must not publish the operator listener by default. A separate
+commercial repository consumes versioned Core contracts below the HTTP layer
+rather than embedding the unauthenticated Core route table; see
+[ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
+
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files
 and inert service templates. It must support validation and preview without

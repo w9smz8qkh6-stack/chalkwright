@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "review": {
-    "reviewedOn": "2026-08-30",
+    "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
     "implementationFingerprint": "8abdc70bb20876ebeb3748bf15d9d95257673f0c66f48821c0632137d67ccc2f",
-    "statement": "The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, tiered project hooks, quiet global resume and compaction refresh, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f and the documentation-automation implementation. Concurrent roadmap, landing-page, and synthetic-display worktrees remain separately owned and were not incorporated by this review; no new live application or provider probe was performed."
+    "statement": "The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, documentation automation, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f. The Core operator-panel and exploratory hosted-service roadmap, proposed ADR-0026, and 49-task gated work breakdown are now incorporated as an active architecture-planning workstream; implementation has not begun. Landing-page and synthetic-display worktrees remain separately owned, and no new live application, provider, route, or service probe was performed."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -26,6 +26,7 @@
   "priorities": [
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
+    "Advance the Core operator panel through its A01-A08 architecture gate before package restructuring or UI implementation.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
     "Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority."
   ],
@@ -34,12 +35,12 @@
     "M-18 removed the active legacy and shadow fallbacks; any temporary cold-recovery restoration now requires explicit incident authorization and must be disabled again after the bounded recovery window.",
     "PowerSchool and Google Classroom remain read-only; Calendar writes remain limited to verified application-owned events.",
     "Semantic documentation accuracy is a mandatory model-reviewed completion condition; documented deployment claims still require a separately authorized live probe before being reported as current live state.",
-    "The current strict configuration schemas are not yet the intended guided end-user setup experience."
+    "The current strict configuration schemas are not yet the intended guided end-user setup experience; the operator-panel workstream is architecture planning only and has not changed runtime behavior."
   ],
   "nextDecisions": [
     "What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.",
     "What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.",
-    "Which post-MVP enrichment or guided-setup slice should follow the current stabilization and presentation work."
+    "What exact feature ownership, MVP exclusions, and acceptance evidence A01 should freeze for the Core operator panel and hosted shell."
   ],
   "capabilities": [
     {
@@ -262,8 +263,8 @@
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "planned",
-      "summary": "Replace direct editing of strict runtime files with a versioned, approachable setup layer while retaining protected secret separation.",
-      "safety": "The planned layer must not combine OAuth material, tokens, browser profiles, or private provider values with non-secret configuration.",
+      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts.",
+      "safety": "Core adds no account login, so operator reachability confers full authority and must remain on a controlled local or private listener. Provider grants, OAuth material, tokens, browser profiles, and private values remain separate from portable non-secret configuration.",
       "implementation": [
         "src/config/production.ts",
         "scripts/setup-site-media.mjs"
@@ -274,7 +275,9 @@
       ],
       "documentation": [
         "docs/configuration.md",
-        "docs/future-parity-roadmap.md"
+        "docs/future-parity-roadmap.md",
+        "docs/core-and-hosted-implementation-work-breakdown.md",
+        "docs/decisions/0026-public-core-and-hosted-shell.md"
       ]
     },
     {
@@ -408,6 +411,41 @@
         "test/presentation/html.test.ts"
       ],
       "documentation": ["docs/b407-display-mvp.md", "docs/project-state.md"]
+    },
+    {
+      "id": "configuration-panel-planning",
+      "name": "Core configuration panel and hosted-shell planning",
+      "status": "active",
+      "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
+      "currentState": "The M-18-aware roadmap now includes the Core operator-panel concept, the exploratory commercial hosted-service concept, proposed ADR-0026, and a 49-task dependency-ordered work breakdown. The Core panel remains planned: no package restructuring, operator route, provider enrollment, hosted repository, billing integration, or deployment has begun.",
+      "nextSteps": [
+        "Execute A01 to freeze feature ownership, MVP exclusions, and observable acceptance criteria.",
+        "Complete A02 through A08 in dependency order, and do not begin Phase B until the architecture-ready gate is satisfied."
+      ],
+      "capabilities": [
+        "guided-setup",
+        "preview-and-controls",
+        "durable-state",
+        "fixture-evaluation"
+      ],
+      "scope": [
+        "CHANGELOG.md",
+        "docs/README.md",
+        "docs/architecture-principles.md",
+        "docs/chalkwrite-com-commercial-hosted-app.md",
+        "docs/configuration.md",
+        "docs/core-and-hosted-implementation-work-breakdown.md",
+        "docs/decisions/0026-public-core-and-hosted-shell.md",
+        "docs/decisions/README.md",
+        "docs/future-parity-roadmap.md",
+        "docs/product-vision.md",
+        "docs/project-knowledge.json",
+        "docs/project-state.md"
+      ],
+      "documentation": [
+        "docs/core-and-hosted-implementation-work-breakdown.md",
+        "docs/project-state.md"
+      ]
     }
   ]
 }
