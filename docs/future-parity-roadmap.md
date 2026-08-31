@@ -213,6 +213,13 @@ no share-URL equivalent. Chalkwright will own Google OAuth, token storage,
 revocation, and official API calls directly; managed identity or integration
 brokers are not part of the selected architecture.
 
+The completed A06
+[Core source-mode contracts](core-source-mode-contracts.md) now fix the exact
+first-release/later mode matrix, closed logical formats and budgets,
+upload/shared/connected admission boundaries, normalized provenance, and
+freshness/last-known-good behavior. They do not implement a parser, provider,
+storage adapter, route, or UI.
+
 The commercial service reuses this Core panel capability inside a complete
 authenticated account application and adds organizations, invitations and
 roles, billing, subscriptions, provider connections, account export/deletion,

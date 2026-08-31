@@ -214,21 +214,20 @@ Every consequential content type should offer a connected provider lane and the
 closest safe non-connected lane. Provider integration improves discovery and
 freshness; it must not be the price of entry for using Chalkwright.
 
-| Data stream                                                   | Connected lane                                                       | Manual, shared, or uploaded lane                                                             |
-| ------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| School, rooms, and screens                                    | Future institutional directory import                                | Account and organization forms                                                               |
-| Course catalog                                                | Read-only Google Classroom or future Microsoft Education discovery   | Add courses in the application or import a validated CSV, JSON, or structured Markdown table |
-| Daily schedule and bell times                                 | Selected Calendar, supported SIS, or future Microsoft Graph calendar | Recurring timetable form, ICS/CSV upload, or date-specific exceptions                        |
-| Holidays and no-class dates                                   | Selected Calendar                                                    | ICS/CSV upload or direct calendar controls                                                   |
-| Assignments, links, and due dates                             | Read-only Classroom coursework or future Microsoft Education source  | Teacher-maintained Sheet, CSV, structured Markdown, or direct entry                          |
-| Learning objectives and lesson references                     | Selected Drive, Docs, OneDrive, or SharePoint sources                | Uploaded Markdown, text, DOCX, CSV, or direct entry                                          |
-| Vocabulary, translations, and pronunciations                  | Selected Sheets, Excel, or approved media folders                    | CSV/XLSX, structured Markdown, pronunciation text, and bounded audio uploads                 |
-| School logo, course art, and display media                    | Provider file picker                                                 | Direct validated upload, preferred for the initial release                                   |
-| Attendance or check-in destination                            | Future approved form or attendance connector                         | Pasted reviewed URL and generated QR presentation                                            |
-| Rosters                                                       | Separately enabled read-only Classroom, Microsoft, or SIS connector  | Explicit CSV import only when a roster-dependent feature has been approved                   |
-| Announcements, class code, themes, transitions, and overrides | No provider needed                                                   | Managed directly in the signed-in application                                                |
+| A06 source stream                           | Connected lane                                                         | Selected non-connected lane                                                                             |
+| ------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| Identity and presentation                   | Future institutional directory import (`later`)                        | Application-managed (`first`); uploaded snapshot remains `later`                                        |
+| Course catalog and mapping                  | Read-only Classroom or Education discovery (`later`)                   | Application-managed canonical records or validated UTF-8 CSV upload/shared resource (`first`)           |
+| Schedule and bells                          | Read-only Calendar/SIS projection (`later`)                            | Application-managed canonical records, UTF-8 CSV upload, or bounded shared iCalendar (`first`)          |
+| Calendar exceptions                         | Read-only Calendar projection (`later`)                                | Application-managed records, UTF-8 CSV/iCalendar upload, or shared iCalendar (`first`)                  |
+| Assignments and links                       | Read-only Classroom/Education coursework (`later`)                     | Application-managed records or validated UTF-8 CSV upload/shared resource (`first`)                     |
+| Objectives and lessons                      | Selected read-only Drive/Docs/OneDrive/SharePoint projection (`later`) | Application-managed records or validated UTF-8 CSV upload/shared resource (`first`)                     |
+| Vocabulary, translations, and pronunciation | Selected read-only Sheets/Excel/provider projection (`later`)          | Application-managed records or validated UTF-8 CSV upload/shared resource (`first`)                     |
+| Branding and display media                  | Provider projection (`later`)                                          | Application-managed mapping or validated PNG/JPEG/WebP/MP4 upload (`first`); shared resource is `later` |
+| Attendance destination                      | Future approved read-only connector (`later`)                          | Application-managed reviewed HTTPS reference (`first`)                                                  |
+| Presentation controls                       | N/A                                                                    | Application-managed canonical records (`first`)                                                         |
 
-The supported non-connected modes are:
+The four supported source modes are:
 
 - **application-managed:** values entered and versioned in the signed-in app;
 - **uploaded snapshot:** a validated file imported at a known instant;
@@ -246,6 +245,15 @@ organization identity, so a colliding workspace ID cannot cross tenants.
 Portable export is one redacted tenant only; protected backup/restore remains
 integrity-checked, exact-workspace, detached from caller-owned input objects,
 and isolated from current traffic.
+
+The completed A06
+[Core source-mode contracts](core-source-mode-contracts.md) are authoritative
+for this table and deliberately narrow the earlier concept. DOCX, XLSX,
+Markdown, HTML, arbitrary JSON, archives, formulas, active content, and audio
+uploads are not v1 source formats. A future format requires a reviewed contract,
+parser isolation, concrete limits, fixtures, and negative tests. Rosters are
+deferred entirely until a roster-dependent feature, privacy basis, and new
+authorized task exist; there is no first-release roster upload fallback.
 
 A pasted Google file URL or Calendar ID identifies a resource but does not grant
 access to it. The application must state whether the resource must be published,

@@ -1,6 +1,7 @@
 # Chalkwright Core and Hosted Feature Acceptance Matrix
 
-Status: A01 architecture baseline; implementation has not begun.
+Status: A01 architecture baseline with A02-A06 contract evidence; product
+implementation has not begun.
 
 This is the authoritative feature-ownership, edition-availability, MVP,
 acceptance, and downstream-task matrix for the Core operator panel and the
@@ -186,7 +187,7 @@ reinterpreted:
 | Workspace, organization, room, screen, date, resource, actor, and audit-scope contracts                                                                                 | `A04`, after `A02` and `A03`                                                                                                        | Scoped implementation in `B03` or hosted authorization                   |
 | Project references and restricted exports; local/GitHub Release tarballs; separate operator/display processes; exact `0.x` pairing; typed feature-region rendering seam | `A03` complete; ADR-0026 Accepted. Workspaces and public npm are deferred; material changes require a superseding ADR.              | Governs package restructuring, Core artifacts, and hosted composition    |
 | Editable configuration, persistence ports, concurrency, migrations, backup/export, and rollback schemas                                                                 | `A05`                                                                                                                               | `C01` configuration implementation or hosted storage adapters            |
-| Exact first-release source formats, connected versus non-connected lanes, provenance, freshness, and provider-necessity exceptions                                      | `A06`                                                                                                                               | Source forms, uploads, shared acquisition, or connector implementation   |
+| Exact first-release source formats, connected versus non-connected lanes, provenance, freshness, and provider-necessity exceptions                                      | `A06` complete; authoritative [source-mode contracts](core-source-mode-contracts.md)                                                | Source forms, uploads, shared acquisition, or connector implementation   |
 | Operator-panel information architecture, page-level responsive/accessibility requirements, and hosted presentation seams                                                | `A07`                                                                                                                               | `C02`, `C10`, `C11`, or `D07` UI implementation                          |
 | Synthetic installation, organization, OAuth, source, preview, and cross-tenant fixture contracts                                                                        | `A08`                                                                                                                               | Architecture-ready gate completion or shared contract-kit implementation |
 | Class-code length, alphabet, cadence, expiry, throttling thresholds, and viewer-session duration                                                                        | Threat constraints in `A02`; persistence in `A05`; implementation in `C03` and `D10`                                                | Viewer admission implementation                                          |
@@ -226,5 +227,8 @@ or billing vendors, pilot infrastructure, or other live effects. A02 completed
 the linked threat model, A03 accepted ADR-0026's implementation mechanics, A04
 established the workspace and actor vocabulary, and A05 defined configuration,
 persistence, export/backup, migration, and rollback contracts without changing
-A01 ownership. A06 through A08 remain required before the architecture-ready
-gate is complete and Phase B may begin.
+A01 ownership. A06 now fixes the exact source-mode/format catalog, budgets,
+upload/shared/connected admission, consent/grant states, provenance, freshness,
+and commit-only-verified last-known-good behavior with synthetic negative-test
+evidence. A07 and A08 remain required before the architecture-ready gate is
+complete and Phase B may begin.

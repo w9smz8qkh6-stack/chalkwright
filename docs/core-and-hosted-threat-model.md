@@ -287,7 +287,7 @@ residual risk or failed `must never` invariant as a blocker.
 | A controlled hosted pilot may share a physical Ubuntu host                                           | High inherent availability/operational-concentration risk; only Moderate residual is acceptable after strong identity/network/storage/ingress/control isolation and explicit human pilot acceptance. Any cross-service reachability or shared secret/control is a blocker.                                                     | Design and review in `F01`-`F05`; live effect only in authorized `F06`                                    |
 | Concrete scope/schema contracts, auth library, thresholds, infrastructure, and vendor choices        | Intentionally unresolved, not silently accepted. Each later task must preserve the accepted A03 mechanics and these invariants and record its own version-correct threat impact.                                                                                                                                               | `A04`-`A08`, `D02`, `D11`, `F01`-`F05` as assigned in the work breakdown                                  |
 
-## A02-A05 completion and next gate
+## A02-A06 completion and next gate
 
 A02 is complete because the A01 surfaces now have explicit assets,
 classifications, actors, trust boundaries, entry/data flows, stable threats,
@@ -304,5 +304,12 @@ portable export, protected backup, forward migration, and rollback contracts.
 A05 admission compares the full A04 workspace discriminant and
 installation/organization identity, and its detached snapshots prevent
 post-validation caller mutation from changing immutable or checksummed state.
-A06 through A08 remain incomplete, Phase B has not begun, and A02 through A05
-performed no runtime or live effect.
+A06 now supplies a closed stream/mode/format matrix, concrete item/transaction
+budgets, actual-content upload admission, per-hop HTTPS/DNS/peer SSRF evidence,
+short-lived bound consent transactions, finite read-only provider grants,
+normalized provenance, and commit-only-verified last-known-good transitions.
+Focused synthetic tests exercise `T-FILE-01`/`T-FILE-02`, `T-SSRF-01`,
+`T-OAUTH-01`-`T-OAUTH-03`, `T-JOB-02`, and `T-DOS-01` contract boundaries;
+later adapters must still prove the controls in their real filesystem, network,
+provider, job, and persistence paths. A07 and A08 remain incomplete, Phase B
+has not begun, and A02 through A06 performed no runtime or live effect.

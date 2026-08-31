@@ -202,6 +202,15 @@ include kind and installation/organization identity, and returned immutable or
 checksummed snapshots detach from caller-owned inputs. A05 defines those
 contracts without changing the current strict runtime schemas or SQLite database.
 
+Detailed source definitions and acquisition follow the completed A06
+[Core source-mode contracts](core-source-mode-contracts.md). The first release
+accepts only the documented canonical records, UTF-8 CSV/iCalendar, bounded
+raster/MP4 media, reviewed HTTPS attendance reference, and normalized provider
+projection formats. Uploads and shared resources are inspected against actual
+content and concrete budgets; connected data remains read-only and optional;
+only fully verified projections may replace last-known-good source state. These
+contracts are not yet wired into the current runtime or persistence adapters.
+
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files
 and inert service templates. It must support validation and preview without

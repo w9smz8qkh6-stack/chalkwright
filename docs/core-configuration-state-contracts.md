@@ -67,8 +67,11 @@ A05 freezes only the four approved source-mode discriminants:
 `application-managed`, `uploaded-snapshot`, `shared-resource`, and
 `connected-account`. Each record has an opaque typed definition reference.
 Only a connected source also has an opaque protected connection reference.
-A06 remains responsible for detailed formats, provider semantics, validation,
-provenance, freshness, and acquisition rules.
+A06 now supplies detailed formats, provider semantics, validation, provenance,
+freshness, and acquisition rules in the
+[Core source-mode contracts](core-source-mode-contracts.md). A05 remains the
+opaque durable configuration envelope; it does not embed provider or raw source
+payloads.
 
 ## Protected state, viewer admission, and audit
 
@@ -175,8 +178,8 @@ command/configuration, prior state, export source, preview request, migration
 bundle/plan, or backup after construction cannot change the detached returned
 snapshot, checksum, plan, or result.
 
-A06 is next and specifies source modes' concrete first-release formats,
-provenance, freshness, and validation. B03 later threads A04/A05 scope and state
-contracts through current use cases, ports, persistence, and snapshots. Neither
-boundary is implemented by A05, and Phase B remains blocked until A06 through
-A08 complete.
+A06 has now specified source modes' concrete first-release formats, provenance,
+freshness, validation, consent/grant, and last-known-good behavior without
+changing this A05 state envelope. A07 is next. B03 later threads A04-A06 scope
+and state contracts through current use cases, ports, persistence, and
+snapshots. Phase B remains blocked until A07 and A08 complete.

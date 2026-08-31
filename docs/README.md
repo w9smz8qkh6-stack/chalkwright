@@ -39,6 +39,9 @@
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md)
   — A05 configuration lifecycle, protected-reference, persistence, class-code,
   export/backup, forward-migration, and rollback invariants shared by adapters.
+- [Core source-mode contracts](core-source-mode-contracts.md) — A06 stream/mode
+  matrix, closed formats and budgets, upload/shared/connected admission,
+  provenance, freshness, and last-known-good invariants shared by adapters.
 - [Offline glossary catalog](glossary-catalog.md) — normalized local vocabulary,
   translations, BLOB media, import limits, and review/provenance rules.
 - [Architecture decision records](decisions/README.md) — accepted direction and
@@ -166,6 +169,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Chalkwright Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md) — `core-and-hosted-implementation-work-breakdown.md`
 - [Chalkwright Core and Hosted Threat Model](core-and-hosted-threat-model.md) — `core-and-hosted-threat-model.md`
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
+- [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`
 - [ADR-0002: Canonical day plan and SQLite state](decisions/0002-canonical-plan-and-sqlite-state.md) — `decisions/0002-canonical-plan-and-sqlite-state.md`

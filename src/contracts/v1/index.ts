@@ -10,5 +10,8 @@ export * from './parity-coverage.js';
 export * from './retirement-decisions.js';
 export * from './runtime.js';
 export * from './schedule.js';
+export * from './source-acquisition.js';
+export * from './source-catalog.js';
+export * from './source-observation.js';
 export * from './visual-baseline.js';
 export * from './workspace.js';

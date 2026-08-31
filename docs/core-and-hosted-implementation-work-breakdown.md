@@ -23,10 +23,14 @@ billing, deployment, or public exposure.
   projection without applying them to existing use cases. A05 added the
   versioned [configuration and durable-state contracts](core-configuration-state-contracts.md),
   executable lifecycle/migration semantics, and representative fixtures without
-  changing a persistence adapter or current schema.
-- **Next:** A06 defines source modes and their first-release formats,
-  provenance, freshness, validation, and failure behavior.
-- **Architecture gate:** A06 through A08 remain incomplete. Do not
+  changing a persistence adapter or current schema. A06 added the versioned
+  [source-mode contracts](core-source-mode-contracts.md), including the exact
+  stream/mode/format matrix, bounded acquisition and consent/grant state,
+  normalized provenance, explicit freshness, and executable last-known-good
+  behavior without implementing adapters.
+- **Next:** A07 specifies operator-panel information architecture against the
+  accepted source contracts.
+- **Architecture gate:** A07 and A08 remain incomplete. Do not
   begin Phase B until A04-A08 are complete and the architecture-ready gate is
   satisfied.
 
@@ -147,6 +151,15 @@ Depends on: A01, A02, A05.
 
 Complete when: every MVP stream has a feasible non-connected lane or an explicit
 reason that provider authorization is unavoidable.
+
+Completed by: the versioned
+[Core source-mode contracts](core-source-mode-contracts.md), complete mode and
+format catalog, bounded upload/shared/connected acquisition contracts,
+privacy-safe fixtures, and executable verification/last-known-good transitions.
+Google Classroom authorization is necessary only for automatic course discovery
+and coursework refresh; display-equivalent non-connected lanes remain
+available. No parser, fetcher, storage adapter, OAuth client, route, UI, current
+schema, or live provider behavior changed.
 
 ### A07 — Specify operator-panel information architecture
 

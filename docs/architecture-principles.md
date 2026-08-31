@@ -143,6 +143,16 @@ the namespace ID, and successful executable-contract outputs detach canonical
 JSON snapshots from caller-owned objects. They are not yet threaded through the
 current runtime or SQLite schema.
 
+The completed A06
+[Core source-mode contracts](core-source-mode-contracts.md) extend the same
+boundary to source definitions and normalized projections. Formats and budgets
+are closed, exact workspace identity is mandatory, URLs and files confer no
+authority, provider grants are read-only and resource-specific, and only a
+whole-input-and-projection verified observation may replace committed state.
+Failed bounded refresh retains the exact last-known-good projection while
+freshness degrades or becomes stale. The contracts do not implement current
+adapters, persistence, or provider enrollment.
+
 ### 10. Screens and rooms are isolated first-class entities
 
 A room describes the physical/classroom context. A screen describes a client,

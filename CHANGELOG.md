@@ -49,6 +49,20 @@ omitted.
 
 ### Added
 
+- Completed A06 with versioned, adapter-neutral source-mode contracts. Every
+  display stream now has an exact application-managed/uploaded/shared/connected
+  disposition and a feasible first-release non-connected lane; closed logical
+  formats have concrete byte, record, field, decode, media, time, concurrency,
+  retry, fan-out, and transaction limits. Executable synthetic evidence covers
+  full-workspace admission, path/active/archive/content denial, normalized media,
+  per-hop SSRF/rebinding defenses, short-lived OAuth consent state, finite
+  read-only grants, normalized provenance, commit-only-verified projections, and
+  degraded/stale last-known-good retention. Google Classroom authorization is
+  recorded only as necessary for automatic course/coursework refresh. No
+  parser, fetcher, persistence adapter, OAuth client, route, UI, current SQLite
+  schema, provider enrollment, or live effect changed; A07 is next and A07-A08
+  still block Phase B.
+
 - Completed A05 with versioned, adapter-neutral configuration and durable-state
   contracts. Immutable validated revisions, exact optimistic concurrency,
   atomic activation/rollback, metadata-only previews, workspace-bound room,
