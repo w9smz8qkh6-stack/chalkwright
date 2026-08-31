@@ -1,7 +1,7 @@
 # Core planned-display projection
 
 Status: C09 implementation slice. This document describes the private,
-synthetic projection layer used by the Core operator panel before the C10
+synthetic projection layer used by the Core operator panel before the C11
 contact-sheet and carousel review controls exist.
 
 ## What C09 projects
@@ -27,8 +27,10 @@ currently active revision; that difference is explicit in the returned basis
 revision and fingerprint, and never activates or replaces configuration.
 
 The private shell now exposes a bounded projection summary and ordered frame
-metadata. C10 owns date-picker controls, thumbnails, enlarged review, modal
-carousel behavior, keyboard interaction, and responsive visual acceptance.
+metadata. C11 owns date-picker controls, thumbnails, enlarged review, modal
+carousel behavior, keyboard interaction, and responsive visual acceptance;
+C10 remains the final non-creator acceptance gate for the Goal 1 vertical
+slice.
 
 ## Verification
 

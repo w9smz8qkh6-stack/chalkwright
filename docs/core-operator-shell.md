@@ -76,7 +76,8 @@ not drift. Capability discovery marks C01-C04 and C09-backed areas available:
   and protected viewer-admission controls from C03;
 - sources records C04 teacher-entered draft definitions without acquisition; and
 - planned-display summarizes C09's injected, date-bound mutation-free frame
-  projection without supplying C10's contact-sheet or carousel controls.
+  projection without supplying C11's contact-sheet or carousel controls; C10
+  remains the final non-creator acceptance gate.
 
 Later pages remain visible with disabled actions and the owning WBS item.
 C02-C03 do not implement later tasks early. Reading any page is mutation-free and

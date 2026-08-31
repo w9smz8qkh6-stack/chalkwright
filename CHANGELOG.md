@@ -72,7 +72,7 @@ omitted.
   date/screen frames with an explicit configuration/preview basis, SHA-256
   input fingerprint, freshness, and rolling-window versus on-demand cache
   disposition. It does not acquire sources, invoke a provider or Calendar,
-  change configuration, create a viewer route, or add C10 contact-sheet and
+  change configuration, create a viewer route, or add C11 contact-sheet and
   carousel controls.
 
 - Completed C04 with private, ordinary no-JavaScript source-registry forms for
