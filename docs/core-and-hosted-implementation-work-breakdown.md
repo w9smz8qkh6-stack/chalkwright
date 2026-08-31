@@ -20,10 +20,13 @@ billing, deployment, or public exposure.
   region presentation seam. A04 added the versioned
   [workspace and actor contracts](core-workspace-actor-contracts.md), exact
   fail-closed runtime guards, independent authority grants, and bounded audit
-  projection without applying them to existing use cases.
-- **Next:** A05 defines configuration, persistence, migrations, revisions, and
-  audit-event schemas.
-- **Architecture gate:** A05 through A08 remain incomplete. Do not
+  projection without applying them to existing use cases. A05 added the
+  versioned [configuration and durable-state contracts](core-configuration-state-contracts.md),
+  executable lifecycle/migration semantics, and representative fixtures without
+  changing a persistence adapter or current schema.
+- **Next:** A06 defines source modes and their first-release formats,
+  provenance, freshness, validation, and failure behavior.
+- **Architecture gate:** A06 through A08 remain incomplete. Do not
   begin Phase B until A04-A08 are complete and the architecture-ready gate is
   satisfied.
 
@@ -127,6 +130,12 @@ backup/export, and migrations across SQLite and hosted persistence ports.
 Depends on: A04.
 
 Complete when: schemas and forward/rollback rules have representative fixtures.
+
+Completed by: the versioned
+[Core configuration and durable-state contracts](core-configuration-state-contracts.md)
+and their compile-time, runtime, state-transition, migration, and rollback
+fixtures. Current adapter implementation and A04 use-case integration remain
+explicitly deferred.
 
 ### A06 — Define source modes and first-release formats
 

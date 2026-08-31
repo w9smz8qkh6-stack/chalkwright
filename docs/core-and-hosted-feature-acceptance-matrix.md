@@ -222,7 +222,9 @@ profiles by `PRES-01`/`LANG-01`; student personalization by `STUDENT-01`/
 
 The explicit exclusions and unresolved-decision register prevent A01 from
 deciding A02 threat details, A03 packaging, provider enrollment, authentication
-or billing vendors, pilot infrastructure, or other live effects. A02 has now
-completed the linked threat model, and A03 has accepted ADR-0026's implementation
-mechanics without changing A01 ownership. A04 is next; A05 through A08 remain
-required before the architecture-ready gate is complete and Phase B may begin.
+or billing vendors, pilot infrastructure, or other live effects. A02 completed
+the linked threat model, A03 accepted ADR-0026's implementation mechanics, A04
+established the workspace and actor vocabulary, and A05 defined configuration,
+persistence, export/backup, migration, and rollback contracts without changing
+A01 ownership. A06 through A08 remain required before the architecture-ready
+gate is complete and Phase B may begin.

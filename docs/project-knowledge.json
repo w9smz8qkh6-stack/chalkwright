@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "548c35ca42c34b3507b9a4a863e70a9986792f5f2dc2d533211200e5a2162b31",
-    "statement": "The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, documentation automation, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f. The Core operator-panel and exploratory hosted-service roadmap now include completed A01 feature ownership, A02 threat modeling, accepted A03 boundary decisions, and A04's versioned workspace, actor, independent-authority, request-context, target, and bounded audit contracts with focused compile-time and runtime evidence. The panel runtime and package restructuring have not begun; A05-A08 remain required for the architecture-ready gate. Landing-page and synthetic-display worktrees remain separately owned, and no new live application, provider, route, or service probe was performed."
+    "implementationFingerprint": "24d88e6f17d2f1010e769f21e026e063362eab99203341f1305fb68c918e2fd7",
+    "statement": "The phase, capabilities, workstreams, limits, repository-backed application deployment claim, completed M-18 retirement record, documentation automation, and isolated-worktree guidance were reviewed together against origin/main commit 0f8f65f and the completed A04 contract commit 1ca7d5c. The Core operator-panel and exploratory hosted-service roadmap now include completed A01 feature ownership, A02 threat modeling, accepted A03 boundary decisions, A04's versioned workspace and actor vocabulary, and A05's adapter-neutral configuration lifecycle, persistence, export/backup, migration, rollback, protected-reference, and bounded audit contracts with focused compile-time and runtime evidence. The panel runtime, persistence adapters, and package restructuring have not begun; A06-A08 remain required for the architecture-ready gate. Landing-page and synthetic-display worktrees remain separately owned, and no new live application, provider, route, or service probe was performed."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -26,7 +26,7 @@
   "priorities": [
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
-    "Advance the Core operator panel through its remaining A05-A08 architecture gate before package restructuring or UI implementation.",
+    "Advance the Core operator panel through its remaining A06-A08 architecture gate before package restructuring or UI implementation.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
     "Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority."
   ],
@@ -35,12 +35,12 @@
     "M-18 removed the active legacy and shadow fallbacks; any temporary cold-recovery restoration now requires explicit incident authorization and must be disabled again after the bounded recovery window.",
     "PowerSchool and Google Classroom remain read-only; Calendar writes remain limited to verified application-owned events.",
     "Semantic documentation accuracy is a mandatory model-reviewed completion condition; documented deployment claims still require a separately authorized live probe before being reported as current live state.",
-    "The current strict configuration schemas are not yet the intended guided end-user setup experience. A04 has defined the versioned Core workspace/actor contract surface, but it is not yet threaded into use cases and has not changed runtime behavior."
+    "The current strict runtime configuration is not yet the intended guided end-user setup experience. A04 and A05 define the versioned workspace/actor and configuration-state contract surfaces, but no persistence adapter or use case implements those contracts yet and current SQLite schemas and runtime behavior are unchanged."
   ],
   "nextDecisions": [
     "What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.",
     "What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.",
-    "Which configuration, persistence, migration, revision, concurrency, backup/export, and audit-event schemas A05 should establish across SQLite and hosted persistence ports."
+    "Which exact first-release source modes, formats, provenance, freshness rules, and provider-necessity exceptions A06 should establish without embedding provider adapter details in the portable configuration contract."
   ],
   "capabilities": [
     {
@@ -193,19 +193,24 @@
       "id": "durable-state",
       "name": "Durable state, recovery, and last-known-good behavior",
       "status": "documented-production",
-      "summary": "Uses SQLite migrations, integrity checks, backups, retention, restart-safe jobs, and last-known-good projections.",
-      "safety": "Credentials and browser profiles stay outside SQLite and Git; recovery paths validate state before activation.",
+      "summary": "Uses SQLite migrations, integrity checks, backups, retention, restart-safe jobs, and last-known-good projections. A05 additionally defines the future adapter-neutral revision lifecycle, exact optimistic concurrency, redacted export, protected-backup admission, forward migration, and rollback contracts without changing current storage.",
+      "safety": "Credentials and browser profiles stay outside SQLite and Git; recovery paths validate state before activation. Future configuration adapters must preserve the active revision on conflict or failure, reject cross-workspace artifacts, and expose only opaque protected-secret references.",
       "implementation": [
         "src/infrastructure/sqlite/repository.ts",
-        "src/infrastructure/sqlite/backup.ts"
+        "src/infrastructure/sqlite/backup.ts",
+        "src/contracts/v1/configuration-state.ts",
+        "src/contracts/v1/configuration-persistence.ts",
+        "src/contracts/v1/configuration-migration.ts"
       ],
       "tests": [
         "test/infrastructure/sqlite/repository.test.ts",
-        "test/infrastructure/sqlite/backup.test.ts"
+        "test/infrastructure/sqlite/backup.test.ts",
+        "test/contracts/v1/configuration-state.test.ts"
       ],
       "documentation": [
         "docs/decisions/0013-state-retention-and-recovery.md",
-        "docs/operations.md"
+        "docs/operations.md",
+        "docs/core-configuration-state-contracts.md"
       ]
     },
     {
@@ -263,23 +268,28 @@
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "planned",
-      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts. A04 has established the shared versioned workspace, actor, target, authority, request-context, and bounded audit-scope boundary; the panel itself remains planned.",
+      "summary": "Provide a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and planned-display review while retaining strict generated runtime contracts. A04 established the shared workspace and actor vocabulary; A05 now establishes immutable drafts and revisions, validation eligibility, activation, supersession, rollback, exact previews, portable configuration, protected references, bounded audit metadata, and adapter-neutral recovery contracts. The panel itself remains planned.",
       "safety": "Core adds no account login, so operator reachability confers full authority. Accepted ADR-0026 requires a separate operator process on an explicit loopback address or Unix socket by default, isolated from display routes, identity, cookies, cache, readiness, and storage capabilities. Provider grants, OAuth material, tokens, browser profiles, and private values remain separate from portable non-secret configuration.",
       "implementation": [
         "src/config/production.ts",
         "scripts/setup-site-media.mjs",
-        "src/contracts/v1/workspace.ts"
+        "src/contracts/v1/workspace.ts",
+        "src/contracts/v1/configuration-state.ts",
+        "src/contracts/v1/configuration-persistence.ts",
+        "src/contracts/v1/configuration-migration.ts"
       ],
       "tests": [
         "test/config/production.test.ts",
         "test/scripts/site-media-setup.test.mjs",
-        "test/contracts/v1/workspace.test.ts"
+        "test/contracts/v1/workspace.test.ts",
+        "test/contracts/v1/configuration-state.test.ts"
       ],
       "documentation": [
         "docs/configuration.md",
         "docs/core-and-hosted-feature-acceptance-matrix.md",
         "docs/core-and-hosted-threat-model.md",
         "docs/core-workspace-actor-contracts.md",
+        "docs/core-configuration-state-contracts.md",
         "docs/future-parity-roadmap.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/decisions/0026-public-core-and-hosted-shell.md"
@@ -422,10 +432,10 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A04 are complete. The authoritative feature acceptance matrix freezes product ownership; the threat model defines 32 stable threats, security invariants, residual-risk dispositions, and 18 negative-test families; accepted ADR-0026 fixes the package, artifact, process, compatibility, and presentation seam; and the versioned A04 TypeScript contracts now distinguish self-hosted installation and hosted organization workspaces, nominal workspace-bound targets, actor attribution, six independent authorities, exact shell request contexts, and bounded audit scope. Focused compile-time and runtime tests fail closed on missing, extra, malformed, non-JSON-safe, and cross-scope values. These types are not yet threaded into current use cases. The M-18-aware roadmap and 49-task dependency-ordered work breakdown remain governing. No package restructuring, operator/display process, artifact, operator route, provider enrollment, hosted repository, billing integration, or deployment has begun.",
+      "currentState": "A01 through A05 are complete. The authoritative feature acceptance matrix freezes product ownership; the threat model defines 32 stable threats, security invariants, residual-risk dispositions, and 18 negative-test families; accepted ADR-0026 fixes the package, artifact, process, compatibility, and presentation seam; A04 defines the versioned workspace and actor vocabulary; and A05 defines immutable configuration drafts and revisions, explicit eligibility/activation/supersession/rollback, exact optimistic concurrency, non-mutating previews, portable redacted exports, protected backup manifests, forward-only checksummed migrations, exact 0.x release pairing, rollback admission, protected verifier references, and bounded audit metadata. Focused compile-time and runtime tests cover self-hosted and hosted fixtures, stale writes, last-known-good preservation, malformed values, cross-workspace artifacts, tampering, atomic migration failure, and rollback selection. These contracts are not yet threaded into use cases or adapters, and current SQLite schemas remain unchanged. The M-18-aware roadmap and 49-task dependency-ordered work breakdown remain governing. No package restructuring, operator/display process, artifact, operator route, provider enrollment, hosted repository, billing integration, or deployment has begun.",
       "nextSteps": [
-        "Execute A05 to define configuration, persistence, migration, revision, concurrency, backup/export, and audit-event schemas across SQLite and hosted persistence ports.",
-        "Complete A06 through A08 in dependency order, and do not begin Phase B until the architecture-ready gate is satisfied."
+        "Execute A06 to fix the exact first-release source modes, formats, provenance, freshness, and provider-necessity boundaries.",
+        "Complete A07 and A08 in dependency order, and do not begin Phase B until the architecture-ready gate is satisfied."
       ],
       "capabilities": [
         "guided-setup",
@@ -442,6 +452,7 @@
         "docs/core-and-hosted-feature-acceptance-matrix.md",
         "docs/core-and-hosted-threat-model.md",
         "docs/core-workspace-actor-contracts.md",
+        "docs/core-configuration-state-contracts.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/decisions/0026-public-core-and-hosted-shell.md",
         "docs/decisions/README.md",
@@ -450,13 +461,20 @@
         "docs/project-knowledge.json",
         "docs/project-state.md",
         "src/contracts/v1/workspace.ts",
+        "src/contracts/v1/state-contract-validation.ts",
+        "src/contracts/v1/configuration-state.ts",
+        "src/contracts/v1/configuration-persistence.ts",
+        "src/contracts/v1/configuration-migration.ts",
         "src/contracts/v1/index.ts",
-        "test/contracts/v1/workspace.test.ts"
+        "test/fixtures/configuration-state.ts",
+        "test/contracts/v1/workspace.test.ts",
+        "test/contracts/v1/configuration-state.test.ts"
       ],
       "documentation": [
         "docs/core-and-hosted-feature-acceptance-matrix.md",
         "docs/core-and-hosted-threat-model.md",
         "docs/core-workspace-actor-contracts.md",
+        "docs/core-configuration-state-contracts.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/project-state.md"
       ]

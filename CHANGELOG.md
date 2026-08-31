@@ -40,6 +40,17 @@ omitted.
 
 ### Added
 
+- Completed A05 with versioned, adapter-neutral configuration and durable-state
+  contracts. Immutable validated revisions, exact optimistic concurrency,
+  atomic activation/rollback, metadata-only previews, workspace-bound room,
+  screen and four-mode source records, protected references, reference-only
+  class-code lifecycle state, bounded state/audit histories, redacted canonical
+  exports, protected-backup manifests, checksum-bound forward migrations, and
+  compatibility-gated rollback now have executable synthetic fixtures. The
+  current SQLite schema and adapters remain unchanged; A06 is next, A06-A08
+  still block Phase B, and no package, provider, route, service, or live effect
+  occurred.
+
 - Completed A04 with versioned, JSON-safe Core workspace and actor contracts.
   Self-hosted installation and hosted organization workspaces are structurally
   distinct; nominal room, screen, date, resource, actor, capability, operation,

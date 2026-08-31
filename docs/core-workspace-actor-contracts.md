@@ -77,5 +77,7 @@ discriminants, malformed IDs and dates, extra or missing properties, unsafe
 object shapes, and cross-scope denial.
 
 A04 does not restructure packages or thread scope into current use cases. A05
-is next and defines configuration, persistence, migrations, revisions, and
-audit-event schemas. Phase B remains blocked until A05 through A08 complete.
+has now built on this vocabulary with configuration, persistence, migration,
+revision, export/backup, rollback, and bounded audit-event contracts documented
+in [Core configuration and durable-state contracts](core-configuration-state-contracts.md).
+Phase B remains blocked until A06 through A08 complete.

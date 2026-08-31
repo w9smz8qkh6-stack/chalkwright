@@ -192,6 +192,15 @@ must derive organization scope from its authenticated server-side session.
 These contracts are defined but are not yet threaded into existing use cases;
 that migration remains B03 work.
 
+Future authored configuration and durable state follow the versioned
+[Core configuration and durable-state contracts](core-configuration-state-contracts.md):
+drafts cannot replace the immutable active validated revision without exact
+optimistic-concurrency evidence, connected sources retain only protected
+references, ordinary export is redacted and distinct from a protected backup,
+and migration failure preserves the exact prior state. A05 defines those
+contracts without changing the current strict runtime schemas or SQLite
+database.
+
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files
 and inert service templates. It must support validation and preview without

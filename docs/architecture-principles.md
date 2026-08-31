@@ -132,6 +132,14 @@ layer may not weaken ownership, path, capability, provider, or Calendar-target
 validation. Secrets and OAuth/browser state remain separate and are never
 embedded in portable configuration exports.
 
+The accepted A05
+[Core configuration and durable-state contracts](core-configuration-state-contracts.md)
+make this future boundary executable: immutable validated revisions, an atomic
+active pointer, expected-version conflicts, bounded protected references,
+redacted portable exports, protected-backup manifests, and checksum-bound
+forward-only migration/rollback decisions are adapter-neutral. They are not yet
+threaded through the current runtime or SQLite schema.
+
 ### 10. Screens and rooms are isolated first-class entities
 
 A room describes the physical/classroom context. A screen describes a client,
@@ -165,6 +173,11 @@ compatibly through initial cutover. Version-sensitive behavior is checked
 against locked/runtime versions and canonical documentation. A dependency or
 browser upgrade must pass fixtures, parity tests, and a read-only shadow check
 before promotion.
+
+Code rollback may reuse current state only when the exact predecessor manifest
+declares that schema readable. Otherwise rollback restores the exact verified
+pre-migration protected backup in isolation before selecting the predecessor;
+there is no down-migration path.
 
 ## Implementation choices and status
 

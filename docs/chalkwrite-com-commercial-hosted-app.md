@@ -237,6 +237,14 @@ The supported non-connected modes are:
 - **connected account:** an OAuth-authorized provider resource with bounded
   background refresh.
 
+The shared A05
+[configuration and durable-state contracts](core-configuration-state-contracts.md)
+require hosted adapters to implement these records with the session-derived
+workspace on every key, conditional revision writes instead of last-write-wins,
+and atomic validated activation. Portable export is one redacted tenant only;
+protected backup/restore remains integrity-checked, exact-workspace, and
+isolated from current traffic.
+
 A pasted Google file URL or Calendar ID identifies a resource but does not grant
 access to it. The application must state whether the resource must be published,
 shared with a named Chalkwright identity, uploaded, or selected through OAuth.
