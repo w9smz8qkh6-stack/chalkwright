@@ -4,7 +4,7 @@ import {
   isProtectedBackupManifest,
   type CoreShellReleasePairing,
 } from './configuration-persistence.js';
-import { type Sha256Digest } from './configuration-state.js';
+import { isExactWorkspace, type Sha256Digest } from './configuration-state.js';
 import {
   contractVersion,
   type ContractEnvelope,
@@ -12,6 +12,7 @@ import {
 } from './common.js';
 import {
   hasExactKeys,
+  cloneJsonValue,
   isBoundedString,
   isDenseArray,
   isIsoInstant,
@@ -23,7 +24,7 @@ import {
   safelyValidate,
   sha256Digest,
 } from './state-contract-validation.js';
-import { type Workspace, type WorkspaceId } from './workspace.js';
+import { type Workspace } from './workspace.js';
 
 export interface StateSchemaCompatibility {
   readonly minimumReadableVersion: number;
@@ -61,7 +62,7 @@ export interface DurableMigrationState extends ContractEnvelope {
 
 export interface ForwardMigrationBundle extends ContractEnvelope {
   readonly kind: 'forward-migration-bundle';
-  readonly workspaceId: WorkspaceId;
+  readonly workspace: Workspace;
   readonly fromRelease: ReleaseCompatibilityManifest;
   readonly toRelease: ReleaseCompatibilityManifest;
   readonly expectedHistory: readonly MigrationDescriptor[];
@@ -70,7 +71,7 @@ export interface ForwardMigrationBundle extends ContractEnvelope {
 }
 
 export interface ForwardMigrationPlan {
-  readonly workspaceId: WorkspaceId;
+  readonly workspace: Workspace;
   readonly fromSchemaVersion: number;
   readonly toSchemaVersion: number;
   readonly fromRelease: CoreShellReleasePairing;
@@ -287,7 +288,7 @@ export function isForwardMigrationBundle(
     hasExactKeys(value, [
       'contractVersion',
       'kind',
-      'workspaceId',
+      'workspace',
       'fromRelease',
       'toRelease',
       'expectedHistory',
@@ -296,7 +297,7 @@ export function isForwardMigrationBundle(
     ]) &&
     value.contractVersion === contractVersion &&
     value.kind === 'forward-migration-bundle' &&
-    isScopeIdentifier('workspace', value.workspaceId) &&
+    isWorkspaceLike(value.workspace) &&
     isReleaseCompatibilityManifest(value.fromRelease) &&
     isReleaseCompatibilityManifest(value.toRelease) &&
     isMigrationDescriptorArray(value.expectedHistory) &&
@@ -306,7 +307,7 @@ export function isForwardMigrationBundle(
       forwardMigrationBundleChecksum({
         contractVersion: value.contractVersion,
         kind: value.kind,
-        workspaceId: value.workspaceId,
+        workspace: value.workspace,
         fromRelease: value.fromRelease,
         toRelease: value.toRelease,
         expectedHistory: value.expectedHistory,
@@ -321,12 +322,46 @@ export function forwardMigrationBundleChecksum(
   return sha256Digest({
     contractVersion: value.contractVersion,
     kind: value.kind,
-    workspaceId: value.workspaceId,
+    workspace: value.workspace,
     fromRelease: value.fromRelease,
     toRelease: value.toRelease,
     expectedHistory: value.expectedHistory,
     steps: value.steps,
   }) as Sha256Digest;
+}
+
+function isForwardMigrationPlan(value: unknown): value is ForwardMigrationPlan {
+  if (
+    !isPlainObject(value) ||
+    !hasExactKeys(value, [
+      'workspace',
+      'fromSchemaVersion',
+      'toSchemaVersion',
+      'fromRelease',
+      'toRelease',
+      'steps',
+    ]) ||
+    !isWorkspaceLike(value.workspace) ||
+    !isPositiveInteger(value.fromSchemaVersion) ||
+    !isPositiveInteger(value.toSchemaVersion) ||
+    value.toSchemaVersion <= value.fromSchemaVersion ||
+    !isCoreShellReleasePairing(value.fromRelease) ||
+    !isCoreShellReleasePairing(value.toRelease) ||
+    !isReleasePairForWorkspace(value.fromRelease, value.workspace) ||
+    !isReleasePairForWorkspace(value.toRelease, value.workspace) ||
+    !isMigrationDescriptorArray(value.steps) ||
+    value.steps.length === 0
+  ) {
+    return false;
+  }
+  const fromSchemaVersion = value.fromSchemaVersion as number;
+  const toSchemaVersion = value.toSchemaVersion as number;
+  const steps = value.steps as readonly MigrationDescriptor[];
+  return (
+    steps.every(
+      (step, index) => step.version === fromSchemaVersion + index + 1,
+    ) && steps.at(-1)?.version === toSchemaVersion
+  );
 }
 
 function historyMatches(
@@ -367,7 +402,7 @@ export function assessForwardMigration(
   if (!isForwardMigrationBundle(bundle)) {
     return { status: 'rejected', reason: 'invalid-bundle' };
   }
-  if (state.workspace.workspaceId !== bundle.workspaceId) {
+  if (!isExactWorkspace(state.workspace, bundle.workspace)) {
     return { status: 'rejected', reason: 'workspace-mismatch' };
   }
   if (
@@ -404,17 +439,17 @@ export function assessForwardMigration(
   if (!readsSchema(bundle.toRelease, toSchemaVersion)) {
     return { status: 'rejected', reason: 'future-schema-not-readable' };
   }
-  return {
+  return cloneJsonValue({
     status: 'ready',
     plan: {
-      workspaceId: state.workspace.workspaceId,
+      workspace: state.workspace,
       fromSchemaVersion: state.stateSchemaVersion,
       toSchemaVersion,
       fromRelease: state.release,
       toRelease: bundle.toRelease.release,
       steps: bundle.steps,
     },
-  };
+  });
 }
 
 /**
@@ -430,13 +465,18 @@ export function finalizeForwardMigration(
   if (
     outcome === 'fail' ||
     assessment.status !== 'ready' ||
-    !isIsoInstant(appliedAt)
+    !isForwardMigrationPlan(assessment.plan) ||
+    !isIsoInstant(appliedAt) ||
+    !isDurableMigrationState(state) ||
+    !isExactWorkspace(state.workspace, assessment.plan.workspace) ||
+    assessment.plan.fromSchemaVersion !== state.stateSchemaVersion ||
+    !sameRelease(state.release, assessment.plan.fromRelease)
   ) {
     return { status: 'failed', reason: 'migration-step-failed', state };
   }
   return {
     status: 'applied',
-    state: {
+    state: cloneJsonValue({
       contractVersion,
       workspace: state.workspace,
       stateSchemaVersion: assessment.plan.toSchemaVersion,
@@ -445,7 +485,7 @@ export function finalizeForwardMigration(
         ...state.history,
         ...assessment.plan.steps.map((step) => ({ ...step, appliedAt })),
       ],
-    },
+    }),
   };
 }
 
@@ -465,12 +505,12 @@ export function planReleaseRollback(options: {
     return { status: 'rejected', reason: 'shell-kind-mismatch' };
   }
   if (readsSchema(predecessor, currentState.stateSchemaVersion)) {
-    return {
+    return cloneJsonValue({
       status: 'ready',
       strategy: 'code-rollback',
       predecessor: predecessor.release,
       stateSchemaVersion: currentState.stateSchemaVersion,
-    };
+    });
   }
   if (
     preMigrationBackup === null ||
@@ -478,10 +518,7 @@ export function planReleaseRollback(options: {
   ) {
     return { status: 'rejected', reason: 'backup-required' };
   }
-  if (
-    preMigrationBackup.workspace.workspaceId !==
-    currentState.workspace.workspaceId
-  ) {
+  if (!isExactWorkspace(preMigrationBackup.workspace, currentState.workspace)) {
     return { status: 'rejected', reason: 'backup-workspace-mismatch' };
   }
   if (!sameRelease(preMigrationBackup.release, predecessor.release)) {
@@ -490,11 +527,11 @@ export function planReleaseRollback(options: {
   if (!readsSchema(predecessor, preMigrationBackup.stateSchemaVersion)) {
     return { status: 'rejected', reason: 'backup-schema-incompatible' };
   }
-  return {
+  return cloneJsonValue({
     status: 'ready',
     strategy: 'restore-protected-backup-then-code-rollback',
     predecessor: predecessor.release,
     backup: preMigrationBackup,
     requiresIsolatedRestore: true,
-  };
+  });
 }

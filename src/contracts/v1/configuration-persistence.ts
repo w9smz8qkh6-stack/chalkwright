@@ -2,7 +2,9 @@ import {
   configurationDigest,
   configurationSchemaVersion,
   configurationStateSchemaVersion,
+  isAuditScopeForWorkspace,
   isConfigurationStateSnapshot,
+  isExactWorkspace,
   isEditableConfiguration,
   stateIdentifier,
   type ClassCodeStateId,
@@ -26,6 +28,7 @@ import {
 } from './common.js';
 import {
   canonicalJson,
+  cloneJsonValue,
   hasExactKeys,
   hasUniqueValues,
   isBoundedString,
@@ -84,6 +87,7 @@ export type ConfigurationPreviewBasis =
 
 export interface ConfigurationPreviewSnapshot extends ContractEnvelope {
   readonly recordKind: 'configuration-preview';
+  readonly workspace: Workspace;
   readonly workspaceId: WorkspaceId;
   readonly previewId: PreviewId;
   readonly basis: ConfigurationPreviewBasis;
@@ -95,6 +99,7 @@ export interface ConfigurationPreviewSnapshot extends ContractEnvelope {
 }
 
 export interface CreateConfigurationPreviewRequest extends ContractEnvelope {
+  readonly workspace: Workspace;
   readonly workspaceId: WorkspaceId;
   readonly expectedStateVersion: number;
   readonly previewId: PreviewId;
@@ -338,6 +343,7 @@ export function isConfigurationPreviewSnapshot(
     hasExactKeys(value, [
       'contractVersion',
       'recordKind',
+      'workspace',
       'workspaceId',
       'previewId',
       'basis',
@@ -349,7 +355,9 @@ export function isConfigurationPreviewSnapshot(
     ]) &&
     value.contractVersion === contractVersion &&
     value.recordKind === 'configuration-preview' &&
+    isWorkspace(value.workspace) &&
     isScopeIdentifier('workspace', value.workspaceId) &&
+    value.workspace.workspaceId === value.workspaceId &&
     isStateIdentifier(value.previewId) &&
     isConfigurationPreviewBasis(value.basis) &&
     isScopedTargets(value.targets) &&
@@ -372,6 +380,7 @@ function isCreateConfigurationPreviewRequest(
     isPlainObject(value) &&
     hasExactKeys(value, [
       'contractVersion',
+      'workspace',
       'workspaceId',
       'expectedStateVersion',
       'previewId',
@@ -384,7 +393,9 @@ function isCreateConfigurationPreviewRequest(
       'auditScope',
     ]) &&
     value.contractVersion === contractVersion &&
+    isWorkspace(value.workspace) &&
     isScopeIdentifier('workspace', value.workspaceId) &&
+    value.workspace.workspaceId === value.workspaceId &&
     isNonNegativeInteger(value.expectedStateVersion) &&
     isStateIdentifier(value.previewId) &&
     isConfigurationPreviewBasis(value.basis) &&
@@ -399,7 +410,7 @@ function isCreateConfigurationPreviewRequest(
     isIsoInstant(value.expiresAt) &&
     Date.parse(value.generatedAt) < Date.parse(value.expiresAt) &&
     isAuditScope(value.auditScope) &&
-    value.auditScope.workspaceId === value.workspaceId
+    isAuditScopeForWorkspace(value.auditScope, value.workspace)
   );
 }
 
@@ -413,7 +424,7 @@ export function createConfigurationPreview(
   if (!isCreateConfigurationPreviewRequest(request)) {
     return { status: 'rejected', reason: 'invalid-request', state };
   }
-  if (state.workspace.workspaceId !== request.workspaceId) {
+  if (!isExactWorkspace(state.workspace, request.workspace)) {
     return { status: 'rejected', reason: 'workspace-mismatch', state };
   }
   if (state.stateVersion !== request.expectedStateVersion) {
@@ -442,9 +453,10 @@ export function createConfigurationPreview(
   if (!versionMatches || checksum !== requestedBasis.contentChecksum) {
     return { status: 'conflict', reason: 'basis-version-changed', state };
   }
-  const snapshot: ConfigurationPreviewSnapshot = {
+  const snapshot = cloneJsonValue<ConfigurationPreviewSnapshot>({
     contractVersion,
     recordKind: 'configuration-preview',
+    workspace: request.workspace,
     workspaceId: request.workspaceId,
     previewId: request.previewId,
     basis: requestedBasis,
@@ -453,7 +465,7 @@ export function createConfigurationPreview(
     diagnosticCodes: request.diagnosticCodes,
     generatedAt: request.generatedAt,
     expiresAt: request.expiresAt,
-  };
+  });
   return { status: 'created', state, snapshot };
 }
 
@@ -606,7 +618,7 @@ export function createPortableConfigurationExport(options: {
     createdAt: options.createdAt,
     contentChecksum: configurationDigest(configuration),
   };
-  return {
+  return cloneJsonValue({
     contractVersion,
     manifest,
     configuration,
@@ -617,7 +629,7 @@ export function createPortableConfigurationExport(options: {
         configuration,
       }) as Sha256Digest,
     },
-  };
+  });
 }
 
 function isPortableSourceRecord(value: unknown): value is PortableSourceRecord {
@@ -750,8 +762,10 @@ export function isPortableConfigurationExport(
       !isIsoInstant(value.manifest.createdAt) ||
       !isSha256Digest(value.manifest.contentChecksum) ||
       !isPortableConfigurationContent(value.configuration) ||
-      value.configuration.workspace.workspaceId !==
-        value.manifest.workspace.workspaceId ||
+      !isExactWorkspace(
+        value.configuration.workspace,
+        value.manifest.workspace,
+      ) ||
       value.manifest.contentChecksum !==
         configurationDigest(value.configuration) ||
       !isPlainObject(value.integrity) ||
@@ -847,7 +861,7 @@ export function evaluatePortableImport(
   if (!isPortableConfigurationExport(artifact)) {
     return { status: 'rejected', reason: 'invalid-artifact' };
   }
-  if (artifact.manifest.workspace.workspaceId !== workspace.workspaceId) {
+  if (!isExactWorkspace(artifact.manifest.workspace, workspace)) {
     return { status: 'rejected', reason: 'workspace-mismatch' };
   }
   return { status: 'accepted', workspaceId: workspace.workspaceId };
@@ -861,7 +875,7 @@ export function evaluateProtectedRestore(
   if (!isProtectedBackupManifest(manifest)) {
     return { status: 'rejected', reason: 'invalid-artifact' };
   }
-  if (manifest.workspace.workspaceId !== workspace.workspaceId) {
+  if (!isExactWorkspace(manifest.workspace, workspace)) {
     return { status: 'rejected', reason: 'workspace-mismatch' };
   }
   if (

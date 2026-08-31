@@ -197,9 +197,10 @@ Future authored configuration and durable state follow the versioned
 drafts cannot replace the immutable active validated revision without exact
 optimistic-concurrency evidence, connected sources retain only protected
 references, ordinary export is redacted and distinct from a protected backup,
-and migration failure preserves the exact prior state. A05 defines those
-contracts without changing the current strict runtime schemas or SQLite
-database.
+and migration failure preserves the exact prior state. Exact workspace checks
+include kind and installation/organization identity, and returned immutable or
+checksummed snapshots detach from caller-owned inputs. A05 defines those
+contracts without changing the current strict runtime schemas or SQLite database.
 
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files

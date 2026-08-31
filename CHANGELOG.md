@@ -10,6 +10,15 @@ omitted.
 
 ### Fixed
 
+- Corrected the new A05 contracts so exact workspace identity means the full
+  A04 discriminated workspace: kind and workspace ID plus installation ID or
+  organization ID. Commands, previews, exports, protected restores, migration
+  bundles/plans, rollback backups, and audit contexts now reject same-ID tenant
+  substitution. Applied transitions, preview snapshots, portable exports,
+  migration results, and rollback plans also detach canonical JSON data from
+  caller-owned objects so later mutation cannot alter immutable/checksummed
+  state without a version or integrity change.
+
 - Fixed protected production release construction after the host package
   manager began requiring a writable cache outside the service's inaccessible
   home directory. Builds now validate and reuse an owner-only cache inside the

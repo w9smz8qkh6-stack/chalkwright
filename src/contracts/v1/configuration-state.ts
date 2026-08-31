@@ -6,6 +6,7 @@ import {
 } from './common.js';
 import {
   canonicalJson,
+  cloneJsonValue,
   hasExactKeys,
   hasUniqueValues,
   isBoundedString,
@@ -38,6 +39,38 @@ export const configurationStateRecordLimits = {
   maximumDrafts: 256,
   maximumRevisions: 256,
 } as const;
+
+/** Full A04 tenant identity; a shared namespace ID alone is not equality. */
+export function isExactWorkspace(left: Workspace, right: Workspace): boolean {
+  if (left.kind !== right.kind || left.workspaceId !== right.workspaceId) {
+    return false;
+  }
+  return left.kind === 'self-hosted-installation' &&
+    right.kind === 'self-hosted-installation'
+    ? left.installationId === right.installationId
+    : left.kind === 'hosted-organization' &&
+        right.kind === 'hosted-organization' &&
+        left.organizationId === right.organizationId;
+}
+
+/** Full workspace identity carried by A04's bounded audit projection. */
+export function isAuditScopeForWorkspace(
+  auditScope: AuditScope,
+  workspace: Workspace,
+): boolean {
+  if (
+    auditScope.workspaceKind !== workspace.kind ||
+    auditScope.workspaceId !== workspace.workspaceId
+  ) {
+    return false;
+  }
+  return workspace.kind === 'self-hosted-installation' &&
+    auditScope.workspaceKind === 'self-hosted-installation'
+    ? auditScope.installationId === workspace.installationId
+    : workspace.kind === 'hosted-organization' &&
+        auditScope.workspaceKind === 'hosted-organization' &&
+        auditScope.organizationId === workspace.organizationId;
+}
 
 declare const stateIdentifierBrand: unique symbol;
 
@@ -201,6 +234,7 @@ export interface ConfigurationStateSnapshot extends ContractEnvelope {
 }
 
 interface ConfigurationCommandBase extends ContractEnvelope {
+  readonly workspace: Workspace;
   readonly workspaceId: WorkspaceId;
   readonly expectedStateVersion: number;
   readonly auditScope: AuditScope;
@@ -414,7 +448,8 @@ export function isEditableConfiguration(
     ) {
       return false;
     }
-    const workspaceId = value.workspace.workspaceId;
+    const workspace = value.workspace as Workspace;
+    const workspaceId = workspace.workspaceId;
     if (
       [...value.rooms, ...value.screens, ...value.sources].some(
         (record) => record.workspaceId !== workspaceId,
@@ -435,13 +470,6 @@ export function isEditableConfiguration(
       value.screens.every((screen) => roomIds.includes(screen.roomId))
     );
   });
-}
-
-function hasMatchingWorkspace(
-  workspaceId: WorkspaceId,
-  workspace: Workspace,
-): boolean {
-  return workspaceId === workspace.workspaceId;
 }
 
 function isConfigurationDraftRecord(
@@ -568,11 +596,18 @@ export function isConfigurationStateSnapshot(
     ) {
       return false;
     }
-    const workspaceId = value.workspace.workspaceId;
+    const workspace = value.workspace as Workspace;
+    const workspaceId = workspace.workspaceId;
     if (
       value.drafts.some((draft) => draft.workspaceId !== workspaceId) ||
+      value.drafts.some(
+        (draft) => !isExactWorkspace(draft.content.workspace, workspace),
+      ) ||
       value.revisions.some(
         (revision) => revision.workspaceId !== workspaceId,
+      ) ||
+      value.revisions.some(
+        (revision) => !isExactWorkspace(revision.content.workspace, workspace),
       ) ||
       (value.activePointer !== null &&
         value.activePointer.workspaceId !== workspaceId)
@@ -637,13 +672,9 @@ export function isConfigurationStateSnapshot(
 
 function isCommandAuditScope(
   value: unknown,
-  workspaceId: unknown,
+  workspace: Workspace,
 ): value is AuditScope {
-  return (
-    isAuditScope(value) &&
-    isScopeIdentifier('workspace', workspaceId) &&
-    value.workspaceId === workspaceId
-  );
+  return isAuditScope(value) && isAuditScopeForWorkspace(value, workspace);
 }
 
 export function isConfigurationCommand(
@@ -652,11 +683,13 @@ export function isConfigurationCommand(
   if (
     !isPlainObject(value) ||
     value.contractVersion !== contractVersion ||
+    !isWorkspace(value.workspace) ||
     !isScopeIdentifier('workspace', value.workspaceId) ||
+    value.workspace.workspaceId !== value.workspaceId ||
     !Number.isSafeInteger(value.expectedStateVersion) ||
     typeof value.expectedStateVersion !== 'number' ||
     value.expectedStateVersion < 0 ||
-    !isCommandAuditScope(value.auditScope, value.workspaceId)
+    !isCommandAuditScope(value.auditScope, value.workspace)
   ) {
     return false;
   }
@@ -665,6 +698,7 @@ export function isConfigurationCommand(
       hasExactKeys(value, [
         'contractVersion',
         'kind',
+        'workspace',
         'workspaceId',
         'expectedStateVersion',
         'auditScope',
@@ -677,7 +711,7 @@ export function isConfigurationCommand(
       (value.expectedDraftVersion === null ||
         isPositiveInteger(value.expectedDraftVersion)) &&
       isEditableConfiguration(value.content) &&
-      value.content.workspace.workspaceId === value.workspaceId &&
+      isExactWorkspace(value.content.workspace, value.workspace) &&
       isIsoInstant(value.savedAt)
     );
   }
@@ -686,6 +720,7 @@ export function isConfigurationCommand(
       hasExactKeys(value, [
         'contractVersion',
         'kind',
+        'workspace',
         'workspaceId',
         'expectedStateVersion',
         'auditScope',
@@ -708,6 +743,7 @@ export function isConfigurationCommand(
       hasExactKeys(value, [
         'contractVersion',
         'kind',
+        'workspace',
         'workspaceId',
         'expectedStateVersion',
         'auditScope',
@@ -752,7 +788,10 @@ function applied(
     status: 'applied',
     command,
     previousStateVersion: previous.stateVersion,
-    state: { ...change, stateVersion: previous.stateVersion + 1 },
+    state: cloneJsonValue({
+      ...change,
+      stateVersion: previous.stateVersion + 1,
+    }),
   };
 }
 
@@ -768,7 +807,7 @@ export function transitionConfigurationState(
     return rejected(state, 'invalid-state');
   if (!isConfigurationCommand(command))
     return rejected(state, 'invalid-command');
-  if (!hasMatchingWorkspace(command.workspaceId, state.workspace)) {
+  if (!isExactWorkspace(command.workspace, state.workspace)) {
     return rejected(state, 'workspace-mismatch');
   }
   if (command.expectedStateVersion !== state.stateVersion) {

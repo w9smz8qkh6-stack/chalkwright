@@ -241,9 +241,11 @@ The shared A05
 [configuration and durable-state contracts](core-configuration-state-contracts.md)
 require hosted adapters to implement these records with the session-derived
 workspace on every key, conditional revision writes instead of last-write-wins,
-and atomic validated activation. Portable export is one redacted tenant only;
-protected backup/restore remains integrity-checked, exact-workspace, and
-isolated from current traffic.
+and atomic validated activation. Exact workspace equality includes the hosted
+organization identity, so a colliding workspace ID cannot cross tenants.
+Portable export is one redacted tenant only; protected backup/restore remains
+integrity-checked, exact-workspace, detached from caller-owned input objects,
+and isolated from current traffic.
 
 A pasted Google file URL or Calendar ID identifies a resource but does not grant
 access to it. The application must state whether the resource must be published,

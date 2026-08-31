@@ -137,8 +137,11 @@ The accepted A05
 make this future boundary executable: immutable validated revisions, an atomic
 active pointer, expected-version conflicts, bounded protected references,
 redacted portable exports, protected-backup manifests, and checksum-bound
-forward-only migration/rollback decisions are adapter-neutral. They are not yet
-threaded through the current runtime or SQLite schema.
+forward-only migration/rollback decisions are adapter-neutral. Full workspace
+identity includes kind and installation/organization identity rather than only
+the namespace ID, and successful executable-contract outputs detach canonical
+JSON snapshots from caller-owned objects. They are not yet threaded through the
+current runtime or SQLite schema.
 
 ### 10. Screens and rooms are isolated first-class entities
 

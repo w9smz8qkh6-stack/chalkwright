@@ -181,6 +181,7 @@ export function activatedState(
   const saved = requireApplied(freshState(workspace), {
     contractVersion,
     kind: 'save-draft',
+    workspace,
     workspaceId: workspace.workspaceId,
     expectedStateVersion: 0,
     auditScope: configurationAuditScope(workspace, 'save-synthetic-draft'),
@@ -192,6 +193,7 @@ export function activatedState(
   const validated = requireApplied(saved, {
     contractVersion,
     kind: 'validate-draft',
+    workspace,
     workspaceId: workspace.workspaceId,
     expectedStateVersion: 1,
     auditScope: configurationAuditScope(workspace, 'validate-synthetic-draft'),
@@ -203,6 +205,7 @@ export function activatedState(
   return requireApplied(validated, {
     contractVersion,
     kind: 'activate-revision',
+    workspace,
     workspaceId: workspace.workspaceId,
     expectedStateVersion: 2,
     auditScope: configurationAuditScope(
@@ -284,7 +287,7 @@ const validForwardMigrationBundleBody: Omit<
 > = {
   contractVersion,
   kind: 'forward-migration-bundle',
-  workspaceId: selfHostedWorkspace.workspaceId,
+  workspace: selfHostedWorkspace,
   fromRelease: previousReleaseCompatibility,
   toRelease: nextReleaseCompatibility,
   expectedHistory: [migrationOne],

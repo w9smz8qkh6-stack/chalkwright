@@ -301,5 +301,8 @@ pairings, and a typed feature-region presentation seam. A04 established the
 workspace and actor vocabulary. A05 now defines configuration lifecycle,
 optimistic concurrency, protected-secret references, bounded audit metadata,
 portable export, protected backup, forward migration, and rollback contracts.
+A05 admission compares the full A04 workspace discriminant and
+installation/organization identity, and its detached snapshots prevent
+post-validation caller mutation from changing immutable or checksummed state.
 A06 through A08 remain incomplete, Phase B has not begun, and A02 through A05
 performed no runtime or live effect.

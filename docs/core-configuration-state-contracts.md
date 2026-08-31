@@ -38,6 +38,13 @@ explicit and finite. A fresh workspace may have no active revision; once an
 active pointer exists, exactly one validated revision must have `active`
 lifecycle state.
 
+Successful transitions detach the complete returned state from both the
+caller-owned command and the prior mutable in-memory snapshot by canonical
+JSON cloning. Portable exports, preview snapshots, migration plans/results,
+and rollback plans use the same detachment rule. TypeScript `readonly` remains
+the compile-time contract; A05 does not claim that returned objects are frozen
+at runtime.
+
 ## Portable configuration and scope
 
 Editable configuration contains one required A04 workspace and canonically
@@ -45,6 +52,16 @@ ordered, workspace-bound room, screen, and source records. A screen always
 names an existing room and its class-code state record. The time policy carries
 an IANA timezone and an opaque date-policy reference. There is no default
 workspace, optional hosted organization, or missing-scope fallback.
+
+“Exact workspace” never means `workspaceId` alone. Equality requires matching
+the A04 workspace discriminant and ID plus `installationId` for self-hosted
+workspaces or `organizationId` for hosted workspaces. Commands and preview
+requests therefore carry the full workspace alongside namespacing IDs; their
+A04 audit scopes must carry the same full identity. Portable manifests/content,
+protected backups, migration bundles/plans, state content, import/restore, and
+rollback admission apply this one rule. Individual records and targets retain
+`workspaceId` for storage namespacing, but cannot establish tenant equality by
+themselves.
 
 A05 freezes only the four approved source-mode discriminants:
 `application-managed`, `uploaded-snapshot`, `shared-resource`, and
@@ -88,27 +105,29 @@ rollback contract.
 | Class                            | Included                                                                                                                                                         | Deliberately excluded                                                                                                         |
 | -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Editable/validated configuration | Workspace identity, timezone/date-policy reference, rooms, screens, four source modes, opaque definition references, protected connection references             | Secret values, provider payloads, viewer sessions, operational logs                                                           |
-| Preview snapshot                 | Exact draft/revision basis, workspace-bound targets, finite status/diagnostic codes, generated/expiry instants                                                   | Rendered/customer payload, activation authority, mutation result                                                              |
+| Preview snapshot                 | Full workspace identity, exact draft/revision basis, workspace-bound targets, finite status/diagnostic codes, generated/expiry instants                          | Rendered/customer payload, activation authority, mutation result                                                              |
 | Class-code state                 | Workspace/screen, policy version, verifier version, protected verifier reference while active, rotation/revocation time                                          | Plaintext code, verifier bytes, viewer sessions                                                                               |
 | Audit event                      | A04 audit scope, finite action/outcome/subject, state versions, revision reference, time                                                                         | Payload/details maps, session/account objects, secrets, customer content                                                      |
 | Portable configuration export    | Canonical configuration with connected references replaced by `connectionRequired`, exact workspace/revision/schema manifest, content and whole-export integrity | Protected references and values, verifier state, sessions, caches, previews, raw source/provider data, logs, other workspaces |
 | Protected full backup manifest   | Exact workspace, state/migration versions, exact Core/shell pair, external artifact reference/checksum/size, isolated-restore requirements                       | Backup bytes, keys, tokens, verifier bytes, or any embedded protected artifact                                                |
 
-Portable import and protected restore admission both reject a different
-workspace. A05 defines no remapping contract. Adapters must validate the whole
-artifact and all ownership, schema, compatibility, and integrity evidence in
-isolation before atomically selecting replacement state.
+Portable import and protected restore admission both reject a different full
+workspace, including a same-ID/different-organization, same-ID/different-
+installation, or cross-kind workspace. A05 defines no remapping contract.
+Adapters must validate the whole artifact and all ownership, schema,
+compatibility, and integrity evidence in isolation before atomically selecting
+replacement state.
 
 ## Persistence responsibilities
 
-| Concern             | Reusable Core contract                                                     | Self-hosted SQLite adapter                                                                                     | Hosted persistence adapter                                                                                             |
-| ------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| Namespace           | Requires workspace ID on every shared record/key                           | Prefixes or keys every record by the one installation workspace                                                | Includes organization-derived workspace in every row, object, cache key, job, preview, and audit query                 |
-| Concurrency         | Defines expected state/draft/pointer evidence and finite conflict outcomes | Uses one transaction and conditional revision/pointer writes                                                   | Uses one tenant-scoped transaction and conditional version writes                                                      |
-| Activation/rollback | Requires full candidate validation and atomic pointer/lifecycle change     | Commits revision, lifecycle, pointer, and audit together                                                       | Commits the equivalent organization-scoped records together                                                            |
-| Secrets             | Carries opaque protected references only and exposes no resolver/list API  | Resolves an exact reference only through an injected owner-only protected-store capability                     | Resolves an exact organization-scoped reference only through an injected encrypted-store capability                    |
-| Export/backup       | Distinguishes redacted portable export from protected backup metadata      | Canonicalizes portable data; creates protected files outside the contract and verifies before isolated restore | Canonicalizes one tenant; stores protected artifacts outside the manifest and verifies tenant/isolation before restore |
-| Failure             | Returns conflict/rejection or the exact prior state                        | Rolls back the complete transaction                                                                            | Rolls back the complete tenant transaction                                                                             |
+| Concern             | Reusable Core contract                                                                    | Self-hosted SQLite adapter                                                                                     | Hosted persistence adapter                                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Namespace           | Requires full workspace identity at admission and workspace ID on every shared record/key | Prefixes or keys every record by the one installation workspace                                                | Includes organization-derived workspace in every row, object, cache key, job, preview, and audit query                 |
+| Concurrency         | Defines expected state/draft/pointer evidence and finite conflict outcomes                | Uses one transaction and conditional revision/pointer writes                                                   | Uses one tenant-scoped transaction and conditional version writes                                                      |
+| Activation/rollback | Requires full candidate validation and atomic pointer/lifecycle change                    | Commits revision, lifecycle, pointer, and audit together                                                       | Commits the equivalent organization-scoped records together                                                            |
+| Secrets             | Carries opaque protected references only and exposes no resolver/list API                 | Resolves an exact reference only through an injected owner-only protected-store capability                     | Resolves an exact organization-scoped reference only through an injected encrypted-store capability                    |
+| Export/backup       | Distinguishes redacted portable export from protected backup metadata                     | Canonicalizes portable data; creates protected files outside the contract and verifies before isolated restore | Canonicalizes one tenant; stores protected artifacts outside the manifest and verifies tenant/isolation before restore |
+| Failure             | Returns conflict/rejection or the exact prior state                                       | Rolls back the complete transaction                                                                            | Rolls back the complete tenant transaction                                                                             |
 
 The public contract contains no SQL, table, filesystem path, object-store key,
 database client, transaction implementation, or hosted infrastructure type.
@@ -116,7 +135,8 @@ database client, transaction implementation, or hosted infrastructure type.
 ## Forward migration and release rollback
 
 Migration history begins at version 1 and is contiguous, ordered, and bound to
-name/checksum records. A forward bundle binds exact workspace, predecessor and
+name/checksum records. A forward bundle and its checksum bind the full exact
+workspace, predecessor and
 successor Core/shell `0.x` pairs, the complete expected history, ordered new
 steps, both releases' readable schema ranges, and a checksum over the complete
 bundle. Gaps, history or bundle tampering, shell/release mismatch, downgrade,
@@ -147,6 +167,13 @@ invalid activation, exact rollback, preview non-mutation, class-code/audit
 redaction, forward success, atomic failure, bundle/history tampering, compatible
 code rollback, backup-backed rollback, cross-workspace denial, and hostile JSON
 shapes.
+
+The suite also covers same-workspace-ID substitution across organizations,
+installations, and workspace kinds for state, audit, import, restore,
+migration, and rollback paths. Mutation regressions prove that changing a save
+command/configuration, prior state, export source, preview request, migration
+bundle/plan, or backup after construction cannot change the detached returned
+snapshot, checksum, plan, or result.
 
 A06 is next and specifies source modes' concrete first-release formats,
 provenance, freshness, and validation. B03 later threads A04/A05 scope and state

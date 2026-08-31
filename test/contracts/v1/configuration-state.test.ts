@@ -4,10 +4,12 @@ import test from 'node:test';
 
 import {
   assessForwardMigration,
+  canonicalPortableExportJson,
   configurationDigest,
   configurationStateRecordLimits,
   contractVersion,
   createConfigurationPreview,
+  createPortableConfigurationExport,
   evaluatePortableImport,
   evaluateProtectedRestore,
   finalizeForwardMigration,
@@ -15,6 +17,7 @@ import {
   isClassCodeState,
   isConfigurationAuditEvent,
   isConfigurationStateSnapshot,
+  isConfigurationPreviewSnapshot,
   isDurableMigrationState,
   isEditableConfiguration,
   isForwardMigrationBundle,
@@ -29,14 +32,21 @@ import {
   type ConfigurationDraftRecord,
   type ConfigurationRevisionRecord,
   type ConfigurationRevisionId,
+  type ConfigurationStateSnapshot,
+  type CoreShellReleasePairing,
+  type DurableMigrationState,
   type ForwardMigrationBundle,
   type PortableConfigurationExport,
   type ProtectedBackupManifest,
   type ProtectedSecretReference,
+  type ReleaseCompatibilityManifest,
   type ResourceId,
   type RoomConfigurationRecord,
   type SaveConfigurationDraftRequest,
   type ScreenConfigurationRecord,
+  type SelfHostedWorkspace,
+  type HostedWorkspace,
+  type Workspace,
 } from '../../../src/contracts/v1/index.js';
 import {
   activeSelfHostedState,
@@ -107,6 +117,114 @@ function clone<Value>(value: Value): Value {
   return structuredClone(value);
 }
 
+const sameIdDifferentInstallation: SelfHostedWorkspace = {
+  ...selfHostedWorkspace,
+  installationId: scopeIdentifier(
+    'installation',
+    'installation-synthetic-secondary',
+  ),
+};
+
+const sameIdDifferentOrganization: HostedWorkspace = {
+  ...hostedWorkspace,
+  organizationId: scopeIdentifier(
+    'organization',
+    'organization-synthetic-secondary',
+  ),
+};
+
+const sameIdCrossKind: HostedWorkspace = {
+  contractVersion,
+  kind: 'hosted-organization',
+  workspaceId: selfHostedWorkspace.workspaceId,
+  organizationId: scopeIdentifier(
+    'organization',
+    'organization-synthetic-cross-kind',
+  ),
+};
+
+function releasePairFor(
+  workspace: Workspace,
+  version: string,
+): CoreShellReleasePairing {
+  return workspace.kind === 'self-hosted-installation'
+    ? { shellKind: 'self-hosted', coreVersion: version, shellVersion: version }
+    : { shellKind: 'hosted', coreVersion: version, shellVersion: version };
+}
+
+function compatibilityFor(
+  workspace: Workspace,
+  version: string,
+  maximumReadableVersion: number,
+): ReleaseCompatibilityManifest {
+  return {
+    contractVersion,
+    kind: 'release-compatibility',
+    release: releasePairFor(workspace, version),
+    artifactChecksum: configurationDigest({ workspace, version }),
+    stateSchema: { minimumReadableVersion: 1, maximumReadableVersion },
+  };
+}
+
+function migrationStateFor(
+  workspace: Workspace,
+  schemaVersion: 1 | 2 = 1,
+): DurableMigrationState {
+  const source = schemaVersion === 1 ? migrationStateV1 : migratedStateV2;
+  return {
+    ...source,
+    workspace,
+    release: releasePairFor(workspace, `0.${schemaVersion}.0`),
+  };
+}
+
+function migrationBundleFor(workspace: Workspace): ForwardMigrationBundle {
+  const body: Omit<ForwardMigrationBundle, 'bundleChecksum'> = {
+    contractVersion,
+    kind: 'forward-migration-bundle',
+    workspace,
+    fromRelease: compatibilityFor(workspace, '0.1.0', 1),
+    toRelease: compatibilityFor(workspace, '0.2.0', 2),
+    expectedHistory: migrationStateV1.history.map(
+      ({ version, name, checksum }) => ({ version, name, checksum }),
+    ),
+    steps: validForwardMigrationBundle.steps.map((step) => ({ ...step })),
+  };
+  return { ...body, bundleChecksum: forwardMigrationBundleChecksum(body) };
+}
+
+function backupFor(
+  workspace: Workspace,
+  version = '0.1.0',
+): ProtectedBackupManifest {
+  return {
+    ...preMigrationProtectedBackup,
+    workspace,
+    release: releasePairFor(workspace, version),
+  };
+}
+
+function stateWithConfigurationWorkspace(
+  state: ConfigurationStateSnapshot,
+  workspace: Workspace,
+): ConfigurationStateSnapshot {
+  return {
+    ...state,
+    drafts: state.drafts.map((draft) => ({
+      ...draft,
+      content: { ...draft.content, workspace },
+    })),
+    revisions: state.revisions.map((revision) => {
+      const content = { ...revision.content, workspace };
+      return {
+        ...revision,
+        content,
+        contentChecksum: configurationDigest(content),
+      };
+    }),
+  };
+}
+
 test('keeps compile-time configuration, secret, export, and migration boundaries distinct', () => {
   assert.equal(secretReferenceIsNotAResourceId, true);
   assert.equal(exportIsNotProtectedBackup, true);
@@ -143,6 +261,7 @@ test('uses optimistic concurrency and preserves the active last-known-good revis
   const stale = transitionConfigurationState(activeSelfHostedState, {
     contractVersion,
     kind: 'save-draft',
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: activeSelfHostedState.stateVersion - 1,
     auditScope: configurationAuditScope(
@@ -163,6 +282,7 @@ test('uses optimistic concurrency and preserves the active last-known-good revis
     {
       contractVersion,
       kind: 'activate-revision',
+      workspace: selfHostedWorkspace,
       workspaceId: selfHostedWorkspace.workspaceId,
       expectedStateVersion: activeSelfHostedState.stateVersion,
       auditScope: configurationAuditScope(
@@ -187,6 +307,7 @@ test('activates a second immutable revision and rolls back only with exact evide
   const saved = transitionConfigurationState(activeSelfHostedState, {
     contractVersion,
     kind: 'save-draft',
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: activeSelfHostedState.stateVersion,
     auditScope: configurationAuditScope(
@@ -208,6 +329,7 @@ test('activates a second immutable revision and rolls back only with exact evide
   const validated = transitionConfigurationState(saved.state, {
     contractVersion,
     kind: 'validate-draft',
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: saved.state.stateVersion,
     auditScope: configurationAuditScope(
@@ -226,6 +348,7 @@ test('activates a second immutable revision and rolls back only with exact evide
   const activated = transitionConfigurationState(validated.state, {
     contractVersion,
     kind: 'activate-revision',
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: validated.state.stateVersion,
     auditScope: configurationAuditScope(
@@ -247,6 +370,7 @@ test('activates a second immutable revision and rolls back only with exact evide
   const rollback = transitionConfigurationState(activated.state, {
     contractVersion,
     kind: 'rollback-revision',
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: activated.state.stateVersion,
     auditScope: configurationAuditScope(
@@ -272,6 +396,7 @@ test('creates an exact preview without mutating configuration state', () => {
   const revision = activeSelfHostedState.revisions[0]!;
   const result = createConfigurationPreview(activeSelfHostedState, {
     contractVersion,
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: activeSelfHostedState.stateVersion,
     previewId: stateIdentifier('preview', 'preview-synthetic-001'),
@@ -302,6 +427,167 @@ test('creates an exact preview without mutating configuration state', () => {
   assert.equal(result.state, activeSelfHostedState);
   assert.equal(result.snapshot.basis.contentChecksum, revision.contentChecksum);
   assert.equal('configuration' in result.snapshot, false);
+});
+
+test('detaches admitted state, preview, export, migration, and rollback outputs from caller aliases', () => {
+  const sourceConfiguration = clone(configurationFor(selfHostedWorkspace));
+  const saveCommand: SaveConfigurationDraftRequest = {
+    contractVersion,
+    kind: 'save-draft',
+    workspace: selfHostedWorkspace,
+    workspaceId: selfHostedWorkspace.workspaceId,
+    expectedStateVersion: 0,
+    auditScope: configurationAuditScope(
+      selfHostedWorkspace,
+      'detached-save-synthetic-draft',
+    ),
+    draftId: stateIdentifier('configuration-draft', 'draft-detached-synthetic'),
+    expectedDraftVersion: null,
+    content: sourceConfiguration,
+    savedAt: '2035-02-12T08:30:00Z',
+  };
+  const saved = transitionConfigurationState(
+    configurationStateFixtureCatalog.freshSelfHostedState,
+    saveCommand,
+  );
+  assert.equal(saved.status, 'applied');
+  if (saved.status !== 'applied') return;
+  const savedLabel = saved.state.drafts[0]!.content.rooms[0]!.label;
+  (sourceConfiguration.rooms[0] as { label: string }).label =
+    'Caller-mutated label';
+  assert.equal(saved.state.drafts[0]!.content.rooms[0]!.label, savedLabel);
+
+  const validated = transitionConfigurationState(saved.state, {
+    contractVersion,
+    kind: 'validate-draft',
+    workspace: selfHostedWorkspace,
+    workspaceId: selfHostedWorkspace.workspaceId,
+    expectedStateVersion: saved.state.stateVersion,
+    auditScope: configurationAuditScope(
+      selfHostedWorkspace,
+      'detached-validate-synthetic-draft',
+    ),
+    draftId: saved.state.drafts[0]!.draftId,
+    expectedDraftVersion: saved.state.drafts[0]!.draftVersion,
+    revisionId: stateIdentifier(
+      'configuration-revision',
+      'revision-detached-synthetic',
+    ),
+    validatedAt: '2035-02-12T08:31:00Z',
+  });
+  assert.equal(validated.status, 'applied');
+  if (validated.status !== 'applied') return;
+  (saved.state.drafts[0]!.content.rooms[0] as { label: string }).label =
+    'Prior-state mutation';
+  const detachedRevision = validated.state.revisions[0]!;
+  assert.equal(detachedRevision.content.rooms[0]!.label, savedLabel);
+  assert.equal(
+    detachedRevision.contentChecksum,
+    configurationDigest(detachedRevision.content),
+  );
+  assert.equal(isConfigurationStateSnapshot(validated.state), true);
+
+  const previewRequest = {
+    contractVersion,
+    workspace: clone(selfHostedWorkspace),
+    workspaceId: selfHostedWorkspace.workspaceId,
+    expectedStateVersion: activeSelfHostedState.stateVersion,
+    previewId: stateIdentifier('preview', 'preview-detached-synthetic'),
+    basis: {
+      kind: 'revision' as const,
+      revisionId: activeSelfHostedState.revisions[0]!.revisionId,
+      contentChecksum: activeSelfHostedState.revisions[0]!.contentChecksum,
+    },
+    targets: [
+      {
+        kind: 'workspace' as const,
+        workspaceId: selfHostedWorkspace.workspaceId,
+      },
+    ] as [
+      {
+        kind: 'workspace';
+        workspaceId: typeof selfHostedWorkspace.workspaceId;
+      },
+    ],
+    status: 'ready' as const,
+    diagnosticCodes: [] as string[],
+    generatedAt: '2035-02-12T08:32:00Z' as const,
+    expiresAt: '2035-02-12T08:42:00Z' as const,
+    auditScope: configurationAuditScope(
+      selfHostedWorkspace,
+      'detached-preview-synthetic',
+    ),
+  };
+  const preview = createConfigurationPreview(
+    activeSelfHostedState,
+    previewRequest,
+  );
+  assert.equal(preview.status, 'created');
+  if (preview.status !== 'created') return;
+  previewRequest.targets[0]!.workspaceId = hostedWorkspace.workspaceId;
+  (
+    previewRequest.workspace as {
+      installationId: typeof selfHostedWorkspace.installationId;
+    }
+  ).installationId = sameIdDifferentInstallation.installationId!;
+  assert.equal(
+    preview.snapshot.targets[0]!.workspaceId,
+    selfHostedWorkspace.workspaceId,
+  );
+  assert.equal(isConfigurationPreviewSnapshot(preview.snapshot), true);
+
+  const exportSource = clone(configurationFor(selfHostedWorkspace));
+  const detachedExport = createPortableConfigurationExport({
+    exportId: stateIdentifier(
+      'portable-export',
+      'portable-export-detached-synthetic',
+    ),
+    revisionId: activeSelfHostedState.revisions[0]!.revisionId,
+    configuration: exportSource,
+    createdAt: '2035-02-12T08:33:00Z',
+  });
+  const exportBytes = canonicalPortableExportJson(detachedExport);
+  (exportSource.rooms[0] as { label: string }).label =
+    'Caller-mutated export label';
+  assert.equal(canonicalPortableExportJson(detachedExport), exportBytes);
+  assert.equal(isPortableConfigurationExport(detachedExport), true);
+
+  const bundle = migrationBundleFor(selfHostedWorkspace);
+  const assessment = assessForwardMigration(migrationStateV1, bundle);
+  assert.equal(assessment.status, 'ready');
+  if (assessment.status !== 'ready') return;
+  const plannedStepName = assessment.plan.steps[0]!.name;
+  (bundle.steps[0] as { name: string }).name = 'caller-mutated-step';
+  assert.equal(assessment.plan.steps[0]!.name, plannedStepName);
+  const migrated = finalizeForwardMigration(
+    migrationStateV1,
+    assessment,
+    '2035-02-12T08:34:00Z',
+    'commit',
+  );
+  assert.equal(migrated.status, 'applied');
+  if (migrated.status !== 'applied') return;
+  (assessment.plan.steps[0] as { name: string }).name =
+    'post-finalize mutation';
+  assert.equal(migrated.state.history[1]!.name, plannedStepName);
+  assert.equal(isDurableMigrationState(migrated.state), true);
+
+  const backup = clone(preMigrationProtectedBackup);
+  const rollback = planReleaseRollback({
+    currentState: migratedStateV2,
+    predecessor: previousReleaseCompatibility,
+    preMigrationBackup: backup,
+  });
+  assert.equal(rollback.status, 'ready');
+  if (
+    rollback.status !== 'ready' ||
+    rollback.strategy !== 'restore-protected-backup-then-code-rollback'
+  ) {
+    return;
+  }
+  const plannedByteLength = rollback.backup.artifact.byteLength;
+  (backup.artifact as { byteLength: number }).byteLength += 1;
+  assert.equal(rollback.backup.artifact.byteLength, plannedByteLength);
 });
 
 test('stores only verifier references and bounded audit metadata', () => {
@@ -431,6 +717,233 @@ test('denies portable imports and protected restores across workspaces', () => {
     ),
     { status: 'rejected', reason: 'workspace-mismatch' },
   );
+});
+
+test('binds every A05 artifact, state, migration, rollback, and audit path to the full workspace', () => {
+  const hostedExport = createPortableConfigurationExport({
+    exportId: stateIdentifier(
+      'portable-export',
+      'portable-export-hosted-synthetic-001',
+    ),
+    revisionId: hostedOrganizationState.activePointer!.revisionId,
+    configuration: hostedOrganizationState.revisions[0]!.content,
+    createdAt: '2035-02-12T09:05:00Z',
+  });
+
+  assert.deepEqual(
+    evaluatePortableImport(
+      sameIdDifferentInstallation,
+      portableConfigurationExport,
+    ),
+    { status: 'rejected', reason: 'workspace-mismatch' },
+  );
+  assert.deepEqual(
+    evaluatePortableImport(sameIdCrossKind, portableConfigurationExport),
+    { status: 'rejected', reason: 'workspace-mismatch' },
+  );
+  assert.deepEqual(
+    evaluatePortableImport(sameIdDifferentOrganization, hostedExport),
+    { status: 'rejected', reason: 'workspace-mismatch' },
+  );
+
+  for (const workspace of [sameIdDifferentInstallation, sameIdCrossKind]) {
+    assert.deepEqual(
+      evaluateProtectedRestore(
+        workspace,
+        preMigrationProtectedBackup,
+        preMigrationProtectedBackup.artifact.checksum,
+      ),
+      { status: 'rejected', reason: 'workspace-mismatch' },
+    );
+  }
+  const hostedBackup = backupFor(hostedWorkspace);
+  assert.deepEqual(
+    evaluateProtectedRestore(
+      sameIdDifferentOrganization,
+      hostedBackup,
+      hostedBackup.artifact.checksum,
+    ),
+    { status: 'rejected', reason: 'workspace-mismatch' },
+  );
+
+  for (const workspace of [sameIdDifferentInstallation, sameIdCrossKind]) {
+    const migration = assessForwardMigration(
+      migrationStateV1,
+      migrationBundleFor(workspace),
+    );
+    assert.deepEqual(migration, {
+      status: 'rejected',
+      reason: 'workspace-mismatch',
+    });
+  }
+  assert.equal(
+    isForwardMigrationBundle({
+      ...validForwardMigrationBundle,
+      workspace: sameIdDifferentInstallation,
+    }),
+    false,
+  );
+  assert.deepEqual(
+    assessForwardMigration(
+      migrationStateFor(hostedWorkspace),
+      migrationBundleFor(sameIdDifferentOrganization),
+    ),
+    { status: 'rejected', reason: 'workspace-mismatch' },
+  );
+  const hostedAssessment = assessForwardMigration(
+    migrationStateFor(hostedWorkspace),
+    migrationBundleFor(hostedWorkspace),
+  );
+  assert.equal(hostedAssessment.status, 'ready');
+  const crossWorkspaceFinalize = finalizeForwardMigration(
+    migrationStateV1,
+    hostedAssessment,
+    '2035-02-12T09:06:00Z',
+    'commit',
+  );
+  assert.equal(crossWorkspaceFinalize.status, 'failed');
+  assert.equal(crossWorkspaceFinalize.state, migrationStateV1);
+
+  for (const workspace of [sameIdDifferentInstallation, sameIdCrossKind]) {
+    assert.deepEqual(
+      planReleaseRollback({
+        currentState: migratedStateV2,
+        predecessor: previousReleaseCompatibility,
+        preMigrationBackup: backupFor(workspace),
+      }),
+      { status: 'rejected', reason: 'backup-workspace-mismatch' },
+    );
+  }
+  assert.deepEqual(
+    planReleaseRollback({
+      currentState: migrationStateFor(hostedWorkspace, 2),
+      predecessor: compatibilityFor(hostedWorkspace, '0.1.0', 1),
+      preMigrationBackup: backupFor(sameIdDifferentOrganization),
+    }),
+    { status: 'rejected', reason: 'backup-workspace-mismatch' },
+  );
+
+  assert.equal(
+    isConfigurationStateSnapshot(
+      stateWithConfigurationWorkspace(
+        activeSelfHostedState,
+        sameIdDifferentInstallation,
+      ),
+    ),
+    false,
+  );
+  assert.equal(
+    isConfigurationStateSnapshot(
+      stateWithConfigurationWorkspace(activeSelfHostedState, sameIdCrossKind),
+    ),
+    false,
+  );
+  assert.equal(
+    isConfigurationStateSnapshot(
+      stateWithConfigurationWorkspace(
+        hostedOrganizationState,
+        sameIdDifferentOrganization,
+      ),
+    ),
+    false,
+  );
+
+  for (const [state, workspace] of [
+    [activeSelfHostedState, sameIdDifferentInstallation],
+    [activeSelfHostedState, sameIdCrossKind],
+    [hostedOrganizationState, sameIdDifferentOrganization],
+  ] as const) {
+    const revision = state.revisions[0]!;
+    const transition = transitionConfigurationState(state, {
+      contractVersion,
+      kind: 'activate-revision',
+      workspace,
+      workspaceId: workspace.workspaceId,
+      expectedStateVersion: state.stateVersion,
+      auditScope: configurationAuditScope(
+        workspace,
+        'same-id-wrong-tenant-activation',
+      ),
+      expectedActiveRevisionId: state.activePointer!.revisionId,
+      revisionId: revision.revisionId,
+      selectedAt: '2035-02-12T09:10:00Z',
+    });
+    assert.equal(transition.status, 'rejected');
+    if (transition.status === 'rejected') {
+      assert.equal(transition.reason, 'workspace-mismatch');
+    }
+    const wrongAuditTransition = transitionConfigurationState(state, {
+      contractVersion,
+      kind: 'activate-revision',
+      workspace: state.workspace,
+      workspaceId: state.workspace.workspaceId,
+      expectedStateVersion: state.stateVersion,
+      auditScope: configurationAuditScope(
+        workspace,
+        'same-id-wrong-tenant-audit',
+      ),
+      expectedActiveRevisionId: state.activePointer!.revisionId,
+      revisionId: revision.revisionId,
+      selectedAt: '2035-02-12T09:10:00Z',
+    });
+    assert.equal(wrongAuditTransition.status, 'rejected');
+    if (wrongAuditTransition.status === 'rejected') {
+      assert.equal(wrongAuditTransition.reason, 'invalid-command');
+    }
+
+    const preview = createConfigurationPreview(state, {
+      contractVersion,
+      workspace,
+      workspaceId: workspace.workspaceId,
+      expectedStateVersion: state.stateVersion,
+      previewId: stateIdentifier('preview', 'preview-wrong-tenant'),
+      basis: {
+        kind: 'revision',
+        revisionId: revision.revisionId,
+        contentChecksum: revision.contentChecksum,
+      },
+      targets: [{ kind: 'workspace', workspaceId: workspace.workspaceId }],
+      status: 'ready',
+      diagnosticCodes: [],
+      generatedAt: '2035-02-12T09:10:00Z',
+      expiresAt: '2035-02-12T09:20:00Z',
+      auditScope: configurationAuditScope(
+        workspace,
+        'same-id-wrong-tenant-preview',
+      ),
+    });
+    assert.equal(preview.status, 'rejected');
+    if (preview.status === 'rejected') {
+      assert.equal(preview.reason, 'workspace-mismatch');
+    }
+    const wrongAuditPreview = createConfigurationPreview(state, {
+      contractVersion,
+      workspace: state.workspace,
+      workspaceId: state.workspace.workspaceId,
+      expectedStateVersion: state.stateVersion,
+      previewId: stateIdentifier('preview', 'preview-wrong-audit'),
+      basis: {
+        kind: 'revision',
+        revisionId: revision.revisionId,
+        contentChecksum: revision.contentChecksum,
+      },
+      targets: [
+        { kind: 'workspace', workspaceId: state.workspace.workspaceId },
+      ],
+      status: 'ready',
+      diagnosticCodes: [],
+      generatedAt: '2035-02-12T09:10:00Z',
+      expiresAt: '2035-02-12T09:20:00Z',
+      auditScope: configurationAuditScope(
+        workspace,
+        'same-id-wrong-tenant-preview-audit',
+      ),
+    });
+    assert.equal(wrongAuditPreview.status, 'rejected');
+    if (wrongAuditPreview.status === 'rejected') {
+      assert.equal(wrongAuditPreview.reason, 'invalid-request');
+    }
+  }
 });
 
 test('applies ordered migrations atomically and preserves state on failure or tampering', () => {
@@ -605,6 +1118,7 @@ test('rejects malformed, unsafe, oversized, sparse, and cross-scope state shapes
   const capacityResult = transitionConfigurationState(atDraftCapacity, {
     contractVersion,
     kind: 'save-draft',
+    workspace: selfHostedWorkspace,
     workspaceId: selfHostedWorkspace.workspaceId,
     expectedStateVersion: atDraftCapacity.stateVersion,
     auditScope: configurationAuditScope(

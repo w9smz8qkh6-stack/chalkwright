@@ -188,6 +188,11 @@ export function canonicalJson(value: unknown): string {
   return JSON.stringify(normalize(value));
 }
 
+/** Returns detached, canonical JSON data after rejecting unsafe object shapes. */
+export function cloneJsonValue<Value>(value: Value): Value {
+  return JSON.parse(canonicalJson(value)) as Value;
+}
+
 export function sha256Digest(value: unknown): `sha256:${string}` {
   return `sha256:${createHash('sha256').update(canonicalJson(value)).digest('hex')}`;
 }
