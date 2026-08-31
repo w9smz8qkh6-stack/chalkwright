@@ -1,7 +1,7 @@
 # Core configuration and durable-state contracts
 
-Status: A05 complete. The adapter-neutral v1 TypeScript surface is split by
-responsibility:
+Status: A05 contracts complete; C01 Core configuration services implemented.
+The adapter-neutral v1 TypeScript surface is split by responsibility:
 
 - [`configuration-state.ts`](../src/contracts/v1/configuration-state.ts) owns
   editable non-secret configuration, protected-reference identifiers,
@@ -16,7 +16,39 @@ responsibility:
 
 These contracts do not implement SQLite or hosted adapters, change the current
 database schema, execute backup/restore, select provider/file formats, or apply
-A04 scope to existing use cases.
+A04 scope to existing use cases. C01 now composes them through
+[`VersionedConfigurationService`](../src/application/configuration/versioned-configuration-service.ts)
+and the
+[`ConfigurationStateRepository`](../src/ports/configuration-state.ts) port;
+that narrow service slice is not wired to a route or production composition
+root.
+
+## C01 application and adapter boundary
+
+The C01 service validates repository reads and exact workspace identity, then
+uses A05's transition functions inside one repository transaction. Draft save,
+validation, activation, and rollback therefore commit the detached next state
+and one finite audit event together. A stale aggregate version, stale draft,
+stale active pointer, invalid command, or invalid target returns the unchanged
+state. Two simultaneous commands carrying the same state evidence cannot both
+commit.
+
+Preview, portable export, and protected-recovery preflight run through the same
+transaction boundary for a coherent read and bounded audit record, but never
+change configuration state. Effective reads expose a detached portable
+configuration projection: connected sources become `connectionRequired` and
+never reveal their protected reference. Export is limited to the exact active
+revision. Recovery preflight verifies exact workspace and checksum while
+explicitly preserving current state until a later isolated restore succeeds.
+
+The initial repository port has only validated read, bounded-audit read, and
+transaction methods. The deterministic
+[`InMemoryConfigurationStateRepository`](../src/infrastructure/memory/configuration-state.ts)
+serializes transactions and retains at most 256 detached audit events. It is a
+conformance/test adapter only: C01 adds no SQLite schema, filesystem format,
+backup execution, protected-store resolver, HTTP surface, or production
+service. A future durable adapter must preserve the same atomic and
+last-known-good results.
 
 ## Configuration lifecycle
 
@@ -183,6 +215,8 @@ freshness, validation, consent/grant, and last-known-good behavior without
 changing this A05 state envelope. A08 now composes fresh, two-active,
 rolled-back, preview, redacted-export, and protected-recovery cases into the
 versioned [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md).
-C01 is next and must implement these lifecycle results. B03 later threads the
+C01's real use-case adapter now passes all six exact configuration scenarios:
+draft save, mutation-free preview, first activation, rollback, redacted export,
+and exact-workspace recovery preflight. C02 is next. B03 later threads the
 scope and state contracts more broadly through current use cases, but Phase B
 remains gated behind C10.

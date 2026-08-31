@@ -64,6 +64,17 @@ omitted.
 
 ### Added
 
+- Completed C01 with a reusable Core versioned-configuration service,
+  transactional persistence port, and bounded in-memory conformance adapter.
+  Validated reads, exact optimistic draft/revision transitions, mutation-free
+  preview, activation, rollback, redacted effective configuration/export,
+  exact-workspace recovery preflight, and finite value-free audit events now
+  run through the A05 contracts. The real use-case adapter passes all six exact
+  A08 C01 scenarios; stale, invalid, conflicting, or failed operations preserve
+  the last-known-good active configuration. No HTTP/operator shell, production
+  persistence schema, provider/account/authentication framework, package
+  hardening, deployment, or live effect was added.
+
 - Completed A08 with a versioned, executable Core Goal 1 synthetic fixture
   catalog and contract-suite interface. One self-hosted installation now binds
   rooms, screens, reference-only class-code states, courses, a manual schedule,

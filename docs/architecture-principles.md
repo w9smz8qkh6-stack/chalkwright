@@ -140,8 +140,12 @@ redacted portable exports, protected-backup manifests, and checksum-bound
 forward-only migration/rollback decisions are adapter-neutral. Full workspace
 identity includes kind and installation/organization identity rather than only
 the namespace ID, and successful executable-contract outputs detach canonical
-JSON snapshots from caller-owned objects. They are not yet threaded through the
-current runtime or SQLite schema.
+JSON snapshots from caller-owned objects. C01 now provides the reusable Core
+application service and transaction port for validated reads, drafts, preview,
+activation, rollback, redacted effective configuration/export, protected-
+recovery preflight, and finite audit events. Its in-memory adapter serializes
+exact-version decisions for conformance tests; no route, production composition
+root, SQLite schema, provider integration, or current runtime behavior changed.
 
 The completed A06
 [Core source-mode contracts](core-source-mode-contracts.md) extend the same

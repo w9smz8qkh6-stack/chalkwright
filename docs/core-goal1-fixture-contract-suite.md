@@ -90,7 +90,8 @@ or live effect. It does not define or fixture hosted organizations, accounts,
 sessions, roles, OAuth state, billing, cross-tenant behavior, commercial
 framework selection, package hardening, or a hosted/Core integration boundary.
 
-The next Goal 1 task is C01. C01 must consume these lifecycle expectations;
-C02-C04 and C09 then consume their own mapped scenarios in order. C10 is the
+The C01 application service and its real scenario adapter now consume the six
+configuration lifecycle expectations without adding a route or durable
+adapter. C02-C04 and C09 consume their own mapped scenarios next. C10 is the
 non-creator Core operator-panel acceptance gate. Phase B Core hardening and D00
 commercial architecture selection remain gated until C10 is accepted.

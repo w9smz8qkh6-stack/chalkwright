@@ -192,15 +192,19 @@ must derive organization scope from its authenticated server-side session.
 These contracts are defined but are not yet threaded into existing use cases;
 that migration remains B03 work.
 
-Future authored configuration and durable state follow the versioned
+Authored configuration and durable state follow the versioned
 [Core configuration and durable-state contracts](core-configuration-state-contracts.md):
 drafts cannot replace the immutable active validated revision without exact
 optimistic-concurrency evidence, connected sources retain only protected
 references, ordinary export is redacted and distinct from a protected backup,
 and migration failure preserves the exact prior state. Exact workspace checks
 include kind and installation/organization identity, and returned immutable or
-checksummed snapshots detach from caller-owned inputs. A05 defines those
-contracts without changing the current strict runtime schemas or SQLite database.
+checksummed snapshots detach from caller-owned inputs. C01 implements those
+lifecycle operations behind a Core transaction port, including mutation-free
+preview, redacted effective reads and export, exact-workspace recovery
+preflight, and bounded audit events. The current production composition does
+not yet invoke that service, and the strict runtime schemas and SQLite database
+remain unchanged.
 
 Detailed source definitions and acquisition follow the completed A06
 [Core source-mode contracts](core-source-mode-contracts.md). The first release
@@ -217,9 +221,9 @@ provides the shared synthetic acceptance data for the first Core panel goal:
 one self-hosted installation, rooms/screens and reference-only class-code
 states, application-managed courses/schedule/vocabulary/media, two activated
 revisions, rollback, preview, redacted export, recovery preflight, and planned
-frames. C01-C04, C09, and C10 must consume its exact expected results. It does
-not create a production configuration format, route, adapter, or provider
-connection.
+frames. C01 now consumes all six of its exact configuration expected results;
+C02-C04, C09, and C10 remain. Neither A08 nor C01 creates a production
+configuration format, route, durable adapter, or provider connection.
 
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files
