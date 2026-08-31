@@ -52,7 +52,7 @@ function shellNavigation(pageKey: OperatorPageKey): string {
 
 function shellContext(shell: OperatorGalleryShell): string {
   return shell === 'self-hosted'
-    ? `<div class="shell-context" aria-label="Self-hosted scope"><div><span>Workspace</span><strong>Synthetic local installation</strong></div><div><span>Selected display</span><strong>Room 101 · Front display</strong></div><div><span>Operator boundary</span><strong>Private listener · no account or login</strong></div></div>`
+    ? `<div class="shell-context" aria-label="Self-hosted scope"><div><span>Workspace</span><strong>Synthetic local installation</strong></div><div><span>Selected display</span><strong>Room 101 · Front display</strong></div><div><span>Operator boundary</span><strong>Private listener · no account or login</strong></div></div><p class="shell-authority-warning" role="note">Private operator access: anyone who can reach this panel can administer this installation. Do not expose it publicly.</p>`
     : `<div class="shell-context" aria-label="Hosted scope"><div><span>Organization</span><strong>Synthetic Learning Lab</strong></div><div><span>Selected display</span><strong>Room 101 · Front display</strong></div><div><span>Hosted authorization</span><strong>Scope fixed server-side before Core</strong></div></div>`;
 }
 

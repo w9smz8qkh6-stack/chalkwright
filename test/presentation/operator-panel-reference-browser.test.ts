@@ -132,6 +132,48 @@ test('reference shell reflows across required viewports and reduced motion', asy
   }
 });
 
+test('self-hosted reference remains legible without JavaScript and shows the operator-authority warning', async () => {
+  const browser = await chromium.launch({
+    executablePath: '/usr/bin/google-chrome',
+    headless: true,
+  });
+  try {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      javaScriptEnabled: false,
+      reducedMotion: 'reduce',
+    });
+    const page = await context.newPage();
+    await page.setContent(
+      renderOperatorPanelGallery({
+        styles,
+        pageKey: 'planned-display',
+        shell: 'self-hosted',
+      }),
+      { waitUntil: 'load' },
+    );
+    const warning = page.locator('.shell-authority-warning');
+    await assert.doesNotReject(() => warning.waitFor({ state: 'visible' }));
+    assert.match(
+      await warning.innerText(),
+      /anyone who can reach this panel can administer this installation/u,
+    );
+    assert.equal(await page.locator('h1').innerText(), 'Planned display');
+    assert.ok((await page.locator('[data-core-action-key]').count()) > 0);
+    assert.ok((await page.locator('[role="option"]').count()) > 0);
+    assert.ok(
+      (await page.evaluate(
+        () =>
+          document.documentElement.scrollWidth -
+          document.documentElement.clientWidth,
+      )) <= 1,
+    );
+    await context.close();
+  } finally {
+    await browser.close();
+  }
+});
+
 test('200 percent effective viewport reflows without clipping or unreachable actions', async () => {
   const browser = await chromium.launch({
     executablePath: '/usr/bin/google-chrome',

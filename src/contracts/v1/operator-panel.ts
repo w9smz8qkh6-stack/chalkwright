@@ -503,6 +503,37 @@ export const operatorAccessibilityAcceptance = {
     'Reduced motion removes non-essential animation and preserves state changes without motion-dependent meaning.',
 } as const;
 
+/**
+ * Delivery rules for the future Core shell. JavaScript may improve interaction,
+ * but it is never the only way to complete an operator task or understand the
+ * result of a server-side action.
+ */
+export const operatorDeliveryAcceptance = {
+  strategy:
+    'Existing TypeScript with complete server-rendered HTML and CSS; no client framework or bundler is required.',
+  forms: [
+    'The owning shell binds each semantic Core action key to an ordinary form or safe navigation after fixing workspace, actor, target, and capability scope server-side.',
+    'State-changing actions use non-GET form submission, explicit intent, optimistic evidence where required, and server-side validation before any effect.',
+    'A validation failure returns a complete page with an error summary, field associations, preserved non-secret input, the unchanged effective state, and a safe next action.',
+  ],
+  noJavaScript: [
+    'Every Core MVP workflow remains operable when JavaScript is unavailable: ordinary forms and complete server-rendered responses provide the authoritative path.',
+    'Planned-display date and frame selection submit through the shell and return a complete selected-frame review; JavaScript may enhance Arrow-key selection and dialog review but may not be the only review path.',
+    'Readiness, loading completion, success, conflicts, and errors remain present in page text and focusable structure without relying on client-side status updates.',
+  ],
+  reducedMotion:
+    'The no-JavaScript path is motion-free, and enhanced behavior honors reduced motion while preserving the same state and action semantics.',
+  selfHostedAuthorityWarning: {
+    placement:
+      'The self-hosted shell renders this persistent warning on every operator page before page-specific actions.',
+    text: 'Private operator access: anyone who can reach this panel can administer this installation. Do not expose it publicly.',
+    behavior:
+      'The warning is server-rendered, non-dismissible, and must not be replaced by a Core login or account affordance.',
+  },
+  hostedExclusion:
+    'The hosted shell uses authenticated account authorization and does not present the self-hosted reachability warning as its authority model.',
+} as const;
+
 export type OperatorActionIntent =
   'navigate' | 'draft' | 'preview' | 'activate' | 'destructive' | 'recovery';
 
@@ -685,6 +716,28 @@ function isStableKey(value: unknown): value is string {
   );
 }
 
+function hasUniqueKeys<
+  Value extends Record<Key, string>,
+  Key extends PropertyKey,
+>(values: readonly Value[], key: Key): boolean {
+  return new Set(values.map((value) => value[key])).size === values.length;
+}
+
+function scopedTargetIdentity(target: ScopedTarget): string {
+  switch (target.kind) {
+    case 'workspace':
+      return `workspace:${target.workspaceId}`;
+    case 'room':
+      return `room:${target.workspaceId}:${target.roomId}`;
+    case 'screen':
+      return `screen:${target.workspaceId}:${target.roomId}:${target.screenId}`;
+    case 'date':
+      return `date:${target.workspaceId}:${target.date}`;
+    case 'resource':
+      return `resource:${target.workspaceId}:${target.resourceKind}:${target.resourceId}`;
+  }
+}
+
 function isOperatorFeatureAction(
   value: unknown,
 ): value is OperatorFeatureAction {
@@ -737,6 +790,9 @@ function isOperatorReadinessSignal(
     isBoundedText(value.summary, 240) &&
     isBoundedText(value.detail) &&
     typeof value.blocksActivation === 'boolean' &&
+    (value.level === 'blocker'
+      ? value.blocksActivation === true
+      : value.blocksActivation === false) &&
     operatorPageKeys.includes(value.sourcePage as OperatorPageKey) &&
     (value.nextActionKey === null || isStableKey(value.nextActionKey))
   );
@@ -835,9 +891,28 @@ export function isOperatorFeatureRegionModel(
   }
 
   const workspace = value.workspace;
+  const targets = value.targets as readonly ScopedTarget[];
+  const readiness = value.readiness as readonly OperatorReadinessSignal[];
+  const sections = value.sections as readonly OperatorFeatureSection[];
   if (
     !isWorkspace(workspace) ||
-    value.targets.some((target) => target.workspaceId !== workspace.workspaceId)
+    targets.some((target) => target.workspaceId !== workspace.workspaceId) ||
+    new Set(targets.map(scopedTargetIdentity)).size !== targets.length ||
+    !hasUniqueKeys(readiness, 'signalKey') ||
+    !hasUniqueKeys(sections, 'sectionKey') ||
+    !hasUniqueKeys(
+      sections.flatMap((section) => section.actions),
+      'actionKey',
+    ) ||
+    sections.some(
+      (section) =>
+        !hasUniqueKeys(section.items, 'itemKey') ||
+        section.actions.some(
+          (action) =>
+            action.resource !== null &&
+            action.resource.workspaceId !== workspace.workspaceId,
+        ),
+    )
   ) {
     return false;
   }

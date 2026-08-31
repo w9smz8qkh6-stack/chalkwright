@@ -7,6 +7,7 @@ import {
   forbiddenOperatorFeatureRegionFields,
   isOperatorFeatureRegionModel,
   operatorAccessibilityAcceptance,
+  operatorDeliveryAcceptance,
   operatorPageCatalog,
   operatorPageKeys,
   operatorRegionStates,
@@ -109,6 +110,47 @@ test('planned-display and accessibility acceptance are finite and testable', () 
   ]);
   assert.match(operatorAccessibilityAcceptance.zoom, /200%/u);
   assert.match(operatorAccessibilityAcceptance.motion, /Reduced motion/u);
+  assert.equal(
+    operatorPageCatalog
+      .find((page) => page.key === 'planned-display')
+      ?.readinessEffects.filter((effect) =>
+        effect.startsWith('Partial, degraded, or stale inputs'),
+      ).length,
+    1,
+  );
+  assert.equal(
+    operatorDeliveryAcceptance.noJavaScript.filter((requirement) =>
+      requirement.startsWith('Every Core MVP workflow remains operable'),
+    ).length,
+    1,
+  );
+});
+
+test('delivery acceptance requires ordinary forms, server validation, no-JavaScript completion, and the private-listener warning', () => {
+  assert.match(operatorDeliveryAcceptance.strategy, /server-rendered HTML/u);
+  assert.match(operatorDeliveryAcceptance.strategy, /no client framework/u);
+  assert.match(operatorDeliveryAcceptance.forms.join(' '), /ordinary form/u);
+  assert.match(
+    operatorDeliveryAcceptance.forms.join(' '),
+    /server-side validation/u,
+  );
+  assert.match(
+    operatorDeliveryAcceptance.noJavaScript.join(' '),
+    /Every Core MVP workflow remains operable/u,
+  );
+  assert.match(
+    operatorDeliveryAcceptance.noJavaScript.join(' '),
+    /Planned-display date and frame selection submit through the shell/u,
+  );
+  assert.match(
+    operatorDeliveryAcceptance.selfHostedAuthorityWarning.text,
+    /anyone who can reach this panel can administer this installation/u,
+  );
+  assert.match(
+    operatorDeliveryAcceptance.selfHostedAuthorityWarning.behavior,
+    /non-dismissible/u,
+  );
+  assert.match(operatorDeliveryAcceptance.hostedExclusion, /hosted shell/u);
 });
 
 test('all page and finite-state fixtures satisfy the exact Core region guard', () => {
@@ -170,4 +212,63 @@ test('Core guard rejects shell authority, wrong scope, malformed arrays, and hos
     get: () => 'synthetic accessor',
   });
   assert.equal(isOperatorFeatureRegionModel(accessorBacked), false);
+});
+
+test('Core guard enforces nested workspace, readiness, and semantic-key coherence', () => {
+  const baseline = operatorFeatureRegionFixtures.overview;
+
+  const foreignActionResource = clone(baseline) as unknown as {
+    sections: Array<{ actions: Array<Record<string, unknown>> }>;
+  };
+  foreignActionResource.sections[0]!.actions[0]!.resource = {
+    kind: 'workspace',
+    workspaceId: 'workspace-synthetic-other',
+  };
+  assert.equal(isOperatorFeatureRegionModel(foreignActionResource), false);
+
+  const contradictoryBlocker = clone(baseline) as unknown as {
+    readiness: Array<Record<string, unknown>>;
+  };
+  contradictoryBlocker.readiness[0]!.blocksActivation = false;
+  assert.equal(isOperatorFeatureRegionModel(contradictoryBlocker), false);
+
+  const contradictoryWarning = clone(baseline) as unknown as {
+    readiness: Array<Record<string, unknown>>;
+  };
+  contradictoryWarning.readiness[1]!.blocksActivation = true;
+  assert.equal(isOperatorFeatureRegionModel(contradictoryWarning), false);
+
+  const duplicateReadiness = clone(baseline) as unknown as {
+    readiness: Array<Record<string, unknown>>;
+  };
+  duplicateReadiness.readiness[1]!.signalKey =
+    duplicateReadiness.readiness[0]!.signalKey;
+  assert.equal(isOperatorFeatureRegionModel(duplicateReadiness), false);
+
+  const duplicateSection = clone(baseline) as unknown as {
+    sections: Array<Record<string, unknown>>;
+  };
+  duplicateSection.sections[1]!.sectionKey =
+    duplicateSection.sections[0]!.sectionKey;
+  assert.equal(isOperatorFeatureRegionModel(duplicateSection), false);
+
+  const duplicateAction = clone(baseline) as unknown as {
+    sections: Array<{ actions: Array<Record<string, unknown>> }>;
+  };
+  duplicateAction.sections[1]!.actions[0]!.actionKey =
+    duplicateAction.sections[0]!.actions[0]!.actionKey;
+  assert.equal(isOperatorFeatureRegionModel(duplicateAction), false);
+
+  const duplicateItem = clone(baseline) as unknown as {
+    sections: Array<{ items: Array<Record<string, unknown>> }>;
+  };
+  duplicateItem.sections[0]!.items[1]!.itemKey =
+    duplicateItem.sections[0]!.items[0]!.itemKey;
+  assert.equal(isOperatorFeatureRegionModel(duplicateItem), false);
+
+  const duplicateTarget = clone(baseline) as unknown as {
+    targets: Array<Record<string, unknown>>;
+  };
+  duplicateTarget.targets.push(structuredClone(duplicateTarget.targets[0]!));
+  assert.equal(isOperatorFeatureRegionModel(duplicateTarget), false);
 });

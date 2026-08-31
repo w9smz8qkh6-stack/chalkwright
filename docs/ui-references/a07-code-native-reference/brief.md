@@ -20,6 +20,8 @@ persistence, authentication, provider flows, or live application behavior.
   effective CSS viewport exposed by 200% zoom from 1366x768.
 - Visible keyboard focus, reduced-motion behavior, no horizontal overflow,
   no console/page errors, and contact-sheet keyboard/focus-return behavior.
+- A legible no-JavaScript rendering and the persistent self-hosted warning that
+  private-listener reachability grants full operator authority.
 
 ## Non-goals
 

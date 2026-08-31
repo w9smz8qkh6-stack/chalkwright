@@ -75,9 +75,15 @@ omitted.
   finite states, planned-display keyboard/dialog/focus behavior, reduced
   motion, four required viewports, and 200% effective reflow. Two registered
   visual concepts and a selected code-native reference include reproducible
-  Chrome evidence. No production route, persistence adapter, provider flow,
-  authentication, schema, live UI, service, or deployment changed; A08 remains
-  the final Phase A architecture-gate task.
+  Chrome evidence. The completion contract now also makes ordinary forms and
+  complete server-validated responses authoritative without JavaScript,
+  requires a persistent self-hosted warning that reachability grants full
+  operator authority, and keeps the no-JavaScript path motion-free. Region
+  validation also rejects nested foreign-workspace action resources,
+  contradictory readiness blocking, and duplicate target, readiness, section,
+  action, or item binding keys. No production route, persistence adapter,
+  provider flow, authentication, schema, live UI, service, or deployment
+  changed; A08 remains the final Phase A architecture-gate task.
 
 - Completed A06 with versioned, adapter-neutral source-mode contracts. Every
   display stream now has an exact application-managed/uploaded/shared/connected

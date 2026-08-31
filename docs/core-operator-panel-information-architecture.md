@@ -31,8 +31,21 @@ the self-hosted route table or document wrapper.
 Both shells consume the same `OperatorFeatureRegionModel` and the same pure
 `renderOperatorFeatureRegion` export. The Core region contains semantic action
 keys and opaque scoped resource references, never URLs or authorization
-decisions. Contract guards reject additional shell-owned fields, wrong-workspace
-targets, raw HTML, sparse/decorated arrays, and hostile prototypes.
+decisions. Contract guards reject additional shell-owned fields, raw HTML,
+sparse/decorated arrays, hostile prototypes, duplicate semantic keys/targets,
+contradictory readiness levels, and wrong-workspace targets both at the region
+boundary and inside nested action resources.
+
+Every self-hosted operator page must present this persistent shell-owned warning
+before page-specific actions:
+
+> Private operator access: anyone who can reach this panel can administer this
+> installation. Do not expose it publicly.
+
+The warning is server-rendered and non-dismissible. It explains the existing
+private-reachability authority boundary; it does not introduce or imitate a
+Core login. Hosted pages use their authenticated account authorization instead
+and do not present this warning as their authority model.
 
 ## Stable navigation and page specifications
 
@@ -111,6 +124,35 @@ Action models declare intent (`navigate`, `draft`, `preview`, `activate`,
 `destructive`, or `recovery`), an optional target page/resource, a disabled
 reason, and confirmation strength. Shells map these semantic keys to authorized
 commands and URLs. The reference gallery leaves navigation inert by design.
+
+## Server-rendered actions and progressive enhancement
+
+The Core MVP uses the existing TypeScript, server-rendered HTML, and CSS
+strategy. It adds no client framework or bundler. The owning shell binds every
+semantic action key to an ordinary form or safe navigation only after fixing
+workspace, actor, target, and capability scope on the server. State-changing
+actions use non-GET submission, explicit intent, and optimistic evidence where
+the configuration-state contract requires it.
+
+Server-side validation is authoritative. An invalid submission returns a
+complete page with an error summary, programmatic field associations, preserved
+non-secret input, the unchanged effective state, and a safe next action. A
+successful submission likewise returns a complete page naming the exact
+draft, revision, activation, or recovery boundary that changed.
+
+Every Core MVP workflow must remain operable when JavaScript is unavailable.
+Ordinary forms and complete server-rendered responses are the baseline;
+JavaScript may enhance responsiveness but may not be the only submission,
+validation, date selection, frame selection, review, confirmation, success, or
+recovery path. In particular, planned-display date/frame selection submits
+through the shell and returns a complete selected-frame review. Arrow-key
+selection and modal enlargement are optional enhancements to that same
+behavior. Readiness, conflicts, loading completion, errors, and successes
+remain present in page text and focusable structure without a client-side live
+update.
+
+The no-JavaScript path is motion-free. Enhanced behavior honors reduced-motion
+preferences while preserving the same state, action, and focus semantics.
 
 ## Planned-display interaction contract
 
@@ -196,7 +238,8 @@ Its manifest records the installed Chrome version, required viewport results,
 reduced-motion state, overflow/landmark/target measurements, browser-error
 counts, images, and SHA-256 digests. Focused tests additionally prove the shell
 seam, escaping/fail-closed guards, every finite state, 200% effective reflow,
-and planned-display keyboard selection/dialog/focus return.
+the self-hosted authority warning and legible no-JavaScript reference, and
+planned-display keyboard selection/dialog/focus return.
 
 ## Deferred implementation
 

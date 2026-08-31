@@ -26,7 +26,7 @@
       },
       "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
       "image": "overview-mobile.png",
-      "sha256": "f5c89cce9e32a5399d7b2618e8cb879e8c654ce0b38bc3bb240f733040c6f01d"
+      "sha256": "3721223870dda112ba0dcf6eee713472ceac66edc4257978bd850f4f5719d968"
     },
     {
       "name": "overview-tablet",
@@ -45,7 +45,7 @@
       },
       "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
       "image": "overview-tablet.png",
-      "sha256": "2914f0e10b64a36657baca8d9d5ae695640d7ad662d69d8ea2dedb0b0daadb2f"
+      "sha256": "dcf8c0c45dc7ef4a44bd84dbf5a4e600a6c45311059c29bea9659042143babfd"
     },
     {
       "name": "planned-display-compact",
@@ -64,7 +64,7 @@
       },
       "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
       "image": "planned-display-compact.png",
-      "sha256": "70e833b798b2e03d6d4fce8395ab57172c12dbe95c4000f54e440760ce6ef5bd"
+      "sha256": "9475b9c78310d042294014648bbe9ef75efb6ed5bccfe48abbca6b4a17a12777"
     },
     {
       "name": "overview-wide",
@@ -83,7 +83,7 @@
       },
       "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
       "image": "overview-wide.png",
-      "sha256": "38bb54fdf9c1efb0f8277511422cfec407db3d1cd8b59b5d3994c12d85988128"
+      "sha256": "d26c29d8c5f9148739b254de25aa49ec9091ae8fd9b516f9b3cc0a3c6d252002"
     },
     {
       "name": "configuration-200-percent-effective",
@@ -103,7 +103,7 @@
       },
       "failures": { "consoleErrors": 0, "pageErrors": 0, "requestFailures": 0 },
       "image": "configuration-200-percent-effective.png",
-      "sha256": "f8bea328057069bc26867dd1b62862db3f05fac48ef30c3ddfc8650865da70f0"
+      "sha256": "85a88c8f83d38f53d312c9d2217a58589e08d0ae7f835a29690aef1323a7fd89"
     }
   ]
 }

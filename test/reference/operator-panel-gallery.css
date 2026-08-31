@@ -198,6 +198,18 @@ button {
   font-size: 0.92rem;
 }
 
+.shell-authority-warning {
+  max-width: 32rem;
+  margin: 0;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgb(250 204 21 / 55%);
+  border-radius: 0.65rem;
+  color: #fef9c3;
+  background: rgb(113 63 18 / 32%);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
 .hosted-navigation {
   display: flex;
   flex-wrap: wrap;
