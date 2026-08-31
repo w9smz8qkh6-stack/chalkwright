@@ -23,6 +23,7 @@ import {
   isVerifiedSourceObservation,
   logicalSourceFormats,
   scopeIdentifier,
+  sharedNetworkPolicyRegistryReview,
   sourceContractVersion,
   sourceFormatBudgets,
   sourceModeAvailability,
@@ -362,7 +363,12 @@ test('shared-resource preflight rejects private/reserved addresses, rebinding, a
     '169.254.1.1',
     '172.16.0.1',
     '192.0.2.1',
+    '192.31.196.1',
+    '192.52.193.1',
+    '192.88.99.0',
+    '192.88.99.255',
     '192.168.1.1',
+    '192.175.48.1',
     '198.51.100.1',
     '203.0.113.1',
     '224.0.0.1',
@@ -371,11 +377,34 @@ test('shared-resource preflight rejects private/reserved addresses, rebinding, a
     'fe80::1',
     'ff02::1',
     '2001:db8::1',
+    '2001:1::1',
+    '2002::1',
+    '2620:4f:8000::1',
+    '3ffe::1',
+    '3ffe:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '3fff::1',
+    '3fff:fff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '4000::1',
   ];
   for (const address of denied)
     assert.equal(isPublicNetworkAddress(address), false, address);
   assert.equal(isPublicNetworkAddress('93.184.216.34'), true);
+  assert.equal(isPublicNetworkAddress('192.88.98.255'), true);
+  assert.equal(isPublicNetworkAddress('192.88.100.0'), true);
+  assert.equal(isPublicNetworkAddress('2001:200::1'), true);
+  assert.equal(isPublicNetworkAddress('3ffd:ffff::1'), true);
+  assert.equal(isPublicNetworkAddress('3fff:1000::1'), true);
   assert.equal(isPublicNetworkAddress('2606:4700:4700::1111'), true);
+  assert.deepEqual(
+    sharedNetworkPolicyRegistryReview.sources.map((source) => source.registry),
+    [
+      'iana-ipv4-special-purpose',
+      'iana-ipv4-address-space',
+      'iana-ipv6-special-purpose',
+      'iana-ipv6-address-space',
+    ],
+  );
+  assert.equal(sharedNetworkPolicyRegistryReview.reviewedOn, '2026-08-31');
 
   const hop = validSharedPreflight.hops[0];
   assert.deepEqual(
@@ -468,6 +497,22 @@ test('connected grants are read-only, finite-state, and explicitly bound', () =>
       '2026-08-31T02:00:00.000Z',
     ),
     { status: 'rejected', reason: 'grant-not-active' },
+  );
+  assert.deepEqual(
+    evaluateConnectedSourceGrant(
+      connectedSourceDefinition,
+      activeProviderGrant,
+      '2026-08-31T00:59:59.999Z',
+    ),
+    { status: 'rejected', reason: 'grant-not-yet-valid' },
+  );
+  assert.equal(
+    evaluateConnectedSourceGrant(
+      connectedSourceDefinition,
+      activeProviderGrant,
+      activeProviderGrant.issuedAt,
+    ).status,
+    'accepted',
   );
   assert.deepEqual(
     evaluateConnectedSourceGrant(
@@ -678,6 +723,104 @@ test('failed refresh retains exact last-known-good projection and degrades then 
   if (stale.status === 'retained-last-known-good') {
     assert.equal(stale.state.freshness.status, 'stale');
     assert.equal(stale.state.projectionDigest, previous.projectionDigest);
+  }
+});
+
+test('verified and failed attempts require strict chronology and preserve detached prior state', () => {
+  const previous = committedSharedState();
+  const older = clone(verifiedSharedAttempt);
+  const olderObservation = {
+    ...older.observation,
+    acquisition: {
+      kind: 'remote-fetch' as const,
+      fetchedAt: '2026-08-31T01:58:59.000Z',
+    },
+    verifiedAt: '2026-08-31T01:59:00.000Z',
+  };
+  const olderAttempt = {
+    ...older,
+    attemptedAt: olderObservation.verifiedAt,
+    observation: olderObservation,
+    boundedRefreshWindow: {
+      nextDueAt: '2026-08-31T02:14:00.000Z',
+      expiresAt: '2026-08-31T02:59:00.000Z',
+    },
+  };
+  assert.equal(isSourceRefreshAttempt(olderAttempt), true);
+  const mutablePrevious = clone(previous) as unknown as Record<string, unknown>;
+  const olderResult = applySourceObservation(
+    mutablePrevious,
+    sharedSourceDefinition,
+    olderAttempt,
+  );
+  assert.equal(olderResult.status, 'rejected');
+  if (olderResult.status !== 'rejected') return;
+  assert.equal(olderResult.reason, 'out-of-order-attempt');
+  const retainedDigest = olderResult.previousState?.projectionDigest;
+  mutablePrevious.projectionDigest =
+    'sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
+  assert.equal(retainedDigest, previous.projectionDigest);
+  assert.equal(olderResult.previousState?.projectionDigest, retainedDigest);
+
+  const equalVerified = applySourceObservation(
+    previous,
+    sharedSourceDefinition,
+    verifiedSharedAttempt,
+  );
+  assert.equal(equalVerified.status, 'rejected');
+  if (equalVerified.status === 'rejected') {
+    assert.equal(equalVerified.reason, 'out-of-order-attempt');
+  }
+  const equalFailure = applySourceObservation(
+    previous,
+    sharedSourceDefinition,
+    failedAttempt(previous.lastAttempt.attemptedAt),
+  );
+  assert.equal(equalFailure.status, 'rejected');
+  if (equalFailure.status === 'rejected') {
+    assert.equal(equalFailure.reason, 'out-of-order-attempt');
+  }
+});
+
+test('committed projections require coherent acquisition, commit, freshness, and attempt chronology', () => {
+  const previous = committedSharedState();
+  const invalidStates = [
+    {
+      ...previous,
+      committedAt: '2026-08-31T01:59:59.000Z',
+    },
+    {
+      ...previous,
+      lastAttempt: {
+        ...previous.lastAttempt,
+        attemptedAt: '2026-08-31T01:59:59.000Z',
+      },
+    },
+    {
+      ...previous,
+      freshness: {
+        ...previous.freshness,
+        lastSuccessAt: '2026-08-31T01:59:59.000Z',
+      },
+    },
+    {
+      ...previous,
+      freshness: {
+        ...previous.freshness,
+        lastAttemptAt: '2026-08-31T02:00:02.000Z',
+      },
+    },
+    {
+      ...previous,
+      lastAttempt: {
+        status: 'failed',
+        attemptedAt: previous.lastAttempt.attemptedAt,
+        diagnosticCode: 'refresh-failed',
+      },
+    },
+  ];
+  for (const state of invalidStates) {
+    assert.equal(isCommittedSourceProjectionState(state), false);
   }
 });
 

@@ -706,57 +706,171 @@ export interface SharedResourcePreflight extends ContractEnvelope {
   readonly contentDigest: Sha256Digest;
 }
 
-function ipv4IsPublic(address: string): boolean {
-  const parts = address.split('.').map(Number);
-  if (parts.length !== 4 || parts.some((part) => part < 0 || part > 255)) {
-    return false;
-  }
-  const [a = 0, b = 0, c = 0] = parts;
-  if (a === 0 || a === 10 || a === 127 || a >= 224) return false;
-  if (a === 100 && b >= 64 && b <= 127) return false;
-  if (a === 169 && b === 254) return false;
-  if (a === 172 && b >= 16 && b <= 31) return false;
-  if (a === 192 && b === 168) return false;
-  if (a === 192 && b === 0) return false;
-  if (a === 192 && b === 0 && c === 2) return false;
-  if (a === 198 && (b === 18 || b === 19)) return false;
-  if (a === 198 && b === 51 && c === 100) return false;
-  if (a === 203 && b === 0 && c === 113) return false;
-  return true;
+interface NetworkPrefixPolicyEntry {
+  readonly cidr: string;
+  readonly basis:
+    | 'iana-ipv4-special-purpose'
+    | 'iana-ipv4-address-space'
+    | 'iana-ipv6-special-purpose'
+    | 'iana-ipv6-address-space';
 }
 
-function ipv6IsPublic(address: string): boolean {
-  const normalized = address.toLowerCase();
-  const hextets = normalized.split(':');
-  const first = Number.parseInt(hextets[0] ?? '', 16);
-  const second = Number.parseInt(hextets[1] ?? '0', 16);
+export const sharedNetworkPolicyRegistryReview = {
+  reviewedOn: '2026-08-31',
+  sources: [
+    {
+      registry: 'iana-ipv4-special-purpose',
+      lastUpdated: '2025-10-09',
+      reference: 'https://www.iana.org/assignments/iana-ipv4-special-registry/',
+    },
+    {
+      registry: 'iana-ipv4-address-space',
+      lastUpdated: '2025-10-10',
+      reference: 'https://www.iana.org/assignments/ipv4-address-space/',
+    },
+    {
+      registry: 'iana-ipv6-special-purpose',
+      lastUpdated: '2025-10-09',
+      reference: 'https://www.iana.org/assignments/iana-ipv6-special-registry/',
+    },
+    {
+      registry: 'iana-ipv6-address-space',
+      lastUpdated: '2025-10-23',
+      reference: 'https://www.iana.org/assignments/ipv6-address-space/',
+    },
+  ],
+  maintenanceCondition:
+    'Review before shared-resource implementation and whenever an IANA source registry updates.',
+} as const;
+
+/**
+ * Conservative snapshot reviewed against the IANA IPv4 Special-Purpose and
+ * IPv4 Address Space registries on 2026-08-31. Nested registry entries are
+ * coalesced under their containing prefix; even globally reachable special
+ * anycast ranges remain denied because shared-resource fetching needs ordinary
+ * public destinations, not protocol-specific infrastructure.
+ */
+const deniedIpv4NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
+  { cidr: '0.0.0.0/8', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '10.0.0.0/8', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '100.64.0.0/10', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '127.0.0.0/8', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '169.254.0.0/16', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '172.16.0.0/12', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.0.0.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.0.2.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.31.196.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.52.193.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.88.99.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.168.0.0/16', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '192.175.48.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '198.18.0.0/15', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '198.51.100.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '203.0.113.0/24', basis: 'iana-ipv4-special-purpose' },
+  { cidr: '224.0.0.0/4', basis: 'iana-ipv4-address-space' },
+  { cidr: '240.0.0.0/4', basis: 'iana-ipv4-special-purpose' },
+] as const;
+
+/**
+ * Conservative snapshot reviewed against the IANA IPv6 Special-Purpose and
+ * IPv6 Address Space registries on 2026-08-31. The positive envelope is the
+ * currently allocated 2000::/3 global-unicast block; special-purpose prefixes
+ * inside it and the returned 3ffe::/16 6bone block are denied explicitly.
+ */
+const allowedIpv6NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
+  { cidr: '2000::/3', basis: 'iana-ipv6-address-space' },
+] as const;
+
+const deniedIpv6NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
+  { cidr: '::/128', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '::1/128', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '::ffff:0:0/96', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '64:ff9b::/96', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '64:ff9b:1::/48', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '100::/64', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '100:0:0:1::/64', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '2001::/23', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '2001:db8::/32', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '2002::/16', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '2620:4f:8000::/48', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '3ffe::/16', basis: 'iana-ipv6-address-space' },
+  { cidr: '3fff::/20', basis: 'iana-ipv6-special-purpose' },
+  { cidr: '5f00::/16', basis: 'iana-ipv6-special-purpose' },
+  { cidr: 'fc00::/7', basis: 'iana-ipv6-special-purpose' },
+  { cidr: 'fe80::/10', basis: 'iana-ipv6-special-purpose' },
+] as const;
+
+function ipv4ToInteger(address: string): bigint {
+  return address
+    .split('.')
+    .map(Number)
+    .reduce((value, octet) => (value << 8n) | BigInt(octet), 0n);
+}
+
+function ipv6ToInteger(address: string): bigint {
+  let normalized = address.toLowerCase();
+  if (normalized.includes('.')) {
+    const separator = normalized.lastIndexOf(':');
+    const ipv4 = normalized.slice(separator + 1);
+    const value = ipv4ToInteger(ipv4);
+    normalized = `${normalized.slice(0, separator)}:${(
+      (value >> 16n) &
+      0xffffn
+    ).toString(16)}:${(value & 0xffffn).toString(16)}`;
+  }
+  const [left = '', right = ''] = normalized.split('::');
+  const leftParts = left === '' ? [] : left.split(':');
+  const rightParts = right === '' ? [] : right.split(':');
+  const omitted = 8 - leftParts.length - rightParts.length;
+  const parts = [
+    ...leftParts,
+    ...Array.from({ length: omitted }, () => '0'),
+    ...rightParts,
+  ];
+  return parts.reduce(
+    (value, part) => (value << 16n) | BigInt(`0x${part}`),
+    0n,
+  );
+}
+
+function addressMatchesPrefix(address: string, cidr: string): boolean {
+  const [network = '', prefixText = ''] = cidr.split('/');
+  const family = isIP(address);
+  if (family === 0 || family !== isIP(network)) return false;
+  const prefixLength = Number(prefixText);
+  const bitLength = family === 4 ? 32 : 128;
   if (
-    normalized === '::' ||
-    normalized === '::1' ||
-    normalized.startsWith('::ffff:') ||
-    normalized.startsWith('64:ff9b:') ||
-    normalized.startsWith('100:') ||
-    normalized.startsWith('fc') ||
-    normalized.startsWith('fd') ||
-    normalized.startsWith('fe8') ||
-    normalized.startsWith('fe9') ||
-    normalized.startsWith('fea') ||
-    normalized.startsWith('feb') ||
-    normalized.startsWith('ff') ||
-    normalized.startsWith('2001:db8:') ||
-    (first === 0x2001 && second <= 0x2f)
+    !Number.isInteger(prefixLength) ||
+    prefixLength < 0 ||
+    prefixLength > bitLength
   ) {
     return false;
   }
-  return Number.isFinite(first) && first >= 0x2000 && first <= 0x3fff;
+  const shift = BigInt(bitLength - prefixLength);
+  const addressValue =
+    family === 4 ? ipv4ToInteger(address) : ipv6ToInteger(address);
+  const networkValue =
+    family === 4 ? ipv4ToInteger(network) : ipv6ToInteger(network);
+  return addressValue >> shift === networkValue >> shift;
 }
 
 export function isPublicNetworkAddress(address: unknown): address is string {
   if (typeof address !== 'string') return false;
   const family = isIP(address);
-  return family === 4
-    ? ipv4IsPublic(address)
-    : family === 6 && ipv6IsPublic(address);
+  if (family === 4) {
+    return !deniedIpv4NetworkPrefixes.some(({ cidr }) =>
+      addressMatchesPrefix(address, cidr),
+    );
+  }
+  return (
+    family === 6 &&
+    allowedIpv6NetworkPrefixes.some(({ cidr }) =>
+      addressMatchesPrefix(address, cidr),
+    ) &&
+    !deniedIpv6NetworkPrefixes.some(({ cidr }) =>
+      addressMatchesPrefix(address, cidr),
+    )
+  );
 }
 
 function isSharedResourceHopEvidence(
@@ -1214,6 +1328,7 @@ export type ConnectedGrantAdmissionResult =
         | 'workspace-mismatch'
         | 'grant-mismatch'
         | 'grant-not-active'
+        | 'grant-not-yet-valid'
         | 'grant-expired'
         | 'capability-missing'
         | 'resource-not-selected';
@@ -1244,6 +1359,12 @@ export function evaluateConnectedSourceGrant(
   }
   if (grant.status !== 'active' || grant.protectedGrantReference === null) {
     return { status: 'rejected', reason: 'grant-not-active' };
+  }
+  if (
+    grant.issuedAt === null ||
+    Date.parse(evaluatedAt) < Date.parse(grant.issuedAt)
+  ) {
+    return { status: 'rejected', reason: 'grant-not-yet-valid' };
   }
   if (
     grant.expiresAt === null ||

@@ -10,6 +10,18 @@ omitted.
 
 ### Fixed
 
+- Corrected the A06 shared-resource and chronology contracts before
+  acceptance. A table-driven, dependency-free network policy now denies the
+  reviewed IANA IPv4/IPv6 special-purpose snapshot, IPv4 reserved space, IPv6
+  outside the current global-unicast envelope, `192.88.99.0/24`, IPv6
+  documentation `3fff::/20`, and returned 6bone `3ffe::/16`, with an explicit
+  registry review/maintenance condition. Verified and failed source attempts
+  now require strictly increasing chronology, including deterministic rejection
+  of equal timestamps while returning detached prior state. Active connected
+  grants cannot admit reads before issuance or at/after expiry, and committed
+  projection validation now binds acquisition, commit, freshness, and attempt
+  times coherently.
+
 - Corrected the new A05 contracts so exact workspace identity means the full
   A04 discriminated workspace: kind and workspace ID plus installation ID or
   organization ID. Commands, previews, exports, protected restores, migration

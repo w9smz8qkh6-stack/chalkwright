@@ -117,15 +117,36 @@ and has at most two retries, four fan-out targets, and two concurrent fetches
 per workspace under the fixed policy.
 
 Every redirect hop records bounded DNS answers at resolution, the answers held
-through connection, and the actual peer. All must be globally routable; mixed
-public/private answers, loopback, private, link-local, carrier-grade NAT,
-documentation, benchmarking, multicast, unspecified, IPv4-mapped, and reserved
-addresses are rejected. Changed answers are DNS rebinding, and a peer outside
-the held answer set is a peer mismatch. Content type, logical format, byte,
-record, field, and processing limits are checked before an observation can
-exist. UTF-8 and logical structure must validate, and active content, formulas,
-and external references are denied. Accepted evidence omits URLs and addresses
-from downstream state.
+through connection, and the actual peer. All must be ordinary public
+destinations. A dependency-free CIDR policy conservatively denies every
+coalesced prefix in the reviewed IANA special-purpose snapshot, IPv4
+multicast/future-use space, IPv6 outside the current `2000::/3` global-unicast
+envelope, special-purpose prefixes inside that envelope, and the returned
+`3ffe::/16` 6bone block. This includes mixed public/private answers, loopback,
+private, link-local, carrier-grade NAT, documentation (`192.0.2.0/24`,
+`198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`, and `3fff::/20`),
+benchmarking, multicast, unspecified, IPv4-mapped, `192.88.99.0/24`, and other
+reserved/special destinations. Globally reachable special anycast entries are
+also denied deliberately; a shared source has no reason to target
+protocol-specific infrastructure.
+
+The table was reviewed on 2026-08-31 against the official
+[IANA IPv4 Special-Purpose Address Registry](https://www.iana.org/assignments/iana-ipv4-special-registry/)
+(last updated 2025-10-09),
+[IPv4 Address Space Registry](https://www.iana.org/assignments/ipv4-address-space/)
+(2025-10-10),
+[IANA IPv6 Special-Purpose Address Registry](https://www.iana.org/assignments/iana-ipv6-special-registry/)
+(2025-10-09), and
+[IPv6 Address Space Registry](https://www.iana.org/assignments/ipv6-address-space/)
+(2025-10-23). It is a checked-in conservative snapshot, not a dynamically
+complete claim about future registry changes. Re-review is required before
+shared-resource implementation and whenever any source registry updates.
+
+Changed DNS answers are rebinding, and a peer outside the held answer set is a
+peer mismatch. Content type, logical format, byte, record, field, and processing
+limits are checked before an observation can exist. UTF-8 and logical structure
+must validate, and active content, formulas, and external references are denied.
+Accepted evidence omits URLs and addresses from downstream state.
 
 Adapters remain responsible for enforcing the same checks in the actual DNS,
 redirect, socket, proxy, and egress path. A validator cannot make an
@@ -147,11 +168,12 @@ instant so one-use completion is explicit. The contract contains no verifier
 bytes or OAuth tokens.
 
 Provider grant state is finite: `pending`, `active`, `partial`, `expired`,
-`reconnect-required`, or `revoked`. Only an active, unexpired, exact-workspace
-grant containing the required capability and selected resource admits a
-connected read. Partial consent, expiry, reconnect, and revocation fail with a
-finite status; protected grant material remains an opaque reference resolved
-only by a shell-supplied protected-store capability.
+`reconnect-required`, or `revoked`. Only an active, exact-workspace grant at or
+after `issuedAt` and strictly before `expiresAt`, containing the required
+capability and selected resource, admits a connected read. A premature active
+grant returns `grant-not-yet-valid`; partial consent, expiry, reconnect, and
+revocation also fail with finite statuses. Protected grant material remains an
+opaque reference resolved only by a shell-supplied protected-store capability.
 
 Provider data authorization remains independent of self-hosted operator
 reachability and hosted account login. It cannot authorize a source mutation,
@@ -184,6 +206,16 @@ The executable transition has four outcomes:
    fabricate a projection.
 4. Invalid, cross-workspace, out-of-order, or definition-mismatched input is
    rejected while returning a detached copy of any prior state.
+
+Attempt chronology is strictly increasing once prior state exists. Both an
+older attempt and an equal-timestamp replay return `out-of-order-attempt` and
+the detached prior projection; neither success nor failure receives a
+last-write-wins exception. Structurally accepted committed state must bind
+acquisition at/before commit, the verified commit to its attempt, every later
+attempt at/after commit, mode-specific provenance to its exact freshness time,
+and bounded freshness to the exact last-attempt time. The transition can
+therefore trust prior chronology without accepting an internally contradictory
+snapshot.
 
 There is no partial commit and no unverified fallback. Display and viewer
 consumers receive only a committed normalized projection, never acquisition

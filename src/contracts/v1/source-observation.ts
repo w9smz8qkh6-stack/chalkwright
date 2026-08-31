@@ -199,7 +199,10 @@ export type ApplySourceObservationResult =
   | {
       readonly status: 'rejected';
       readonly reason:
-        'invalid-contract' | 'workspace-mismatch' | 'definition-mismatch';
+        | 'invalid-contract'
+        | 'workspace-mismatch'
+        | 'definition-mismatch'
+        | 'out-of-order-attempt';
       readonly previousState: CommittedSourceProjectionState | null;
     };
 
@@ -373,6 +376,42 @@ function isSourceAttemptSummary(value: unknown): value is SourceAttemptSummary {
         isSourceDiagnosticCode(value.diagnosticCode);
 }
 
+function freshnessMatchesProjectionState(
+  freshness: SourceFreshness,
+  acquisition: SourceAcquisitionProvenance,
+  committedAt: IsoInstant,
+  lastAttempt: SourceAttemptSummary,
+): boolean {
+  if (
+    Date.parse(acquisitionInstant(acquisition)) > Date.parse(committedAt) ||
+    Date.parse(lastAttempt.attemptedAt) < Date.parse(committedAt) ||
+    (lastAttempt.status === 'verified' &&
+      lastAttempt.attemptedAt !== committedAt)
+  ) {
+    return false;
+  }
+  if (acquisition.kind === 'managed-observation') {
+    return (
+      freshness.basis === 'managed-revision' &&
+      freshness.effectiveAt === acquisition.observedAt
+    );
+  }
+  if (acquisition.kind === 'uploaded-import') {
+    return (
+      freshness.basis === 'immutable-import' &&
+      freshness.importedAt === acquisition.importedAt
+    );
+  }
+  return (
+    freshness.basis === 'bounded-refresh' &&
+    freshness.lastSuccessAt === acquisition.fetchedAt &&
+    freshness.lastAttemptAt === lastAttempt.attemptedAt &&
+    (lastAttempt.status === 'failed'
+      ? freshness.status !== 'current'
+      : freshness.status === 'current')
+  );
+}
+
 export function isCommittedSourceProjectionState(
   value: unknown,
 ): value is CommittedSourceProjectionState {
@@ -420,8 +459,12 @@ export function isCommittedSourceProjectionState(
     }
     return (
       acquisitionMatchesMode(value.acquisition, value.mode) &&
-      Date.parse(acquisitionInstant(value.acquisition)) <=
-        Date.parse(value.committedAt) &&
+      freshnessMatchesProjectionState(
+        value.freshness,
+        value.acquisition,
+        value.committedAt,
+        value.lastAttempt,
+      ) &&
       (value.lastAttempt.status !== 'verified' ||
         value.lastAttempt.observationId === value.observationId)
     );
@@ -638,6 +681,13 @@ export function applySourceObservation(
       ? definitionMatchesObservation(definition, attempt.observation)
       : definitionMatchesFailure(definition, attempt);
   if (!attemptMatches) return rejected('definition-mismatch', previous);
+  if (
+    previous !== null &&
+    Date.parse(attempt.attemptedAt) <=
+      Date.parse(previous.lastAttempt.attemptedAt)
+  ) {
+    return rejected('out-of-order-attempt', previous);
+  }
 
   if (attempt.outcome === 'verified-observation') {
     const observation = attempt.observation;
@@ -675,12 +725,6 @@ export function applySourceObservation(
   }
   if (!priorMatchesDefinitionIdentity(previous, definition)) {
     return rejected('definition-mismatch', previous);
-  }
-  if (
-    Date.parse(attempt.attemptedAt) <
-    Date.parse(previous.lastAttempt.attemptedAt)
-  ) {
-    return rejected('invalid-contract', previous);
   }
   const freshness =
     previous.freshness.basis === 'bounded-refresh'
