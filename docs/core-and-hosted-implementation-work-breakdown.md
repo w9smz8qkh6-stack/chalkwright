@@ -11,10 +11,13 @@ billing, deployment, or public exposure.
   MVP dispositions, exclusions, safety boundaries, acceptance evidence, and
   task traceability in the
   [feature acceptance matrix](core-and-hosted-feature-acceptance-matrix.md).
-- **Next:** A02 threat-models the newly frozen surfaces and authority
-  boundaries.
-- **Architecture gate:** A03 through A08 remain incomplete. Do not begin Phase B
-  until A02-A08 are complete and the architecture-ready gate is satisfied.
+  A02 applied those boundaries in the authoritative
+  [threat model](core-and-hosted-threat-model.md), including security invariants,
+  residual-risk dispositions, and 18 negative-test families.
+- **Next:** A03 resolves the security-significant implementation choices in
+  proposed ADR-0026 against the threat model.
+- **Architecture gate:** A04 through A08 remain incomplete. Do not begin Phase B
+  until A03-A08 are complete and the architecture-ready gate is satisfied.
 
 ## Execution rules
 
@@ -69,6 +72,10 @@ Depends on: A01.
 
 Complete when: assets, actors, entry points, abuse cases, mitigations, residual
 risks, and required negative tests are reviewed.
+
+Completed by: the
+[Core and hosted threat model](core-and-hosted-threat-model.md). Its `must
+never` invariants and negative-test catalog govern all downstream tasks.
 
 ### A03 — Resolve ADR-0026 implementation choices
 

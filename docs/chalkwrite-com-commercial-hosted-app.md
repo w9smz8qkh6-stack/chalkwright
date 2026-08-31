@@ -419,6 +419,13 @@ classroom text is transmitted.
 
 ## Security and privacy baseline
 
+The authoritative [Core and hosted threat model](core-and-hosted-threat-model.md)
+turns this baseline into stable threats, security invariants, residual-risk
+dispositions, and downstream negative-test obligations. In particular, hosted
+account authorization, class-code viewer admission, Core operator reachability,
+and provider consent are independent authorities; no one of them establishes
+another.
+
 ### Account and session security
 
 - Use a well-supported local authentication library while retaining

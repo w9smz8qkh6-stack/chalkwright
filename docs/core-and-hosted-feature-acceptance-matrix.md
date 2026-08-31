@@ -8,6 +8,11 @@ commercial hosted shell. It freezes product disposition for A01 without
 accepting [ADR-0026](decisions/0026-public-core-and-hosted-shell.md), choosing an
 implementation mechanism, or authorizing a live effect.
 
+The [A02 threat model](core-and-hosted-threat-model.md) applies the frozen
+surfaces and authority boundaries to assets, actors, entry points, abuse cases,
+mitigations, residual-risk dispositions, and mandatory negative tests. Later
+tasks must satisfy both documents rather than reinterpret the A01 boundary.
+
 ## Scope and interpretation
 
 The matrix distinguishes five layers and surfaces:
@@ -216,6 +221,6 @@ profiles by `PRES-01`/`LANG-01`; student personalization by `STUDENT-01`/
 
 The explicit exclusions and unresolved-decision register prevent A01 from
 deciding A02 threat details, A03 packaging, provider enrollment, authentication
-or billing vendors, pilot infrastructure, or other live effects. A02 is the
-next task; A03 through A08 remain required before the architecture-ready gate
-is complete and Phase B may begin.
+or billing vendors, pilot infrastructure, or other live effects. A02 has now
+completed the linked threat model. A03 is next; A04 through A08 remain required
+before the architecture-ready gate is complete and Phase B may begin.

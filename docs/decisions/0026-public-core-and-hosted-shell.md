@@ -200,6 +200,13 @@ upgrade/rollback path without any commercial credential or service.
 
 ## Verification implications
 
+The [A02 threat model](../core-and-hosted-threat-model.md) is the governing
+security evidence for these implications. A03 must evaluate the implementation
+choices below against its route-confusion, operator-exposure, tenant-scope,
+artifact-integrity, configuration-state, and infrastructure-isolation threats.
+The ADR remains Proposed until those choices are resolved; completing A02 did
+not select a package or process mechanism.
+
 - Dependency checks prove public Core packages never import commercial code and
   the hosted shell never imports the self-hosted entry point or route table.
 - Core release tests prove an installation can be configured, refreshed,
@@ -213,6 +220,9 @@ upgrade/rollback path without any commercial credential or service.
   use case and prove workspace scope is derived from the authenticated session.
 - Compatibility tests install the exact pinned Core artifact, run migrations,
   and reject an unsupported Core/hosted version combination before deployment.
+- Adversarial tests satisfy the threat model's stable `NT-01` through `NT-18`
+  families at the assigned downstream gates; a failed `must never` invariant or
+  unresolved High residual risk blocks the affected release.
 
 ## Open implementation decisions
 

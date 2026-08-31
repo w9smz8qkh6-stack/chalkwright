@@ -40,6 +40,16 @@ omitted.
 
 ### Added
 
+- Completed the A02 architecture threat model for the frozen Core and hosted
+  surfaces. Stable threats now cover private Core operator ingress, display
+  admission, hosted accounts and tenant scope, OAuth/provider grants, untrusted
+  content and acquisition, jobs, billing, lifecycle/support, Core artifacts,
+  denial of service, and pilot isolation, with explicit assets, actors,
+  mitigations, residual-risk dispositions, security invariants, 18 downstream
+  negative-test families, and blocking treatment for unresolved High risk. A03
+  is next; A04-A08 remain required, Phase B has not begun, and no live effect
+  occurred.
+
 - Completed the A01 architecture baseline with an authoritative Core/hosted
   feature acceptance matrix. Stable feature IDs now map owning layers,
   self-hosted and hosted availability, classroom and student surfaces, MVP and
