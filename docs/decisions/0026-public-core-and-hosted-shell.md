@@ -117,8 +117,10 @@ Authorization remains a shell responsibility:
 
 Core use cases still validate ownership and scope invariants. They must not
 accept a customer-supplied organization identifier as proof of authorization.
-This choice controls `T-TENANT-01`, `T-TENANT-02`, and `NT-10`; `A04` defines
-the concrete scope contracts.
+This choice controls `T-TENANT-01`, `T-TENANT-02`, and `NT-10`; A04's accepted
+[workspace and actor contracts](../core-workspace-actor-contracts.md) define
+the concrete versioned scope shapes. Applying them throughout current use cases
+remains B03 work.
 
 ## Selected implementation choices
 

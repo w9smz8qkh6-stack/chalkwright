@@ -185,6 +185,12 @@ separate commercial repository consumes one exact verified Core package through
 restricted exports below the HTTP layer rather than embedding the
 unauthenticated Core route table; see
 [ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
+Both shells invoke future reusable operations through the explicit
+[Core workspace and actor contracts](core-workspace-actor-contracts.md). The
+self-hosted shell supplies one installation-owned workspace; the hosted shell
+must derive organization scope from its authenticated server-side session.
+These contracts are defined but are not yet threaded into existing use cases;
+that migration remains B03 work.
 
 A setup command will validate that file, collect or reference protected values
 through separate enrollment steps, and generate least-authority runtime files

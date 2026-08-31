@@ -40,6 +40,15 @@ omitted.
 
 ### Added
 
+- Completed A04 with versioned, JSON-safe Core workspace and actor contracts.
+  Self-hosted installation and hosted organization workspaces are structurally
+  distinct; nominal room, screen, date, resource, actor, capability, operation,
+  and correlation scope is explicit; six authorities remain non-transitive;
+  exact runtime guards fail closed on malformed or cross-scope data; and audit
+  projection is bounded to identifiers. Focused compile-time and runtime tests
+  cover the boundary. Existing use cases remain unchanged for B03, A05 is next,
+  and no package restructure, provider, route, service, or live effect occurred.
+
 - Accepted ADR-0026 and completed the A03 Core/hosted boundary decision. The
   initial architecture uses TypeScript project references plus one restricted-
   export Core package, packed local and immutable GitHub Release artifacts

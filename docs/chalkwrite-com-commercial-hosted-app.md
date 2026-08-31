@@ -136,6 +136,12 @@ derives the organization workspace on the server, and then calls a shared Core
 use case through a supported package export. The self-hosted shell supplies one
 installation-owned workspace through the same contract.
 
+The versioned
+[Core workspace and actor contracts](core-workspace-actor-contracts.md) make
+that seam concrete. Actor attribution is not authentication, request-carried
+organization data is not authorization, and hosted-account, viewer, provider,
+billing, and support authority remain structurally independent.
+
 The self-hosted package uses separate operator and display processes and service
 identities. Its operator process is loopback/Unix-socket private by default and
 is not published by repository-supplied deployment examples. The display

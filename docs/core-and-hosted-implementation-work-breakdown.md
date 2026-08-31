@@ -17,9 +17,13 @@ billing, deployment, or public exposure.
   [ADR-0026](decisions/0026-public-core-and-hosted-shell.md) with project
   references and restricted exports, GitHub Release tarballs, separate operator
   and display processes, exact `0.x` Core/hosted pairing, and a typed feature-
-  region presentation seam.
-- **Next:** A04 defines workspace, actor, resource, and audit-scope contracts.
-- **Architecture gate:** A05 through A08 remain incomplete after A04. Do not
+  region presentation seam. A04 added the versioned
+  [workspace and actor contracts](core-workspace-actor-contracts.md), exact
+  fail-closed runtime guards, independent authority grants, and bounded audit
+  projection without applying them to existing use cases.
+- **Next:** A05 defines configuration, persistence, migrations, revisions, and
+  audit-event schemas.
+- **Architecture gate:** A05 through A08 remain incomplete. Do not
   begin Phase B until A04-A08 are complete and the architecture-ready gate is
   satisfied.
 
@@ -108,6 +112,11 @@ Depends on: A02, A03.
 
 Complete when: versioned types distinguish Core invariants from shell
 authentication and authorization responsibilities.
+
+Completed by: the versioned
+[Core workspace and actor contracts](core-workspace-actor-contracts.md) and
+their focused compile-time/runtime tests. Existing use-case integration remains
+explicitly deferred to B03.
 
 ### A05 — Define configuration, persistence, and migrations
 

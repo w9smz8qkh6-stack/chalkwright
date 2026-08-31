@@ -8,3 +8,4 @@ export * from './retirement-decisions.js';
 export * from './runtime.js';
 export * from './schedule.js';
 export * from './visual-baseline.js';
+export * from './workspace.js';
