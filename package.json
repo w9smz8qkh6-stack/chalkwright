@@ -18,6 +18,7 @@
     "build": "tsc -p tsconfig.build.json && npm run client:build",
     "client:build": "tsc -p tsconfig.client.json",
     "client:check": "tsc -p tsconfig.client.json --noEmit",
+    "architecture:check": "node scripts/check-architecture-dependencies.mjs",
     "capture:public-preview": "npm run build --silent && node scripts/capture-public-preview.mjs --write",
     "capture:operator-panel-reference": "tsc -p tsconfig.test.json && node scripts/capture-operator-panel-reference.mjs --write",
     "docs:check": "npm run environment:check --silent && node scripts/update-tooling-index.mjs --check && node scripts/check-local-doc-links.mjs && node scripts/check-changelog.mjs",
@@ -61,8 +62,8 @@
     "setup:site-media": "node scripts/setup-site-media.mjs",
     "typecheck": "tsc -p tsconfig.json",
     "test": "npm run client:build --silent && tsc -p tsconfig.test.json && node --test --test-concurrency=1 \".test-dist/test/**/*.test.js\" \"test/**/*.test.mjs\"",
-    "check": "npm run docs:check && npm run fixtures:check && npm run ops:verify && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js",
-    "check:portable": "npm run docs:check:portable && npm run fixtures:check && npm run ops:verify && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js",
+    "check": "npm run docs:check && npm run fixtures:check && npm run ops:verify && npm run architecture:check && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js",
+    "check:portable": "npm run docs:check:portable && npm run fixtures:check && npm run ops:verify && npm run architecture:check && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js",
     "start": "node dist/index.js"
   },
   "engines": {

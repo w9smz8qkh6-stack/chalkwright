@@ -321,12 +321,13 @@ HTTP boundary and addresses `T-CONTENT-01`, `T-CORE-02`, `T-TENANT-01`,
 
 No step below is performed by this ADR:
 
-1. **B01:** add composite TypeScript projects and extend architecture checks
-   around the existing directories. Preserve the current single-package build
-   as the rollback path until both build outputs are byte/contract qualified.
-2. **B02:** create the one Core package manifest and restricted export map,
-   change internal consumers to supported entry points, and prove a packed
-   consumer succeeds while deep and self-hosted imports fail.
+1. **B01:** add the executable source-layer dependency-direction check around
+   the existing directories. Preserve the current single-package build and
+   document any exact temporary composition seams as the rollback path.
+2. **B02:** add composite TypeScript projects, create the one Core package
+   manifest and restricted export map, change internal consumers to supported
+   entry points, and prove a packed consumer succeeds while deep and
+   self-hosted imports fail.
 3. **B03:** apply the `A04` workspace/actor contracts to every shared operation
    and adapter before any hosted consumer exists.
 4. **B04:** extract explicit self-hosted composition roots around the supported
@@ -420,9 +421,9 @@ decision.
 
 ## Verification implications
 
-- `B01` project-reference and architecture tests prove dependency direction;
-  introducing a reversed dependency fails both compiler/build and focused
-  architecture evidence.
+- `B01` architecture evidence proves current source dependency direction;
+  introducing a reversed dependency, an alias bypass, or an unclassified
+  in-tree module fails the focused guard. `B02` adds the compiler/build graph.
 - `B02` package tests prove only deliberate Core exports resolve from a packed
   consumer and direct source, deep, route-table, composition-root, and
   self-hosted-entry-point imports fail (`T-SUPPLY-01`, `NT-15`).

@@ -211,13 +211,23 @@ live UI, service, or deployment changed.
 
 ### B01 — Enforce internal dependency direction
 
-Add architecture checks for domain, application, ports, contracts,
-infrastructure, presentation, and entry points.
+Completed by the repository-owned `npm run architecture:check` guard and
+focused negative fixtures. It classifies the current domain, contracts, ports,
+application, infrastructure, presentation, configuration, composition, and
+entry-point source areas; uses TypeScript syntax parsing for
+static/type-only/re-export/import-type/import-equals/dynamic/require imports
+plus configured aliases; fails closed for unclassified in-tree source or a
+non-static module request;
+and rejects forbidden reverse edges with deterministic messages. The documented
+matrix preserves the existing single-package behavior, including narrowly
+named pre-B02/B04 application-to-infrastructure compatibility seams, without
+authorizing new seams or restructuring runtime code.
 
 Depends on: A03, A04.
 
-Complete when: existing behavior passes and a reversed dependency fails a
-focused test.
+Complete: existing behavior passes and a reversed dependency, alias bypass, or
+unclassified source fails focused evidence. B02 remains responsible for the
+composite TypeScript project graph and restricted public exports.
 
 ### B02 — Introduce deliberate Core exports
 

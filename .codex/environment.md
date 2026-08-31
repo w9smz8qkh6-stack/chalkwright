@@ -40,8 +40,8 @@ fails when it is stale.
 
 ### Primary commands
 
-- `npm run check`: `npm run docs:check && npm run fixtures:check && npm run ops:verify && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js`
-- `npm run check:portable`: `npm run docs:check:portable && npm run fixtures:check && npm run ops:verify && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js`
+- `npm run check`: `npm run docs:check && npm run fixtures:check && npm run ops:verify && npm run architecture:check && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js`
+- `npm run check:portable`: `npm run docs:check:portable && npm run fixtures:check && npm run ops:verify && npm run architecture:check && npm run format:check && npm run typecheck && npm run client:check && npm test && npm run build && npm run smoke && node dist/entrypoints/rehearsal.js && node dist/entrypoints/m16-rehearsal.js`
 - `npm run docs:check`: `npm run environment:check --silent && node scripts/update-tooling-index.mjs --check && node scripts/check-local-doc-links.mjs && node scripts/check-changelog.mjs`
 - `npm run docs:sync`: `node scripts/update-tooling-index.mjs --write && npm run environment:sync --silent`
 - `npm run build`: `tsc -p tsconfig.build.json && npm run client:build`

@@ -13,6 +13,9 @@
   behavior ledger, acceptance criteria, dispositions, and open unknowns.
 - [Architecture principles](architecture-principles.md) — enduring boundaries,
   canonical flow, state ownership, isolation, and accepted/proposed choices.
+- [Internal dependency direction](internal-dependency-direction.md) — B01
+  source-layer classification, allowed dependency matrix, compatibility seams,
+  and executable handoff guard.
 - [Migration strategy](migration-strategy.md) — phased risk-reduction strategy,
   promotion/stop gates, continuity, and rollback posture.
 - [Migration execution plan](migration-plan.md) — dependency-ordered work,
@@ -211,6 +214,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Engineering standards](engineering-standards.md) — `engineering-standards.md`
 - [Future parity roadmap](future-parity-roadmap.md) — `future-parity-roadmap.md`
 - [Offline glossary catalog](glossary-catalog.md) — `glossary-catalog.md`
+- [Internal dependency direction](internal-dependency-direction.md) — `internal-dependency-direction.md`
 - [Documentation-backed learning objectives](learning-objectives.md) — `learning-objectives.md`
 - [Legacy parity inventory](legacy-parity-inventory.md) — `legacy-parity-inventory.md`
 - [Migration execution plan](migration-plan.md) — `migration-plan.md`

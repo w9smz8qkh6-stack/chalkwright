@@ -64,6 +64,19 @@ omitted.
 
 ### Added
 
+- Completed B01 with an executable source-layer dependency-direction guard.
+  The repository now classifies every `src/` TypeScript module, resolves normal,
+  type-only, re-export, import-type, import-equals, literal dynamic/`require`,
+  and configured-alias imports through the TypeScript compiler API, and fails
+  closed for unclassified modules, non-static module requests, or forbidden
+  reverse dependencies.
+  The documented matrix protects domain/contracts/ports/presentation and
+  entry-point ownership while preserving the current single-package runtime.
+  Thirteen exact legacy application-to-infrastructure composition seams are
+  temporarily explicit; new seams are rejected and B02/B04 own their removal.
+  No package/export restructuring, route, provider, persistence, service, or
+  live effect changed.
+
 - Completed A08 with version 1.0.0 of the shared synthetic fixture catalog and
   adapter-free contract-suite interface. Fixed JSON-safe cases now cover
   self-hosted installation/hosted organization identity; A04 actor/capacity/

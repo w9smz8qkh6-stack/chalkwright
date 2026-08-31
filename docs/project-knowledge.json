@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "87d018cee18e14445a26302a19b388eb6aadbfb18136777a60b881e2392d02a8",
-    "statement": "The phase, capabilities, workstreams, limits, repository-backed deployment claim, M-18 retirement record, and completed A01-A08 architecture work were reviewed together against the accepted A07 commit 1962ae7 and the A08 sources, fixtures, documentation, and focused contract evidence in this worktree. A08 now supplies a versioned JSON-safe shared catalog and adapter-free scenario-only consumer seam that composes the A04 workspace, A05 configuration lifecycle, and all four A06 source modes into deterministic accepted and independently denied installation, scope, configuration, source, course/schedule/vocabulary/media, OAuth, preview, and cross-tenant cases. A consumer receives a detached scenario but never an expected decision; the suite checks its decision against the catalog and a committed digest detects catalog-byte drift. The exact display/student release registry rejects arbitrary names, misclassification, omissions, duplicates, nested values, and restricted, unclassified, raw-provider, account, diagnostic, internal-plan, secret-like, and private-link categories. The catalog covers NT-03, NT-04, NT-09, NT-10, NT-11, NT-14, and NT-18 without importing routes, storage, providers, authentication, or runtime adapters. A01-A08 now satisfy the architecture-ready gate; Phase B remains unstarted. A08 changes no production route, listener, persistence adapter/schema, parser/fetcher, OAuth client, provider enrollment, authentication, billing, hosted repository, service, deployment, live UI, or classroom data. Landing-page and synthetic-display worktrees remain separately owned, and no live application, provider, credential, route, or classroom-display probe was performed."
+    "implementationFingerprint": "695768fbf07fb9f5d3a0ef002fa30f4a2eb7f017a9eaf2c1a631f82cbb27a798",
+    "statement": "The phase, capabilities, workstreams, limits, repository-backed deployment claim, M-18 retirement record, completed A01-A08 architecture work, and B01 source-direction guard were reviewed together against the A08 baseline and this worktree's sources, documentation, and focused negative evidence. B01 starts Phase B without restructuring the runtime: it classifies every TypeScript module under src, uses the installed TypeScript compiler API for normal, type-only, re-export, import-type, import-equals, literal dynamic/require, and configured-alias imports, and fails closed for unclassified in-tree modules, non-static module requests, or forbidden reverse dependencies. The finite matrix protects pure domain/contracts/ports/presentation and entry-point ownership. Thirteen pre-B02/B04 application-to-infrastructure composition seams are explicit transitional exceptions, so no new adapter ownership can be introduced silently. B02 still owns TypeScript project references and restricted Core exports; B04 owns composition-root extraction. A08 continues to supply the versioned JSON-safe shared catalog and detached scenario-only conformance seam. No production route, listener, persistence adapter/schema, parser/fetcher, OAuth client, provider enrollment, authentication, billing, hosted repository, service, deployment, live UI, classroom data, or external system changed. Landing-page and synthetic-display worktrees remain separately owned, and no live application, provider, credential, route, or classroom-display probe was performed."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -26,7 +26,7 @@
   "priorities": [
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
-    "Preserve the completed A01-A08 architecture gate while any Phase B package restructuring or operator-panel implementation is separately scoped and authorized.",
+    "Preserve B01 dependency direction while B02 package restructuring and later operator-panel implementation remain separately scoped and authorized.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
     "Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority."
   ],
@@ -41,7 +41,7 @@
   "nextDecisions": [
     "What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.",
     "What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.",
-    "Which separately authorized Phase B implementation slice should first consume the completed A08 shared contract-suite seam."
+    "Whether B02 should first introduce the reviewed composite project graph and restricted Core exports, or whether a separately authorized implementation slice should first consume the completed A08 shared contract-suite seam."
   ],
   "capabilities": [
     {
@@ -266,6 +266,20 @@
       "documentation": ["docs/b407-display-mvp.md", "docs/project-state.md"]
     },
     {
+      "id": "internal-dependency-direction",
+      "name": "Executable internal dependency direction",
+      "status": "implemented",
+      "summary": "Classifies all TypeScript source modules and rejects forbidden in-tree layer dependencies before handoff while preserving the current single-package layout.",
+      "safety": "Unknown in-tree source, alias-based bypasses, and reverse dependencies fail closed; the explicit legacy composition seams cannot be extended without changing the reviewed guard and documentation.",
+      "implementation": ["scripts/check-architecture-dependencies.mjs"],
+      "tests": ["test/scripts/check-architecture-dependencies.test.mjs"],
+      "documentation": [
+        "docs/internal-dependency-direction.md",
+        "docs/decisions/0026-public-core-and-hosted-shell.md",
+        "docs/core-and-hosted-implementation-work-breakdown.md"
+      ]
+    },
+    {
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "planned",
@@ -446,12 +460,13 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A08 are complete and the architecture-ready gate is satisfied; Phase B remains unstarted. A08 defines version 1.0.0 of the shared synthetic fixture catalog and reusable adapter-free scenario-only consumer seam. It composes the existing A04 workspace, A05 configuration lifecycle, and all four A06 source modes into deterministic JSON-safe accepted and independently denied installation, scope, configuration, source, course/schedule/vocabulary/media, OAuth lifecycle, mutation-free preview, and cross-tenant cases. Every family has both dispositions; distinct denials cover wrong actor/workspace/room/screen/resource/grant, wrong/replayed/expired OAuth, wrong/replayed/stale/mutating preview, malformed input, unsafe privacy, conflict, rollback, and cross-workspace export/import/backup/restore. A consumer receives a cloned scenario without an expectation; the suite alone compares its response and a committed digest detects catalog drift. The exact privacy registry enumerates released display/student scalar fields and rejects arbitrary/misclassified names, registry omissions/duplicates, restricted, unclassified, raw-provider, account, diagnostic, internal-plan, secret-like, private-link, duplicate, unknown, and nested values. The suite covers NT-03, NT-04, NT-09, NT-10, NT-11, NT-14, and NT-18 and fails closed for hostile catalog shapes, missing coverage, thrown consumers, and mismatched results. These contracts are not threaded into use cases or adapters; no parser, fetcher, OAuth client, production route, live UI, persistence schema, provider enrollment, account flow, hosted repository, billing integration, service, deployment, or classroom data changed.",
+      "currentState": "A01 through A08 remain complete, and B01 is the first completed Phase B task. B01 adds the repository-owned architecture direction check without changing runtime behavior or restructuring the application. It classifies every TypeScript file beneath src as contracts, domain, ports, application, infrastructure, presentation, configuration, composition, or entry points; uses TypeScript syntax parsing for ordinary, type-only, re-export, import-type, import-equals, literal dynamic/require, and configured-alias imports; fails closed for unclassified in-tree modules and non-static module requests; and gives deterministic errors for forbidden reverse dependencies. The finite matrix keeps domain/contracts/ports/presentation inward and preserves entry-point ownership. Thirteen existing application-to-infrastructure composition seams are exact transitional exceptions only; B02 must replace reusable shapes with contracts/ports and B04 must extract concrete construction. A08 continues to provide the adapter-free shared conformance seam, but neither it nor B01 threads new contracts into use cases/adapters. No parser, fetcher, OAuth client, production route, live UI, persistence schema, provider enrollment, account flow, hosted repository, billing integration, service, deployment, classroom data, or external system changed.",
       "nextSteps": [
         "Keep the A08 catalog and privacy inventory versioned whenever a later implementation releases a new display or student field.",
-        "Begin a Phase B task only under separate scoped authorization; this completed planning work does not authorize a package, adapter, route, or UI implementation."
+        "Use B02 to introduce the reviewed TypeScript project graph and restricted Core exports; it must remove or narrow B01 transitional composition seams rather than treating them as a public boundary."
       ],
       "capabilities": [
+        "internal-dependency-direction",
         "guided-setup",
         "preview-and-controls",
         "durable-state",
@@ -471,6 +486,7 @@
         "docs/core-source-mode-contracts.md",
         "docs/core-operator-panel-information-architecture.md",
         "docs/core-shared-synthetic-fixture-suite.md",
+        "docs/internal-dependency-direction.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/ui-references/registry.json",
         "docs/ui-references/**",
@@ -493,6 +509,7 @@
         "src/contracts/v1/index.ts",
         "src/presentation/operator-panel-region.ts",
         "src/presentation/index.ts",
+        "scripts/check-architecture-dependencies.mjs",
         "test/fixtures/configuration-state.ts",
         "test/fixtures/source-contracts.ts",
         "test/fixtures/operator-panel.ts",
@@ -504,6 +521,7 @@
         "test/contracts/v1/shared-fixture-suite.test.ts",
         "test/presentation/operator-panel-region.test.ts",
         "test/presentation/operator-panel-reference-browser.test.ts",
+        "test/scripts/check-architecture-dependencies.test.mjs",
         "test/reference/operator-panel-gallery.ts",
         "test/reference/operator-panel-gallery.css",
         "test/reference/**",
@@ -518,6 +536,7 @@
         "docs/core-source-mode-contracts.md",
         "docs/core-operator-panel-information-architecture.md",
         "docs/core-shared-synthetic-fixture-suite.md",
+        "docs/internal-dependency-direction.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/project-state.md"
       ]
