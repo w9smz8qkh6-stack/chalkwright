@@ -20,6 +20,7 @@ import type {
 const DEFAULT_REQUEST_TIMEOUT_MS = 10_000;
 const DEFAULT_GRACEFUL_CLOSE_TIMEOUT_MS = 5_000;
 const MAX_URL_BYTES = 2_048;
+const MAX_FORM_BYTES = 8_192;
 const FORWARDED_HEADERS = [
   'forwarded',
   'x-forwarded-for',
@@ -34,6 +35,10 @@ type OperatorRoute =
   | { readonly kind: 'health' }
   | { readonly kind: 'readiness' }
   | { readonly kind: 'stylesheet' }
+  | {
+      readonly kind: 'display-mutation';
+      readonly action: 'save-draft' | 'rotate-class-code' | 'revoke-class-code';
+    }
   | { readonly kind: 'redirect' };
 
 const routeTable = new Map<string, OperatorRoute>([
@@ -42,6 +47,18 @@ const routeTable = new Map<string, OperatorRoute>([
   ['/health', { kind: 'health' }],
   ['/ready', { kind: 'readiness' }],
   ['/assets/operator-shell.css', { kind: 'stylesheet' }],
+  [
+    '/actions/displays/save-draft',
+    { kind: 'display-mutation', action: 'save-draft' },
+  ],
+  [
+    '/actions/displays/rotate-class-code',
+    { kind: 'display-mutation', action: 'rotate-class-code' },
+  ],
+  [
+    '/actions/displays/revoke-class-code',
+    { kind: 'display-mutation', action: 'revoke-class-code' },
+  ],
   ...Object.entries(coreOperatorPagePaths).map(
     ([pageKey, path]) =>
       [path, { kind: 'page', pageKey: pageKey as OperatorPageKey }] as const,
@@ -102,7 +119,7 @@ function validateIngress(
   request: IncomingMessage,
   authority: string,
   origin: string,
-): 'GET' | 'HEAD' {
+): 'GET' | 'HEAD' | 'POST' {
   const host = request.headers.host;
   if (host === undefined || host !== authority) {
     throw new OperatorProtocolError(
@@ -139,8 +156,8 @@ function validateIngress(
     }
     const contentType = request.headers['content-type'];
     if (
-      contentType !== undefined &&
-      !contentType.toLowerCase().startsWith('application/x-www-form-urlencoded')
+      contentType === undefined ||
+      !/^application\/x-www-form-urlencoded(?:\s*;|\s*$)/iu.test(contentType)
     ) {
       throw new OperatorProtocolError(
         415,
@@ -148,12 +165,15 @@ function validateIngress(
         'Mutation content type is not allowed.',
       );
     }
-    throw new OperatorProtocolError(
-      405,
-      'method_not_allowed',
-      'Method not allowed.',
-      { Allow: 'GET, HEAD' },
-    );
+    if (method !== 'POST') {
+      throw new OperatorProtocolError(
+        405,
+        'method_not_allowed',
+        'Method not allowed.',
+        { Allow: 'GET, HEAD, POST' },
+      );
+    }
+    return 'POST';
   }
   const requestOrigin = request.headers.origin;
   if (requestOrigin !== undefined && requestOrigin !== origin) {
@@ -164,6 +184,46 @@ function validateIngress(
     );
   }
   return method;
+}
+
+async function readForm(
+  request: IncomingMessage,
+): Promise<Readonly<Record<string, string>>> {
+  const chunks: Buffer[] = [];
+  let total = 0;
+  for await (const chunk of request) {
+    const bytes = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    total += bytes.byteLength;
+    if (total > MAX_FORM_BYTES) {
+      throw new OperatorProtocolError(
+        413,
+        'form_too_large',
+        'Form body is too large.',
+      );
+    }
+    chunks.push(bytes);
+  }
+  const values = new URLSearchParams(Buffer.concat(chunks).toString('utf8'));
+  const fields: Record<string, string> = Object.create(null) as Record<
+    string,
+    string
+  >;
+  for (const [name, value] of values) {
+    if (
+      name.length === 0 ||
+      name.length > 64 ||
+      value.length > 256 ||
+      Object.hasOwn(fields, name)
+    ) {
+      throw new OperatorProtocolError(
+        400,
+        'invalid_form',
+        'Form body is invalid.',
+      );
+    }
+    fields[name] = value;
+  }
+  return fields;
 }
 
 function parseRoute(request: IncomingMessage): OperatorRoute {
@@ -248,9 +308,40 @@ async function dispatchRoute(options: {
   readonly route: OperatorRoute;
   readonly controller: CoreOperatorHttpController;
   readonly response: ServerResponse;
-  readonly method: 'GET' | 'HEAD';
+  readonly request: IncomingMessage;
+  readonly method: 'GET' | 'HEAD' | 'POST';
 }): Promise<void> {
-  const { route, controller, response, method } = options;
+  const { route, controller, response, request, method } = options;
+  if (route.kind === 'display-mutation') {
+    if (method !== 'POST') {
+      throw new OperatorProtocolError(
+        405,
+        'method_not_allowed',
+        'Method not allowed.',
+        { Allow: 'POST' },
+      );
+    }
+    const result = await controller.mutateDisplay(
+      route.action,
+      await readForm(request),
+    );
+    sendBytes(
+      response,
+      'GET',
+      result.status,
+      'text/html; charset=utf-8',
+      result.document,
+    );
+    return;
+  }
+  if (method === 'POST') {
+    throw new OperatorProtocolError(
+      405,
+      'method_not_allowed',
+      'Method not allowed.',
+      { Allow: 'GET, HEAD' },
+    );
+  }
   if (route.kind === 'redirect') {
     sendBytes(
       response,
@@ -360,6 +451,7 @@ export async function startCoreOperatorHttpServer(
           route,
           controller: options.controller,
           response,
+          request,
           method,
         });
       } catch (error) {

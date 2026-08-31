@@ -11,6 +11,7 @@ import {
   type SelfHostedWorkspace,
 } from '../../contracts/v1/index.js';
 import type { VersionedConfigurationService } from '../configuration/versioned-configuration-service.js';
+import type { DisplayConfigurationService } from './display-configuration-service.js';
 
 export type CoreOperatorCapabilityStatus = 'available' | 'planned';
 
@@ -44,6 +45,7 @@ const implementationTaskByPage = {
 const implementedTasks = new Set<CoreOperatorCapability['implementationTask']>([
   'C01',
   'C02',
+  'C03',
 ]);
 
 function sentenceLabel(value: string): string {
@@ -84,6 +86,7 @@ export class CoreOperatorShellService {
   constructor(
     readonly workspace: SelfHostedWorkspace,
     readonly configuration: VersionedConfigurationService,
+    readonly displays: DisplayConfigurationService,
   ) {}
 
   discoverCapabilities(): readonly CoreOperatorCapability[] {
@@ -142,6 +145,8 @@ export class CoreOperatorShellService {
       read.status === 'ready'
         ? (read.state.activePointer?.revisionId ?? null)
         : null;
+    const displayProjection =
+      pageKey === 'displays' ? await this.displays.project() : null;
     const readiness: OperatorReadinessSignal[] = [
       {
         signalKey: 'private-operator-boundary',
@@ -193,6 +198,41 @@ export class CoreOperatorShellService {
             },
           ]
         : []),
+      ...(displayProjection === null
+        ? []
+        : displayProjection.blockers.length === 0
+          ? [
+              {
+                signalKey: 'display-configuration-ready',
+                level: 'ready' as const,
+                summary: 'Display configuration is ready',
+                detail:
+                  'Timezone, rooms, screens, and display references are available from the active last-known-good revision.',
+                blocksActivation: false,
+                sourcePage: 'displays' as const,
+                nextActionKey: null,
+              },
+              ...displayProjection.warnings.map((code) => ({
+                signalKey: code,
+                level: 'warning' as const,
+                summary: 'Viewer admission is not active',
+                detail:
+                  'The screen remains configured, but viewers need a newly rotated class code before admission is available.',
+                blocksActivation: false,
+                sourcePage: 'displays' as const,
+                nextActionKey: 'rotate-class-code',
+              })),
+            ]
+          : displayProjection.blockers.map((code) => ({
+              signalKey: code,
+              level: 'blocker' as const,
+              summary: 'Display configuration needs attention',
+              detail:
+                'A required timezone, room, screen, or display reference is unavailable. The active revision is unchanged.',
+              blocksActivation: true,
+              sourcePage: 'displays' as const,
+              nextActionKey: 'save-screen-draft',
+            }))),
     ];
 
     const sections =
@@ -243,35 +283,93 @@ export class CoreOperatorShellService {
               actions: [],
             },
           ]
-        : [
-            {
-              sectionKey: 'capability-summary',
-              heading: page.label,
-              summary: page.purpose,
-              state: available ? ('ready' as const) : ('unavailable' as const),
-              items: page.informationHierarchy.map((heading, index) =>
-                item(
-                  `capability-${index + 1}`,
-                  heading,
-                  available
-                    ? 'Available in this shell'
-                    : `Planned in ${implementationTask}`,
-                  available
-                    ? 'Rendered from the accepted Core contract without account or provider authority.'
-                    : 'The stable page is present, but this capability remains intentionally inactive.',
-                  available ? 'ready' : 'disabled',
-                ),
-              ),
-              actions: available
-                ? []
-                : page.primaryActions.map((actionKey) =>
-                    disabledAction(
-                      actionKey,
-                      `${implementationTask} must be completed before this action is available.`,
-                    ),
+        : pageKey === 'displays' && displayProjection !== null
+          ? [
+              {
+                sectionKey: 'installation-timezone',
+                heading: 'Installation timezone',
+                summary:
+                  'School-day calculations use the timezone in the active last-known-good revision.',
+                state:
+                  displayProjection.timeZone === null
+                    ? ('unavailable' as const)
+                    : ('ready' as const),
+                items: [
+                  item(
+                    'timezone',
+                    'IANA timezone',
+                    displayProjection.timeZone ?? 'Not configured',
+                    'Draft changes do not affect the display until an eligible revision is activated.',
+                    displayProjection.timeZone === null ? 'empty' : 'ready',
                   ),
-            },
-          ];
+                ],
+                actions: [],
+              },
+              ...displayProjection.rooms.map((room) => ({
+                sectionKey: `room-${room.roomId}`,
+                heading: room.label,
+                summary: `${room.screens.length} configured screen${room.screens.length === 1 ? '' : 's'} in this room.`,
+                state: 'ready' as const,
+                items: room.screens.flatMap((screen) => [
+                  item(
+                    `screen-${screen.screenId}`,
+                    screen.label,
+                    screen.enabled ? 'Enabled' : 'Disabled',
+                    `Screen reference: ${screen.screenId}`,
+                    screen.enabled ? 'ready' : 'disabled',
+                  ),
+                  item(
+                    `display-reference-${screen.screenId}`,
+                    'Display URL',
+                    screen.displayReference,
+                    'This low-privilege ingress is separate from the private operator listener.',
+                  ),
+                  item(
+                    `class-code-${screen.screenId}`,
+                    'Viewer class code',
+                    screen.classCodeState === 'active'
+                      ? `Active · verifier ${screen.verifierVersion}`
+                      : screen.classCodeState === 'revoked'
+                        ? `Revoked · verifier ${screen.verifierVersion}`
+                        : 'Not configured',
+                    'The verifier is slowly hashed. A plaintext code is shown only once after rotation.',
+                    screen.classCodeState === 'active' ? 'ready' : 'recovery',
+                  ),
+                ]),
+                actions: [],
+              })),
+            ]
+          : [
+              {
+                sectionKey: 'capability-summary',
+                heading: page.label,
+                summary: page.purpose,
+                state: available
+                  ? ('ready' as const)
+                  : ('unavailable' as const),
+                items: page.informationHierarchy.map((heading, index) =>
+                  item(
+                    `capability-${index + 1}`,
+                    heading,
+                    available
+                      ? 'Available in this shell'
+                      : `Planned in ${implementationTask}`,
+                    available
+                      ? 'Rendered from the accepted Core contract without account or provider authority.'
+                      : 'The stable page is present, but this capability remains intentionally inactive.',
+                    available ? 'ready' : 'disabled',
+                  ),
+                ),
+                actions: available
+                  ? []
+                  : page.primaryActions.map((actionKey) =>
+                      disabledAction(
+                        actionKey,
+                        `${implementationTask} must be completed before this action is available.`,
+                      ),
+                    ),
+              },
+            ];
 
     return {
       contractVersion,
@@ -292,7 +390,11 @@ export class CoreOperatorShellService {
               : 'ready'
             : 'disabled',
       mutationBoundary:
-        pageKey === 'planned-display' ? 'preview-only' : 'read-only',
+        pageKey === 'planned-display'
+          ? 'preview-only'
+          : pageKey === 'displays'
+            ? 'draft-only'
+            : 'read-only',
       statusAnnouncement: null,
       readiness,
       sections,

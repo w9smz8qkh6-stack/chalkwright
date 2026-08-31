@@ -4,6 +4,12 @@ export interface CoreOperatorHttpController {
   renderPage(pageKey: OperatorPageKey): string | Promise<string>;
   capabilities(): unknown | Promise<unknown>;
   readiness(): unknown | Promise<unknown>;
+  mutateDisplay(
+    action: 'save-draft' | 'rotate-class-code' | 'revoke-class-code',
+    fields: Readonly<Record<string, string>>,
+  ):
+    | { readonly status: number; readonly document: string }
+    | Promise<{ readonly status: number; readonly document: string }>;
 }
 
 export interface CoreOperatorHttpServerOptions {

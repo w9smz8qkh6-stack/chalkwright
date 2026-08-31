@@ -1,6 +1,6 @@
 # Core operator shell
 
-Status: C02 implemented for synthetic qualification. This document describes
+Status: C02-C03 implemented for synthetic qualification. This document describes
 the private, no-login self-hosted operator process and its deliberate limits.
 It does not claim a durable production configuration adapter, installed service,
 public ingress, or completed Core operator MVP.
@@ -39,10 +39,16 @@ The operator listener recognizes only:
   readability; and
 - `/assets/operator-shell.css` for the shell-owned stylesheet.
 
-All paths use `GET` or `HEAD`. C02 adds no mutation route. A non-read request
-must first provide the exact same Origin and an approved ordinary-form content
-type, then receives `405 Method Not Allowed`; foreign or missing mutation
-origins fail earlier. The request target must be an exact canonical origin-form
+C03 adds three exact ordinary-form actions under `/actions/displays/` for
+display-draft save, class-code rotation, and class-code/session revocation.
+Their behavior and protected-state boundary are documented in
+[Core display configuration and viewer admission](core-display-configuration.md).
+
+All page and discovery paths use `GET` or `HEAD`; only the three C03 action
+paths accept `POST`. A non-read request must first provide the exact same Origin
+and an approved ordinary-form content type. Foreign or missing mutation origins
+fail earlier, and POST to any read route returns `405 Method Not Allowed`. The
+request target must be an exact canonical origin-form
 path before route lookup, so authority-form, dot-segment, encoded dot-segment,
 and backslash-normalized targets cannot alias a known handler. Requests with an
 unexpected Host, foreign read Origin, forwarding header, query string, unknown
@@ -63,15 +69,16 @@ inside the self-hosted document, navigation, fixed installation context, and
 authority warning.
 
 All seven stable pages render now so navigation and information architecture do
-not drift. Capability discovery marks only C01/C02-backed areas available:
+not drift. Capability discovery marks C01-C03-backed areas available:
 
 - overview, presentation, configuration, and diagnostics/recovery are readable;
-- displays remains planned for C03;
+- displays projects rooms, screens, timezone, display references, readiness,
+  and protected viewer-admission controls from C03;
 - sources remains planned for C04; and
 - planned-display remains planned for C09.
 
 Planned pages remain visible with disabled actions and the owning WBS item.
-C02 does not implement later tasks early. Reading any page is mutation-free and
+C02-C03 do not implement later tasks early. Reading any page is mutation-free and
 does not advance the C01 state version or active revision.
 
 The shell uses complete server-rendered HTML and CSS with no client script,
@@ -112,8 +119,8 @@ Focused tests prove:
 - the accepted responsive, reduced-motion, keyboard/focus, no-JavaScript, and
   reflow evidence.
 
-C02 does not add rooms/screens/class-code behavior, source forms or acquisition,
-planned-display projection, durable SQLite schemas/adapters, provider OAuth,
+C02-C03 do not add source forms or acquisition, planned-display projection,
+durable SQLite schemas/adapters, provider OAuth,
 accounts/authentication, hosted or commercial framework code, package
-hardening, installed services, deployment, or live effects. C03 is the next
+hardening, installed services, deployment, or live effects. C04 is the next
 authoritative WBS item; Phase B and D00 remain gated until C10.

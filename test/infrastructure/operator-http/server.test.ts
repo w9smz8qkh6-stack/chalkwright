@@ -12,6 +12,8 @@ import { VersionedConfigurationService } from '../../../src/application/configur
 import { operatorPageKeys } from '../../../src/contracts/v1/index.js';
 import { startClassroomHttpServer } from '../../../src/infrastructure/http/index.js';
 import { InMemoryConfigurationStateRepository } from '../../../src/infrastructure/memory/configuration-state.js';
+import { InMemoryDisplayAccessRepository } from '../../../src/infrastructure/memory/display-access.js';
+import { DisplayConfigurationService } from '../../../src/application/operator-panel/display-configuration-service.js';
 import { coreOperatorPagePaths } from '../../../src/presentation/core-operator-shell.js';
 import { coreGoal1FixtureCatalog } from '../../fixtures/core-goal1.js';
 
@@ -179,6 +181,28 @@ test('Host, Origin, forwarding, method, and content-type negatives fail closed',
     ).status,
     415,
   );
+  assert.equal(
+    (
+      await rawRequest(running, '/actions/displays/rotate-class-code', {
+        method: 'POST',
+        headers: { Host: authority, Origin: running.origin },
+      })
+    ).status,
+    415,
+  );
+  assert.equal(
+    (
+      await rawRequest(running, '/actions/displays/rotate-class-code', {
+        method: 'POST',
+        headers: {
+          Host: authority,
+          Origin: running.origin,
+          'Content-Type': 'application/x-www-form-urlencoded+json',
+        },
+      })
+    ).status,
+    415,
+  );
   const method = await rawRequest(running, '/overview', {
     method: 'POST',
     headers: {
@@ -193,6 +217,68 @@ test('Host, Origin, forwarding, method, and content-type negatives fail closed',
     (await fetch(`${running.origin}/overview?workspace=other`)).status,
     400,
   );
+});
+
+test('same-origin display controls rotate and revoke viewer authority without changing operator reachability', async () => {
+  const configuration = new VersionedConfigurationService(
+    new InMemoryConfigurationStateRepository([
+      coreGoal1FixtureCatalog.configurationStates.rolledBack,
+    ]),
+  );
+  const access = new InMemoryDisplayAccessRepository();
+  const running = await startCoreOperatorApplication({
+    host: '127.0.0.1',
+    port: 0,
+    workspace: coreGoal1FixtureCatalog.workspace,
+    configuration,
+    displayAccess: access,
+    displayOrigin: 'https://display.synthetic.invalid',
+  });
+  runningServers.push(running);
+  const screenId = coreGoal1FixtureCatalog.screens[0]!.screenId;
+  const rotate = await fetch(
+    `${running.origin}/actions/displays/rotate-class-code`,
+    {
+      method: 'POST',
+      headers: { Origin: running.origin },
+      body: new URLSearchParams({ screenId }),
+    },
+  );
+  assert.equal(rotate.status, 200);
+  const rotateBody = await rotate.text();
+  const code = rotateBody.match(/aria-label="New class code">([^<]+)</u)?.[1];
+  assert.ok(code);
+
+  const displays = new DisplayConfigurationService(
+    coreGoal1FixtureCatalog.workspace,
+    configuration,
+    access,
+    'https://display.synthetic.invalid',
+    () => new Date('2035-03-18T10:00:00.000Z'),
+  );
+  const admitted = await displays.admitViewer(screenId, code);
+  assert.equal(admitted.status, 'admitted');
+  if (admitted.status !== 'admitted') return;
+  assert.equal(
+    await displays.validateViewerSession(screenId, admitted.sessionToken),
+    true,
+  );
+
+  const second = await fetch(
+    `${running.origin}/actions/displays/rotate-class-code`,
+    {
+      method: 'POST',
+      headers: { Origin: running.origin },
+      body: new URLSearchParams({ screenId }),
+    },
+  );
+  assert.equal(second.status, 200);
+  assert.equal(
+    await displays.validateViewerSession(screenId, admitted.sessionToken),
+    false,
+  );
+  assert.equal((await fetch(`${running.origin}/displays`)).status, 200);
+  assert.equal((await fetch(`${running.origin}/ready`)).status, 200);
 });
 
 test('request targets must be canonical origin-form paths before route lookup', async () => {
@@ -219,6 +305,7 @@ test('operator bind must be explicit loopback and display ingress cannot resolve
     renderPage: () => '<main>synthetic</main>',
     capabilities: () => [],
     readiness: () => ({ ready: true }),
+    mutateDisplay: () => ({ status: 200, document: '<main>synthetic</main>' }),
   };
   await assert.rejects(
     startCoreOperatorHttpServer({
@@ -255,6 +342,9 @@ test('unexpected controller failures render a finite HTML boundary without detai
     },
     capabilities: () => [],
     readiness: () => ({ ready: false }),
+    mutateDisplay: () => {
+      throw new Error('synthetic-private-canary-value');
+    },
   };
   const running = await startCoreOperatorHttpServer({
     controller,

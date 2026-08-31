@@ -64,6 +64,21 @@ omitted.
 
 ### Added
 
+- Completed C03 with private Core controls for IANA timezone, room/screen draft
+  additions, HTTPS display references, class-code rotation/revocation, and
+  screen-scoped viewer sessions. Generated 128-bit class codes are returned
+  once; protected state retains only an `scrypt-v1` verifier, while viewer
+  sessions retain only a SHA-256 token digest and current verifier version.
+  Rotation and revocation atomically clear prior sessions without changing
+  private operator authority or the active last-known-good configuration.
+  Uniform viewer denials, a bounded five-per-minute failure window, exact
+  workspace/screen scope, twelve-hour maximum session lifetime, same-origin
+  URL-encoded form guards, bounded bodies, and the exact A08 C03 projection are
+  covered by focused tests. The no-JavaScript Displays page adds readiness,
+  draft-only continuity guidance, and one-time code results without adding a
+  public viewer route, durable production adapter, account/authentication,
+  provider connection, framework, deployment, or live effect.
+
 - Completed C02 with a distinct explicit-loopback Core operator process, closed
   operator-only route table, server-rendered seven-page shell, navigation,
   capability/readiness discovery, finite error boundary, and responsive,

@@ -180,6 +180,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Chalkwright Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md) — `core-and-hosted-implementation-work-breakdown.md`
 - [Chalkwright Core and Hosted Threat Model](core-and-hosted-threat-model.md) — `core-and-hosted-threat-model.md`
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
+- [Core display configuration and viewer admission](core-display-configuration.md) — `core-display-configuration.md`
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) — `core-goal1-fixture-contract-suite.md`
 - [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
 - [Core operator shell](core-operator-shell.md) — `core-operator-shell.md`

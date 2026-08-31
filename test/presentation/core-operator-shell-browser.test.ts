@@ -133,3 +133,40 @@ test('shell remains complete without JavaScript and at the 200 percent effective
   assert.equal(page.url(), `${running.origin}/sources`);
   await context.close();
 });
+
+test('C03 display controls reflow and expose the one-time class-code result without JavaScript', async () => {
+  const context = await browser.newContext({
+    viewport: { width: 683, height: 384 },
+    javaScriptEnabled: false,
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  await page.goto(`${running.origin}/displays`, { waitUntil: 'load' });
+  assert.equal(await page.locator('h1').innerText(), 'Displays');
+  assert.equal(
+    await page.locator('form[action$="rotate-class-code"]').count(),
+    2,
+  );
+  assert.ok(
+    (await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    )) <= 1,
+  );
+  const rotate = page
+    .locator('form[action$="rotate-class-code"] button')
+    .first();
+  const rectangle = await rotate.boundingBox();
+  assert.ok(
+    rectangle !== null && rectangle.width >= 24 && rectangle.height >= 24,
+  );
+  assert.equal(
+    await page
+      .locator('form[action$="rotate-class-code"]')
+      .first()
+      .getAttribute('method'),
+    'post',
+  );
+  await context.close();
+});

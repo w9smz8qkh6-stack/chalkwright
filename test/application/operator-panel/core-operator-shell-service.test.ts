@@ -4,6 +4,7 @@ import test from 'node:test';
 import { VersionedConfigurationService } from '../../../src/application/configuration/versioned-configuration-service.js';
 import { createCoreGoal1OperatorShellScenarioExecutor } from '../../../src/application/operator-panel/core-goal1-operator-shell-adapter.js';
 import { CoreOperatorShellService } from '../../../src/application/operator-panel/core-operator-shell-service.js';
+import { DisplayConfigurationService } from '../../../src/application/operator-panel/display-configuration-service.js';
 import {
   isOperatorFeatureRegionModel,
   forbiddenOperatorFeatureRegionFields,
@@ -11,15 +12,34 @@ import {
   runCoreGoal1ContractSuite,
 } from '../../../src/contracts/v1/index.js';
 import { InMemoryConfigurationStateRepository } from '../../../src/infrastructure/memory/configuration-state.js';
+import { InMemoryDisplayAccessRepository } from '../../../src/infrastructure/memory/display-access.js';
 import { coreGoal1FixtureCatalog } from '../../fixtures/core-goal1.js';
 
 function createShell(): CoreOperatorShellService {
+  const configuration = new VersionedConfigurationService(
+    new InMemoryConfigurationStateRepository([
+      coreGoal1FixtureCatalog.configurationStates.rolledBack,
+    ]),
+  );
   return new CoreOperatorShellService(
     coreGoal1FixtureCatalog.workspace,
-    new VersionedConfigurationService(
-      new InMemoryConfigurationStateRepository([
-        coreGoal1FixtureCatalog.configurationStates.rolledBack,
-      ]),
+    configuration,
+    new DisplayConfigurationService(
+      coreGoal1FixtureCatalog.workspace,
+      configuration,
+      new InMemoryDisplayAccessRepository(
+        coreGoal1FixtureCatalog.screens.map((screen) => ({
+          workspace: coreGoal1FixtureCatalog.workspace,
+          screenId: screen.screenId,
+          state: {
+            classCodeState: screen.classCodeState,
+            verifier: null,
+            viewerSessions: [],
+            admissionFailures: [],
+          },
+        })),
+      ),
+      'https://display.synthetic.invalid',
     ),
   );
 }
@@ -61,7 +81,7 @@ test('shell service discovers all stable pages and renders guarded C01-backed mo
       ]),
     [
       ['overview', 'available', 'C02'],
-      ['displays', 'planned', 'C03'],
+      ['displays', 'available', 'C03'],
       ['sources', 'planned', 'C04'],
       ['planned-display', 'planned', 'C09'],
       ['presentation', 'available', 'C02'],
