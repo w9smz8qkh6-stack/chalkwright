@@ -306,14 +306,18 @@ installation/organization identity, and its detached snapshots prevent
 post-validation caller mutation from changing immutable or checksummed state.
 A06 now supplies a closed stream/mode/format matrix, concrete item/transaction
 budgets, actual-content upload admission, per-hop HTTPS/DNS/peer SSRF evidence,
-short-lived bound consent transactions, finite read-only provider grants,
-normalized provenance, and commit-only-verified last-known-good transitions.
+bound consent transactions with an enforced 10-minute maximum lifetime, finite
+read-only provider grants, normalized provenance, and commit-only-verified
+last-known-good transitions.
 Its dependency-free CIDR policy is a dated conservative snapshot of the current
-IANA IPv4/IPv6 special-purpose and address-space registries, with explicit
-re-review required on registry change and before a real shared-resource
-adapter. Strictly increasing attempt chronology, issued/expiry-bounded active
-grants, and coherent committed-state time validation prevent stale success or
-contradictory retained state from bypassing those transitions.
+IANA IPv4 special-purpose/address-space, IPv6 special-purpose, and IPv6 Global
+Unicast allocation registries. IPv6 is admitted only from current `ALLOCATED`
+prefixes, then special-purpose ranges are subtracted; theoretical but unlisted
+`2000::/3` space stays denied. Re-review is required on registry change and
+before a real shared-resource adapter. Strictly increasing attempt chronology,
+issued/expiry-bounded active grants, and coherent committed-state time
+validation prevent stale success or contradictory retained state from
+bypassing those transitions.
 Focused synthetic tests exercise `T-FILE-01`/`T-FILE-02`, `T-SSRF-01`,
 `T-OAUTH-01`-`T-OAUTH-03`, `T-JOB-02`, and `T-DOS-01` contract boundaries;
 later adapters must still prove the controls in their real filesystem, network,

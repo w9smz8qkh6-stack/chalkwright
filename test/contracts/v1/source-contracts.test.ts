@@ -22,6 +22,7 @@ import {
   isUploadInspection,
   isVerifiedSourceObservation,
   logicalSourceFormats,
+  providerConsentTransactionMaximumLifetimeMs,
   scopeIdentifier,
   sharedNetworkPolicyRegistryReview,
   sourceContractVersion,
@@ -380,10 +381,28 @@ test('shared-resource preflight rejects private/reserved addresses, rebinding, a
     '2001:1::1',
     '2002::1',
     '2620:4f:8000::1',
+    '2000::1',
+    '2001:1000::1',
+    '2003:4000::1',
+    '2200::1',
+    '2500::1',
+    '2612::1',
+    '2640::1',
+    '2700::1',
+    '2900::1',
+    '2b00::1',
+    '2c10::1',
+    '2d00::1',
+    '3000::1',
+    '3f00::1',
+    '3fc0::1',
+    '3ffd::1',
     '3ffe::1',
     '3ffe:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
     '3fff::1',
     '3fff:fff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '3fff:1000::1',
+    '3fff:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
     '4000::1',
   ];
   for (const address of denied)
@@ -391,20 +410,37 @@ test('shared-resource preflight rejects private/reserved addresses, rebinding, a
   assert.equal(isPublicNetworkAddress('93.184.216.34'), true);
   assert.equal(isPublicNetworkAddress('192.88.98.255'), true);
   assert.equal(isPublicNetworkAddress('192.88.100.0'), true);
-  assert.equal(isPublicNetworkAddress('2001:200::1'), true);
-  assert.equal(isPublicNetworkAddress('3ffd:ffff::1'), true);
-  assert.equal(isPublicNetworkAddress('3fff:1000::1'), true);
-  assert.equal(isPublicNetworkAddress('2606:4700:4700::1111'), true);
+  for (const address of [
+    '2001:200::1',
+    '2001:bfff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '2003:3fff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '2400::1',
+    '241f:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '2606:4700:4700::1111',
+    '2610::1',
+    '2620::1',
+    '263f:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+    '2800::1',
+    '2a00::1',
+    '2a10::1',
+    '2c0f:ffff:ffff:ffff:ffff:ffff:ffff:ffff',
+  ]) {
+    assert.equal(isPublicNetworkAddress(address), true, address);
+  }
   assert.deepEqual(
     sharedNetworkPolicyRegistryReview.sources.map((source) => source.registry),
     [
       'iana-ipv4-special-purpose',
       'iana-ipv4-address-space',
       'iana-ipv6-special-purpose',
-      'iana-ipv6-address-space',
+      'iana-ipv6-global-unicast',
     ],
   );
   assert.equal(sharedNetworkPolicyRegistryReview.reviewedOn, '2026-08-31');
+  assert.equal(
+    sharedNetworkPolicyRegistryReview.sources.at(-1)?.lastUpdated,
+    '2025-10-10',
+  );
 
   const hop = validSharedPreflight.hops[0];
   assert.deepEqual(
@@ -576,7 +612,20 @@ test('connected admission rejects same-ID tenant collisions and missing grants',
 });
 
 test('consent transaction is short-lived, exact, and uses protected PKCE storage', () => {
+  assert.equal(providerConsentTransactionMaximumLifetimeMs, 10 * 60 * 1_000);
   assert.equal(isProviderConsentTransaction(providerConsentTransaction), true);
+  assert.equal(
+    Date.parse(providerConsentTransaction.expiresAt) -
+      Date.parse(providerConsentTransaction.createdAt),
+    providerConsentTransactionMaximumLifetimeMs,
+  );
+  assert.equal(
+    isProviderConsentTransaction({
+      ...providerConsentTransaction,
+      expiresAt: '2026-08-31T01:40:00.001Z',
+    }),
+    false,
+  );
   assert.equal(
     isProviderConsentTransaction({
       ...providerConsentTransaction,

@@ -120,9 +120,12 @@ Every redirect hop records bounded DNS answers at resolution, the answers held
 through connection, and the actual peer. All must be ordinary public
 destinations. A dependency-free CIDR policy conservatively denies every
 coalesced prefix in the reviewed IANA special-purpose snapshot, IPv4
-multicast/future-use space, IPv6 outside the current `2000::/3` global-unicast
-envelope, special-purpose prefixes inside that envelope, and the returned
-`3ffe::/16` 6bone block. This includes mixed public/private answers, loopback,
+multicast/future-use space, and every IPv6 destination that is not in a current
+`ALLOCATED` row of the IANA IPv6 Global Unicast Address Space registry. The
+theoretical `2000::/3` assignable envelope is not itself public allocation;
+unlisted space remains reserved for future IANA allocation. Special-purpose
+prefixes are then subtracted from the allocated allow table. This includes
+mixed public/private answers, loopback,
 private, link-local, carrier-grade NAT, documentation (`192.0.2.0/24`,
 `198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`, and `3fff::/20`),
 benchmarking, multicast, unspecified, IPv4-mapped, `192.88.99.0/24`, and other
@@ -137,10 +140,12 @@ The table was reviewed on 2026-08-31 against the official
 (2025-10-10),
 [IANA IPv6 Special-Purpose Address Registry](https://www.iana.org/assignments/iana-ipv6-special-registry/)
 (2025-10-09), and
-[IPv6 Address Space Registry](https://www.iana.org/assignments/ipv6-address-space/)
-(2025-10-23). It is a checked-in conservative snapshot, not a dynamically
-complete claim about future registry changes. Re-review is required before
-shared-resource implementation and whenever any source registry updates.
+[IANA IPv6 Global Unicast Address Space Registry](https://www.iana.org/assignments/ipv6-unicast-address-assignments/)
+(2025-10-10). Only its `ALLOCATED` rows are positive-listed; its `RESERVED`
+rows and unlisted parts of `2000::/3` are denied. It is a checked-in
+conservative snapshot, not a dynamically complete claim about future registry
+changes. Re-review is required before shared-resource implementation and
+whenever any source registry updates.
 
 Changed DNS answers are rebinding, and a peer outside the held answer set is a
 peer mismatch. Content type, logical format, byte, record, field, and processing
@@ -159,13 +164,13 @@ The only v1 capabilities are `classroom-coursework-read`,
 `education-coursework-read`. There is no write, roster, grade, submission,
 authentication, or general provider capability.
 
-A consent transaction is one short-lived server record bound to the full
-workspace, actor, session, provider, issuer, exact redirect, selected
-capability/resource, state reference, protected S256 PKCE-verifier reference,
-and nonce reference when issued. It has only `pending`, `consumed`, and
-`expired` states; consumed/expired records require a chronology-valid closure
-instant so one-use completion is explicit. The contract contains no verifier
-bytes or OAuth tokens.
+A consent transaction is one server record with a positive lifetime capped at
+exactly 10 minutes, bound to the full workspace, actor, session, provider,
+issuer, exact redirect, selected capability/resource, state reference,
+protected S256 PKCE-verifier reference, and nonce reference when issued. It has
+only `pending`, `consumed`, and `expired` states; consumed/expired records
+require a chronology-valid closure instant so one-use completion is explicit.
+The contract contains no verifier bytes or OAuth tokens.
 
 Provider grant state is finite: `pending`, `active`, `partial`, `expired`,
 `reconnect-required`, or `revoked`. Only an active, exact-workspace grant at or

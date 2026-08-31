@@ -712,7 +712,7 @@ interface NetworkPrefixPolicyEntry {
     | 'iana-ipv4-special-purpose'
     | 'iana-ipv4-address-space'
     | 'iana-ipv6-special-purpose'
-    | 'iana-ipv6-address-space';
+    | 'iana-ipv6-global-unicast';
 }
 
 export const sharedNetworkPolicyRegistryReview = {
@@ -734,9 +734,10 @@ export const sharedNetworkPolicyRegistryReview = {
       reference: 'https://www.iana.org/assignments/iana-ipv6-special-registry/',
     },
     {
-      registry: 'iana-ipv6-address-space',
-      lastUpdated: '2025-10-23',
-      reference: 'https://www.iana.org/assignments/ipv6-address-space/',
+      registry: 'iana-ipv6-global-unicast',
+      lastUpdated: '2025-10-10',
+      reference:
+        'https://www.iana.org/assignments/ipv6-unicast-address-assignments/',
     },
   ],
   maintenanceCondition:
@@ -772,13 +773,49 @@ const deniedIpv4NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
 ] as const;
 
 /**
- * Conservative snapshot reviewed against the IANA IPv6 Special-Purpose and
- * IPv6 Address Space registries on 2026-08-31. The positive envelope is the
- * currently allocated 2000::/3 global-unicast block; special-purpose prefixes
- * inside it and the returned 3ffe::/16 6bone block are denied explicitly.
+ * Conservative snapshot reviewed against the IANA IPv6 Global Unicast Address
+ * Space registry on 2026-08-31. Only rows whose current status is ALLOCATED are
+ * admitted; unlisted parts of the theoretical 2000::/3 assignable envelope
+ * remain reserved by IANA. The special-purpose table below subtracts ranges
+ * that are allocated but unsuitable for ordinary shared-resource targets.
  */
 const allowedIpv6NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
-  { cidr: '2000::/3', basis: 'iana-ipv6-address-space' },
+  { cidr: '2001::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:200::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:400::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:600::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:800::/22', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:c00::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:e00::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:1200::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:1400::/22', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:1800::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:1a00::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:1c00::/22', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:2000::/19', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4000::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4200::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4400::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4600::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4800::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4a00::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:4c00::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:5000::/20', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:8000::/19', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:a000::/20', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2001:b000::/20', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2002::/16', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2003::/18', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2400::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2410::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2600::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2610::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2620::/23', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2630::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2800::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2a00::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2a10::/12', basis: 'iana-ipv6-global-unicast' },
+  { cidr: '2c00::/12', basis: 'iana-ipv6-global-unicast' },
 ] as const;
 
 const deniedIpv6NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
@@ -793,7 +830,7 @@ const deniedIpv6NetworkPrefixes: readonly NetworkPrefixPolicyEntry[] = [
   { cidr: '2001:db8::/32', basis: 'iana-ipv6-special-purpose' },
   { cidr: '2002::/16', basis: 'iana-ipv6-special-purpose' },
   { cidr: '2620:4f:8000::/48', basis: 'iana-ipv6-special-purpose' },
-  { cidr: '3ffe::/16', basis: 'iana-ipv6-address-space' },
+  { cidr: '3ffe::/16', basis: 'iana-ipv6-global-unicast' },
   { cidr: '3fff::/20', basis: 'iana-ipv6-special-purpose' },
   { cidr: '5f00::/16', basis: 'iana-ipv6-special-purpose' },
   { cidr: 'fc00::/7', basis: 'iana-ipv6-special-purpose' },
@@ -1153,6 +1190,9 @@ export interface ProviderConsentTransaction extends ContractEnvelope {
   readonly closedAt: IsoInstant | null;
 }
 
+/** Maximum lifetime for one-use provider consent correlation state. */
+export const providerConsentTransactionMaximumLifetimeMs = 10 * 60 * 1_000;
+
 /** Validates the short-lived, workspace-bound OAuth correlation record. */
 export function isProviderConsentTransaction(
   value: unknown,
@@ -1200,6 +1240,8 @@ export function isProviderConsentTransaction(
       isIsoInstant(value.createdAt) &&
       isIsoInstant(value.expiresAt) &&
       Date.parse(value.createdAt) < Date.parse(value.expiresAt) &&
+      Date.parse(value.expiresAt) - Date.parse(value.createdAt) <=
+        providerConsentTransactionMaximumLifetimeMs &&
       ['pending', 'consumed', 'expired'].includes(value.status as string) &&
       (value.closedAt === null || isIsoInstant(value.closedAt)) &&
       (value.status === 'pending'
