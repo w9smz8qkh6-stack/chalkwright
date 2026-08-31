@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "32d9d0ce74352ad5428f482eaf7bc498dabccd40098606e5bad96650045d32b8",
-    "statement": "C09 was reviewed with the established C01-C04 operator slices, A02/A06 safety contracts, A07 information architecture, A08 fixture suite, and focused service/shell tests. It projects injected normalized synthetic frames by configured screen and explicit date with a bounded rolling/on-demand cache, preview-basis revision, deterministic SHA-256 fingerprint, and no mutation capability. C10 remains the final Core acceptance gate. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added."
+    "implementationFingerprint": "dd20b67cc87fbf3bda37d4aef3a1661281a64dd4568860a43804d2703782c164",
+    "statement": "C10 was reviewed with the accepted C01-C04/C09 operator slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its disposable non-creator rehearsal records display and manual-source drafts, validates, previews without state mutation, activates, projects injected frames, rotates a protected class code, creates a redacted export, accepts recovery preflight, and rolls back. Loopback integration confirms the private operator listener has no public display route. C10 is the final Core acceptance gate, not contact-sheet/carousel UI; C11 remains that follow-on. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -26,7 +26,7 @@
   "priorities": [
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
-    "Complete C10 after the C01-C04/C09 operator slices; keep Phase B and D00 gated until the non-creator Core acceptance gate passes.",
+    "Schedule Phase B Core hardening and D00 commercial architecture selection only after the accepted C10 non-creator Core gate, as their WBS dependencies allow.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
     "Continue bounded enrichment work for learning objectives, lesson references, vocabulary, and setup usability without broadening provider authority."
   ],
@@ -41,7 +41,7 @@
   "nextDecisions": [
     "What post-retirement observation interval and evidence should close the remaining stabilization period without weakening the cold-recovery boundary.",
     "What maintenance and contribution workflow should govern the separate landing page as Chalkwright approaches broader installation support.",
-    "What C10 review controls and independent rehearsal evidence should accept the completed C01-C04/C09 Core operator slices."
+    "Which Phase B Core-hardening item is the next dependency-ready work after the accepted C10 gate."
   ],
   "capabilities": [
     {
@@ -274,7 +274,7 @@
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "implemented",
-      "summary": "Provides a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and bounded planned-display projection while retaining strict generated runtime contracts. A04-A08 established scope and acceptance contracts; C01-C03 implement configuration, private shell, and display/class-code controls; C04 implements teacher-entered application-managed source forms; and C09 projects injected normalized frame metadata by explicit date/screen with deterministic fingerprints and no mutation path. C10 review controls/acceptance, durable production storage/composition, public viewer admission, and OAuth clients remain planned.",
+      "summary": "Provides a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and bounded planned-display projection while retaining strict generated runtime contracts. A04-A08 established scope and acceptance contracts; C01-C03 implement configuration, private shell, and display/class-code controls; C04 implements teacher-entered application-managed source forms; C09 projects injected normalized frame metadata by explicit date/screen with deterministic fingerprints and no mutation path; and C10 qualifies the synthetic non-creator path. Durable production storage/composition, public viewer admission, OAuth clients, and C11 contact-sheet/carousel UI remain planned.",
       "safety": "Core adds no account login, so operator reachability confers full authority. The operator process remains explicit-loopback and separate from display ingress. C03 accepts mutations only through exact same-origin bounded ordinary forms; generated codes are returned once, protected state retains only scrypt verifiers, viewer state retains only token digests and verifier versions, bounded failures retain timestamps only, and rotate/revoke atomically clears prior viewer sessions without coupling them to operator authority. Provider grants, OAuth material, browser profiles, and private values remain separate from portable non-secret configuration.",
       "implementation": [
         "src/config/production.ts",
@@ -488,10 +488,10 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A08 and C01-C04/C09 are complete in this worktree. C09 adds a deterministic mutation-free planned-display projection over injected normalized synthetic frames, with explicit date/screen selection, preview-basis revision, SHA-256 input fingerprint, bounded rolling/on-demand cache, and private-shell summary. It performs no acquisition, provider/Calendar operation, configuration command, public viewer admission, or C11 contact-sheet/carousel interaction; C10 remains the final non-creator acceptance gate. The executable remains synthetic/in-memory, with no source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect.",
+      "currentState": "A01 through A08 and C01-C04/C09/C10 are complete in this worktree. C10's disposable synthetic non-creator rehearsal composes the actual draft, validation, mutation-free preview, activation, injected-frame projection, class-code rotation, redacted export, recovery-preflight, and rollback services. Loopback HTTP evidence keeps the private operator listener separate from an absent public display route. C04 remains draft-only manual metadata/mapping and C09 remains injected-frame-only; no source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists. C11 contact-sheet/carousel interaction remains follow-on work.",
       "nextSteps": [
-        "Implement C10 review controls and complete the independent non-creator Core acceptance rehearsal.",
-        "Do not begin Phase B or D00 before C10 is accepted."
+        "Schedule dependency-ready Phase B hardening and D00 architecture selection now that C10 is accepted.",
+        "Keep C11 contact-sheet/carousel work separate from the accepted non-creator gate."
       ],
       "capabilities": [
         "guided-setup",
@@ -517,6 +517,7 @@
         "docs/core-source-registry.md",
         "docs/core-planned-display-projection.md",
         "docs/core-goal1-fixture-contract-suite.md",
+        "docs/core-non-creator-acceptance.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/ui-references/registry.json",
         "docs/ui-references/**",
@@ -585,6 +586,7 @@
         "docs/core-operator-shell.md",
         "docs/core-display-configuration.md",
         "docs/core-goal1-fixture-contract-suite.md",
+        "docs/core-non-creator-acceptance.md",
         "docs/core-and-hosted-implementation-work-breakdown.md",
         "docs/project-state.md"
       ]

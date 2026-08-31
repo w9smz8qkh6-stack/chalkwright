@@ -67,6 +67,15 @@ omitted.
 
 ### Added
 
+- Completed C10, the final non-creator Core operator-panel acceptance gate.
+  Its disposable synthetic rehearsal composes the C01-C04/C09 services through
+  display/source draft recording, validation, mutation-free preview,
+  activation, injected-frame projection, protected class-code rotation,
+  redacted export, recovery preflight, and rollback. A loopback integration
+  check confirms the operator listener does not compose a public display route.
+  C10 adds no provider, OAuth, account, durable storage, deployment, or
+  contact-sheet/carousel UI; the latter remains C11 follow-on work.
+
 - Completed C09 with a bounded, deterministic, mutation-free planned-display
   projection service. The private Core shell can summarize injected normalized
   date/screen frames with an explicit configuration/preview basis, SHA-256

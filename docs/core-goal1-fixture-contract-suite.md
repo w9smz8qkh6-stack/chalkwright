@@ -97,6 +97,8 @@ consume the exact private-reachability expectation through the A07 feature
 region and a separate explicit-loopback route table. The C03 display
 configuration service now consumes the exact room/screen/class-code projection
 and proves rotation revokes older viewer sessions without changing operator
-access. C04 and C09 consume their mapped scenarios next. C10 is the non-creator Core operator-panel
-acceptance gate. Phase B Core hardening and D00 commercial architecture
-selection remain gated until C10 is accepted.
+access. C04 and C09 consume their mapped scenarios. C10's integrated
+non-creator acceptance rehearsal is documented in
+[Core non-creator acceptance](core-non-creator-acceptance.md). Phase B Core
+hardening and D00 commercial architecture selection can now proceed only as
+their explicit dependencies allow.

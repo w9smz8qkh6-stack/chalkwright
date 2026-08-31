@@ -56,6 +56,9 @@
 - [Core planned-display projection](core-planned-display-projection.md) — C09
   deterministic, bounded, mutation-free date/screen frame projection and its
   explicit preview-basis boundary before C10 review controls.
+- [Core non-creator acceptance](core-non-creator-acceptance.md) — C10's
+  disposable end-to-end Core qualification, private-listener separation
+  evidence, and explicit retained limits before C11 contact-sheet work.
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) —
   A08 versioned synthetic self-hosted catalog, exact C01-C04/C09/C10 expected
   results, privacy rules, and reusable executable normalization interface.
@@ -188,6 +191,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
 - [Core display configuration and viewer admission](core-display-configuration.md) — `core-display-configuration.md`
 - [Core Goal 1 fixture contract suite](core-goal1-fixture-contract-suite.md) — `core-goal1-fixture-contract-suite.md`
+- [Core non-creator acceptance](core-non-creator-acceptance.md) — `core-non-creator-acceptance.md`
 - [Core Operator-Panel Information Architecture](core-operator-panel-information-architecture.md) — `core-operator-panel-information-architecture.md`
 - [Core operator shell](core-operator-shell.md) — `core-operator-shell.md`
 - [Core planned-display projection](core-planned-display-projection.md) — `core-planned-display-projection.md`
