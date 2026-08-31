@@ -40,6 +40,14 @@ omitted.
 
 ### Added
 
+- Completed the A01 architecture baseline with an authoritative Core/hosted
+  feature acceptance matrix. Stable feature IDs now map owning layers,
+  self-hosted and hosted availability, classroom and student surfaces, MVP and
+  deferred dispositions, explicit authority boundaries, observable evidence,
+  exclusions, downstream tasks, and unresolved decisions. A02 is next; no
+  implementation or live provider, billing, repository, infrastructure,
+  publication, route, service, or deployment effect occurred.
+
 - Reconciled the proposed Chalkwright Core operator-panel and commercial hosted-
   service direction with the completed M-18 project baseline. The planning set
   now records the private-by-default, unauthenticated Core operator boundary,

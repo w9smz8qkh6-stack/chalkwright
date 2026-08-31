@@ -27,6 +27,9 @@
 - [Core and hosted implementation work breakdown](core-and-hosted-implementation-work-breakdown.md)
   — dependency-ordered tasks from architecture decisions through the Core
   operator panel, hosted account application, and paid-pilot qualification.
+- [Core and hosted feature acceptance matrix](core-and-hosted-feature-acceptance-matrix.md)
+  — authoritative feature ownership, edition and surface availability, MVP
+  disposition, safety boundaries, acceptance evidence, and task traceability.
 - [Offline glossary catalog](glossary-catalog.md) — normalized local vocabulary,
   translations, BLOB media, import limits, and review/provenance rules.
 - [Architecture decision records](decisions/README.md) — accepted direction and
@@ -150,6 +153,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [B407 Classroom Display MVP](b407-display-mvp.md) — `b407-display-mvp.md`
 - [ChalkWrite.com Commercial Hosted App](chalkwrite-com-commercial-hosted-app.md) — `chalkwrite-com-commercial-hosted-app.md`
 - [Configuration](configuration.md) — `configuration.md`
+- [Chalkwright Core and Hosted Feature Acceptance Matrix](core-and-hosted-feature-acceptance-matrix.md) — `core-and-hosted-feature-acceptance-matrix.md`
 - [Chalkwright Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md) — `core-and-hosted-implementation-work-breakdown.md`
 - [ADR-0001: Self-contained host-native runtime](decisions/0001-self-contained-host-native-runtime.md) — `decisions/0001-self-contained-host-native-runtime.md`
 - [ADR-0002: Canonical day plan and SQLite state](decisions/0002-canonical-plan-and-sqlite-state.md) — `decisions/0002-canonical-plan-and-sqlite-state.md`

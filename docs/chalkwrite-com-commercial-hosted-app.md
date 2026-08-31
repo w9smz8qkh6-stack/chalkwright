@@ -109,6 +109,11 @@ application.
 Provider OAuth does not add Chalkwright account authentication to Core. It
 authorizes only the selected external data connection.
 
+The authoritative owning layer, edition and surface availability, MVP
+disposition, safety boundary, acceptance evidence, and downstream task for each
+agreed feature are frozen in the
+[Core and Hosted Feature Acceptance Matrix](core-and-hosted-feature-acceptance-matrix.md).
+
 ### Public Core and commercial wrapper boundary
 
 The public GitHub repository must remain a complete, independently useful

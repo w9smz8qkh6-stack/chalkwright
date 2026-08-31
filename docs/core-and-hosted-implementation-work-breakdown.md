@@ -1,9 +1,20 @@
 # Chalkwright Core and Hosted Service Implementation Work Breakdown
 
-Status: proposed execution plan. This document divides the agreed product
-direction into bounded Codex tasks. It does not authorize implementation,
-provider enrollment, repository creation, package publication, billing,
-deployment, or public exposure.
+Status: active architecture execution plan. This document divides the agreed
+product direction into bounded Codex tasks. It does not authorize
+implementation, provider enrollment, repository creation, package publication,
+billing, deployment, or public exposure.
+
+## Execution status
+
+- **Complete:** A01 froze feature ownership, edition and surface availability,
+  MVP dispositions, exclusions, safety boundaries, acceptance evidence, and
+  task traceability in the
+  [feature acceptance matrix](core-and-hosted-feature-acceptance-matrix.md).
+- **Next:** A02 threat-models the newly frozen surfaces and authority
+  boundaries.
+- **Architecture gate:** A03 through A08 remain incomplete. Do not begin Phase B
+  until A02-A08 are complete and the architecture-ready gate is satisfied.
 
 ## Execution rules
 
