@@ -10,6 +10,11 @@ omitted.
 
 ### Added
 
+- Began B06's shared Core contract-test kit with a public adapter-neutral
+  conformance runner. It produces deterministic, redacted pass/fail reports
+  for finite named cases and is verified against conforming and deliberately
+  nonconforming synthetic adapters.
+
 - Began B05's separate Core class-code display ingress. Its loopback-only
   viewer listener has an independent route table, health/readiness endpoint,
   narrow admission port, and screen-scoped HTTP-only session cookie; operator

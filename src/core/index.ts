@@ -4,6 +4,7 @@
  * intentionally private to their composition shells.
  */
 export * from './contracts.js';
+export * from './contract-test-kit.js';
 export * as domain from './domain.js';
 export * from './configuration.js';
 export * from './operator-panel.js';
