@@ -186,7 +186,11 @@
       "startedOn": null,
       "completedOn": null,
       "blockers": [],
-      "evidence": [],
+      "evidence": [
+        "commit:4bb2154",
+        "remote:4bb215443df1ee9f3e67b2d843fc2f600735f79d",
+        "C12 increment: npm run docs:check, npm run typecheck, Prettier scoped check, and 2 focused profile-service tests"
+      ],
       "notes": [],
       "supersededBy": []
     },
@@ -495,7 +499,8 @@
       "blockers": [],
       "evidence": [],
       "notes": [
-        "Dispatched after accepted C11 on an isolated Core branch. Scope is limited to versioned presentation profiles, synthetic preview, reversible activation, and reduced-motion behavior; no commercial or unrelated ready task is included."
+        "Dispatched after accepted C11 on an isolated Core branch. Scope is limited to versioned presentation profiles, synthetic preview, reversible activation, and reduced-motion behavior; no commercial or unrelated ready task is included.",
+        "First remote checkpoint adds a bounded private in-memory theme/transition/timing/language/reduced-motion preview seam. It is not C12 acceptance evidence: route and preview qualification remain."
       ],
       "supersededBy": []
     },

@@ -69,7 +69,7 @@ allowing dependent work.
 
 | Task | Outcome | Dispatch state | Dependencies | Owner | Branch | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| B01 | Enforce internal dependency direction | ready | A03, A04, C10 | — | — | — |
+| B01 | Enforce internal dependency direction | ready | A03, A04, C10 | — | — | `commit:4bb2154`, `remote:4bb215443df1ee9f3e67b2d843fc2f600735f79d`, `C12 increment: npm run docs:check, npm run typecheck, Prettier scoped check, and 2 focused profile-service tests` |
 | B02 | Introduce deliberate Core exports | waiting | B01 | — | — | — |
 | B03 | Make workspace scope explicit | waiting | A04, A08, B02 | — | — | — |
 | B04 | Extract the self-hosted composition shell | waiting | A05, B02, B03 | — | — | — |
