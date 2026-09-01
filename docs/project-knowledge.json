@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "f74e9d8448660c8dff62bd156407e44947aa559e06d211f60c594cc243f69c34",
-    "statement": "C12 is being reviewed with the accepted C01-C04/C09/C10/C11 operator slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its first bounded slice adds a private in-memory, versioned presentation-preview profile for reviewed theme, transition, dwell time, interface catalog, and reduced-motion choices. It is reached only through exact same-origin ordinary forms on the explicit-loopback Core listener. A profile cannot alter canonical content truth, activate a display, fetch translations, connect a provider, or create account authority. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added."
+    "implementationFingerprint": "c54d3c85c93eb8012d621cc59060aadeb2ccee362372e178581addefe022ec1c",
+    "statement": "B01 is being reviewed with the accepted C01-C04/C09/C10/C11/C12 operator slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. It adds an executable dependency-direction check spanning contracts, domain, ports, application, infrastructure, presentation, application composition, and entry points. A finite named list records pre-existing application-to-infrastructure production-composition bridges; new reversed imports fail and B02/B04 own removing those bridges. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -491,9 +491,9 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A08 and C01-C04/C09/C10/C11 are complete in this worktree. C12 begins a private, versioned in-memory presentation-preview profile for theme, transition, timing, reviewed interface catalog, and reduced-motion choice; it cannot alter content truth or activate a display. Loopback HTTP evidence keeps the private operator listener separate from an absent public display route. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.",
+      "currentState": "A01 through A08 and C01-C04/C09/C10/C11/C12 are complete in this worktree. B01 adds executable dependency-direction enforcement across every Core layer and names the finite legacy application-to-infrastructure bridges that B02/B04 must remove. Loopback HTTP evidence keeps the private operator listener separate from an absent public display route. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.",
       "nextSteps": [
-        "Complete C12's preview, reversibility, reduced-motion, and route-boundary qualification before returning its remote checkpoint for acceptance.",
+        "Return B01's dependency-direction enforcement for acceptance, then continue with the next WBS-ready Core item without recreating the existing Core application.",
         "Schedule the next dependency-ready task only after C11's acceptance is recorded in the authoritative ledger."
       ],
       "capabilities": [
@@ -568,6 +568,7 @@
         "test/application/operator-panel/**",
         "test/architecture/c01-configuration-boundaries.test.ts",
         "test/architecture/c02-operator-boundaries.test.ts",
+        "test/architecture/boundaries.test.ts",
         "test/application/operator-panel/display-configuration-service.test.ts",
         "test/entrypoints/core-operator-server.test.ts",
         "test/infrastructure/operator-http/**",

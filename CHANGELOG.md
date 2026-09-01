@@ -10,6 +10,10 @@ omitted.
 
 ### Added
 
+- Added B01 architecture-direction checks for every Core layer. New reversed
+  imports fail, while the small pre-existing application-to-infrastructure
+  bridge list is explicit and bounded for removal by B02/B04.
+
 - Began C12's private Core presentation-profile seam: bounded theme,
   transition, dwell-time, interface-language, and reduced-motion choices are
   versioned in synthetic in-memory state and previewed through ordinary forms.

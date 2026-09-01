@@ -15,6 +15,73 @@ const allowedReadOnlyPortFiles = new Set([
   resolve(sourceRoot, 'ports/read-sources.js'),
 ]);
 
+const layerRoots = {
+  contracts: resolve(sourceRoot, 'contracts'),
+  domain: resolve(sourceRoot, 'domain'),
+  ports: resolve(sourceRoot, 'ports'),
+  application: resolve(sourceRoot, 'application'),
+  infrastructure: resolve(sourceRoot, 'infrastructure'),
+  presentation: resolve(sourceRoot, 'presentation'),
+  app: resolve(sourceRoot, 'app'),
+  entrypoints: resolve(sourceRoot, 'entrypoints'),
+} as const;
+
+type Layer = keyof typeof layerRoots;
+
+const allowedDependencyLayers: Readonly<Record<Layer, readonly Layer[]>> = {
+  contracts: ['contracts'],
+  domain: ['contracts', 'domain'],
+  ports: ['contracts', 'domain', 'ports'],
+  application: ['contracts', 'domain', 'ports', 'application'],
+  infrastructure: [
+    'contracts',
+    'domain',
+    'ports',
+    'application',
+    'infrastructure',
+  ],
+  presentation: ['contracts', 'domain', 'application', 'presentation'],
+  app: [
+    'contracts',
+    'domain',
+    'ports',
+    'application',
+    'infrastructure',
+    'presentation',
+    'app',
+  ],
+  entrypoints: [
+    'contracts',
+    'domain',
+    'ports',
+    'application',
+    'infrastructure',
+    'presentation',
+    'app',
+    'entrypoints',
+  ],
+};
+
+/**
+ * Existing production composition still contains these explicitly bounded
+ * adapter bridges. B02/B04 replace them with public Core exports and a
+ * self-hosted composition shell; new application-to-infrastructure imports are
+ * rejected now rather than silently extending the legacy seam.
+ */
+const permittedApplicationInfrastructureBridges = new Set([
+  'application/calendar/canary-sync.ts->infrastructure/google-calendar/contracts.js',
+  'application/calendar/canary-sync.ts->infrastructure/google-calendar/adapter.js',
+  'application/calendar/production-trial.ts->infrastructure/google-calendar/contracts.js',
+  'application/persistence/attendance-continuity.ts->infrastructure/sqlite/continuity-import.js',
+  'application/persistence/legacy-plan-state-migration.ts->infrastructure/sqlite/database.js',
+  'application/persistence/legacy-plan-state-migration.ts->infrastructure/sqlite/repository.js',
+  'application/operator-panel/core-goal1-qualification.ts->infrastructure/memory/configuration-state.js',
+  'application/operator-panel/core-goal1-qualification.ts->infrastructure/memory/display-access.js',
+  'application/glossary/select-vocabulary.ts->infrastructure/sqlite/classroom-cache.js',
+  'application/glossary/select-vocabulary.ts->infrastructure/sqlite/repository.js',
+  'application/operations/handlers.ts->infrastructure/operations/fake-alert-transport.js',
+]);
+
 function typeScriptFilesUnder(directory: string): readonly string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const path = resolve(directory, entry.name);
@@ -43,6 +110,64 @@ function importedModules(source: string): readonly string[] {
 function isWithin(path: string, directory: string): boolean {
   return path === directory || path.startsWith(`${directory}${sep}`);
 }
+
+function sourceLayer(path: string): Layer | null {
+  return (
+    (Object.entries(layerRoots) as readonly [Layer, string][]).find(
+      ([, root]) => isWithin(path, root),
+    )?.[0] ?? null
+  );
+}
+
+function assertLayerImport(
+  importingLayer: Layer,
+  importingFile: string,
+  moduleName: string,
+): void {
+  if (!moduleName.startsWith('.')) return;
+  const importedLayer = sourceLayer(
+    resolve(dirname(importingFile), moduleName),
+  );
+  if (importedLayer === null) return;
+  const relativeFile = importingFile.slice(sourceRoot.length + 1);
+  const bridge = `${relativeFile}->${moduleName.replace(/^\.\.\/\.\.\//u, '')}`;
+  if (
+    importingLayer === 'application' &&
+    importedLayer === 'infrastructure' &&
+    permittedApplicationInfrastructureBridges.has(bridge)
+  ) {
+    return;
+  }
+  assert.ok(
+    allowedDependencyLayers[importingLayer].includes(importedLayer),
+    `${importingFile} (${importingLayer}) imports forbidden ${importedLayer} dependency ${moduleName}`,
+  );
+}
+
+test('enforces the declared dependency direction across every architecture layer', () => {
+  for (const [layer, root] of Object.entries(layerRoots) as readonly [
+    Layer,
+    string,
+  ][]) {
+    for (const file of typeScriptFilesUnder(root)) {
+      for (const moduleName of importedModules(readFileSync(file, 'utf8'))) {
+        assertLayerImport(layer, file, moduleName);
+      }
+    }
+  }
+});
+
+test('a reversed application-to-infrastructure import fails the architecture check', () => {
+  assert.throws(
+    () =>
+      assertLayerImport(
+        'application',
+        resolve(sourceRoot, 'application/example.ts'),
+        '../infrastructure/example.js',
+      ),
+    /forbidden infrastructure dependency/u,
+  );
+});
 
 test('keeps the domain import graph pure and provider-neutral', () => {
   for (const file of typeScriptFilesUnder(domainRoot)) {

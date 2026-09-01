@@ -60,6 +60,13 @@ Calendar and display rendering consume those plans independently.
 - Transitional legacy adapters implement the same ports and are removable
   without changing the domain model.
 
+The repository test suite enforces the dependency direction across contracts,
+domain, ports, application, infrastructure, presentation, composition, and
+entry points. A short, named set of pre-existing application-to-infrastructure
+bridges remains temporary production-composition debt; it is finite and cannot
+be extended. B02 and B04 own replacing those bridges with deliberate Core
+exports and the self-hosted composition shell.
+
 ### 4. Ownership precedes mutation
 
 Calendar events, overrides, holds, screens, rooms, imported records, and job
