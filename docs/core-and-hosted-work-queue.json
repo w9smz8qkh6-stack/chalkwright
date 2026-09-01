@@ -244,17 +244,23 @@
     },
     "B04": {
       "definitionFingerprint": "45e9c7edf79fc22219dec613758e41bb8e543b5c96f37e0d0bb0e556433b0331",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "orchestrator:/root",
       "executor": "executor:/root",
       "branch": "codex/b04-self-hosted-composition",
       "worktree": "/home/bren/src/chalkwright-b04-self-hosted-composition",
       "startedOn": "2026-09-01",
-      "completedOn": null,
+      "completedOn": "2026-09-01",
       "blockers": [],
-      "evidence": [],
+      "evidence": [
+        "commit:4d34df5",
+        "remote:4d34df5e1d83c99cd2e3fcfdc761e94e9ee1ef9d",
+        "npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)",
+        "composition acceptance: private Core controller composes from deliberate Core exports while listener binding remains separate"
+      ],
       "notes": [
-        "Dispatched after accepted B03 on an isolated Core branch. Extract the current private self-hosted composition around the deliberate B02 Core exports without rebuilding the existing classroom application or adding commercial concerns."
+        "Dispatched after accepted B03 on an isolated Core branch. Extract the current private self-hosted composition around the deliberate B02 Core exports without rebuilding the existing classroom application or adding commercial concerns.",
+        "Accepted from the verified remote checkpoint. Existing classroom behavior is preserved; no commercial account, authentication, provider, or display-publication concern was introduced."
       ],
       "supersededBy": []
     },
