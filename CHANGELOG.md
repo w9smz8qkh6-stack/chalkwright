@@ -15,6 +15,10 @@ omitted.
   for finite named cases and is verified against conforming and deliberately
   nonconforming synthetic adapters.
 
+- Extended B06 with reusable configuration-state and protected display-access
+  conformance suites. They prove detached reads and B03 full-workspace
+  isolation, and reject intentionally aliasing adapters.
+
 - Began B05's separate Core class-code display ingress. Its loopback-only
   viewer listener has an independent route table, health/readiness endpoint,
   narrow admission port, and screen-scoped HTTP-only session cookie; operator

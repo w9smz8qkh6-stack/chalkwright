@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "17db4dec9a963f683fbf128a5858f437f27c6db4cba24045e667636a0bbbaac9",
-    "statement": "B06 is being reviewed with the accepted C01-C04/C09/C10/C11/C12 and B01-B05 slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its first increment introduces a public, adapter-neutral conformance runner with finite redacted reports and synthetic conforming/nonconforming evidence. No provider, Calendar, OAuth, account, billing, durable production storage, publication, deployment, or live effect was added."
+    "implementationFingerprint": "dac1ac96b7b67f640bed52e5dc4baa436be86d30ba75bd8d11221c1e77e26a98",
+    "statement": "B06 is being reviewed with the accepted C01-C04/C09/C10/C11/C12 and B01-B05 slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its current increment adds configuration-state and protected display-access conformance suites on the public, adapter-neutral runner, including detached-read and exact-workspace failures. No provider, Calendar, OAuth, account, billing, durable production storage, publication, deployment, or live effect was added."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -491,7 +491,7 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A08 and C01-C04/C09/C10/C11/C12 are complete in this worktree. B01-B05 establish Core layer direction, deliberate public exports, full workspace identity isolation, private operator composition, and separate Core viewer ingress. B06's first increment exports an adapter-neutral Core conformance runner with deterministic finite redacted reports and synthetic conforming/nonconforming evidence. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.",
+      "currentState": "A01 through A08 and C01-C04/C09/C10/C11/C12 are complete in this worktree. B01-B05 establish Core layer direction, deliberate public exports, full workspace identity isolation, private operator composition, and separate Core viewer ingress. B06 now exports an adapter-neutral Core conformance runner plus configuration-state and protected display-access suites for detached reads and exact workspace isolation. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.",
       "nextSteps": [
         "Expand B06 conformance suites across configuration persistence, display access, rendering, snapshots, migrations, and future connector adapters, then return its remote checkpoint for acceptance.",
         "Keep composition, transport, display publication, hosted accounts, and provider authority independently bounded as the remaining Core work proceeds."
@@ -574,6 +574,8 @@
         "test/application/operator-panel/**",
         "test/app/self-hosted-core-composition.test.ts",
         "test/core/contract-test-kit.test.ts",
+        "test/core/configuration-conformance.test.ts",
+        "test/core/display-access-conformance.test.ts",
         "test/core/**",
         "test/core/",
         "test/infrastructure/core-display-http/server.test.ts",

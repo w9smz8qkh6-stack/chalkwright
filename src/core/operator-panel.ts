@@ -3,4 +3,5 @@ export { DisplayConfigurationService } from '../application/operator-panel/displ
 export { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
 export { PlannedDisplayProjectionService } from '../application/operator-panel/planned-display-projection-service.js';
 export { PresentationProfileService } from '../application/operator-panel/presentation-profile-service.js';
+export { runDisplayAccessRepositoryConformance } from './display-access-conformance.js';
 export type { DisplayAccessRepository } from '../ports/display-access.js';

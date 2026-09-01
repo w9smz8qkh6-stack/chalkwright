@@ -1,4 +1,5 @@
 export { VersionedConfigurationService } from '../application/configuration/versioned-configuration-service.js';
+export { runConfigurationStateRepositoryConformance } from './configuration-conformance.js';
 export type {
   ConfigurationReadResult,
   EffectiveConfigurationResult,

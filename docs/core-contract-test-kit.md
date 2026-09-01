@@ -15,3 +15,8 @@ nonconforming adapter using the same shell.
 The first B06 increment proves this contract with synthetic adapters only. It
 does not add provider access, persistence schemas, live services, or change the
 existing classroom application.
+
+The first domain suites cover configuration-state persistence and protected
+display access. They require detached reads, detached audit/session state, and
+the B03 full-workspace isolation rule. The existing in-memory adapters pass;
+deliberately aliasing adapters fail without exposing their internal error.
