@@ -222,16 +222,18 @@
     },
     "B03": {
       "definitionFingerprint": "8410e36457b087c001e93467721ec344dfd7b74fa2a69c78d929ed486705ebd5",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/b03-workspace-scope",
+      "worktree": "/home/bren/src/chalkwright-b03-workspace-scope",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted B02 on an isolated Core branch. Scope is limited to explicit workspace propagation and isolation tests; existing classroom behavior remains unchanged."
+      ],
       "supersededBy": []
     },
     "B04": {
