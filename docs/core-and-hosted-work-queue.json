@@ -463,16 +463,18 @@
     },
     "C11": {
       "definitionFingerprint": "3850662f8918e5831770bb1c5717c4dc80058f7117846cac65aa5293844b0802",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/config-panel-c11-contact-sheet-carousel",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c11",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted C10 on an isolated branch. Scope is limited to the Core contact sheet and carousel; no commercial or unrelated ready task is included."
+      ],
       "supersededBy": []
     },
     "C12": {
