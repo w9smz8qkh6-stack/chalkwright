@@ -24,7 +24,7 @@
     ]
   },
   "priorities": [
-    "Deliver B06 shared Core contract tests after accepted B05 ingress isolation; C05, C06, and C07 remain independently ready but unassigned.",
+    "Deliver C05 bounded uploads/imports after accepted B06; C06 and C07 remain independently ready but unassigned.",
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
@@ -440,7 +440,7 @@
       "name": "Core operator-panel follow-on and hosted architecture",
       "status": "active",
       "outcome": "Maintain Goal 1's accepted private-by-default Core operator panel, complete its independently schedulable follow-on work, and build the hosted Django wrapper through the selected private versioned Core service/worker boundary.",
-      "currentState": "Goal 1 is complete and accepted. C11/C12 add the accepted review and presentation-profile operator features. B01-B05 are accepted at their recorded remote checkpoints: B03 establishes full workspace identity for display-access isolation, B04 extracts private Core composition from deliberate exports, and B05 adds a loopback-only class-code display listener with disjoint operator routes, viewer admission, readiness, and a screen-scoped HTTP-only cookie without changing production routing. B06 is in progress in an isolated worktree to build reusable Core conformance tests. C05, C06, and C07 remain independently ready. D00 selected Django and the private versioned Core service/worker boundary; D07 remains separately in progress and D04 awaits external provider-registration inputs. The planning checkout is not evidence of hosted deployment or live operational state.",
+      "currentState": "Goal 1 is complete and accepted. C11/C12 add the accepted review and presentation-profile operator features. B01-B06 are accepted at their recorded remote checkpoints: B03 establishes full workspace identity for display-access isolation, B04 extracts private Core composition from deliberate exports, B05 adds a loopback-only class-code display listener, and B06 exports reusable redacted adapter conformance with configuration-state and protected display-access suites. C05 is the direct next Core task; C06 and C07 remain independently ready. D00 selected Django and the private versioned Core service/worker boundary; D07 remains separately in progress and D04 awaits external provider-registration inputs. The planning checkout is not evidence of hosted deployment or live operational state.",
       "nextSteps": [
         "Use the WBS and generated task/execution ledger as the only scheduling authority; run WBS synchronization and freshness checks whenever their source changes. Do not derive status from the canonical checkout's divergence or an agent idle flag.",
         "Dispatch B06 shared Core contract tests in an isolated worktree, then choose the next ready item from the synchronized ledger. Continue separately owned hosted work under ADR-0027, and resolve D04 provider-registration inputs before connected-provider work."

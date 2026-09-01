@@ -289,17 +289,25 @@
     },
     "B06": {
       "definitionFingerprint": "569d8ed1065ae25cba0dbd3ae889b89db1f6e4dc1187232da49066bd15a61463",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "orchestrator:/root",
       "executor": "executor:/root",
       "branch": "codex/b06-contract-test-kit",
       "worktree": "/home/bren/src/chalkwright-b06-contract-test-kit",
       "startedOn": "2026-09-01",
-      "completedOn": null,
+      "completedOn": "2026-09-01",
       "blockers": [],
-      "evidence": [],
+      "evidence": [
+        "commit:b52df4e",
+        "remote:b52df4e0de482a1d30c06b651059a0a98daaa0cd",
+        "commit:600f77b",
+        "remote:600f77bf92dcb49f4afd99d7d8a7fae6e1d71b5d",
+        "npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)",
+        "conformance acceptance: generic redacted runner plus configuration-state and protected display-access suites accept in-memory adapters and reject deliberately aliasing adapters"
+      ],
       "notes": [
-        "Dispatched after accepted B05 on an isolated Core branch. Build reusable conformance suites around the existing Core contracts without changing classroom behavior or connected-provider authority."
+        "Dispatched after accepted B05 on an isolated Core branch. Build reusable conformance suites around the existing Core contracts without changing classroom behavior or connected-provider authority.",
+        "Accepted from verified remote checkpoints. The kit is a reusable public Core test surface; future connector, renderer, snapshot, and migration adapters supply their domain cases when introduced."
       ],
       "supersededBy": []
     },
