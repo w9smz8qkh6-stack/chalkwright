@@ -5,7 +5,7 @@
 - Authoritative WBS: [docs/core-and-hosted-implementation-work-breakdown.md](core-and-hosted-implementation-work-breakdown.md)
 - Task status overlay: [docs/core-and-hosted-work-queue.json](core-and-hosted-work-queue.json)
 - WBS fingerprint: `76667001ed5619110ce7860b931d69926dcf2cfe91cdfa37cbc1bfb368b22afe`
-- Tasks: 51; ready 3; gated 0; waiting 24; in progress 3; review 0; blocked 0; complete 21; reconciliation 0.
+- Tasks: 51; ready 3; gated 0; waiting 24; in progress 2; review 0; blocked 0; complete 22; reconciliation 0.
 
 ## Goal 1 dispatch lane
 
@@ -69,7 +69,7 @@ allowing dependent work.
 
 | Task | Outcome | Dispatch state | Dependencies | Owner | Branch | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| B01 | Enforce internal dependency direction | ready | A03, A04, C10 | — | — | `commit:4bb2154`, `remote:4bb215443df1ee9f3e67b2d843fc2f600735f79d`, `C12 increment: npm run docs:check, npm run typecheck, Prettier scoped check, and 2 focused profile-service tests` |
+| B01 | Enforce internal dependency direction | ready | A03, A04, C10 | — | — | — |
 | B02 | Introduce deliberate Core exports | waiting | B01 | — | — | — |
 | B03 | Make workspace scope explicit | waiting | A04, A08, B02 | — | — | — |
 | B04 | Extract the self-hosted composition shell | waiting | A05, B02, B03 | — | — | — |
@@ -92,7 +92,7 @@ allowing dependent work.
 | C09 | Implement planned-display projection | complete | A08, C01, C03, C04 | orchestrator:/root | codex/config-panel-c09-planned-display | `commit:609abd5`, `commit:bbd6392a077d0a9bc4d231a58b261b05da05ec6d`, `npm run check (1009/1009 tests, build, smoke, and rehearsals)` |
 | C10 | Qualify the first Core operator-panel goal | complete | A07, A08, C01, C02, C03, C04, C09 | orchestrator:/root | codex/config-panel-c10-non-creator-acceptance | `commit:8060793`, `commit:b3edda8`, `npm run check (1011/1011 tests, build, smoke, and rehearsals)` |
 | C11 | Implement the contact sheet and carousel | complete | A07, C09 | orchestrator:/root | codex/config-panel-c11-contact-sheet-carousel | `commit:cebcc13`, `remote:cebcc13c28d2b7d6b4ec76af2a07498d1a914dcb`, `npm run check (documentation, fixtures, operational verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `browser acceptance: ordinary POST selection, no-JavaScript reflow, keyboard carousel/dialog controls, reduced motion, and console/page-error checks` |
-| C12 | Implement presentation profiles | in_progress | A07, C01, C09 | orchestrator:/root | codex/config-panel-c12-presentation-profiles | — |
+| C12 | Implement presentation profiles | complete | A07, C01, C09 | orchestrator:/root | codex/config-panel-c12-presentation-profiles | `commit:4bb2154`, `remote:4bb215443df1ee9f3e67b2d843fc2f600735f79d`, `C12 increment: npm run docs:check, npm run typecheck, Prettier scoped check, and 2 focused profile-service tests`, `commit:ba889f6`, `remote:ba889f6ef03693e286a5ad00636a11f34159ff49`, `npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `browser acceptance: ordinary save/reset forms, 683x384 reflow, Vietnamese reviewed-catalog preview, reduced-motion override, and console/page-error checks` |
 | C13 | Complete Core diagnostics and distribution | waiting | B07, C03, C04, C05, C06, C07, C08, C09, C10, C11, C12 | — | — | — |
 
 ## Phase D — commercial architecture and hosted account application

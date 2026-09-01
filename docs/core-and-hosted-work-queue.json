@@ -186,11 +186,7 @@
       "startedOn": null,
       "completedOn": null,
       "blockers": [],
-      "evidence": [
-        "commit:4bb2154",
-        "remote:4bb215443df1ee9f3e67b2d843fc2f600735f79d",
-        "C12 increment: npm run docs:check, npm run typecheck, Prettier scoped check, and 2 focused profile-service tests"
-      ],
+      "evidence": [],
       "notes": [],
       "supersededBy": []
     },
@@ -489,18 +485,27 @@
     },
     "C12": {
       "definitionFingerprint": "5bd5425f7fcc68eba97e2dba686a4c96079be2fde086ffa9fc12957988f36793",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "orchestrator:/root",
       "executor": "orchestrator:/root",
       "branch": "codex/config-panel-c12-presentation-profiles",
       "worktree": "/home/bren/src/chalkwright-config-panel-c12",
       "startedOn": "2026-09-01",
-      "completedOn": null,
+      "completedOn": "2026-09-01",
       "blockers": [],
-      "evidence": [],
+      "evidence": [
+        "commit:4bb2154",
+        "remote:4bb215443df1ee9f3e67b2d843fc2f600735f79d",
+        "C12 increment: npm run docs:check, npm run typecheck, Prettier scoped check, and 2 focused profile-service tests",
+        "commit:ba889f6",
+        "remote:ba889f6ef03693e286a5ad00636a11f34159ff49",
+        "npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)",
+        "browser acceptance: ordinary save/reset forms, 683x384 reflow, Vietnamese reviewed-catalog preview, reduced-motion override, and console/page-error checks"
+      ],
       "notes": [
         "Dispatched after accepted C11 on an isolated Core branch. Scope is limited to versioned presentation profiles, synthetic preview, reversible activation, and reduced-motion behavior; no commercial or unrelated ready task is included.",
-        "First remote checkpoint adds a bounded private in-memory theme/transition/timing/language/reduced-motion preview seam. It is not C12 acceptance evidence: route and preview qualification remain."
+        "First remote checkpoint adds a bounded private in-memory theme/transition/timing/language/reduced-motion preview seam. It is not C12 acceptance evidence: route and preview qualification remain.",
+        "Accepted from the final remote checkpoint after route-boundary and browser review. Profiles remain private synthetic preview state: they cannot alter canonical content truth, activate a display, fetch translations, or add provider/account authority."
       ],
       "supersededBy": []
     },
