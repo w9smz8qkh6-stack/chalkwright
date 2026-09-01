@@ -26,6 +26,22 @@ not accept forwarded headers or configure a trusted proxy. B05 later owns
 installed service identities, store privileges, cookies/cache namespaces,
 service templates, and independent-failure hardening.
 
+## Separate Core viewer ingress
+
+B05 begins the separate class-code display process with the bounded
+[`core-display-http`](../src/infrastructure/core-display-http/index.ts) listener. It has
+only `/health`, `/ready`, class-code admission, and admitted committed-screen
+routes; it cannot resolve an operator page, capability endpoint, or operator
+mutation path. Admission receives a deliberately narrow viewer-only port and
+sets a short-lived, HTTP-only, `SameSite=Strict` cookie scoped to that screen.
+It does not receive an operator cookie or a configuration-write API.
+
+Like the operator listener, this source-level Core listener requires explicit
+loopback binding and rejects forwarded host metadata. It is not installed,
+published, or wired to the existing production classroom route. Service
+identities, durable stores, packaging templates, and any Tailscale/public
+publication are still separate B05/B07/deployment decisions.
+
 ## Closed route table
 
 The operator listener recognizes only:

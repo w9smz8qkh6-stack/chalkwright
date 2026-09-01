@@ -12,10 +12,10 @@ docs:sync`. Repository documentation is not a live-service probe.
 ## Freshness contract
 
 - Reviewed: `2026-08-31` (1 days ago; maximum 7)
-- Implementation files covered: 583
-- Implementation fingerprint: `abf3b2b51f998ca7254452f5cc03e9a70fd73c57f7a9eecd3217d0b3bb97dd14`
+- Implementation files covered: 587
+- Implementation fingerprint: `c645bb3c9e4d7eafa8266099d12c5516dd58d55f266e40d67eb6eaa5f1940d2e`
 - Semantic review: **CURRENT**
-- Review statement: B04 is being reviewed with the accepted C01-C04/C09/C10/C11/C12 and B01-B03 slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. It extracts private self-hosted operator composition through the deliberate B02 Core exports while preserving existing classroom behavior and keeping transport binding separate. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added.
+- Review statement: B05 is being reviewed with the accepted C01-C04/C09/C10/C11/C12 and B01-B04 slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its first increment introduces a private class-code display listener with a disjoint route table and narrow viewer-admission port while preserving existing classroom behavior. No provider, Calendar, OAuth, account, billing, durable production storage, publication, deployment, or live effect was added.
 - Working-tree classification is evaluated live by hooks and documentation gates; volatile change counts are intentionally excluded from this tracked view.
 
 ## Development position
@@ -98,9 +98,9 @@ separate activation authority; `fixture-supported`, `planned`, and
 
 - Status: `active`
 - Outcome: Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.
-- Present state: A01 through A08 and C01-C04/C09/C10/C11/C12 are complete in this worktree. B01-B03 establish Core layer direction, deliberate public exports, and full workspace identity isolation. B04 extracts the current private self-hosted Core operator composition from deliberate Core exports while preserving the existing classroom application and keeping HTTP binding separate. Loopback HTTP evidence keeps the private operator listener separate from an absent public display route. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.
+- Present state: A01 through A08 and C01-C04/C09/C10/C11/C12 are complete in this worktree. B01-B04 establish Core layer direction, deliberate public exports, full workspace identity isolation, and private operator composition. B05's first increment adds a loopback-only class-code display listener with a disjoint route table, dedicated readiness, narrow viewer-admission port, and screen-scoped HTTP-only cookie; it does not alter the existing classroom application or publish a listener. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.
 - Capabilities: `guided-setup`, `preview-and-controls`, `durable-state`, `fixture-evaluation`
-- Next: Verify and accept B04 from its remote checkpoint, then choose the next ready item from the synchronized ledger. Keep composition, transport, display publication, hosted accounts, and provider authority independently bounded as the remaining Core work proceeds.
+- Next: Complete B05's service/store/cache and independent-failure hardening around the separate Core operator and display ingress, then return its remote checkpoint for acceptance. Keep composition, transport, display publication, hosted accounts, and provider authority independently bounded as the remaining Core work proceeds.
 - Documentation: [`docs/core-and-hosted-feature-acceptance-matrix.md`](core-and-hosted-feature-acceptance-matrix.md), [`docs/core-and-hosted-threat-model.md`](core-and-hosted-threat-model.md), [`docs/core-workspace-actor-contracts.md`](core-workspace-actor-contracts.md), [`docs/core-configuration-state-contracts.md`](core-configuration-state-contracts.md), [`docs/core-source-mode-contracts.md`](core-source-mode-contracts.md), [`docs/core-operator-panel-information-architecture.md`](core-operator-panel-information-architecture.md), [`docs/core-operator-shell.md`](core-operator-shell.md), [`docs/core-display-configuration.md`](core-display-configuration.md), [`docs/core-goal1-fixture-contract-suite.md`](core-goal1-fixture-contract-suite.md), [`docs/core-non-creator-acceptance.md`](core-non-creator-acceptance.md), [`docs/core-and-hosted-implementation-work-breakdown.md`](core-and-hosted-implementation-work-breakdown.md), [`docs/project-state.md`](project-state.md)
 
 ## Known limits

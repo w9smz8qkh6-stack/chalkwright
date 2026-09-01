@@ -10,6 +10,11 @@ omitted.
 
 ### Added
 
+- Began B05's separate Core class-code display ingress. Its loopback-only
+  viewer listener has an independent route table, health/readiness endpoint,
+  narrow admission port, and screen-scoped HTTP-only session cookie; operator
+  pages and mutations remain unreachable.
+
 - Extracted B04's private self-hosted Core composition factory. The existing
   operator listener now binds a controller composed from the deliberate Core
   exports, while transport remains separate and no commercial account,
