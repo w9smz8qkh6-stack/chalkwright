@@ -266,16 +266,18 @@
     },
     "B05": {
       "definitionFingerprint": "8204ea18a38a5fac1fa8bb9e7213e10f0d4bf93d17105c23be2dd19dc8415564",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "executor:/root",
+      "branch": "codex/b05-ingress-isolation",
+      "worktree": "/home/bren/src/chalkwright-b05-ingress-isolation",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted B04 on an isolated Core branch. Keep private operator ingress and class-code display admission distinct without publishing or changing the existing production classroom route."
+      ],
       "supersededBy": []
     },
     "B06": {
