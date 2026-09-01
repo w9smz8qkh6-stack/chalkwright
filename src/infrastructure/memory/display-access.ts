@@ -16,7 +16,11 @@ interface StoredDisplayAccess {
 }
 
 function key(workspace: Workspace, screenId: ScreenId): string {
-  return `${workspace.kind}:${workspace.workspaceId}:${screenId}`;
+  const installationOrOrganization =
+    workspace.kind === 'self-hosted-installation'
+      ? workspace.installationId
+      : workspace.organizationId;
+  return `${workspace.kind}:${workspace.workspaceId}:${installationOrOrganization}:${screenId}`;
 }
 
 function clone(state: DisplayAccessSnapshot): DisplayAccessSnapshot {

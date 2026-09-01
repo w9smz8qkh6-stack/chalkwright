@@ -5,7 +5,11 @@ import { VersionedConfigurationService } from '../../../src/application/configur
 import { createCoreGoal1DisplayConfigurationScenarioExecutor } from '../../../src/application/operator-panel/core-goal1-display-configuration-adapter.js';
 import { DisplayConfigurationService } from '../../../src/application/operator-panel/display-configuration-service.js';
 import { CoreOperatorShellService } from '../../../src/application/operator-panel/core-operator-shell-service.js';
-import { runCoreGoal1ContractSuite } from '../../../src/contracts/v1/index.js';
+import {
+  contractVersion,
+  runCoreGoal1ContractSuite,
+  scopeIdentifier,
+} from '../../../src/contracts/v1/index.js';
 import { InMemoryConfigurationStateRepository } from '../../../src/infrastructure/memory/configuration-state.js';
 import { InMemoryDisplayAccessRepository } from '../../../src/infrastructure/memory/display-access.js';
 import { coreGoal1FixtureCatalog } from '../../fixtures/core-goal1.js';
@@ -95,6 +99,32 @@ test('rotation invalidates old viewer sessions without affecting private operato
   assert.equal(protectedJson.includes(admitted.sessionToken), false);
   assert.equal(protectedState.verifier?.algorithm, 'scrypt-v1');
   assert.equal(protectedState.viewerSessions.length, 0);
+});
+
+test('display access cannot collide across same-ID self-hosted installations', async () => {
+  const access = new InMemoryDisplayAccessRepository();
+  const screenId = coreGoal1FixtureCatalog.screens[0]!.screenId;
+  const foreignWorkspace = {
+    contractVersion,
+    kind: 'self-hosted-installation' as const,
+    workspaceId: coreGoal1FixtureCatalog.workspace.workspaceId,
+    installationId: scopeIdentifier('installation', 'installation-foreign'),
+  };
+  await access.transact(coreGoal1FixtureCatalog.workspace, screenId, () => ({
+    result: undefined,
+    state: {
+      classCodeState: null,
+      verifier: null,
+      viewerSessions: [],
+      admissionFailures: [],
+    },
+  }));
+  assert.deepEqual(await access.read(foreignWorkspace, screenId), {
+    classCodeState: null,
+    verifier: null,
+    viewerSessions: [],
+    admissionFailures: [],
+  });
 });
 
 test('viewer admission is screen-scoped and revoke atomically clears verifier and sessions', async () => {

@@ -10,6 +10,10 @@ omitted.
 
 ### Added
 
+- Completed B03's same-ID workspace isolation for display-access state. The
+  in-memory adapter keys state by the full installation/organization identity
+  plus screen, so a matching workspace ID cannot select another tenant's data.
+
 - Added B02's restricted Core package exports for contracts, domain,
   presentation, configuration, and operator-panel use cases. Self-hosted
   entry points, route tables, and infrastructure internals are not exported.
