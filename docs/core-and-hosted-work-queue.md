@@ -5,7 +5,7 @@
 - Authoritative WBS: [docs/core-and-hosted-implementation-work-breakdown.md](core-and-hosted-implementation-work-breakdown.md)
 - Task status overlay: [docs/core-and-hosted-work-queue.json](core-and-hosted-work-queue.json)
 - WBS fingerprint: `76667001ed5619110ce7860b931d69926dcf2cfe91cdfa37cbc1bfb368b22afe`
-- Tasks: 51; ready 4; gated 0; waiting 17; in progress 2; review 0; blocked 0; complete 28; reconciliation 0.
+- Tasks: 51; ready 3; gated 0; waiting 17; in progress 3; review 0; blocked 0; complete 28; reconciliation 0.
 
 ## Goal 1 dispatch lane
 
@@ -45,7 +45,6 @@ allowing dependent work.
 ## Ready to dispatch
 
 - **B07:** Produce an installable Core artifact
-- **C05:** Implement bounded uploads and imports
 - **C06:** Implement shared-resource acquisition
 - **C07:** Implement direct Google enrollment for Core
 
@@ -86,7 +85,7 @@ allowing dependent work.
 | C02 | Implement the unauthenticated Core operator shell | complete | A02, A03, A07, C01 | orchestrator:/root | codex/config-panel-c02-operator-shell | `docs/core-operator-shell.md`, `src/application/operator-panel/core-operator-shell-service.ts`, `src/infrastructure/operator-http/server.ts`, `src/presentation/core-operator-shell.ts`, `test/infrastructure/operator-http/server.test.ts`, `test/presentation/core-operator-shell-browser.test.ts`, `test/architecture/c02-operator-boundaries.test.ts` |
 | C03 | Implement rooms, screens, and class codes | complete | C01, C02 | orchestrator:/root | codex/config-panel-c03-room-screen-class-code | `commit:70e4dc1`, `npm run check (1003/1003 tests, build, smoke, and rehearsals)`, `C03 no-JavaScript/reflow browser contract` |
 | C04 | Implement the source registry and forms | complete | A06, C01, C02 | orchestrator:/root | codex/config-panel-c04-source-registry-forms | `commit:564fc7060dab7ff827016a71c0fa2fbd38207b3d`, `npm run check (1007/1007 tests, build, smoke, and rehearsals)` |
-| C05 | Implement bounded uploads and imports | ready | A02, A06, C04 | — | — | — |
+| C05 | Implement bounded uploads and imports | in_progress | A02, A06, C04 | orchestrator:/root | codex/c05-bounded-uploads-imports | — |
 | C06 | Implement shared-resource acquisition | ready | A02, A06, C04 | — | — | — |
 | C07 | Implement direct Google enrollment for Core | ready | A02, A06, B05, C04 | — | — | — |
 | C08 | Implement connected Google sources and mappings | waiting | B06, C04, C07 | — | — | — |

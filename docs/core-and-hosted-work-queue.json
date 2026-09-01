@@ -416,16 +416,18 @@
     },
     "C05": {
       "definitionFingerprint": "2cbb49c38d9fefbbac8200704b3df215b3f9df8c89ecb95afbda4b4ee7627c9e",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "executor:/root",
+      "branch": "codex/c05-bounded-uploads-imports",
+      "worktree": "/home/bren/src/chalkwright-c05-bounded-uploads-imports",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted B06 on an isolated Core branch. Implement bounded local file ingestion with validation, preview, provenance, and last-known-good behavior; do not add external fetching, provider authority, or publication."
+      ],
       "supersededBy": []
     },
     "C06": {
