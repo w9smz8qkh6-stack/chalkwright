@@ -463,17 +463,23 @@
     },
     "C11": {
       "definitionFingerprint": "3850662f8918e5831770bb1c5717c4dc80058f7117846cac65aa5293844b0802",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "orchestrator:/root",
       "executor": "orchestrator:/root",
       "branch": "codex/config-panel-c11-contact-sheet-carousel",
       "worktree": "/home/bren/src/chalkwright-config-panel-c11",
       "startedOn": "2026-09-01",
-      "completedOn": null,
+      "completedOn": "2026-09-01",
       "blockers": [],
-      "evidence": [],
+      "evidence": [
+        "commit:cebcc13",
+        "remote:cebcc13c28d2b7d6b4ec76af2a07498d1a914dcb",
+        "npm run check (documentation, fixtures, operational verification, formatting, types, client, tests, build, smoke, and rehearsals)",
+        "browser acceptance: ordinary POST selection, no-JavaScript reflow, keyboard carousel/dialog controls, reduced motion, and console/page-error checks"
+      ],
       "notes": [
-        "Dispatched after accepted C10 on an isolated branch. Scope is limited to the Core contact sheet and carousel; no commercial or unrelated ready task is included."
+        "Dispatched after accepted C10 on an isolated branch. Scope is limited to the Core contact sheet and carousel; no commercial or unrelated ready task is included.",
+        "Accepted from the isolated remote checkpoint after review of the server-rendered contact sheet, explicit same-origin enhancement, closed route boundary, and complete verification gate. C11 is complete; its remote SHA is authoritative for the implementation handoff."
       ],
       "supersededBy": []
     },
