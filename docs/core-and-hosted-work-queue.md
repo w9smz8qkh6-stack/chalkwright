@@ -5,7 +5,7 @@
 - Authoritative WBS: [docs/core-and-hosted-implementation-work-breakdown.md](core-and-hosted-implementation-work-breakdown.md)
 - Task status overlay: [docs/core-and-hosted-work-queue.json](core-and-hosted-work-queue.json)
 - WBS fingerprint: `76667001ed5619110ce7860b931d69926dcf2cfe91cdfa37cbc1bfb368b22afe`
-- Tasks: 51; ready 3; gated 0; waiting 19; in progress 3; review 0; blocked 0; complete 26; reconciliation 0.
+- Tasks: 51; ready 4; gated 0; waiting 18; in progress 2; review 0; blocked 0; complete 27; reconciliation 0.
 
 ## Goal 1 dispatch lane
 
@@ -47,6 +47,7 @@ allowing dependent work.
 - **B06:** Build the shared contract-test kit
 - **C05:** Implement bounded uploads and imports
 - **C06:** Implement shared-resource acquisition
+- **C07:** Implement direct Google enrollment for Core
 
 ## Reconciliation required
 
@@ -73,7 +74,7 @@ allowing dependent work.
 | B02 | Introduce deliberate Core exports | complete | B01 | orchestrator:/root | codex/b02-core-exports | `commit:5c1dc5b`, `remote:5c1dc5bbf78797dbd3a4f2ded8daaf1b05feb345`, `npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `package acceptance: approved public exports resolve and self-hosted/deep paths fail package-export resolution` |
 | B03 | Make workspace scope explicit | complete | A04, A08, B02 | orchestrator:/root | codex/b03-workspace-scope | `commit:bbf968e`, `remote:bbf968e52496e6016c2b61e6cd8a01fdafeeddd0`, `npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `isolation acceptance: same workspace ID with a different installation identity cannot read display-access state` |
 | B04 | Extract the self-hosted composition shell | complete | A05, B02, B03 | orchestrator:/root | codex/b04-self-hosted-composition | `commit:4d34df5`, `remote:4d34df5e1d83c99cd2e3fcfdc761e94e9ee1ef9d`, `npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `composition acceptance: private Core controller composes from deliberate Core exports while listener binding remains separate` |
-| B05 | Harden operator and display runtime isolation | in_progress | A02, A03, B04, C02 | orchestrator:/root | codex/b05-ingress-isolation | `commit:64cb597`, `remote:64cb597f6f02da8aaec99d6a6844d7b83dfc68a9`, `B05 increment: docs check, formatting, typecheck, compiled focused class-code display-ingress tests, and diff check` |
+| B05 | Harden operator and display runtime isolation | complete | A02, A03, B04, C02 | orchestrator:/root | codex/b05-ingress-isolation | `commit:64cb597`, `remote:64cb597f6f02da8aaec99d6a6844d7b83dfc68a9`, `B05 increment: docs check, formatting, typecheck, compiled focused class-code display-ingress tests, and diff check`, `npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `ingress acceptance: loopback defaults never publish the operator listener; display ingress has a disjoint route table and cannot resolve operator behavior` |
 | B06 | Build the shared contract-test kit | ready | A08, B02, B03 | — | — | — |
 | B07 | Produce an installable Core artifact | waiting | B04, B05, B06 | — | — | — |
 
@@ -87,7 +88,7 @@ allowing dependent work.
 | C04 | Implement the source registry and forms | complete | A06, C01, C02 | orchestrator:/root | codex/config-panel-c04-source-registry-forms | `commit:564fc7060dab7ff827016a71c0fa2fbd38207b3d`, `npm run check (1007/1007 tests, build, smoke, and rehearsals)` |
 | C05 | Implement bounded uploads and imports | ready | A02, A06, C04 | — | — | — |
 | C06 | Implement shared-resource acquisition | ready | A02, A06, C04 | — | — | — |
-| C07 | Implement direct Google enrollment for Core | waiting | A02, A06, B05, C04 | — | — | — |
+| C07 | Implement direct Google enrollment for Core | ready | A02, A06, B05, C04 | — | — | — |
 | C08 | Implement connected Google sources and mappings | waiting | B06, C04, C07 | — | — | — |
 | C09 | Implement planned-display projection | complete | A08, C01, C03, C04 | orchestrator:/root | codex/config-panel-c09-planned-display | `commit:609abd5`, `commit:bbd6392a077d0a9bc4d231a58b261b05da05ec6d`, `npm run check (1009/1009 tests, build, smoke, and rehearsals)` |
 | C10 | Qualify the first Core operator-panel goal | complete | A07, A08, C01, C02, C03, C04, C09 | orchestrator:/root | codex/config-panel-c10-non-creator-acceptance | `commit:8060793`, `commit:b3edda8`, `npm run check (1011/1011 tests, build, smoke, and rehearsals)` |

@@ -266,22 +266,24 @@
     },
     "B05": {
       "definitionFingerprint": "8204ea18a38a5fac1fa8bb9e7213e10f0d4bf93d17105c23be2dd19dc8415564",
-      "status": "in_progress",
+      "status": "complete",
       "owner": "orchestrator:/root",
       "executor": "executor:/root",
       "branch": "codex/b05-ingress-isolation",
       "worktree": "/home/bren/src/chalkwright-b05-ingress-isolation",
       "startedOn": "2026-09-01",
-      "completedOn": null,
+      "completedOn": "2026-09-01",
       "blockers": [],
       "evidence": [
         "commit:64cb597",
         "remote:64cb597f6f02da8aaec99d6a6844d7b83dfc68a9",
-        "B05 increment: docs check, formatting, typecheck, compiled focused class-code display-ingress tests, and diff check"
+        "B05 increment: docs check, formatting, typecheck, compiled focused class-code display-ingress tests, and diff check",
+        "npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)",
+        "ingress acceptance: loopback defaults never publish the operator listener; display ingress has a disjoint route table and cannot resolve operator behavior"
       ],
       "notes": [
         "Dispatched after accepted B04 on an isolated Core branch. Keep private operator ingress and class-code display admission distinct without publishing or changing the existing production classroom route.",
-        "First remote checkpoint adds a loopback-only Core display listener with disjoint operator routes, narrow viewer admission, dedicated readiness, and a screen-scoped HTTP-only cookie. Service/store/cache hardening remains in progress."
+        "Accepted from the verified remote checkpoint. The bounded Core display listener has independent routes, readiness, and a screen-scoped viewer cookie. Runtime service templates and durable packaging remain B07 work, with no production route changed."
       ],
       "supersededBy": []
     },
