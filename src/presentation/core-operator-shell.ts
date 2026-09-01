@@ -8,6 +8,7 @@ import type { CoreOperatorCapability } from '../application/operator-panel/core-
 import type { DisplayProjection } from '../application/operator-panel/display-configuration-service.js';
 import type { SourceRegistryProjection } from '../application/operator-panel/source-registry-service.js';
 import type { PlannedDisplayProjection } from '../application/operator-panel/planned-display-projection-service.js';
+import { renderPlannedDisplayReview } from './planned-display-review.js';
 import { renderOperatorFeatureRegion } from './operator-panel-region.js';
 
 export const coreOperatorPagePaths = {
@@ -60,6 +61,7 @@ export function renderCoreOperatorShellDocument(options: {
   readonly displayProjection?: DisplayProjection;
   readonly sourceProjection?: SourceRegistryProjection;
   readonly plannedDisplayProjection?: PlannedDisplayProjection;
+  readonly plannedDisplaySelections?: readonly import('../application/operator-panel/planned-display-projection-service.js').PlannedDisplaySelection[];
 }): string {
   const region = renderOperatorFeatureRegion(options.model);
   const displayControls =
@@ -72,6 +74,15 @@ export function renderCoreOperatorShellDocument(options: {
     options.sourceProjection !== undefined
       ? renderSourceControls(options.sourceProjection)
       : '';
+  const plannedDisplayControls =
+    options.model.pageKey === 'planned-display' &&
+    options.plannedDisplayProjection !== undefined &&
+    options.plannedDisplaySelections !== undefined
+      ? renderPlannedDisplayReview({
+          projection: options.plannedDisplayProjection,
+          selections: options.plannedDisplaySelections,
+        })
+      : '';
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -79,6 +90,7 @@ export function renderCoreOperatorShellDocument(options: {
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>${escapeHtml(options.model.title)} · Chalkwright operator</title>
   <link rel="stylesheet" href="/assets/operator-shell.css">
+  ${options.plannedDisplayProjection === undefined ? '' : '<link rel="stylesheet" href="/assets/planned-display-review.css">'}
 </head>
 <body>
   <a class="skip-link" href="#operator-main">Skip to main content</a>
@@ -92,8 +104,9 @@ export function renderCoreOperatorShellDocument(options: {
       <div class="shell-context"><div><span>Installation workspace</span><strong>${escapeHtml(options.model.workspace.workspaceId)}</strong></div><div><span>Authority</span><strong>Private reachability</strong></div></div>
       <p class="shell-authority-warning">${escapeHtml(operatorDeliveryAcceptance.selfHostedAuthorityWarning.text)}</p>
     </header>
-    <main id="operator-main" tabindex="-1">${region}${displayControls}${sourceControls}</main>
+    <main id="operator-main" tabindex="-1">${region}${displayControls}${sourceControls}${plannedDisplayControls}</main>
   </div>
+  ${plannedDisplayControls === '' ? '' : '<script src="/assets/planned-display-review.js"></script>'}
 </body>
 </html>`;
 }

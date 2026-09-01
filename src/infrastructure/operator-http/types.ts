@@ -15,6 +15,11 @@ export interface CoreOperatorHttpController {
   ):
     | { readonly status: number; readonly document: string }
     | Promise<{ readonly status: number; readonly document: string }>;
+  selectPlannedDisplay(
+    fields: Readonly<Record<string, string>>,
+  ):
+    | { readonly status: number; readonly document: string }
+    | Promise<{ readonly status: number; readonly document: string }>;
 }
 
 export interface CoreOperatorHttpServerOptions {

@@ -93,7 +93,9 @@ test('private operator ingress serves only its seven-page shell and bounded disc
     assert.match(response.headers.get('content-type') ?? '', /^text\/html/u);
     assert.match(
       response.headers.get('content-security-policy') ?? '',
-      /default-src 'none'.*script-src 'none'/u,
+      pageKey === 'planned-display'
+        ? /default-src 'none'.*script-src 'self'/u
+        : /default-src 'none'.*script-src 'none'/u,
     );
     assert.equal(response.headers.get('set-cookie'), null);
     const body = await response.text();
@@ -335,6 +337,10 @@ test('operator bind must be explicit loopback and display ingress cannot resolve
     readiness: () => ({ ready: true }),
     mutateDisplay: () => ({ status: 200, document: '<main>synthetic</main>' }),
     mutateSource: () => ({ status: 200, document: '<main>synthetic</main>' }),
+    selectPlannedDisplay: () => ({
+      status: 200,
+      document: '<main>synthetic</main>',
+    }),
   };
   await assert.rejects(
     startCoreOperatorHttpServer({
@@ -375,6 +381,9 @@ test('unexpected controller failures render a finite HTML boundary without detai
       throw new Error('synthetic-private-canary-value');
     },
     mutateSource: () => {
+      throw new Error('synthetic-private-canary-value');
+    },
+    selectPlannedDisplay: () => {
       throw new Error('synthetic-private-canary-value');
     },
   };

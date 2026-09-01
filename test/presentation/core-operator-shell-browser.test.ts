@@ -26,6 +26,13 @@ before(async () => {
         coreGoal1FixtureCatalog.configurationStates.rolledBack,
       ]),
     ),
+    plannedFrames: coreGoal1FixtureCatalog.plannedFrames,
+    ...(coreGoal1FixtureCatalog.preview.basis.kind === 'revision'
+      ? {
+          plannedDisplayBasisRevisionId:
+            coreGoal1FixtureCatalog.preview.basis.revisionId,
+        }
+      : {}),
   });
 });
 
@@ -193,4 +200,60 @@ test('C04 source controls retain a useful no-JavaScript manual path', async () =
     )) <= 1,
   );
   await context.close();
+});
+
+test('C11 planned-display review reflows without JavaScript and supports keyboard dialog review with it', async () => {
+  const noScript = await browser.newContext({
+    viewport: { width: 683, height: 384 },
+    javaScriptEnabled: false,
+    reducedMotion: 'reduce',
+  });
+  const noScriptPage = await noScript.newPage();
+  await noScriptPage.goto(`${running.origin}/planned-display`, {
+    waitUntil: 'load',
+  });
+  assert.equal(await noScriptPage.locator('h1').innerText(), 'Planned display');
+  assert.equal(
+    await noScriptPage
+      .locator('form[action$="planned-displays/select"]')
+      .count(),
+    1,
+  );
+  assert.ok((await noScriptPage.locator('[role="option"]').count()) >= 3);
+  assert.ok(
+    (await noScriptPage.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    )) <= 1,
+  );
+  await noScript.close();
+
+  const enhanced = await browser.newContext({
+    viewport: { width: 1366, height: 768 },
+    reducedMotion: 'reduce',
+  });
+  const page = await enhanced.newPage();
+  const failures = collectFailures(page);
+  await page.goto(`${running.origin}/planned-display`, { waitUntil: 'load' });
+  const options = page.locator('[role="option"]');
+  await options.first().focus();
+  await page.keyboard.press('End');
+  assert.equal(
+    await page.locator('[role="option"][aria-selected="true"]').count(),
+    1,
+  );
+  await page.keyboard.press('Space');
+  const dialog = page.locator('[data-planned-dialog]');
+  assert.equal(
+    await dialog.evaluate((element) => (element as HTMLDialogElement).open),
+    true,
+  );
+  await page.keyboard.press('Escape');
+  assert.equal(
+    await dialog.evaluate((element) => (element as HTMLDialogElement).open),
+    false,
+  );
+  assert.deepEqual(failures, { consoleErrors: [], pageErrors: [] });
+  await enhanced.close();
 });

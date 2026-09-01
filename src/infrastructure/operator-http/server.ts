@@ -11,6 +11,10 @@ import {
   coreOperatorShellStyles,
   renderCoreOperatorErrorDocument,
 } from '../../presentation/core-operator-shell.js';
+import {
+  plannedDisplayReviewScript,
+  plannedDisplayReviewStyles,
+} from '../../presentation/planned-display-review.js';
 import type {
   CoreOperatorHttpController,
   CoreOperatorHttpServerOptions,
@@ -35,6 +39,9 @@ type OperatorRoute =
   | { readonly kind: 'health' }
   | { readonly kind: 'readiness' }
   | { readonly kind: 'stylesheet' }
+  | { readonly kind: 'planned-review-stylesheet' }
+  | { readonly kind: 'planned-review-script' }
+  | { readonly kind: 'planned-display-selection' }
   | {
       readonly kind: 'display-mutation';
       readonly action: 'save-draft' | 'rotate-class-code' | 'revoke-class-code';
@@ -48,6 +55,9 @@ const routeTable = new Map<string, OperatorRoute>([
   ['/health', { kind: 'health' }],
   ['/ready', { kind: 'readiness' }],
   ['/assets/operator-shell.css', { kind: 'stylesheet' }],
+  ['/assets/planned-display-review.css', { kind: 'planned-review-stylesheet' }],
+  ['/assets/planned-display-review.js', { kind: 'planned-review-script' }],
+  ['/actions/planned-displays/select', { kind: 'planned-display-selection' }],
   [
     '/actions/displays/save-draft',
     { kind: 'display-mutation', action: 'save-draft' },
@@ -101,10 +111,13 @@ function expectedAuthority(host: '127.0.0.1' | '::1', port: number): string {
   return `${host === '::1' ? `[${host}]` : host}:${port}`;
 }
 
-function setSecurityHeaders(response: ServerResponse): void {
+function setSecurityHeaders(
+  response: ServerResponse,
+  allowPlannedReviewScript = false,
+): void {
   response.setHeader(
     'Content-Security-Policy',
-    "default-src 'none'; style-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'none'; connect-src 'self'",
+    `default-src 'none'; style-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; script-src ${allowPlannedReviewScript ? "'self'" : "'none'"}; connect-src 'self'`,
   );
   response.setHeader('Cache-Control', 'no-store');
   response.setHeader('Referrer-Policy', 'no-referrer');
@@ -354,6 +367,26 @@ async function dispatchRoute(options: {
     );
     return;
   }
+  if (route.kind === 'planned-display-selection') {
+    if (method !== 'POST')
+      throw new OperatorProtocolError(
+        405,
+        'method_not_allowed',
+        'Method not allowed.',
+        { Allow: 'POST' },
+      );
+    const result = await controller.selectPlannedDisplay(
+      await readForm(request),
+    );
+    sendBytes(
+      response,
+      'GET',
+      result.status,
+      'text/html; charset=utf-8',
+      result.document,
+    );
+    return;
+  }
   if (method === 'POST') {
     throw new OperatorProtocolError(
       405,
@@ -382,6 +415,26 @@ async function dispatchRoute(options: {
       200,
       'text/css; charset=utf-8',
       coreOperatorShellStyles,
+    );
+    return;
+  }
+  if (route.kind === 'planned-review-stylesheet') {
+    sendBytes(
+      response,
+      method,
+      200,
+      'text/css; charset=utf-8',
+      plannedDisplayReviewStyles,
+    );
+    return;
+  }
+  if (route.kind === 'planned-review-script') {
+    sendBytes(
+      response,
+      method,
+      200,
+      'application/javascript; charset=utf-8',
+      plannedDisplayReviewScript,
     );
     return;
   }
@@ -467,6 +520,9 @@ export async function startCoreOperatorHttpServer(
       try {
         const method = validateIngress(request, authority, origin);
         const route = parseRoute(request);
+        if (route.kind === 'page' && route.pageKey === 'planned-display') {
+          setSecurityHeaders(response, true);
+        }
         await dispatchRoute({
           route,
           controller: options.controller,

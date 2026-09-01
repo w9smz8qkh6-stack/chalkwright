@@ -8,6 +8,14 @@ omitted.
 
 ## [Unreleased]
 
+### Added
+
+- Implemented C11's private Core planned-display review: a bounded daily
+  contact sheet, selected-frame stage, date/screen form, enlarged dialog, and
+  same-origin keyboard carousel. Selection remains preview-only and returns a
+  complete server-rendered response without JavaScript; the optional
+  enhancement is limited to the planned-display page by a same-origin CSP.
+
 ### Fixed
 
 - Corrected C04 capability-discovery coverage so the implemented Sources page
@@ -64,8 +72,6 @@ omitted.
   repository is archived and the legacy services are inactive and disabled;
   local source, state, backups, unit definitions, route snapshot, and rollback
   instructions remain retained for cold recovery.
-
-### Added
 
 - Completed C10, the final non-creator Core operator-panel acceptance gate.
   Its disposable synthetic rehearsal composes the C01-C04/C09 services through

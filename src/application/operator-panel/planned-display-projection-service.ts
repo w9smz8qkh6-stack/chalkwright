@@ -70,6 +70,23 @@ export class PlannedDisplayProjectionService {
       : { schoolDate: first.schoolDate, screenId: first.screenId };
   }
 
+  availableSelections(): readonly PlannedDisplaySelection[] {
+    const seen = new Set<string>();
+    return this.frames
+      .slice()
+      .sort(
+        (left, right) =>
+          left.schoolDate.localeCompare(right.schoolDate) ||
+          left.screenId.localeCompare(right.screenId),
+      )
+      .flatMap((frame) => {
+        const key = `${frame.schoolDate}\u0000${frame.screenId}`;
+        if (seen.has(key)) return [];
+        seen.add(key);
+        return [{ schoolDate: frame.schoolDate, screenId: frame.screenId }];
+      });
+  }
+
   async project(
     selection: PlannedDisplaySelection,
   ): Promise<PlannedDisplayProjection> {

@@ -65,3 +65,64 @@ test('C10 confirms the private operator listener does not compose a display rout
     await running.close();
   }
 });
+
+test('C11 serves a mutation-free contact sheet with an ordinary selection form and same-origin enhancement assets', async () => {
+  const basis = coreGoal1FixtureCatalog.preview.basis;
+  const running = await startCoreOperatorApplication({
+    host: '127.0.0.1',
+    workspace: coreGoal1FixtureCatalog.workspace,
+    configuration: new VersionedConfigurationService(
+      new InMemoryConfigurationStateRepository([
+        coreGoal1FixtureCatalog.configurationStates.rolledBack,
+      ]),
+    ),
+    plannedFrames: coreGoal1FixtureCatalog.plannedFrames,
+    ...(basis.kind === 'revision'
+      ? { plannedDisplayBasisRevisionId: basis.revisionId }
+      : {}),
+  });
+  try {
+    const initial = await fetch(`${running.origin}/planned-display`);
+    assert.equal(initial.status, 200);
+    assert.match(
+      initial.headers.get('content-security-policy') ?? '',
+      /script-src 'self'/u,
+    );
+    const initialBody = await initial.text();
+    assert.match(initialBody, /Daily contact sheet/u);
+    assert.match(initialBody, /data-planned-contact-sheet/u);
+    assert.match(initialBody, /data-planned-dialog/u);
+    assert.match(initialBody, /Mutation-free/u);
+    assert.match(initialBody, /planned-display-review\.js/u);
+    assert.equal(
+      (await fetch(`${running.origin}/assets/planned-display-review.css`))
+        .status,
+      200,
+    );
+    assert.equal(
+      (await fetch(`${running.origin}/assets/planned-display-review.js`))
+        .status,
+      200,
+    );
+
+    const frame = coreGoal1FixtureCatalog.plannedFrames[0]!;
+    const selected = await fetch(
+      `${running.origin}/actions/planned-displays/select`,
+      {
+        method: 'POST',
+        headers: {
+          Origin: running.origin,
+          'content-type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          schoolDate: frame.schoolDate,
+          screenId: frame.screenId,
+        }),
+      },
+    );
+    assert.equal(selected.status, 200);
+    assert.match(await selected.text(), /Showing 4 frames/u);
+  } finally {
+    await running.close();
+  }
+});

@@ -1,6 +1,6 @@
 # Core operator shell
 
-Status: C02-C04 and C09 implemented for synthetic qualification. This document describes
+Status: C02-C04, C09, and C11 implemented for synthetic qualification. This document describes
 the private, no-login self-hosted operator process and its deliberate limits.
 It does not claim a durable production configuration adapter, installed service,
 public ingress, or completed Core operator MVP.
@@ -37,15 +37,19 @@ The operator listener recognizes only:
 - `/capabilities` for the finite page/task availability catalog;
 - `/health` for process viability and `/ready` for operator-shell/configuration
   readability; and
-- `/assets/operator-shell.css` for the shell-owned stylesheet.
+- `/assets/operator-shell.css` for the shell-owned stylesheet; and
+- C11's `/assets/planned-display-review.css`,
+  `/assets/planned-display-review.js`, and
+  `/actions/planned-displays/select` review-only selection action.
 
 C03 adds three exact ordinary-form actions under `/actions/displays/` for
 display-draft save, class-code rotation, and class-code/session revocation.
 Their behavior and protected-state boundary are documented in
 [Core display configuration and viewer admission](core-display-configuration.md).
 
-All page and discovery paths use `GET` or `HEAD`; only the three C03 action
-paths accept `POST`. A non-read request must first provide the exact same Origin
+All page and discovery paths use `GET` or `HEAD`; C03's three display actions,
+C04's manual-source action, and C11's planned-display selection action accept
+`POST`. A non-read request must first provide the exact same Origin
 and an approved ordinary-form content type. Foreign or missing mutation origins
 fail earlier, and POST to any read route returns `405 Method Not Allowed`. The
 request target must be an exact canonical origin-form
@@ -58,6 +62,9 @@ No permissive CORS header or WebSocket surface is supplied.
 Responses are non-cacheable and set a restrictive CSP, deny framing, suppress
 referrers and MIME sniffing, and set no cookies. Unexpected controller failures
 produce a finite server-rendered error page without returning exception detail.
+The planned-display page alone allows an external same-origin script through
+its CSP; it has no inline script, third-party source, network connection, or
+state-changing command.
 
 ## Application and presentation composition
 
@@ -75,16 +82,19 @@ not drift. Capability discovery marks C01-C04 and C09-backed areas available:
 - displays projects rooms, screens, timezone, display references, readiness,
   and protected viewer-admission controls from C03;
 - sources records C04 teacher-entered draft definitions without acquisition; and
-- planned-display summarizes C09's injected, date-bound mutation-free frame
-  projection without supplying C11's contact-sheet or carousel controls; C10
-  remains the final non-creator acceptance gate.
+- planned-display renders C11's bounded C09-backed daily contact sheet,
+  selected-frame stage, ordinary date/screen selection form, enlarged review,
+  and optional keyboard carousel. It remains mutation-free: it cannot activate
+  configuration, acquire data, or invoke provider or Calendar writes.
 
 Later pages remain visible with disabled actions and the owning WBS item.
 C02-C03 do not implement later tasks early. Reading any page is mutation-free and
 does not advance the C01 state version or active revision.
 
-The shell uses complete server-rendered HTML and CSS with no client script,
-framework, or bundler. Navigation works without JavaScript. Browser evidence
+The shell uses complete server-rendered HTML and CSS with no framework or
+bundler. Navigation and planned-display selection work without JavaScript; C11
+adds only a same-origin optional keyboard/modal enhancement to the planned
+display review. Browser evidence
 covers the accepted 390x844, 768x1024, 1366x768, and 1920x1080 viewports,
 approximately 200% effective reflow, reduced motion, skip navigation, landmarks,
 visible focus, minimum target size, horizontal overflow, and console/page

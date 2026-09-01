@@ -1,8 +1,8 @@
 import type { OperatorPageKey } from '../contracts/v1/index.js';
 import type { CoreOperatorShellService } from '../application/operator-panel/core-operator-shell-service.js';
 import type { CoreOperatorHttpController } from '../infrastructure/operator-http/index.js';
-import { renderCoreOperatorShellDocument } from '../presentation/core-operator-shell.js';
 import {
+  renderCoreOperatorShellDocument,
   renderClassCodeRotatedDocument,
   renderDisplayMutationResultDocument,
 } from '../presentation/core-operator-shell.js';
@@ -29,11 +29,14 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
     return this.shell.readiness();
   }
 
-  async renderPage(pageKey: OperatorPageKey): Promise<string> {
+  async renderPage(
+    pageKey: OperatorPageKey,
+    requestedSelection = pageKey === 'planned-display'
+      ? this.plannedDisplays.defaultSelection()
+      : null,
+  ): Promise<string> {
     const plannedSelection =
-      pageKey === 'planned-display'
-        ? this.plannedDisplays.defaultSelection()
-        : null;
+      pageKey === 'planned-display' ? requestedSelection : null;
     return renderCoreOperatorShellDocument({
       model: await this.shell.page(pageKey),
       capabilities: this.shell.discoverCapabilities(),
@@ -45,9 +48,43 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
             ? {
                 plannedDisplayProjection:
                   await this.plannedDisplays.project(plannedSelection),
+                plannedDisplaySelections:
+                  this.plannedDisplays.availableSelections(),
               }
             : {}),
     });
+  }
+
+  async selectPlannedDisplay(
+    fields: Readonly<Record<string, string>>,
+  ): Promise<{ readonly status: number; readonly document: string }> {
+    const schoolDate = fields.schoolDate;
+    if (schoolDate === undefined || !/^\d{4}-\d{2}-\d{2}$/u.test(schoolDate)) {
+      return {
+        status: 422,
+        document: renderDisplayMutationResultDocument(
+          'Choose a valid school date. No configuration or display state changed.',
+          'error',
+        ),
+      };
+    }
+    try {
+      return {
+        status: 200,
+        document: await this.renderPage('planned-display', {
+          schoolDate,
+          screenId: scopeIdentifier('screen', fields.screenId),
+        }),
+      };
+    } catch {
+      return {
+        status: 422,
+        document: renderDisplayMutationResultDocument(
+          'Choose a configured screen. No configuration or display state changed.',
+          'error',
+        ),
+      };
+    }
   }
 
   async mutateDisplay(
