@@ -8,6 +8,12 @@ import type { CoreOperatorCapability } from '../application/operator-panel/core-
 import type { DisplayProjection } from '../application/operator-panel/display-configuration-service.js';
 import type { SourceRegistryProjection } from '../application/operator-panel/source-registry-service.js';
 import type { PlannedDisplayProjection } from '../application/operator-panel/planned-display-projection-service.js';
+import {
+  presentationLanguages,
+  presentationThemes,
+  presentationTransitions,
+  type PresentationProfileProjection,
+} from '../application/operator-panel/presentation-profile-service.js';
 import { renderPlannedDisplayReview } from './planned-display-review.js';
 import { renderOperatorFeatureRegion } from './operator-panel-region.js';
 
@@ -62,6 +68,7 @@ export function renderCoreOperatorShellDocument(options: {
   readonly sourceProjection?: SourceRegistryProjection;
   readonly plannedDisplayProjection?: PlannedDisplayProjection;
   readonly plannedDisplaySelections?: readonly import('../application/operator-panel/planned-display-projection-service.js').PlannedDisplaySelection[];
+  readonly presentationProfile?: PresentationProfileProjection;
 }): string {
   const region = renderOperatorFeatureRegion(options.model);
   const displayControls =
@@ -82,6 +89,11 @@ export function renderCoreOperatorShellDocument(options: {
           projection: options.plannedDisplayProjection,
           selections: options.plannedDisplaySelections,
         })
+      : '';
+  const presentationControls =
+    options.model.pageKey === 'presentation' &&
+    options.presentationProfile !== undefined
+      ? renderPresentationControls(options.presentationProfile)
       : '';
   return `<!doctype html>
 <html lang="en">
@@ -104,11 +116,30 @@ export function renderCoreOperatorShellDocument(options: {
       <div class="shell-context"><div><span>Installation workspace</span><strong>${escapeHtml(options.model.workspace.workspaceId)}</strong></div><div><span>Authority</span><strong>Private reachability</strong></div></div>
       <p class="shell-authority-warning">${escapeHtml(operatorDeliveryAcceptance.selfHostedAuthorityWarning.text)}</p>
     </header>
-    <main id="operator-main" tabindex="-1">${region}${displayControls}${sourceControls}${plannedDisplayControls}</main>
+    <main id="operator-main" tabindex="-1">${region}${displayControls}${sourceControls}${plannedDisplayControls}${presentationControls}</main>
   </div>
   ${plannedDisplayControls === '' ? '' : '<script src="/assets/planned-display-review.js"></script>'}
 </body>
 </html>`;
+}
+
+function presentationOptions(
+  values: readonly string[],
+  selected: string,
+): string {
+  return values
+    .map(
+      (value) =>
+        `<option value="${escapeHtml(value)}"${value === selected ? ' selected' : ''}>${escapeHtml(value)}</option>`,
+    )
+    .join('');
+}
+
+function renderPresentationControls(
+  projection: PresentationProfileProjection,
+): string {
+  const { profile } = projection;
+  return `<section class="display-controls" aria-label="Presentation controls"><form class="display-control" method="post" action="/actions/presentation/save"><h2>Presentation profile draft</h2><p>Profile revision ${projection.revision}. These controls alter the bounded preview treatment only; schedule, sources, translations, and active display content remain unchanged.</p><div class="field-grid"><label>Theme<select name="theme">${presentationOptions(presentationThemes, profile.theme)}</select></label><label>Transition<select name="transition">${presentationOptions(presentationTransitions, profile.transition)}</select></label><label>Dwell seconds<input name="dwellSeconds" type="number" min="5" max="60" value="${profile.dwellSeconds}" required></label><label>Interface language<select name="language">${presentationOptions(presentationLanguages, profile.language)}</select></label><label>Motion safety<select name="reducedMotion"><option value="respect-preference"${profile.reducedMotion === 'respect-preference' ? ' selected' : ''}>Respect system reduced motion</option><option value="always"${profile.reducedMotion === 'always' ? ' selected' : ''}>Always reduce motion</option></select></label></div><button type="submit">Save preview profile</button></form><section class="display-control"><h2>Safe preview boundary</h2><p>The synthetic profile is versioned in memory for this private Core process. It never fetches translations, connects an account, changes canonical content, or activates a display.</p><p><strong>${escapeHtml(profile.theme)}</strong> theme · <strong>${escapeHtml(profile.transition)}</strong> transition · ${profile.dwellSeconds}s dwell · ${escapeHtml(profile.language)} catalog.</p><form method="post" action="/actions/presentation/reset"><button type="submit">Reset preview profile</button></form></section></section>`;
 }
 
 function renderSourceControls(projection: SourceRegistryProjection): string {

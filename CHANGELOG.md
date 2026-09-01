@@ -10,6 +10,12 @@ omitted.
 
 ### Added
 
+- Began C12's private Core presentation-profile seam: bounded theme,
+  transition, dwell-time, interface-language, and reduced-motion choices are
+  versioned in synthetic in-memory state and previewed through ordinary forms.
+  They cannot change canonical content, activate a display, fetch translations,
+  or create provider/account authority.
+
 - Implemented C11's private Core planned-display review: a bounded daily
   contact sheet, selected-frame stage, date/screen form, enlarged dialog, and
   same-origin keyboard carousel. Selection remains preview-only and returns a

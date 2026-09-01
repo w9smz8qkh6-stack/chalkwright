@@ -11,6 +11,7 @@ import { scopeIdentifier } from '../contracts/v1/index.js';
 import type { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
 import { renderSourceMutationResultDocument } from '../presentation/core-operator-shell.js';
 import type { PlannedDisplayProjectionService } from '../application/operator-panel/planned-display-projection-service.js';
+import type { PresentationProfileService } from '../application/operator-panel/presentation-profile-service.js';
 
 /** Self-hosted document controller; account and hosted authority do not exist here. */
 export class SelfHostedCoreOperatorController implements CoreOperatorHttpController {
@@ -19,6 +20,7 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
     readonly displays: DisplayConfigurationService,
     readonly sources: SourceRegistryService,
     readonly plannedDisplays: PlannedDisplayProjectionService,
+    readonly presentation: PresentationProfileService,
   ) {}
 
   capabilities(): unknown {
@@ -51,8 +53,33 @@ export class SelfHostedCoreOperatorController implements CoreOperatorHttpControl
                 plannedDisplaySelections:
                   this.plannedDisplays.availableSelections(),
               }
-            : {}),
+            : pageKey === 'presentation'
+              ? { presentationProfile: this.presentation.project() }
+              : {}),
     });
+  }
+
+  async mutatePresentation(
+    action: 'save' | 'reset',
+    fields: Readonly<Record<string, string>>,
+  ): Promise<{ readonly status: number; readonly document: string }> {
+    const result =
+      action === 'reset'
+        ? { status: 'saved' as const, projection: this.presentation.reset() }
+        : this.presentation.save(fields);
+    if (result.status === 'rejected') {
+      return {
+        status: 422,
+        document: renderDisplayMutationResultDocument(
+          'The presentation profile was not saved. Choose a supported theme, transition, language, motion setting, and 5–60 second dwell time.',
+          'error',
+        ),
+      };
+    }
+    return {
+      status: 200,
+      document: await this.renderPage('presentation'),
+    };
   }
 
   async selectPlannedDisplay(

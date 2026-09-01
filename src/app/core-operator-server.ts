@@ -14,6 +14,7 @@ import { InMemoryDisplayAccessRepository } from '../infrastructure/memory/displa
 import type { DisplayAccessRepository } from '../ports/display-access.js';
 import { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
 import { PlannedDisplayProjectionService } from '../application/operator-panel/planned-display-projection-service.js';
+import { PresentationProfileService } from '../application/operator-panel/presentation-profile-service.js';
 
 export interface CoreOperatorApplicationOptions {
   readonly host: '127.0.0.1' | '::1';
@@ -50,6 +51,7 @@ export function startCoreOperatorApplication(
     undefined,
     options.plannedDisplayBasisRevisionId ?? null,
   );
+  const presentation = new PresentationProfileService(options.workspace);
   const shell = new CoreOperatorShellService(
     options.workspace,
     options.configuration,
@@ -63,6 +65,7 @@ export function startCoreOperatorApplication(
       displays,
       sources,
       plannedDisplays,
+      presentation,
     ),
     host: options.host,
     ...(options.port === undefined ? {} : { port: options.port }),

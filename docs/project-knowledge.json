@@ -3,8 +3,8 @@
   "review": {
     "reviewedOn": "2026-08-31",
     "maximumAgeDays": 7,
-    "implementationFingerprint": "a7c2cabc8a9232c74995ce750ff6b7c25dffa21a3b502d34aa5a2991d71521b9",
-    "statement": "C11 was reviewed with the accepted C01-C04/C09/C10 operator slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. It adds a bounded C09-backed daily contact sheet, selected-frame stage, ordinary same-origin date/screen selection form, enlarged review, and optional keyboard carousel to the explicit-loopback Core operator listener. Selection is preview-only and returns a complete server-rendered page when JavaScript is unavailable. The planned-display page alone permits a same-origin external enhancement asset; every other operator route retains script-src 'none'. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added."
+    "implementationFingerprint": "7f28f4a7b37d85c84db16275057845bf218961fe8b8d928852199cdef14fe586",
+    "statement": "C12 is being reviewed with the accepted C01-C04/C09/C10/C11 operator slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its first bounded slice adds a private in-memory, versioned presentation-preview profile for reviewed theme, transition, dwell time, interface catalog, and reduced-motion choices. It is reached only through exact same-origin ordinary forms on the explicit-loopback Core listener. A profile cannot alter canonical content truth, activate a display, fetch translations, connect a provider, or create account authority. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added."
   },
   "project": {
     "phase": "Production stabilization and public-preview preparation",
@@ -274,7 +274,7 @@
       "id": "guided-setup",
       "name": "Guided non-secret installation configuration",
       "status": "implemented",
-      "summary": "Provides a private-by-default Core operator panel for versioned configuration, guided sources, readiness, and bounded planned-display review while retaining strict generated runtime contracts. A04-A08 established scope and acceptance contracts; C01-C03 implement configuration, private shell, and display/class-code controls; C04 implements teacher-entered application-managed source forms; C09 projects injected normalized frame metadata; C10 qualifies the synthetic non-creator path; and C11 adds a bounded contact sheet, selected-frame review, date/screen selection, and optional same-origin keyboard carousel without a mutation path. Durable production storage/composition, public viewer admission, and OAuth clients remain planned.",
+      "summary": "Provides a private-by-default Core operator panel for versioned configuration, guided sources, readiness, bounded planned-display review, and a synthetic presentation-preview seam while retaining strict generated runtime contracts. A04-A08 established scope and acceptance contracts; C01-C03 implement configuration, private shell, and display/class-code controls; C04 implements teacher-entered application-managed source forms; C09 projects injected normalized frame metadata; C10 qualifies the synthetic non-creator path; C11 adds bounded planned-display review; and C12 begins versioned in-memory theme, transition, timing, interface-catalog, and reduced-motion preview profiles without a content mutation path. Durable production storage/composition, public viewer admission, and OAuth clients remain planned.",
       "safety": "Core adds no account login, so operator reachability confers full authority. The operator process remains explicit-loopback and separate from display ingress. C03 accepts mutations only through exact same-origin bounded ordinary forms; generated codes are returned once, protected state retains only scrypt verifiers, viewer state retains only token digests and verifier versions, bounded failures retain timestamps only, and rotate/revoke atomically clears prior viewer sessions without coupling them to operator authority. Provider grants, OAuth material, browser profiles, and private values remain separate from portable non-secret configuration.",
       "implementation": [
         "src/config/production.ts",
@@ -308,6 +308,7 @@
         "src/infrastructure/memory/display-access.ts",
         "src/application/operator-panel/source-registry-service.ts",
         "src/application/operator-panel/planned-display-projection-service.ts",
+        "src/application/operator-panel/presentation-profile-service.ts",
         "src/application/operator-panel/core-goal1-planned-display-adapter.ts"
       ],
       "tests": [
@@ -333,6 +334,7 @@
         "test/application/operator-panel/display-configuration-service.test.ts",
         "test/application/operator-panel/source-registry-service.test.ts",
         "test/application/operator-panel/planned-display-projection-service.test.ts"
+        ,"test/application/operator-panel/presentation-profile-service.test.ts"
       ],
       "documentation": [
         "docs/configuration.md",
@@ -489,9 +491,9 @@
       "name": "Core configuration panel and hosted-shell planning",
       "status": "active",
       "outcome": "Move the agreed Core operator panel and related hosted-shell direction through an architecture-ready, measurable implementation gate without changing live runtime behavior prematurely.",
-      "currentState": "A01 through A08 and C01-C04/C09/C10 are complete in this worktree. C11 adds the C09-backed private planned-display contact sheet, selected-frame stage, ordinary date/screen selection form, enlarged review, and same-origin keyboard carousel. The no-JavaScript path remains complete and preview-only, and only that page's CSP permits its same-origin enhancement asset. Loopback HTTP evidence keeps the private operator listener separate from an absent public display route. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.",
+      "currentState": "A01 through A08 and C01-C04/C09/C10/C11 are complete in this worktree. C12 begins a private, versioned in-memory presentation-preview profile for theme, transition, timing, reviewed interface catalog, and reduced-motion choice; it cannot alter content truth or activate a display. Loopback HTTP evidence keeps the private operator listener separate from an absent public display route. No source parser/fetcher, upload, shared-resource request, OAuth client, durable production schema/adapter, hosted repository, billing integration, commercial framework selection, deployment, or live effect exists.",
       "nextSteps": [
-        "Return C11 for visual and non-creator acceptance after the full Core gate passes.",
+        "Complete C12's preview, reversibility, reduced-motion, and route-boundary qualification before returning its remote checkpoint for acceptance.",
         "Schedule the next dependency-ready task only after C11's acceptance is recorded in the authoritative ledger."
       ],
       "capabilities": [

@@ -20,6 +20,12 @@ export interface CoreOperatorHttpController {
   ):
     | { readonly status: number; readonly document: string }
     | Promise<{ readonly status: number; readonly document: string }>;
+  mutatePresentation(
+    action: 'save' | 'reset',
+    fields: Readonly<Record<string, string>>,
+  ):
+    | { readonly status: number; readonly document: string }
+    | Promise<{ readonly status: number; readonly document: string }>;
 }
 
 export interface CoreOperatorHttpServerOptions {

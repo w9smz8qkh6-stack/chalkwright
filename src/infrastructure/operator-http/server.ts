@@ -43,6 +43,10 @@ type OperatorRoute =
   | { readonly kind: 'planned-review-script' }
   | { readonly kind: 'planned-display-selection' }
   | {
+      readonly kind: 'presentation-mutation';
+      readonly action: 'save' | 'reset';
+    }
+  | {
       readonly kind: 'display-mutation';
       readonly action: 'save-draft' | 'rotate-class-code' | 'revoke-class-code';
     }
@@ -58,6 +62,14 @@ const routeTable = new Map<string, OperatorRoute>([
   ['/assets/planned-display-review.css', { kind: 'planned-review-stylesheet' }],
   ['/assets/planned-display-review.js', { kind: 'planned-review-script' }],
   ['/actions/planned-displays/select', { kind: 'planned-display-selection' }],
+  [
+    '/actions/presentation/save',
+    { kind: 'presentation-mutation', action: 'save' },
+  ],
+  [
+    '/actions/presentation/reset',
+    { kind: 'presentation-mutation', action: 'reset' },
+  ],
   [
     '/actions/displays/save-draft',
     { kind: 'display-mutation', action: 'save-draft' },
@@ -376,6 +388,27 @@ async function dispatchRoute(options: {
         { Allow: 'POST' },
       );
     const result = await controller.selectPlannedDisplay(
+      await readForm(request),
+    );
+    sendBytes(
+      response,
+      'GET',
+      result.status,
+      'text/html; charset=utf-8',
+      result.document,
+    );
+    return;
+  }
+  if (route.kind === 'presentation-mutation') {
+    if (method !== 'POST')
+      throw new OperatorProtocolError(
+        405,
+        'method_not_allowed',
+        'Method not allowed.',
+        { Allow: 'POST' },
+      );
+    const result = await controller.mutatePresentation(
+      route.action,
       await readForm(request),
     );
     sendBytes(

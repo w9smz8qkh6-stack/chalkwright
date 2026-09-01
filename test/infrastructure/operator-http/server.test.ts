@@ -341,6 +341,10 @@ test('operator bind must be explicit loopback and display ingress cannot resolve
       status: 200,
       document: '<main>synthetic</main>',
     }),
+    mutatePresentation: () => ({
+      status: 200,
+      document: '<main>synthetic</main>',
+    }),
   };
   await assert.rejects(
     startCoreOperatorHttpServer({
@@ -384,6 +388,9 @@ test('unexpected controller failures render a finite HTML boundary without detai
       throw new Error('synthetic-private-canary-value');
     },
     selectPlannedDisplay: () => {
+      throw new Error('synthetic-private-canary-value');
+    },
+    mutatePresentation: () => {
       throw new Error('synthetic-private-canary-value');
     },
   };

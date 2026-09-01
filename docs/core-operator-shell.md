@@ -40,7 +40,9 @@ The operator listener recognizes only:
 - `/assets/operator-shell.css` for the shell-owned stylesheet; and
 - C11's `/assets/planned-display-review.css`,
   `/assets/planned-display-review.js`, and
-  `/actions/planned-displays/select` review-only selection action.
+  `/actions/planned-displays/select` review-only selection action; and
+- C12's `/actions/presentation/save` and `/actions/presentation/reset`
+  ordinary-form preview-profile actions.
 
 C03 adds three exact ordinary-form actions under `/actions/displays/` for
 display-draft save, class-code rotation, and class-code/session revocation.
@@ -48,7 +50,8 @@ Their behavior and protected-state boundary are documented in
 [Core display configuration and viewer admission](core-display-configuration.md).
 
 All page and discovery paths use `GET` or `HEAD`; C03's three display actions,
-C04's manual-source action, and C11's planned-display selection action accept
+C04's manual-source action, C11's planned-display selection action, and C12's
+presentation-preview actions accept
 `POST`. A non-read request must first provide the exact same Origin
 and an approved ordinary-form content type. Foreign or missing mutation origins
 fail earlier, and POST to any read route returns `405 Method Not Allowed`. The
@@ -86,6 +89,11 @@ not drift. Capability discovery marks C01-C04 and C09-backed areas available:
   selected-frame stage, ordinary date/screen selection form, enlarged review,
   and optional keyboard carousel. It remains mutation-free: it cannot activate
   configuration, acquire data, or invoke provider or Calendar writes.
+- presentation renders C12's bounded in-memory profile revision and preview
+  controls for a reviewed theme, transition, 5–60 second dwell time, interface
+  catalog, and reduced-motion behavior. These profile-only revisions never
+  alter canonical content truth, activate a display, fetch a translation, or
+  add provider/account authority.
 
 Later pages remain visible with disabled actions and the owning WBS item.
 C02-C03 do not implement later tasks early. Reading any page is mutation-free and
