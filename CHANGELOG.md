@@ -10,6 +10,11 @@ omitted.
 
 ### Added
 
+- Extracted B04's private self-hosted Core composition factory. The existing
+  operator listener now binds a controller composed from the deliberate Core
+  exports, while transport remains separate and no commercial account,
+  authentication, provider, or display-publication concern is introduced.
+
 - Completed B03's same-ID workspace isolation for display-access state. The
   in-memory adapter keys state by the full installation/organization identity
   plus screen, so a matching workspace ID cannot select another tenant's data.

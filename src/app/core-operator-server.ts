@@ -1,30 +1,13 @@
-import type {
-  CoreGoal1PlannedFrameFixture,
-  SelfHostedWorkspace,
-} from '../contracts/v1/index.js';
-import { CoreOperatorShellService } from '../application/operator-panel/core-operator-shell-service.js';
-import type { VersionedConfigurationService } from '../application/configuration/versioned-configuration-service.js';
+import type { SelfHostedCoreCompositionOptions } from './self-hosted-core-composition.js';
 import {
   startCoreOperatorHttpServer,
   type RunningCoreOperatorHttpServer,
 } from '../infrastructure/operator-http/index.js';
-import { SelfHostedCoreOperatorController } from './core-operator-controller.js';
-import { DisplayConfigurationService } from '../application/operator-panel/display-configuration-service.js';
-import { InMemoryDisplayAccessRepository } from '../infrastructure/memory/display-access.js';
-import type { DisplayAccessRepository } from '../ports/display-access.js';
-import { SourceRegistryService } from '../application/operator-panel/source-registry-service.js';
-import { PlannedDisplayProjectionService } from '../application/operator-panel/planned-display-projection-service.js';
-import { PresentationProfileService } from '../application/operator-panel/presentation-profile-service.js';
+import { composeSelfHostedCore } from './self-hosted-core-composition.js';
 
-export interface CoreOperatorApplicationOptions {
+export interface CoreOperatorApplicationOptions extends SelfHostedCoreCompositionOptions {
   readonly host: '127.0.0.1' | '::1';
   readonly port?: number;
-  readonly workspace: SelfHostedWorkspace;
-  readonly configuration: VersionedConfigurationService;
-  readonly displayAccess?: DisplayAccessRepository;
-  readonly displayOrigin?: string;
-  readonly plannedFrames?: readonly CoreGoal1PlannedFrameFixture[];
-  readonly plannedDisplayBasisRevisionId?: string;
 }
 
 /**
@@ -34,39 +17,9 @@ export interface CoreOperatorApplicationOptions {
 export function startCoreOperatorApplication(
   options: CoreOperatorApplicationOptions,
 ): Promise<RunningCoreOperatorHttpServer> {
-  const displays = new DisplayConfigurationService(
-    options.workspace,
-    options.configuration,
-    options.displayAccess ?? new InMemoryDisplayAccessRepository(),
-    options.displayOrigin ?? 'https://display.synthetic.invalid',
-  );
-  const sources = new SourceRegistryService(
-    options.workspace,
-    options.configuration,
-  );
-  const plannedDisplays = new PlannedDisplayProjectionService(
-    options.workspace,
-    options.configuration,
-    options.plannedFrames ?? [],
-    undefined,
-    options.plannedDisplayBasisRevisionId ?? null,
-  );
-  const presentation = new PresentationProfileService(options.workspace);
-  const shell = new CoreOperatorShellService(
-    options.workspace,
-    options.configuration,
-    displays,
-    sources,
-    plannedDisplays,
-  );
+  const composition = composeSelfHostedCore(options);
   return startCoreOperatorHttpServer({
-    controller: new SelfHostedCoreOperatorController(
-      shell,
-      displays,
-      sources,
-      plannedDisplays,
-      presentation,
-    ),
+    controller: composition.controller,
     host: options.host,
     ...(options.port === undefined ? {} : { port: options.port }),
   });

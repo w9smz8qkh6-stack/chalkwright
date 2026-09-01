@@ -71,6 +71,16 @@ state-changing command.
 
 ## Application and presentation composition
 
+B04 extracts the private self-hosted composition into
+[`self-hosted-core-composition.ts`](../src/app/self-hosted-core-composition.ts).
+It composes the controller and its operator services only from the deliberate
+Core contract, configuration, and operator-panel exports; HTTP binding remains
+in [`core-operator-server.ts`](../src/app/core-operator-server.ts). This keeps
+the existing no-login operator behavior unchanged while allowing the Core
+composition to be exercised without opening a listener. Durable SQLite/files,
+local jobs, and provider adapters remain existing self-hosted application
+concerns and are not given commercial account authority by this extraction.
+
 [`CoreOperatorShellService`](../src/application/operator-panel/core-operator-shell-service.ts)
 reads the C01 `VersionedConfigurationService` and creates guarded A07
 `OperatorFeatureRegionModel` values. It does not import HTTP or document
