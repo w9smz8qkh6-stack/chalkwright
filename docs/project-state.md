@@ -12,10 +12,10 @@ docs:sync`. Repository documentation is not a live-service probe.
 ## Freshness contract
 
 - Reviewed: `2026-08-31` (1 days ago; maximum 7)
-- Implementation files covered: 593
-- Implementation fingerprint: `dac1ac96b7b67f640bed52e5dc4baa436be86d30ba75bd8d11221c1e77e26a98`
+- Implementation files covered: 595
+- Implementation fingerprint: `c22ea28b594cf58024ff27663ad55b004d3d3acdc39a4ab4932a159d5c2c564f`
 - Semantic review: **CURRENT**
-- Review statement: B06 is being reviewed with the accepted C01-C04/C09/C10/C11/C12 and B01-B05 slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its current increment adds configuration-state and protected display-access conformance suites on the public, adapter-neutral runner, including detached-read and exact-workspace failures. No provider, Calendar, OAuth, account, billing, durable production storage, publication, deployment, or live effect was added.
+- Review statement: C05 is being reviewed with the accepted Core operator-panel and B01-B06 slices, A02/A06 safety contracts, and A08 synthetic fixtures. Its first increment composes uploaded-snapshot admission into a bounded private service that records redacted provenance and preserves last-known-good admission after rejected replacement. No raw browser file route, provider, Calendar, OAuth, account, billing, durable production storage, publication, deployment, or live effect was added.
 - Working-tree classification is evaluated live by hooks and documentation gates; volatile change counts are intentionally excluded from this tracked view.
 
 ## Development position

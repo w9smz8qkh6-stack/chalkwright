@@ -93,6 +93,14 @@ cannot change accepted content or identity.
 
 ### Upload admission
 
+C05's first implementation increment composes this evaluator into the private
+`UploadedSourceImportService`. It accepts only an already-inspected upload
+snapshot and projects the redacted admission/provenance fields required for a
+future preview. A rejected replacement retains the prior accepted admission as
+last-known-good state. It intentionally does not accept raw browser bytes or
+provide an operator upload route yet; safe multipart streaming and worker-bound
+inspection remain required before a teacher-facing file control is enabled.
+
 An upload inspection must bind the exact workspace, source definition/revision,
 stream, expected/detected format, server-owned opaque object reference, basename
 only, declared and detected media types, digest, measured byte/time budgets,

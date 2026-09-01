@@ -10,6 +10,11 @@ omitted.
 
 ### Added
 
+- Began C05 local uploaded-snapshot admission. The private Core service records
+  only bounded, inspected upload provenance and retains the last accepted
+  admission after an unsafe replacement is rejected; raw bytes, filenames, and
+  paths remain outside the projected state.
+
 - Began B06's shared Core contract-test kit with a public adapter-neutral
   conformance runner. It produces deterministic, redacted pass/fail reports
   for finite named cases and is verified against conforming and deliberately
