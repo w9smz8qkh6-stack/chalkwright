@@ -178,16 +178,18 @@
     },
     "B01": {
       "definitionFingerprint": "6a638d65ff6757663a8202bbb3c7884f09b8ac925543d352976c7718d03d9fb4",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/b01-dependency-direction",
+      "worktree": "/home/bren/src/chalkwright-b01-dependency-direction",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted C12 on an isolated Core branch. Scope is limited to enforceable dependency direction and a reversed-import negative test; no packaging, commercial, or unrelated ready task is included."
+      ],
       "supersededBy": []
     },
     "B02": {
