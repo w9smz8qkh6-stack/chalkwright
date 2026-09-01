@@ -24,7 +24,7 @@
     ]
   },
   "priorities": [
-    "Deliver B03 workspace-scope enforcement after accepted B02 Core exports; C05 and C06 remain independently ready but unassigned.",
+    "Deliver B04 self-hosted composition after accepted B03 workspace-scope enforcement; B06, C05, and C06 remain independently ready but unassigned.",
     "Observe post-retirement production stability and preserve the retained cold-recovery evidence and explicit restoration boundary.",
     "Make the repository's present state, capabilities, workstreams, limitations, and verification status continuously available to Codex.",
     "Keep privacy-safe demonstration work reproducible, accessible, independently versioned, and operationally separate from application releases.",
@@ -440,10 +440,10 @@
       "name": "Core operator-panel follow-on and hosted architecture",
       "status": "active",
       "outcome": "Maintain Goal 1's accepted private-by-default Core operator panel, complete its independently schedulable follow-on work, and build the hosted Django wrapper through the selected private versioned Core service/worker boundary.",
-      "currentState": "Goal 1 is complete and accepted. C11/C12 add the accepted review and presentation-profile operator features. B01 is accepted at dd7f0db9052401421a690a6db5e9756ecbbf9445; B02 is accepted at 5c1dc5bbf78797dbd3a4f2ded8daaf1b05feb345 and exposes only deliberate Core package surfaces without changing the existing running application. B03 is the next Core-hardening task; C05 and C06 remain independently ready. D00 selected Django and the private versioned Core service/worker boundary; D07 remains separately in progress and D04 awaits external provider-registration inputs. The planning checkout is not evidence of hosted deployment or live operational state.",
+      "currentState": "Goal 1 is complete and accepted. C11/C12 add the accepted review and presentation-profile operator features. B01, B02, and B03 are accepted at their recorded remote checkpoints; B03 establishes full workspace identity for display-access isolation. B04 is in progress in an isolated worktree to extract the current self-hosted Core composition without changing the existing classroom application. B06, C05, and C06 remain independently ready. D00 selected Django and the private versioned Core service/worker boundary; D07 remains separately in progress and D04 awaits external provider-registration inputs. The planning checkout is not evidence of hosted deployment or live operational state.",
       "nextSteps": [
         "Use the WBS and generated task/execution ledger as the only scheduling authority; run WBS synchronization and freshness checks whenever their source changes. Do not derive status from the canonical checkout's divergence or an agent idle flag.",
-        "Dispatch B03 workspace-scope enforcement in an isolated worktree, then choose the next ready item after its acceptance. Continue separately owned hosted work under ADR-0027, and resolve D04 provider-registration inputs before connected-provider work."
+        "Verify and accept B04 from its remote checkpoint, then choose the next ready item from the synchronized ledger. Continue separately owned hosted work under ADR-0027, and resolve D04 provider-registration inputs before connected-provider work."
       ],
       "capabilities": [
         "guided-setup",

@@ -244,16 +244,18 @@
     },
     "B04": {
       "definitionFingerprint": "45e9c7edf79fc22219dec613758e41bb8e543b5c96f37e0d0bb0e556433b0331",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "executor:/root",
+      "branch": "codex/b04-self-hosted-composition",
+      "worktree": "/home/bren/src/chalkwright-b04-self-hosted-composition",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted B03 on an isolated Core branch. Extract the current private self-hosted composition around the deliberate B02 Core exports without rebuilding the existing classroom application or adding commercial concerns."
+      ],
       "supersededBy": []
     },
     "B05": {
