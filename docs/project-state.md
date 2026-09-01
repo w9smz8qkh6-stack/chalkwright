@@ -11,7 +11,7 @@ docs:sync`. Repository documentation is not a live-service probe.
 
 ## Freshness contract
 
-- Reviewed: `2026-08-31` (0 days ago; maximum 7)
+- Reviewed: `2026-08-31` (1 days ago; maximum 7)
 - Implementation files covered: 571
 - Implementation fingerprint: `dd20b67cc87fbf3bda37d4aef3a1661281a64dd4568860a43804d2703782c164`
 - Semantic review: **CURRENT**
