@@ -274,9 +274,14 @@
       "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
-      "evidence": [],
+      "evidence": [
+        "commit:64cb597",
+        "remote:64cb597f6f02da8aaec99d6a6844d7b83dfc68a9",
+        "B05 increment: docs check, formatting, typecheck, compiled focused class-code display-ingress tests, and diff check"
+      ],
       "notes": [
-        "Dispatched after accepted B04 on an isolated Core branch. Keep private operator ingress and class-code display admission distinct without publishing or changing the existing production classroom route."
+        "Dispatched after accepted B04 on an isolated Core branch. Keep private operator ingress and class-code display admission distinct without publishing or changing the existing production classroom route.",
+        "First remote checkpoint adds a loopback-only Core display listener with disjoint operator routes, narrow viewer admission, dedicated readiness, and a screen-scoped HTTP-only cookie. Service/store/cache hardening remains in progress."
       ],
       "supersededBy": []
     },
