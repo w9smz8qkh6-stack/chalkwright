@@ -5,7 +5,7 @@
 - Authoritative WBS: [docs/core-and-hosted-implementation-work-breakdown.md](core-and-hosted-implementation-work-breakdown.md)
 - Task status overlay: [docs/core-and-hosted-work-queue.json](core-and-hosted-work-queue.json)
 - WBS fingerprint: `76667001ed5619110ce7860b931d69926dcf2cfe91cdfa37cbc1bfb368b22afe`
-- Tasks: 51; ready 2; gated 0; waiting 24; in progress 3; review 0; blocked 0; complete 22; reconciliation 0.
+- Tasks: 51; ready 3; gated 0; waiting 23; in progress 2; review 0; blocked 0; complete 23; reconciliation 0.
 
 ## Goal 1 dispatch lane
 
@@ -44,6 +44,7 @@ allowing dependent work.
 
 ## Ready to dispatch
 
+- **B02:** Introduce deliberate Core exports
 - **C05:** Implement bounded uploads and imports
 - **C06:** Implement shared-resource acquisition
 
@@ -68,8 +69,8 @@ allowing dependent work.
 
 | Task | Outcome | Dispatch state | Dependencies | Owner | Branch | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
-| B01 | Enforce internal dependency direction | in_progress | A03, A04, C10 | orchestrator:/root | codex/b01-dependency-direction | — |
-| B02 | Introduce deliberate Core exports | waiting | B01 | — | — | — |
+| B01 | Enforce internal dependency direction | complete | A03, A04, C10 | orchestrator:/root | codex/b01-dependency-direction | `commit:dd7f0db`, `remote:dd7f0db9052401421a690a6db5e9756ecbbf9445`, `npm run check (documentation, fixtures, operations verification, formatting, types, client, tests, build, smoke, and rehearsals)`, `architecture acceptance: full layer scan plus a reversed application-to-infrastructure negative` |
+| B02 | Introduce deliberate Core exports | ready | B01 | — | — | — |
 | B03 | Make workspace scope explicit | waiting | A04, A08, B02 | — | — | — |
 | B04 | Extract the self-hosted composition shell | waiting | A05, B02, B03 | — | — | — |
 | B05 | Harden operator and display runtime isolation | waiting | A02, A03, B04, C02 | — | — | — |
