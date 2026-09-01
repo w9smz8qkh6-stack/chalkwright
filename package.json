@@ -13,7 +13,34 @@
   },
   "homepage": "https://github.com/w9smz8qkh6-stack/chalkwright#readme",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/core/index.js",
+  "types": "dist/core/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
+    },
+    "./contracts": {
+      "types": "./dist/core/contracts.d.ts",
+      "import": "./dist/core/contracts.js"
+    },
+    "./domain": {
+      "types": "./dist/core/domain.d.ts",
+      "import": "./dist/core/domain.js"
+    },
+    "./presentation": {
+      "types": "./dist/core/presentation.d.ts",
+      "import": "./dist/core/presentation.js"
+    },
+    "./configuration": {
+      "types": "./dist/core/configuration.d.ts",
+      "import": "./dist/core/configuration.js"
+    },
+    "./operator-panel": {
+      "types": "./dist/core/operator-panel.d.ts",
+      "import": "./dist/core/operator-panel.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p tsconfig.build.json && npm run client:build",
     "client:build": "tsc -p tsconfig.client.json",

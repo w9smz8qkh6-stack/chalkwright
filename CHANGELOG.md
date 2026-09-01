@@ -10,6 +10,10 @@ omitted.
 
 ### Added
 
+- Added B02's restricted Core package exports for contracts, domain,
+  presentation, configuration, and operator-panel use cases. Self-hosted
+  entry points, route tables, and infrastructure internals are not exported.
+
 - Added B01 architecture-direction checks for every Core layer. New reversed
   imports fail, while the small pre-existing application-to-infrastructure
   bridge list is explicit and bounded for removal by B02/B04.
