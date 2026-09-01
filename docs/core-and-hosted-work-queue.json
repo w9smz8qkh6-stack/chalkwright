@@ -289,16 +289,18 @@
     },
     "B06": {
       "definitionFingerprint": "569d8ed1065ae25cba0dbd3ae889b89db1f6e4dc1187232da49066bd15a61463",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "executor:/root",
+      "branch": "codex/b06-contract-test-kit",
+      "worktree": "/home/bren/src/chalkwright-b06-contract-test-kit",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted B05 on an isolated Core branch. Build reusable conformance suites around the existing Core contracts without changing classroom behavior or connected-provider authority."
+      ],
       "supersededBy": []
     },
     "B07": {
