@@ -657,10 +657,12 @@
         "commit:5456886",
         "commit:0b3ca66",
         "remote:0b3ca661b89eb6b5d4f03cc4dd3e5c0603948720",
+        "commit:e912686",
+        "remote:e91268687b2c22f8619a34b4175ee71836fb0d6d",
         "Django system check, migration check, and 23-test suite"
       ],
       "notes": [
-        "Initial authenticated organization-scoped control shell and screen-creation workflow complete. Account delegates email, password, MFA, and active-session security to django-allauth; Organization lists scoped members/pending invitations and permits owner-only non-owner invitations without rendering invitation tokens. Connections & content, Planned displays, Presentation, Billing/support, and screen-readiness workflows remain before D07 acceptance."
+        "Initial authenticated organization-scoped control shell and screen-creation workflow complete. Account delegates email, password, MFA, and active-session security to django-allauth; Organization lists scoped members/pending invitations, permits owner-only non-owner invitations without rendering invitation tokens, and allows a member to switch only to another organization they belong to. Connections & content, Planned displays, Presentation, Billing/support, and screen-readiness workflows remain before D07 acceptance."
       ],
       "supersededBy": []
     },
