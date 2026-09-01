@@ -84,6 +84,12 @@
 - Calendar writes, provider-authentication repair, service or route changes,
   Cloudflare changes, Git pushes, pull requests, merges, and deployments
   require explicit authorization in the current task.
+- The user-approved project checkpoint policy authorizes agents to commit and
+  push **verified** checkpoints for their isolated task branches and the
+  project-management ledger. A checkpoint must include the scoped source,
+  tests, and required documentation, and its remote commit SHA must be
+  recorded before dependent work is released. This does not authorize pull
+  requests, merges, deployments, route changes, or any other live effect.
 - A request to change code or content authorizes local implementation and
   verification, not publication. Treat `publish`, `live`, `merge`, and
   `deploy` as explicit effects.

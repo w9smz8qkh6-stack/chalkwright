@@ -254,9 +254,12 @@ full-workspace collisions, consent/grant failure states, read-only scope,
 commit-only-verified transitions, degraded/stale last-known-good retention,
 serialization, nominal separation, and post-validation mutation detachment.
 
-A07 is next and specifies operator-panel information architecture using these
-contracts without inventing authentication inside Core. A08 later establishes
-the cross-feature shared fixture-suite interface. C04-C08/D08-D09 implement
-forms, adapters, storage, acquisition, enrollment, and refresh only after their
-dependencies and authorization gates. B03 later threads A04-A06 scope/state
-through current use cases. Phase B remains blocked until A07 and A08 complete.
+A07 is next and specifies the simple server-rendered Core operator-panel
+information architecture using these contracts without inventing
+authentication inside Core. A08 establishes the Core fixture-suite interface
+for the first goal. C04 implements only the closed manual source lane needed by
+that vertical slice; C05-C08 add uploads, shared acquisition, and connected
+providers later. B03 later threads A04-A06 scope/state through reusable package
+boundaries. D00 selects the commercial framework and integration after C10, so
+hosted forms/adapters and their account/tenant fixtures no longer block the
+first Core panel.

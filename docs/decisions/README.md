@@ -23,7 +23,7 @@ record is not authorization to implement its leading option.
 | [ADR-0006](0006-parity-first-migration-and-single-writer.md)     | Accepted   | Parity-first migration, shadowing, rollback, and one writer  |
 | [ADR-0007](0007-first-class-screens-and-rooms.md)                | Accepted   | First-class screens/rooms; current target amended to C509    |
 | [ADR-0008](0008-server-controlled-carousel-holds.md)             | Accepted   | Server-controlled, screen-scoped carousel holds              |
-| [ADR-0009](0009-initial-ui-delivery-strategy.md)                 | Accepted   | Small server-rendered HTML/CSS/TypeScript UI                 |
+| [ADR-0009](0009-initial-ui-delivery-strategy.md)                 | Accepted   | Small server-rendered display and Goal 1 Core panel UI       |
 | [ADR-0010](0010-direct-powerschool-auth-adapter.md)              | Superseded | Original persistent-profile PowerSchool adapter decision     |
 | [ADR-0011](0011-google-client-and-scopes.md)                     | Accepted   | Narrow installed-app Classroom coursework reads              |
 | [ADR-0012](0012-alert-delivery-transport.md)                     | Accepted   | Alert delivery transport and operator ownership              |
@@ -40,7 +40,8 @@ record is not authorization to implement its leading option.
 | [ADR-0023](0023-chalkwright-public-identity.md)                  | Accepted   | Chalkwright public identity and compatibility migration      |
 | [ADR-0024](0024-application-owned-powerschool-authentication.md) | Accepted   | Application-owned PowerSchool authentication lifecycle       |
 | [ADR-0025](0025-permanent-production-delivery.md)                | Accepted   | One permanent production delivery lane                       |
-| [ADR-0026](0026-public-core-and-hosted-shell.md)                 | Accepted   | Project-referenced Core, separate processes, exact artifacts |
+| [ADR-0026](0026-public-core-and-hosted-shell.md)                 | Accepted   | Core boundary; hosted integration candidate deferred to D00  |
+| [ADR-0027](0027-django-hosted-core-service-boundary.md)          | Accepted   | Django hosted shell and private versioned Core service       |
 
 ## Record policy
 

@@ -187,6 +187,8 @@ Acceptance later:
 Implementation status: architecture-planning workstream active; implementation
 has not begun.
 
+This is the project's **first delivery goal**.
+
 Goal: give every Chalkwright Core installation a browser-based operator panel
 for guided configuration, connection setup, visual review, and presentation
 preferences without editing internal runtime files.
@@ -206,6 +208,16 @@ planned-display review presents each day's expected states and carousel cards
 as a contact sheet, supports enlarged single-frame review and a day carousel,
 and loads distant dates on demand outside a bounded rolling preview window.
 
+The first vertical slice is deliberately smaller: server-rendered
+TypeScript/HTML/CSS pages with ordinary forms and server-side validation for
+timezone, rooms, screens, courses, a manual timetable, approved basic content,
+draft validation, mutation-free preview, activation, rollback, redacted export,
+and recovery. It adds no UI framework, client router, account system,
+commercial navigation, provider enrollment, or billing. Uploads, shared
+resources, connected providers, contact sheets, themes, and broader diagnostics
+follow only after C10 proves this basic workflow in a clean non-creator
+rehearsal.
+
 Every consequential source should support a connected-provider lane and the
 closest safe application-managed, shared-resource, or uploaded lane. A URL or
 Calendar ID does not itself grant access, and Google Classroom automation has
@@ -220,11 +232,13 @@ upload/shared/connected admission boundaries, normalized provenance, and
 freshness/last-known-good behavior. They do not implement a parser, provider,
 storage adapter, route, or UI.
 
-The commercial service reuses this Core panel capability inside a complete
-authenticated account application and adds organizations, invitations and
-roles, billing, subscriptions, provider connections, account export/deletion,
-and hosted operations. Accounts and authorization belong to the hosted service
-rather than becoming a requirement of Core.
+The commercial service may reuse or reproduce the proven Core panel behavior
+inside a complete authenticated account application and adds organizations,
+invitations and roles, billing, subscriptions, provider connections, account
+export/deletion, and hosted operations. Accounts and authorization belong to
+the hosted service rather than becoming a requirement of Core. D00 selects
+Django versus a TypeScript shell and the Core integration/port boundary only
+after the first Core panel passes C10.
 
 Packaging must preserve Core as a complete public self-hosted application while
 also making it the upstream dependency for the commercial service. The hosted
@@ -235,14 +249,18 @@ separately configurable display listener. The proposed ownership, package,
 compatibility, and verification boundaries are recorded in
 [ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
 
-The first approved execution tranche is A01 through A08 in the
+The first approved execution sequence is A07, A08, C01-C04, C09, and C10 in the
 [Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md).
-It freezes acceptance, threat, packaging, scope, persistence, source, panel,
-and fixture contracts before package or UI implementation begins.
+A01-A06 are already complete. This sequence finishes the Core page/action and
+fixture specifications, implements the smallest useful panel directly in the
+existing TypeScript application, and independently rehearses it before package
+hardening or commercial architecture.
 
 ## 8. Commercial hosted service, exploratory
 
 Implementation status: roadmap concept only; not authorized for deployment.
+Commercial framework, account architecture, and the TypeScript-versus-Python
+Core boundary are deliberately deferred until the Core operator-panel C10 gate.
 
 Goal: offer a paid ChalkWrite.com service that hosts logical Chalkwright screen
 instances for teachers and schools that do not want to operate the free

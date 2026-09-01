@@ -209,6 +209,14 @@ The goal is an approachable self-hosted application that a teacher or school
 implementer can customize without editing TypeScript, systemd units, or
 generated JSON.
 
+The smallest complete Core operator panel is the current first delivery goal.
+It will use Chalkwright's existing server-rendered TypeScript/HTML/CSS approach
+for configuration, validation, preview, activation, rollback, redacted export,
+and recovery before package restructuring or commercial account work. The
+commercial framework—including Django versus TypeScript—and its Core integration
+boundary will be selected afterward from evidence produced by that working
+panel.
+
 The public product and repository name is now **Chalkwright**. Existing
 `CLASSROOM_HUB_*` environment keys, service accounts, filesystem paths, URLs,
 and ownership markers remain compatibility contracts during the pre-release

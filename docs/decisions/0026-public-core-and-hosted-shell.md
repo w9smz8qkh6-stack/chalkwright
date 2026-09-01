@@ -3,6 +3,7 @@
 - Status: Accepted
 - Date: 2026-08-30
 - Accepted: 2026-08-31
+- Goal 1 sequencing amendment: 2026-08-31
 
 ## Context
 
@@ -58,6 +59,31 @@ restricted, versioned Core package artifact that the separate commercial
 repository consumes as an exact dependency. Core is the upstream; the
 commercial repository is a downstream consumer.
 
+### Goal 1 sequencing amendment
+
+The first delivery goal is now the smallest complete Core operator-panel MVP,
+implemented directly in the existing TypeScript application with the accepted
+server-rendered HTML/CSS/small-controller strategy. A07 and A08 specify only the
+Core pages/actions and Core acceptance fixtures required by that goal;
+C01-C04, C09, and C10 implement and independently rehearse it. B01-B07 package
+extraction and hosted-consumer preparation are downstream hardening rather than
+prerequisites for this first useful panel.
+
+Commercial framework, account-management, authentication, and Core integration
+choices are deliberately deferred until the working Core panel supplies real
+workflow evidence. D00 must compare a Django SaaS shell, a TypeScript shell, and
+in-process package, private worker/service, or incremental Python-port
+boundaries. Before D01 begins, D00 must either confirm this record's direct
+TypeScript-package consumer or amend/supersede every hosted clause that the
+selected architecture changes. The Core invariants in this record—no account
+system in Core, private operator ingress, separate display authority, explicit
+scope, and no mounting of unauthenticated Core routes—remain binding.
+
+ADR-0027 records D00's subsequent selection of Django and a private versioned
+Core service/worker boundary. This record continues to govern Core's public,
+self-hosted boundaries and the prohibition on mounting its operator server in
+the hosted shell.
+
 The commercial application composes Core use cases, contracts, presentation
 primitives, and approved provider adapters through declared package exports. It
 must not start, proxy, mount, or import the self-hosted Core server, its route
@@ -110,8 +136,10 @@ organization workspace from the authenticated server-side session.
 
 Authorization remains a shell responsibility:
 
-- Core's self-hosted shell grants operator authority based on reachability of
-  its separately bound private operator process; and
+- Core's self-hosted shell grants operator authority based on Tailnet-only
+  reachability of its separately bound private operator process. Tailscale may
+  forward to that loopback listener, but Core adds no login, session, or other
+  application authentication; and
 - the commercial shell authenticates the actor, checks organization membership
   and role, fixes the workspace scope server-side, and only then invokes Core.
 
@@ -318,7 +346,9 @@ HTTP boundary and addresses `T-CONTENT-01`, `T-CORE-02`, `T-TENANT-01`,
 
 ## Incremental migration from the current repository
 
-No step below is performed by this ADR:
+No step below is performed by this ADR. The package migration begins only after
+the Goal 1 C10 gate unless a focused task proves a particular step is required
+for the panel's safety:
 
 1. **B01:** add composite TypeScript projects and extend architecture checks
    around the existing directories. Preserve the current single-package build
@@ -345,7 +375,10 @@ Compatibility checkpoints occur after B02 (exports), B04 (composition), B05
 checkpoint retains the last verified current shape until the new shape passes;
 no migration advances merely because files were moved. D01 may create the
 commercial repository only after the separately authorized repository action
-and after B07 supplies a verified artifact.
+and D00 has selected and documented the commercial framework and Core boundary.
+If D00 retains direct package consumption, B07 must first supply the verified
+artifact; another selected boundary must define equivalent versioning,
+conformance, provenance, and rollback evidence in the superseding decision.
 
 Changing one Core package into multiple independently versioned packages,
 introducing immediate workspace-linked hosted development, using a registry as
@@ -472,7 +505,9 @@ lockfile version 3:
   Those mechanisms supplement, rather than replace, the release manifest and
   SHA-256 checks.
 
-This accepted record chooses architecture mechanics only. It does not authorize
+This accepted record chooses Core boundary mechanics and a reversible hosted
+candidate while deferring the final commercial framework/integration decision
+to D00 after Goal 1. It does not authorize
 package reorganization, repository creation, package or release publication,
 provider action, process/listener/service creation, route change, migration,
 deployment, or any other live effect.

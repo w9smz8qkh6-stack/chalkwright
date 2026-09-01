@@ -8,6 +8,14 @@ omitted.
 
 ## [Unreleased]
 
+### Changed
+
+- Resynchronized the operator-panel planning control plane after C10
+  acceptance. The WBS and generated task/execution ledger are the scheduling
+  authority; C10 is the final non-creator acceptance gate, and C11 owns the
+  contact-sheet/carousel review UI. A dirty or behind canonical checkout and
+  an agent's idle flag are not project-status evidence.
+
 ### Fixed
 
 - Corrected the A06 shared-resource and chronology contracts before
@@ -62,6 +70,30 @@ omitted.
   local source, state, backups, unit definitions, route snapshot, and rollback
   instructions remain retained for cold recovery.
 
+### Changed
+
+- Rebuilt the WBS-backed task and execution ledger around the strict Goal 1
+  sequence A07, A08, C01, C02, C03, C04, C09, and C10. The generated queue now
+  permits only the next incomplete Goal 1 task before C10, gates every other
+  task, records A01-A06's accepted evidence, and releases dependency-based
+  scheduling only after C10 so B01 Core hardening and D00's Django-versus-
+  TypeScript plus Core-boundary decision can open independently. WBS sync and
+  freshness checks are part of the documentation workflow, and scope changes
+  to worked tasks require explicit reconciliation. Evidence that exists only
+  on an accepted isolated branch is retained as a path in the generated ledger
+  without creating a broken link in the planning worktree.
+
+- Made the simple self-hosted Core operator panel the first delivery goal. The
+  revised 51-task WBS now completes A07/A08's Core-only page/action and fixture
+  specifications, implements C01-C04 plus C09 directly in the existing
+  server-rendered TypeScript application, and requires C10's clean non-creator
+  configuration, preview, activation, rollback, redacted-export, and recovery
+  rehearsal before package hardening or commercial architecture. Hosted
+  accounts, authentication, tenancy, billing, and framework selection are
+  deferred to D00, which must evaluate Django and TypeScript options plus
+  package, private worker/service, and incremental Python-port boundaries and
+  amend or supersede ADR-0026 before incompatible hosted work begins.
+
 ### Added
 
 - Completed A06 with versioned, adapter-neutral source-mode contracts. Every
@@ -75,8 +107,8 @@ omitted.
   degraded/stale last-known-good retention. Google Classroom authorization is
   recorded only as necessary for automatic course/coursework refresh. No
   parser, fetcher, persistence adapter, OAuth client, route, UI, current SQLite
-  schema, provider enrollment, or live effect changed; A07 is next and A07-A08
-  still block Phase B.
+  schema, provider enrollment, or live effect changed; A07 is next, followed by
+  A08 and the C01-C04/C09/C10 Core Goal 1 sequence.
 
 - Completed A05 with versioned, adapter-neutral configuration and durable-state
   contracts. Immutable validated revisions, exact optimistic concurrency,
@@ -85,9 +117,8 @@ omitted.
   class-code lifecycle state, bounded state/audit histories, redacted canonical
   exports, protected-backup manifests, checksum-bound forward migrations, and
   compatibility-gated rollback now have executable synthetic fixtures. The
-  current SQLite schema and adapters remain unchanged; A06 is next, A06-A08
-  still block Phase B, and no package, provider, route, service, or live effect
-  occurred.
+  current SQLite schema and adapters remain unchanged; A06 followed, and no
+  package, provider, route, service, or live effect occurred.
 
 - Completed A04 with versioned, JSON-safe Core workspace and actor contracts.
   Self-hosted installation and hosted organization workspaces are structurally
@@ -132,9 +163,10 @@ omitted.
   now records the private-by-default, unauthenticated Core operator boundary,
   separately admitted display viewers, a public-Core/commercial-shell package
   seam, direct least-privilege provider connections, planned-display review,
-  and a dependency-ordered 49-task implementation program. This planning work
-  does not authorize implementation, provider enrollment, repository creation,
-  billing, publication, or deployment.
+  and a dependency-ordered implementation program, now revised to 51 tasks with
+  the Core panel as Goal 1 and D00 as the deferred commercial decision. This
+  planning work does not authorize implementation, provider enrollment,
+  repository creation, billing, publication, or deployment.
 
 - Added a durable, self-documenting Codex workflow with generated project
   facts, an exhaustive documentation router, and a structured semantic state

@@ -7,4 +7,6 @@ generated/
 artifacts/
 docs/tooling.md
 docs/project-state.md
+docs/core-and-hosted-work-queue.json
+docs/core-and-hosted-work-queue.md
 package-lock.json

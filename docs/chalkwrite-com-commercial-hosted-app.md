@@ -3,6 +3,14 @@
 Status: roadmap concept; no implementation or public deployment is authorized
 by this document.
 
+Sequencing decision: the commercial application is not the current delivery
+goal. Chalkwright first completes and independently rehearses the simple Core
+operator-panel vertical slice through C10. D00 then uses that evidence to select
+the commercial web framework, account architecture, and Core integration
+boundary. Django is selected as the commercial SaaS shell, and D00 selects a
+private versioned TypeScript Core service/worker boundary. It must provide
+explicit contract, compatibility, provenance, and rollback evidence.
+
 ## Product idea
 
 ChalkWrite.com would be the paid, hosted counterpart to the free self-hosted
@@ -82,8 +90,11 @@ as an operator-facing panel without a Chalkwright user account, login, roles, or
 application-session authentication. Anyone who can reach that panel can change
 the installation, so the Core deployment must keep it on an operator-controlled
 local or private interface and must never publish it as an unrestricted public
-route. Tailscale is one possible deployment boundary, not a product
-requirement.
+route. The selected Core deployment boundary is Tailnet-only reachability:
+Tailscale routes to the separately bound private listener, with no Core login
+or application-session authentication. This requirement applies only to the
+self-hosted Core operator panel and does not make Tailscale a dependency of the
+commercial Django application.
 
 The hosted edition wraps the shared Core configuration, control, and preview
 capability in the complete account application. It adds authenticated accounts,
@@ -98,13 +109,13 @@ it after signing in to the account application. Either operator can share it
 directly with students. It never grants access to the hosted account
 application.
 
-| Boundary                 | Self-hosted Chalkwright Core                                     | Commercial hosted service                                                        |
-| ------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Operator interface       | Browser-based operator panel                                     | Full account application containing the shared panel capability                  |
-| Chalkwright identity     | No user account, login, roles, or authenticated operator session | Authenticated users, sessions, organizations, memberships, and roles             |
-| Operator access boundary | Deployment-controlled local or private reachability              | Application login plus role-based authorization                                  |
-| Connected provider data  | Optional direct OAuth authorization for the provider connection  | Optional direct OAuth authorization associated with the account and organization |
-| Display admission        | Operator-configured class code                                   | Operator-configured class code                                                   |
+| Boundary                 | Self-hosted Chalkwright Core                                     | Commercial hosted service                                                                     |
+| ------------------------ | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Operator interface       | Browser-based operator panel                                     | Full account application implementing the proven panel workflow under D00's selected boundary |
+| Chalkwright identity     | No user account, login, roles, or authenticated operator session | Authenticated users, sessions, organizations, memberships, and roles                          |
+| Operator access boundary | Deployment-controlled local or private reachability              | Application login plus role-based authorization                                               |
+| Connected provider data  | Optional direct OAuth authorization for the provider connection  | Optional direct OAuth authorization associated with the account and organization              |
+| Display admission        | Operator-configured class code                                   | Operator-configured class code                                                                |
 
 Provider OAuth does not add Chalkwright account authentication to Core. It
 authorizes only the selected external data connection.
@@ -122,19 +133,22 @@ operator panel, previews, display, local persistence and files, jobs, setup,
 diagnostics, migrations, examples, and production packaging needed to reproduce
 the Core experience without a ChalkWrite.com account or commercial dependency.
 
-The commercial application is a separate downstream consumer of one packed,
-versioned Core package with restricted exports, not a fork, source link, or
-copy. Core owns domain behavior, use cases, ports, provider capability policy, display
-projection, and route-independent operator-panel presentation. The commercial
+The commercial application remains a separate downstream product, not a fork
+or casual copy. ADR-0027 selects an equally versioned private TypeScript Core
+worker/service boundary backed by conformance evidence. Core owns current domain
+behavior, use cases, ports, provider policy,
+display projection, and the proven operator workflow. The commercial
 repository owns accounts, sessions, organizations, roles, tenant isolation,
 billing, hosted storage, queues, support, and public operations.
 
-The integration seam sits below HTTP routing. The hosted application must not
+Whatever D00 selects, the integration seam sits below public HTTP routing. The
+hosted application must not
 mount Core's unauthenticated self-hosted server and hope that outer middleware
 protects every route. Instead, it authenticates and authorizes an account,
-derives the organization workspace on the server, and then calls a shared Core
-use case through a supported package export. The self-hosted shell supplies one
-installation-owned workspace through the same contract.
+derives the organization workspace on the server, and invokes the selected
+versioned Core package, worker/service contract, or verified Python port. The
+self-hosted shell supplies one installation-owned workspace through the same
+scope vocabulary.
 
 The versioned
 [Core workspace and actor contracts](core-workspace-actor-contracts.md) make
@@ -150,15 +164,14 @@ capability and may serve class-code-admitted viewers through separately
 configured ingress. Sharing business behavior below these shells prevents drift
 without sharing the wrong trust boundary.
 
-Core releases expose only deliberate, versioned package entry points. During
-`0.x`, each commercial release pins exactly one SHA-256- and provenance-verified
-Core package tarball from an immutable GitHub Release and records the same
-artifact in its lockfile and release manifest. Public npm and npm workspaces are
-deferred. The shared contract suite plus hosted tenant-isolation tests run for
-every deliberate upgrade. A shared fix lands upstream in Core first when it
-affects both editions. The accepted mechanisms, rejected alternatives,
-compatibility rules, and rollback gates are recorded in
-[ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
+If D00 retains direct package consumption, Core releases expose only deliberate,
+versioned package entry points and each `0.x` commercial release pins one
+SHA-256- and provenance-verified Core artifact. If D00 selects a private
+worker/service or Python port, its superseding record must provide equivalent
+contract versioning, conformance, provenance, compatibility, migration, and
+rollback evidence. Public npm and npm workspaces remain deferred. A shared fix
+lands in the owning implementation first and crosses the selected boundary
+deliberately. ADR-0026 records the current candidate and D00 gate.
 
 The primary hosted signed-in navigation should include:
 
@@ -279,7 +292,14 @@ student browser.
 
 ## Recommended architecture
 
-### Application-owned identity and provider authorization
+### Commercial framework and application-owned identity
+
+Django is selected for the commercial application because its mature
+authentication, sessions, forms, permissions, ORM, migrations, and
+administration surface avoid recreating generic SaaS primitives in TypeScript.
+This framework decision does not select provider authorization, an account
+implementation, or the Core integration boundary; explicit organization-scoped
+authorization and negative tests remain required.
 
 Chalkwright will own its account, session, authorization, and provider-token
 lifecycles rather than delegate them to WorkOS or another managed identity or
@@ -605,6 +625,16 @@ The detailed Codex-sized tasks, prerequisites, completion evidence, and live
 authorization gates for these stages are maintained in the
 [Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md).
 
+### Prerequisite: proven Core operator workflow
+
+- complete A07 and A08's Core-only specifications;
+- implement C01-C04 and C09 in the existing TypeScript application; and
+- pass C10's clean, non-creator configuration, preview, activation, rollback,
+  export, and recovery rehearsal.
+
+Only then does D00 select the commercial framework and Core boundary. The
+stages below remain exploratory until that decision.
+
 ### Stage 0: product and risk decisions
 
 - confirm brand/domain ownership and the relationship to Chalkwright;
@@ -710,8 +740,11 @@ It does not initially require:
   durable anonymous profiles?
 - Which languages ship first, and are learning-objective translations
   teacher-authored, automated, or both?
-- Which maintained local authentication library best fits Chalkwright's native
-  Node HTTP server and intended SQLite/PostgreSQL storage boundaries?
+- Which commercial framework best supplies mature SaaS account management—
+  including Django versus a maintained TypeScript framework—and should it call
+  a versioned TypeScript worker/service or support an incremental Python port?
+- Within that framework, which maintained authentication implementation best
+  fits the selected account, session, MFA, recovery, and PostgreSQL model?
 - Which provider handles billing, and what are the failure and grace semantics?
 - Which manual source schemas and connected Google scopes belong in the first
   hosted pilot?

@@ -1,0 +1,878 @@
+{
+  "schemaVersion": 2,
+  "wbsPath": "docs/core-and-hosted-implementation-work-breakdown.md",
+  "wbsFingerprint": "76667001ed5619110ce7860b931d69926dcf2cfe91cdfa37cbc1bfb368b22afe",
+  "schedulingPolicy": {
+    "goal1Sequence": [
+      "A07",
+      "A08",
+      "C01",
+      "C02",
+      "C03",
+      "C04",
+      "C09",
+      "C10"
+    ],
+    "acceptanceGate": "C10"
+  },
+  "projectKnowledge": {
+    "source": "docs/project-knowledge.json",
+    "workstreamId": "configuration-panel-planning"
+  },
+  "tasks": {
+    "A01": {
+      "definitionFingerprint": "6ee18327dca5cbbf75444ae696866ecd9e31e4fb5f31bce1b9b02b337ca6963e",
+      "status": "complete",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-and-hosted-feature-acceptance-matrix.md"
+      ],
+      "notes": [
+        "Imported from the authoritative WBS execution status during queue initialization."
+      ],
+      "supersededBy": []
+    },
+    "A02": {
+      "definitionFingerprint": "98065633c2ef708bf0c9ddb10b9b1e2bef5c99942b2023b9e00cb9ba4d72809f",
+      "status": "complete",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-and-hosted-threat-model.md"
+      ],
+      "notes": [
+        "Imported from the authoritative WBS execution status during queue initialization."
+      ],
+      "supersededBy": []
+    },
+    "A03": {
+      "definitionFingerprint": "df752526b849f229e40286dbe6161a34e07276e1ae38308068cf95a8b6da4150",
+      "status": "complete",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/decisions/0026-public-core-and-hosted-shell.md"
+      ],
+      "notes": [
+        "Imported from the authoritative WBS execution status during queue initialization; D00 may later amend or supersede this hosted-design decision."
+      ],
+      "supersededBy": []
+    },
+    "A04": {
+      "definitionFingerprint": "4298facdb6f26787db9f9083bcec85580e393e969a7cb57817f906080c200d58",
+      "status": "complete",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-workspace-actor-contracts.md",
+        "test/contracts/v1/workspace.test.ts"
+      ],
+      "notes": [
+        "Imported from the authoritative WBS execution status during queue initialization."
+      ],
+      "supersededBy": []
+    },
+    "A05": {
+      "definitionFingerprint": "e89cc37465cb4bec9723ca48097d43547cabd4b2ccb4041d07083cd420a82282",
+      "status": "complete",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-configuration-state-contracts.md",
+        "test/contracts/v1/configuration-state.test.ts"
+      ],
+      "notes": [
+        "Imported from the authoritative WBS execution status during queue initialization."
+      ],
+      "supersededBy": []
+    },
+    "A06": {
+      "definitionFingerprint": "7d2b2e52d890db52b815cae5f62892e1f32786994971957ae986646c1ca972dc",
+      "status": "complete",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-source-mode-contracts.md",
+        "test/contracts/v1/source-contracts.test.ts"
+      ],
+      "notes": [
+        "Imported from the authoritative WBS execution status during queue initialization."
+      ],
+      "supersededBy": []
+    },
+    "A07": {
+      "definitionFingerprint": "777ccfd872bdf4767021094e58bb3bbc7962b3ffcac8164ab9cc87355ca980bf",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/a07_executor",
+      "branch": "codex/config-panel-a07-operator-ia",
+      "worktree": "/home/bren/src/chalkwright-config-panel-a07",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-operator-panel-information-architecture.md",
+        "src/contracts/v1/operator-panel.ts",
+        "test/contracts/v1/operator-panel.test.ts",
+        "test/presentation/operator-panel-reference-browser.test.ts",
+        "docs/ui-references/a07-code-native-reference/evidence/manifest.json"
+      ],
+      "notes": [
+        "Assigned after the operator-first queue rebuild. Preserve and review the substantial pre-existing uncommitted A07 work in the prepared worktree.",
+        "Accepted by the orchestrator after independent contract, diff, responsive visual, no-JavaScript, UI-reference-registry, documentation, and full-gate review. Stable evidence commit: 1962ae77f54eba8f6db7bea21d7d89bb517c0410."
+      ],
+      "supersededBy": []
+    },
+    "A08": {
+      "definitionFingerprint": "b12530aaac216f2fd46834d9b3de0c476eb985960f92d24f44b7ab13fc9c3634",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/a08_executor",
+      "branch": "codex/config-panel-a08-goal1-fixtures",
+      "worktree": "/home/bren/src/chalkwright-config-panel-a08",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-goal1-fixture-contract-suite.md",
+        "src/contracts/v1/core-goal1-contract-suite.ts",
+        "test/fixtures/core-goal1.ts",
+        "test/contracts/v1/core-goal1-contract-suite.test.ts"
+      ],
+      "notes": [
+        "Dispatched serially from accepted A07 commit 1962ae77f54eba8f6db7bea21d7d89bb517c0410.",
+        "Accepted by the orchestrator after direct contract, catalog, privacy, scenario-coverage, documentation, focused-test, fixture-safety, and full-gate review. Stable local evidence commit: fcfb07b7cfc130b97ae2401f35ba61c26e1508b0."
+      ],
+      "supersededBy": []
+    },
+    "B01": {
+      "definitionFingerprint": "6a638d65ff6757663a8202bbb3c7884f09b8ac925543d352976c7718d03d9fb4",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "B02": {
+      "definitionFingerprint": "e525a6a770d65bf9d1f14b60587620b8b51d258dea785c9016d42d3f48b4e472",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "B03": {
+      "definitionFingerprint": "8410e36457b087c001e93467721ec344dfd7b74fa2a69c78d929ed486705ebd5",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "B04": {
+      "definitionFingerprint": "45e9c7edf79fc22219dec613758e41bb8e543b5c96f37e0d0bb0e556433b0331",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "B05": {
+      "definitionFingerprint": "8204ea18a38a5fac1fa8bb9e7213e10f0d4bf93d17105c23be2dd19dc8415564",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "B06": {
+      "definitionFingerprint": "569d8ed1065ae25cba0dbd3ae889b89db1f6e4dc1187232da49066bd15a61463",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "B07": {
+      "definitionFingerprint": "c7cadee3b55fef00c6a86f1400a1ec0dbabded793b741cb34ce53af62392f7e5",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C01": {
+      "definitionFingerprint": "ac90097d9c92272920375ffea1c2985c6e09d850e8b2849be12fbdb28be326b8",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/c01_executor",
+      "branch": "codex/config-panel-c01-configuration-services",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c01",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "src/application/configuration/versioned-configuration-service.ts",
+        "src/ports/configuration-state.ts",
+        "src/infrastructure/memory/configuration-state.ts",
+        "test/application/configuration/versioned-configuration-service.test.ts",
+        "test/architecture/c01-configuration-boundaries.test.ts"
+      ],
+      "notes": [
+        "Dispatched serially from accepted A08 commit fcfb07b7cfc130b97ae2401f35ba61c26e1508b0.",
+        "Accepted by the orchestrator after direct service, persistence-port, transaction, redaction, last-known-good, audit, documentation, focused-test, and clean full-gate review. Stable local evidence commit: 2533e6bcf4b897297d49201fee627191c47a1144."
+      ],
+      "supersededBy": []
+    },
+    "C02": {
+      "definitionFingerprint": "489546aec1735b1a4f7cb2c3d09774c20185fd597afc76838b13f23e1ca799bb",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/c02_executor",
+      "branch": "codex/config-panel-c02-operator-shell",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c02",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "docs/core-operator-shell.md",
+        "src/application/operator-panel/core-operator-shell-service.ts",
+        "src/infrastructure/operator-http/server.ts",
+        "src/presentation/core-operator-shell.ts",
+        "test/infrastructure/operator-http/server.test.ts",
+        "test/presentation/core-operator-shell-browser.test.ts",
+        "test/architecture/c02-operator-boundaries.test.ts"
+      ],
+      "notes": [
+        "Dispatched serially from accepted C01 commit 2533e6bcf4b897297d49201fee627191c47a1144.",
+        "Accepted by the orchestrator after independent application/HTTP/route isolation review, actual production-shell browser inspection at desktop, mobile, and 200-percent effective reflow, focused tests, and a clean full gate. The review found and corrected noncanonical request-target aliasing before acceptance. Stable local evidence commit: f5dc61e4b1651697bc513fc652c1e649645c1203."
+      ],
+      "supersededBy": []
+    },
+    "C03": {
+      "definitionFingerprint": "9ef7cfc9a3709320abacfb8cbe0d7ac4ab9e6370dd8f04b4f6dcf5cf2b6a38ae",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/c03_finish",
+      "branch": "codex/config-panel-c03-room-screen-class-code",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c03",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "commit:70e4dc1",
+        "npm run check (1003/1003 tests, build, smoke, and rehearsals)",
+        "C03 no-JavaScript/reflow browser contract"
+      ],
+      "notes": [
+        "Dispatched serially from accepted C02 commit f5dc61e4b1651697bc513fc652c1e649645c1203.",
+        "Accepted after independent lifecycle, request-boundary, and privacy review. Live browser inspection was unavailable in this session; the C03 browser contract passed in the clean full gate. The installer permission gate initially found a checkout-mode drift (0775); restoring the tracked 0755 mode made the focused deployment test and full gate pass. Stable local evidence commit: 70e4dc1."
+      ],
+      "supersededBy": []
+    },
+    "C04": {
+      "definitionFingerprint": "a334c52475375d66fbdbcd82bb8602d0c8e147c1ea1c65e74cdc2baa8c8be266",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/c04_executor",
+      "branch": "codex/config-panel-c04-source-registry-forms",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c04",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "commit:564fc7060dab7ff827016a71c0fa2fbd38207b3d",
+        "npm run check (1007/1007 tests, build, smoke, and rehearsals)"
+      ],
+      "notes": [
+        "Dispatched serially from accepted C03 commit 70e4dc1585b7eb0d4a0e10fec1ead5b552e0ff83.",
+        "Accepted after independent boundary review: draft-only teacher-entered metadata and optional screen mapping; no file, URL, provider, OAuth, display route, or production persistence authority. Stable local evidence commit: 564fc7060dab7ff827016a71c0fa2fbd38207b3d."
+      ],
+      "supersededBy": []
+    },
+    "C05": {
+      "definitionFingerprint": "2cbb49c38d9fefbbac8200704b3df215b3f9df8c89ecb95afbda4b4ee7627c9e",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C06": {
+      "definitionFingerprint": "7f8168c816d69e48873bde3a06e3f807e49bb2e0eb9213551bddf236c8d7e606",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C07": {
+      "definitionFingerprint": "7c44c8aca7e463d9aec87cd43b94b5b97126ea189789db1ebfb4dd9593e3a9ac",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C08": {
+      "definitionFingerprint": "4d14cd9b39356b1d1f89829c215270417325598ffda0e5d3de8f68614086f949",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C09": {
+      "definitionFingerprint": "b5dba4321911ba707a1018ded8cdc1a1ca4e7bd7a84f526656a8c53898fede2a",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "prior C09 handoff; accepted by orchestrator",
+      "branch": "codex/config-panel-c09-planned-display",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c09",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-08-31",
+      "blockers": [],
+      "evidence": [
+        "commit:609abd5",
+        "commit:bbd6392a077d0a9bc4d231a58b261b05da05ec6d",
+        "npm run check (1009/1009 tests, build, smoke, and rehearsals)"
+      ],
+      "notes": [
+        "Dispatched serially after accepted C04 commit 564fc7060dab7ff827016a71c0fa2fbd38207b3d.",
+        "Accepted after independent C09 contract/boundary review. The C09 handoff documentation was corrected to distinguish C10's non-creator acceptance gate from C11's contact-sheet/carousel UI."
+      ],
+      "supersededBy": []
+    },
+    "C10": {
+      "definitionFingerprint": "bed4b1bf44780412d5871d7011ff943ff1e6a83881106a4dc18bf420604b5892",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "/root/c10_executor",
+      "branch": "codex/config-panel-c10-non-creator-acceptance",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c10",
+      "startedOn": "2026-08-31",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "commit:8060793",
+        "commit:b3edda8",
+        "npm run check (1011/1011 tests, build, smoke, and rehearsals)"
+      ],
+      "notes": [
+        "Dispatched serially after accepted C09 clarification commit bbd6392a077d0a9bc4d231a58b261b05da05ec6d. C10 is the final non-creator acceptance gate; C11 owns contact-sheet/carousel UI.",
+        "Accepted after independent service/boundary review and clean full gate. The only first-pass failure was checkout permission drift (0775 rather than tracked 0755) in an unrelated production installer; restoring its tracked mode made the focused and complete gates pass."
+      ],
+      "supersededBy": []
+    },
+    "C11": {
+      "definitionFingerprint": "3850662f8918e5831770bb1c5717c4dc80058f7117846cac65aa5293844b0802",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C12": {
+      "definitionFingerprint": "5bd5425f7fcc68eba97e2dba686a4c96079be2fde086ffa9fc12957988f36793",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "C13": {
+      "definitionFingerprint": "72fc7b9c8c1a9eac1250c2d482b7f7170705a205d9491a9be0acdf3dbfe7d647",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "D00": {
+      "definitionFingerprint": "0159d199744ba8dacc90407339f341f1c12a04abfa899529474fd69bd0e12e29",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/core-operator-first-plan",
+      "worktree": "/home/bren/src/chalkwright-core-operator-first-plan",
+      "startedOn": "2026-09-01",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "docs/decisions/0027-django-hosted-core-service-boundary.md",
+        "user decision: Django plus private versioned Core service/worker boundary (2026-09-01)"
+      ],
+      "notes": [
+        "User selected Django as the commercial application framework on 2026-09-01. D00's final revised WBS definition was explicitly accepted for this task.",
+        "Accepted: Django owns the hosted application; TypeScript Core remains behind a private versioned service/worker contract. ADR-0027 supersedes the deferred commercial candidate in ADR-0026. No hosted repository, authentication, provider, billing, deployment, or live effect was created."
+      ],
+      "supersededBy": []
+    },
+    "D01": {
+      "definitionFingerprint": "6c6e31cefd720c783b775978b1fc78f541181417a3fdf4d8521258ee8603bf5b",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d01-hosted-repository-boundary",
+      "worktree": "/home/bren/src/chalkwright-hosted",
+      "startedOn": "2026-09-01",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "repository:https://github.com/w9smz8qkh6-stack/chalkwright-hosted",
+        "commit:09c018e",
+        "pip install + synthetic Core-service boundary tests"
+      ],
+      "notes": [
+        "Created privately after explicit authorization. The baseline has Django 5.2.17, web/worker roots, CI, and a versioned contract-only synthetic workflow. It creates no hosted listener, account implementation, provider connection, deployment, or Core transport."
+      ],
+      "supersededBy": []
+    },
+    "D02": {
+      "definitionFingerprint": "1a22eed47c198c26f99fef741e207c9dd6a399851368e3cfbcf0c3697b40c14f",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d02-hosted-auth-selection",
+      "worktree": "/home/bren/src/chalkwright-hosted-d02-auth",
+      "startedOn": "2026-09-01",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "docs/decisions/0001-django-authentication.md (hosted D02 worktree)",
+        "commit:3a15bf8",
+        "pip install + unittest authentication-selection verification"
+      ],
+      "notes": [
+        "Accepted: Django 5.2.17 native auth/session/CSRF/migration facilities plus django-allauth[mfa,socialaccount]==65.19.1. Provider sign-in remains identity-only; connected data consent is deferred to D08."
+      ],
+      "supersededBy": []
+    },
+    "D03": {
+      "definitionFingerprint": "a3c77822d9ed2ec8ae478c65ee96ebf3af83ce7ab69c766951d3450514e30023",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d03-hosted-account-security",
+      "worktree": "/home/bren/src/chalkwright-hosted-d03-account-security",
+      "startedOn": "2026-09-01",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "commit:ca6b9c8",
+        "pip install + Django checks, migration check, 3 boundary tests, and 7 account-security tests"
+      ],
+      "notes": [
+        "Accepted: custom project-owned User migration; Django/allauth email verification, recovery, reauthentication, MFA, active-session, CSRF, secure-cookie, rate-limit, and audit-event foundation. It creates neither provider configuration nor a hosted listener/deployment."
+      ],
+      "supersededBy": []
+    },
+    "D04": {
+      "definitionFingerprint": "23f9c800432147a3b68fe354f6f6859f7e0687b7d8e3850cf413522cef392248",
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d04-hosted-provider-sign-in",
+      "worktree": "/home/bren/src/chalkwright-hosted-d04-provider-sign-in",
+      "startedOn": "2026-09-01",
+      "completedOn": null,
+      "blockers": [
+        "Google OAuth Web-client and Microsoft Entra application registrations, client IDs/secrets, and explicitly approved callback testing are not yet available."
+      ],
+      "evidence": [
+        "commit:b1a790f",
+        "pip install + Django checks, migration check, 3 boundary tests, and 9 account/provider tests"
+      ],
+      "notes": [
+        "Identity-only Google and Microsoft allauth providers are configured with no automatic email linking, no token storage, no connected teaching-data scopes, and fail-closed partial credential configuration."
+      ],
+      "supersededBy": []
+    },
+    "D05": {
+      "definitionFingerprint": "b1750793bc3f7e89d4cb39de07681e15a5019a9104fc921f9262aa751fdf3777",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d05-hosted-organizations",
+      "worktree": "/home/bren/src/chalkwright-hosted-d05-organizations",
+      "startedOn": "2026-09-01",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "commit:5d19658",
+        "pip install + Django checks, migration check, 3 boundary tests, 7 account-security tests, and 5 organization-role transition tests"
+      ],
+      "notes": [
+        "Accepted: project-owned organization, membership, and invitation models; owner-only destructive actions; atomic creation with an owner; explicit ownership transfer; and tests preventing unauthorized access and ownerless organizations."
+      ],
+      "supersededBy": []
+    },
+    "D06": {
+      "definitionFingerprint": "5853320a289cb30e78f235b0a38109589ead593a290262c7db732ba3b5cdc525",
+      "status": "complete",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d06-hosted-persistence-authorization",
+      "worktree": "/home/bren/src/chalkwright-hosted-d06-persistence-authorization",
+      "startedOn": "2026-09-01",
+      "completedOn": "2026-09-01",
+      "blockers": [],
+      "evidence": [
+        "commit:1ee1e4b",
+        "commit:d74518d",
+        "pip install + Django checks, migration check, 3 boundary tests, 12 account/organization tests, and 4 tenant-scope/adapter tests"
+      ],
+      "notes": [
+        "Accepted: self-hosted PostgreSQL configuration; private Valkey/Redis-compatible cache and Celery broker/result configuration; local Django FileSystemStorage; and cross-tenant persistence authorization. No database, cache, worker, listener, backup, or deployment service was created."
+      ],
+      "supersededBy": []
+    },
+    "D07": {
+      "definitionFingerprint": "7922c75391977f8cba108d7340ecef49f89c24f260ed512375bc2c052720717d",
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/d07-hosted-control-ui",
+      "worktree": "/home/bren/src/chalkwright-hosted-d07-control-ui",
+      "startedOn": "2026-09-01",
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [
+        "commit:45fae29",
+        "commit:5456886",
+        "commit:0b3ca66",
+        "Django system check, migration check, and 23-test suite"
+      ],
+      "notes": [
+        "Initial authenticated organization-scoped control shell and screen-creation workflow complete. Account delegates email, password, MFA, and active-session security to django-allauth; Organization lists scoped members/pending invitations and permits owner-only non-owner invitations without rendering invitation tokens. Connections & content, Planned displays, Presentation, Billing/support, and screen-readiness workflows remain before D07 acceptance."
+      ],
+      "supersededBy": []
+    },
+    "D08": {
+      "definitionFingerprint": "563f2e0be6da4562cf73e85b2eb955128463051d7dd8b96eaec58939fbfa191a",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "D09": {
+      "definitionFingerprint": "45f9888a930ccdf6fb61e132f05cf2c1f3bc12e37570661a1d39bf45f1f17f4e",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "D10": {
+      "definitionFingerprint": "6f49c813f31537ed6285058518b81c91aaacdd043eea6da260b4e436baefd021",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "D11": {
+      "definitionFingerprint": "2bd66f75b69a2ebaca4dda8c1c1b27e5e3d0bb52370deca748525b693201ef41",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "D12": {
+      "definitionFingerprint": "bf8d3c8441756c948c0238fa523660deb3154cc09f6566168d841d88a2501244",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "E01": {
+      "definitionFingerprint": "37b981c6bb44688e20d8bf3b2297903d0d1af462bcbdcc9ab75ca85ab9e73ee9",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "E02": {
+      "definitionFingerprint": "c2ea32358d4137b69e7da72c36b667f1f9dc4c6d6e2b8055cfd2603fb73bcafe",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "E03": {
+      "definitionFingerprint": "22af1fcc4aff0ad4f0dd4c07db0c2b247ae703bc76da6177fed50ea437c445b1",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "E04": {
+      "definitionFingerprint": "63591d43f3544baf5569fc11e5a49475e3753c82bd2c1b4e652a1da0525decc6",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "F01": {
+      "definitionFingerprint": "57fdcf96f4fe430da839f031b69a02a86a51c9b76aa1c4bfa907620648f5b2b1",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "F02": {
+      "definitionFingerprint": "e620d390a978aeb345262df840473c4b9d66246accd63ebb8b99024cee4960f4",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "F03": {
+      "definitionFingerprint": "f28bcec5de17f70c1302f7c9d5bf9c95d19bca99962f41f12bb26ba89c6cdf22",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "F04": {
+      "definitionFingerprint": "fce18badea2fdb5f0d69687ba18c4f7f07f0c6aaac86d30cab0bb48311096e66",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "F05": {
+      "definitionFingerprint": "8f53dc47441a60de741cdf5b9db6abf8831f55e2f9dc83e5b4597afc4e4f171d",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    },
+    "F06": {
+      "definitionFingerprint": "a9e8a9ab5996e9c03ae52b54efddeaaab44511a2523cbc25c7a2f2cc8bf2b0ad",
+      "status": "pending",
+      "owner": null,
+      "executor": null,
+      "branch": null,
+      "worktree": null,
+      "startedOn": null,
+      "completedOn": null,
+      "blockers": [],
+      "evidence": [],
+      "notes": [],
+      "supersededBy": []
+    }
+  },
+  "retiredTasks": {}
+}

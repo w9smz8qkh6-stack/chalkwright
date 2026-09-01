@@ -19,14 +19,18 @@
   per-step verification and side-effect boundaries, and requirements
   traceability.
 - [Future parity roadmap](future-parity-roadmap.md) — post-M18 parity and product
-  direction, including the planned Core operator panel and exploratory hosted
-  service.
+  direction, including the Core operator panel as the first delivery goal and
+  the deliberately deferred hosted-service architecture.
 - [ChalkWrite.com Commercial Hosted App](chalkwrite-com-commercial-hosted-app.md)
   — exploratory paid authenticated account application, source strategy,
   tenant model, student-view boundary, security baseline, and delivery stages.
 - [Core and hosted implementation work breakdown](core-and-hosted-implementation-work-breakdown.md)
-  — dependency-ordered tasks from architecture decisions through the Core
-  operator panel, hosted account application, and paid-pilot qualification.
+  — Goal 1's direct Core operator-panel sequence followed by package/connected-
+  data hardening, commercial architecture selection, hosted accounts, and paid-
+  pilot qualification.
+- [Core operator-first task and execution ledger](core-and-hosted-work-queue.md)
+  — generated dispatch view combining the authoritative WBS with status,
+  ownership, evidence, the strict Goal 1 sequence, and the C10 commercial gate.
 - [Core and hosted feature acceptance matrix](core-and-hosted-feature-acceptance-matrix.md)
   — authoritative feature ownership, edition and surface availability, MVP
   disposition, safety boundaries, acceptance evidence, and task traceability.
@@ -168,6 +172,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [Chalkwright Core and Hosted Feature Acceptance Matrix](core-and-hosted-feature-acceptance-matrix.md) — `core-and-hosted-feature-acceptance-matrix.md`
 - [Chalkwright Core and Hosted Service Implementation Work Breakdown](core-and-hosted-implementation-work-breakdown.md) — `core-and-hosted-implementation-work-breakdown.md`
 - [Chalkwright Core and Hosted Threat Model](core-and-hosted-threat-model.md) — `core-and-hosted-threat-model.md`
+- [Chalkwright Core Operator-First Task and Execution Ledger](core-and-hosted-work-queue.md) — `core-and-hosted-work-queue.md`
 - [Core configuration and durable-state contracts](core-configuration-state-contracts.md) — `core-configuration-state-contracts.md`
 - [Core source-mode contracts](core-source-mode-contracts.md) — `core-source-mode-contracts.md`
 - [Core workspace and actor contracts](core-workspace-actor-contracts.md) — `core-workspace-actor-contracts.md`
@@ -197,6 +202,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [ADR-0024: Application-owned PowerSchool authentication lifecycle](decisions/0024-application-owned-powerschool-authentication.md) — `decisions/0024-application-owned-powerschool-authentication.md`
 - [ADR-0025: Permanent production delivery lane](decisions/0025-permanent-production-delivery.md) — `decisions/0025-permanent-production-delivery.md`
 - [ADR-0026: Public Core and separate hosted shell](decisions/0026-public-core-and-hosted-shell.md) — `decisions/0026-public-core-and-hosted-shell.md`
+- [ADR-0027: Django hosted application and private Core service boundary](decisions/0027-django-hosted-core-service-boundary.md) — `decisions/0027-django-hosted-core-service-boundary.md`
 - [Architecture decision records](decisions/README.md) — `decisions/README.md`
 - [Documentation maintenance system](documentation-system.md) — `documentation-system.md`
 - [Engineering standards](engineering-standards.md) — `engineering-standards.md`

@@ -156,11 +156,21 @@ authority, so a self-hosted deployment must bind or route it only through an
 operator-controlled local or private boundary and must not publish it openly.
 That boundary does not have to be Tailscale.
 
+This panel is the first delivery goal. Its first slice uses the current
+server-rendered TypeScript, HTML, CSS, ordinary-form, and small browser-
+controller strategy with no new UI framework. It covers one installation's
+timezone, rooms, screens, courses, manual timetable, approved basic content,
+draft validation, preview, activation, rollback, redacted export, and recovery.
+Uploads, shared resources, connected providers, advanced review, commercial
+navigation, accounts, tenancy, and billing do not block that slice.
+
 The operator uses the panel to manage configuration, connections, previews,
 readiness, and the class code used by classroom displays and students. The
 class code gates only the low-privilege display/viewer surface; it is not a
-credential for the operator panel. The commercial hosted edition places this
-same control capability inside its authenticated account application.
+credential for the operator panel. After C10, D00 decides whether the commercial
+hosted edition reuses TypeScript presentation/behavior directly or reproduces
+the proven workflow through a versioned service or Python boundary inside its
+authenticated account application.
 
 Every consequential source will have a connected-provider lane and the closest
 safe application-managed, shared-resource, or uploaded lane. Chalkwright will
@@ -181,16 +191,17 @@ operator and display surfaces run as separate processes and service identities,
 with distinct route tables, cookies, caches, readiness, and storage
 capabilities. The operator process requires an explicit loopback address or Unix
 socket by default, and supplied deployment examples never publish it. A
-separate commercial repository consumes one exact verified Core package through
-restricted exports below the HTTP layer rather than embedding the
-unauthenticated Core route table; see
-[ADR-0026](decisions/0026-public-core-and-hosted-shell.md).
-Both shells invoke future reusable operations through the explicit
+ADR-0026 records one exact verified Core package through restricted exports as
+the current commercial-integration candidate rather than embedding the
+unauthenticated Core route table. After the first Core panel passes C10, D00
+must confirm that candidate or select and document a versioned private
+worker/service or incremental Python-port boundary. All candidates invoke
+future reusable operations through the explicit
 [Core workspace and actor contracts](core-workspace-actor-contracts.md). The
 self-hosted shell supplies one installation-owned workspace; the hosted shell
 must derive organization scope from its authenticated server-side session.
 These contracts are defined but are not yet threaded into existing use cases;
-that migration remains B03 work.
+that reusable-boundary migration remains B03 or a D00-selected equivalent.
 
 Future authored configuration and durable state follow the versioned
 [Core configuration and durable-state contracts](core-configuration-state-contracts.md):

@@ -180,6 +180,9 @@ snapshot, checksum, plan, or result.
 
 A06 has now specified source modes' concrete first-release formats, provenance,
 freshness, validation, consent/grant, and last-known-good behavior without
-changing this A05 state envelope. A07 is next. B03 later threads A04-A06 scope
-and state contracts through current use cases, ports, persistence, and
-snapshots. Phase B remains blocked until A07 and A08 complete.
+changing this A05 state envelope. A07 is next and A08 supplies the Core Goal 1
+fixtures. C01 then implements this lifecycle directly for the first Core
+operator-panel vertical slice; C10 independently rehearses activation,
+rollback, redacted export, and recovery. B03 later threads A04-A06 scope and
+state contracts through reusable package boundaries, and D00 separately
+selects the commercial persistence/integration architecture after Goal 1.

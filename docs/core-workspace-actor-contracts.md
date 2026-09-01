@@ -80,4 +80,7 @@ A04 does not restructure packages or thread scope into current use cases. A05
 has now built on this vocabulary with configuration, persistence, migration,
 revision, export/backup, rollback, and bounded audit-event contracts documented
 in [Core configuration and durable-state contracts](core-configuration-state-contracts.md).
-Phase B remains blocked until A06 through A08 complete.
+A06 is complete. A07 and A08 now close the Core-only Goal 1 specification gate;
+C01-C04, C09, and C10 implement and rehearse that single-installation path
+before B03 threads the full scope model through reusable package boundaries or
+D00 selects a commercial architecture.

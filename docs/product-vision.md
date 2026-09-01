@@ -137,8 +137,11 @@ in the TV surface and integrations.
 - Provide that surface in Core through a browser-based operator panel without a
   built-in Chalkwright user account or login. Treat access to the panel as full
   operator authority and keep it on an operator-controlled local or private
-  deployment boundary. The hosted service wraps the same capability in its
-  authenticated account application. In both editions, the separately
+  deployment boundary. Make its simple server-rendered configuration,
+  validation, preview, activation, rollback, export, and recovery workflow the
+  first delivery goal. The hosted service later reuses or reproduces the proven
+  capability in its authenticated account application under a separately
+  selected framework and integration boundary. In both editions, the separately
   configured class code grants only low-privilege display and student-view
   access.
 - Add a date-driven planned-display review that renders expected daily states
@@ -158,10 +161,10 @@ in the TV surface and integrations.
 - Do not turn self-hosted Core into an account-management system merely to
   provide its operator panel. Named users, organization roles, and account
   security belong to the commercial hosted application.
-- Keep the public Core repository complete and independently self-hostable while
-  exposing deliberate, versioned domain, use-case, contract, connector, and
-  presentation boundaries for a separate commercial shell. The commercial
-  application consumes those boundaries below HTTP routing; it never mounts the
+- Keep the public Core repository complete and independently self-hostable. A
+  later commercial decision selects whether the downstream application consumes
+  deliberate TypeScript package exports, a private versioned worker/service, or
+  a conformance-backed incremental Python port. It never mounts the
   unauthenticated Core server as its control plane.
 - Offer both direct least-privilege provider connections and documented
   application-managed, shared-resource, and uploaded alternatives. Chalkwright
