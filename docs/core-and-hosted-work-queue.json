@@ -200,16 +200,18 @@
     },
     "B02": {
       "definitionFingerprint": "e525a6a770d65bf9d1f14b60587620b8b51d258dea785c9016d42d3f48b4e472",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/b02-core-exports",
+      "worktree": "/home/bren/src/chalkwright-b02-core-exports",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted B01 on an isolated Core branch. Scope is limited to deliberate public Core exports and deep-import prevention; no application recreation, commercial work, or unrelated ready task is included."
+      ],
       "supersededBy": []
     },
     "B03": {
