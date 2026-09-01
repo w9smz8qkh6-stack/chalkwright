@@ -485,16 +485,18 @@
     },
     "C12": {
       "definitionFingerprint": "5bd5425f7fcc68eba97e2dba686a4c96079be2fde086ffa9fc12957988f36793",
-      "status": "pending",
-      "owner": null,
-      "executor": null,
-      "branch": null,
-      "worktree": null,
-      "startedOn": null,
+      "status": "in_progress",
+      "owner": "orchestrator:/root",
+      "executor": "orchestrator:/root",
+      "branch": "codex/config-panel-c12-presentation-profiles",
+      "worktree": "/home/bren/src/chalkwright-config-panel-c12",
+      "startedOn": "2026-09-01",
       "completedOn": null,
       "blockers": [],
       "evidence": [],
-      "notes": [],
+      "notes": [
+        "Dispatched after accepted C11 on an isolated Core branch. Scope is limited to versioned presentation profiles, synthetic preview, reversible activation, and reduced-motion behavior; no commercial or unrelated ready task is included."
+      ],
       "supersededBy": []
     },
     "C13": {
