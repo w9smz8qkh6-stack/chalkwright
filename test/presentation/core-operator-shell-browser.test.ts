@@ -257,3 +257,43 @@ test('C11 planned-display review reflows without JavaScript and supports keyboar
   assert.deepEqual(failures, { consoleErrors: [], pageErrors: [] });
   await enhanced.close();
 });
+
+test('C12 presentation profile preview reflows, saves through an ordinary form, and honors reduced motion', async () => {
+  const context = await browser.newContext({
+    viewport: { width: 683, height: 384 },
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  const failures = collectFailures(page);
+  await page.goto(`${running.origin}/presentation`, { waitUntil: 'load' });
+  assert.equal(await page.locator('h1').innerText(), 'Presentation');
+  assert.equal(
+    await page.locator('form[action$="presentation/save"]').count(),
+    1,
+  );
+  assert.ok(
+    (await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    )) <= 1,
+  );
+  await page.locator('select[name="theme"]').selectOption('daylight');
+  await page.locator('select[name="transition"]').selectOption('snappy');
+  await page.locator('input[name="dwellSeconds"]').fill('8');
+  await page.locator('select[name="language"]').selectOption('vi');
+  await page.locator('select[name="reducedMotion"]').selectOption('always');
+  await page.locator('form[action$="presentation/save"] button').click();
+  await page.waitForLoadState('load');
+  const preview = page.locator('[data-presentation-preview]');
+  assert.equal(await preview.getAttribute('data-reduced-motion'), 'always');
+  assert.match(await preview.innerText(), /Bản xem trước/u);
+  assert.match(
+    await preview.evaluate(
+      (element) => getComputedStyle(element).transitionDuration,
+    ),
+    /(?:0s|0\.00001s|1e-05s)/u,
+  );
+  assert.deepEqual(failures, { consoleErrors: [], pageErrors: [] });
+  await context.close();
+});

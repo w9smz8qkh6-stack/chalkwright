@@ -126,3 +126,58 @@ test('C11 serves a mutation-free contact sheet with an ordinary selection form a
     await running.close();
   }
 });
+
+test('C12 saves and resets a private presentation profile without changing content authority', async () => {
+  const running = await startCoreOperatorApplication({
+    host: '127.0.0.1',
+    workspace: coreGoal1FixtureCatalog.workspace,
+    configuration: new VersionedConfigurationService(
+      new InMemoryConfigurationStateRepository([
+        coreGoal1FixtureCatalog.configurationStates.rolledBack,
+      ]),
+    ),
+  });
+  try {
+    const initial = await fetch(`${running.origin}/presentation`);
+    assert.equal(initial.status, 200);
+    assert.match(
+      initial.headers.get('content-security-policy') ?? '',
+      /script-src 'none'/u,
+    );
+    assert.match(await initial.text(), /Profile revision 1/u);
+
+    const saved = await fetch(`${running.origin}/actions/presentation/save`, {
+      method: 'POST',
+      headers: {
+        Origin: running.origin,
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        theme: 'daylight',
+        transition: 'snappy',
+        dwellSeconds: '8',
+        language: 'vi',
+        reducedMotion: 'always',
+      }),
+    });
+    assert.equal(saved.status, 200);
+    const savedBody = await saved.text();
+    assert.match(savedBody, /Profile revision 2/u);
+    assert.match(savedBody, /theme-daylight/u);
+    assert.match(savedBody, /Bản xem trước/u);
+    assert.match(savedBody, /changes canonical content/u);
+
+    const reset = await fetch(`${running.origin}/actions/presentation/reset`, {
+      method: 'POST',
+      headers: {
+        Origin: running.origin,
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      body: '',
+    });
+    assert.equal(reset.status, 200);
+    assert.match(await reset.text(), /Profile revision 3/u);
+  } finally {
+    await running.close();
+  }
+});

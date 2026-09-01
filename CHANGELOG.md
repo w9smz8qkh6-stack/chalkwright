@@ -16,6 +16,10 @@ omitted.
   They cannot change canonical content, activate a display, fetch translations,
   or create provider/account authority.
 
+- Added C12's rendered preview card and accepted browser exercise of the
+  ordinary save path, narrow reflow, Vietnamese reviewed catalog preview, and
+  reduced-motion override.
+
 - Implemented C11's private Core planned-display review: a bounded daily
   contact sheet, selected-frame stage, date/screen form, enlarged dialog, and
   same-origin keyboard carousel. Selection remains preview-only and returns a

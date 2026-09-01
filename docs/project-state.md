@@ -13,7 +13,7 @@ docs:sync`. Repository documentation is not a live-service probe.
 
 - Reviewed: `2026-08-31` (1 days ago; maximum 7)
 - Implementation files covered: 574
-- Implementation fingerprint: `7f28f4a7b37d85c84db16275057845bf218961fe8b8d928852199cdef14fe586`
+- Implementation fingerprint: `f74e9d8448660c8dff62bd156407e44947aa559e06d211f60c594cc243f69c34`
 - Semantic review: **CURRENT**
 - Review statement: C12 is being reviewed with the accepted C01-C04/C09/C10/C11 operator slices, A02/A06 safety contracts, A07 information architecture, and A08 synthetic fixture contract. Its first bounded slice adds a private in-memory, versioned presentation-preview profile for reviewed theme, transition, dwell time, interface catalog, and reduced-motion choices. It is reached only through exact same-origin ordinary forms on the explicit-loopback Core listener. A profile cannot alter canonical content truth, activate a display, fetch translations, connect a provider, or create account authority. No provider, Calendar, OAuth, account, billing, durable production storage, public viewer route, deployment, or live effect was added.
 - Working-tree classification is evaluated live by hooks and documentation gates; volatile change counts are intentionally excluded from this tracked view.
