@@ -10,6 +10,9 @@ omitted.
 
 ### Fixed
 
+- Prevented the display from replaying a class or Water Break chime when Fully
+  Kiosk's Android WebView returns from a screen-sharing app. Normal chimes
+  remain active during an uninterrupted display session.
 - Successful production PowerSchool plan refreshes now automatically trigger
   the separate, independently validated owned-Calendar reconciliation service.
   A Calendar failure neither marks the plan refresh as failed nor invokes
