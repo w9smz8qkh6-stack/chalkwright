@@ -332,6 +332,20 @@
     };
   }
 
+  function resetBoundaryChimeObservation(): void {
+    // Android WebView can pause the display while a screen-share app is in
+    // front, then resume its timers and media together. Treat that return as
+    // a new observation so an old boundary is never replayed as a chime.
+    activeWaterBreakKey = '';
+    observedWaterBreakKey = '';
+    previousWaterBreakNow = undefined;
+    observedClassBoundary = undefined;
+  }
+
+  function handleDisplayLifecycleResume(): void {
+    resetBoundaryChimeObservation();
+  }
+
   function playBoundaryTone(kind: 'start' | 'end'): void {
     const audio = document.querySelector<HTMLAudioElement>(
       kind === 'start'
@@ -998,6 +1012,11 @@
     }
   }
 
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) handleDisplayLifecycleResume();
+  });
+  window.addEventListener('focus', handleDisplayLifecycleResume);
+  window.addEventListener('pageshow', handleDisplayLifecycleResume);
   updateClock();
   window.setInterval(updateClock, 1000);
   initializeCarousel();

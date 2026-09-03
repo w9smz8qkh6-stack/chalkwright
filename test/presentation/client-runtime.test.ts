@@ -132,6 +132,10 @@ function clientHarness(options: {
   const document = {
     title: 'Web Design · A — Chalkwright',
     body,
+    hidden: false,
+    addEventListener(type: string, callback: () => unknown) {
+      documentListeners.set(type, callback);
+    },
     querySelector(selector: string) {
       if (selector === '[data-display-root]') return root;
       if (selector === '#presentation-bootstrap')
@@ -158,9 +162,11 @@ function clientHarness(options: {
       return [];
     },
   };
+  const documentListeners = new Map<string, () => unknown>();
   let timerId = 0;
   const timers = new Map<number, { callback: () => unknown; delay: number }>();
   let intervalCallback: (() => unknown) | undefined;
+  const windowListeners = new Map<string, () => unknown>();
   const window = {
     location: { origin: 'http://127.0.0.1:4317' },
     setInterval(callback: () => unknown) {
@@ -179,6 +185,9 @@ function clientHarness(options: {
     requestAnimationFrame(callback: () => unknown) {
       callback();
       return ++timerId;
+    },
+    addEventListener(type: string, callback: () => unknown) {
+      windowListeners.set(type, callback);
     },
     prompt: () => '',
   };
@@ -236,6 +245,12 @@ function clientHarness(options: {
     },
     tickClock() {
       intervalCallback?.();
+    },
+    resumeFromLifecycle(type: 'focus' | 'pageshow' | 'visibilitychange') {
+      if (type === 'visibilitychange') document.hidden = false;
+      (type === 'visibilitychange'
+        ? documentListeners.get(type)
+        : windowListeners.get(type))?.();
     },
     async runTimeout(delay: number) {
       const selected = [...timers].find(([, timer]) => timer.delay === delay);
@@ -617,6 +632,29 @@ test('mirroring-like clock discontinuities cannot trigger class tones', async ()
   harness.tickClock();
   assert.equal(harness.waterBreakStartTone.playCalls(), 0);
   assert.equal(harness.waterBreakEndTone.playCalls(), 0);
+});
+
+test('WebView lifecycle resumption does not replay a class-boundary tone', async () => {
+  const harness = clientHarness({
+    targetUrl: '/target/screen-c509',
+    payload: {
+      presentationHtml: '<section>Robotics</section>',
+      state: 'check_in',
+      meetingId: 'meeting-robotics',
+      courseLabel: 'Robotics',
+      evaluatedAt: '2035-04-13T08:29:59Z',
+      classStartsAt: '2035-04-13T08:30:00Z',
+      classEndsAt: '2035-04-13T09:15:00Z',
+    },
+  });
+  await new Promise((resolve) => setImmediate(resolve));
+
+  for (const event of ['focus', 'pageshow', 'visibilitychange'] as const) {
+    harness.resumeFromLifecycle(event);
+    harness.advance(1_000);
+    harness.tickClock();
+    assert.equal(harness.waterBreakStartTone.playCalls(), 0);
+  }
 });
 
 test('coming-up countdowns reveal seconds only in the final ten minutes', async () => {

@@ -45,6 +45,9 @@ fetches or regenerates media.
 - Local/offline HTML, CSS, TypeScript/JavaScript, media, icons, and manifest.
 - Polling with timeout, bounded backoff, recovery, and last-known-good display
   retention.
+- Class and Water Break chimes require a continuous visible clock observation;
+  when an Android WebView returns from a screen-sharing app, its boundary
+  observations reset so it cannot replay an elapsed tone.
 - When the exact local date has no stored plan, the display and readiness
   checks may use only the next verified class day already present in the local
   bounded-lookahead store. The future plan renders as a morning overview; the
