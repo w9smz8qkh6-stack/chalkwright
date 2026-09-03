@@ -99,7 +99,10 @@
       }
     | undefined;
   let operatorAuthorization = '';
+  let displayWasInterrupted = false;
+  let boundaryTonesSuppressedUntil = 0;
   const maximumBoundarySampleGapMs = 15_000;
+  const displayResumeChimeMuteMs = 15_000;
   const boundaryPollAllowanceMs = 25;
   const minimumBoundaryPollDelayMs = 50;
   const waterBreakCompletionHoldMs = 10_000;
@@ -344,9 +347,40 @@
 
   function handleDisplayLifecycleResume(): void {
     resetBoundaryChimeObservation();
+    if (!displayWasInterrupted) return;
+    displayWasInterrupted = false;
+    boundaryTonesSuppressedUntil = Date.now() + displayResumeChimeMuteMs;
+    silenceBoundaryTones();
+  }
+
+  function handleDisplayLifecycleInterruption(): void {
+    displayWasInterrupted = true;
+    resetBoundaryChimeObservation();
+    silenceBoundaryTones();
+  }
+
+  function boundaryTonesAreSuppressed(): boolean {
+    return document.hidden || Date.now() < boundaryTonesSuppressedUntil;
+  }
+
+  function silenceBoundaryTones(): void {
+    for (const selector of [
+      '[data-water-break-start-tone]',
+      '[data-water-break-end-tone]',
+    ]) {
+      const audio = document.querySelector<HTMLAudioElement>(selector);
+      if (!audio) continue;
+      try {
+        audio.pause();
+        if (audio.readyState > 0) audio.currentTime = 0;
+      } catch {
+        // A suspended WebView may not expose a usable media element yet.
+      }
+    }
   }
 
   function playBoundaryTone(kind: 'start' | 'end'): void {
+    if (boundaryTonesAreSuppressed()) return;
     const audio = document.querySelector<HTMLAudioElement>(
       kind === 'start'
         ? '[data-water-break-start-tone]'
@@ -371,6 +405,7 @@
   }
 
   function retryBoundaryTone(audio: HTMLAudioElement): void {
+    if (boundaryTonesAreSuppressed()) return;
     try {
       const playback = audio.play();
       if (playback !== undefined) void playback.catch(() => undefined);
@@ -1013,8 +1048,11 @@
   }
 
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) handleDisplayLifecycleResume();
+    if (document.hidden) handleDisplayLifecycleInterruption();
+    else handleDisplayLifecycleResume();
   });
+  window.addEventListener('blur', handleDisplayLifecycleInterruption);
+  window.addEventListener('pagehide', handleDisplayLifecycleInterruption);
   window.addEventListener('focus', handleDisplayLifecycleResume);
   window.addEventListener('pageshow', handleDisplayLifecycleResume);
   updateClock();
