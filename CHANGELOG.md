@@ -10,6 +10,11 @@ omitted.
 
 ### Fixed
 
+- Successful production PowerSchool plan refreshes now automatically trigger
+  the separate, independently validated owned-Calendar reconciliation service.
+  A Calendar failure neither marks the plan refresh as failed nor invokes
+  PowerSchool authentication repair; the existing daily Calendar timer remains
+  a backstop.
 - Fixed the automatic PowerSchool recovery entrypoint when the permanent
   release is invoked through `/opt/chalkwright/current`. It now resolves both
   sides of its main-module check, ensuring the bounded repair executes rather
