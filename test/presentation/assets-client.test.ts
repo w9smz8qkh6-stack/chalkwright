@@ -31,6 +31,7 @@ test('asset registry is closed, repository-local, and resolves every declared fi
     assert.equal(asset.publicPath, publicPath);
     if (publicPath === '/assets/display.js') {
       assert.equal(asset.repositoryPath, 'dist/client/display-client.js');
+      assert.equal(asset.cacheControl, 'no-cache');
     } else {
       assert.match(asset.repositoryPath, /^public\/[a-z0-9./-]+$/u);
     }

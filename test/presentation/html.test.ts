@@ -621,7 +621,7 @@ test('the exact legacy mount prefixes every browser-local display and operator U
     'href="/classroom-screen/manifest.webmanifest"',
     'href="/classroom-screen/assets/chalkwright.svg"',
     'href="/classroom-screen/assets/display.css"',
-    'src="/classroom-screen/assets/display.js"',
+    'src="/classroom-screen/assets/display.js?v=20260903-webview-resume-guard"',
     'data-target-url="/classroom-screen/target/screen-alpha"',
     'src="/classroom-screen/qr/screen-alpha/meeting-alpha.png?date=2035-04-13"',
   ]) {

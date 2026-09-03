@@ -107,7 +107,10 @@ function documentShell(options: {
   const manifest = localPath(options.basePath, '/manifest.webmanifest');
   const icon = localPath(options.basePath, '/assets/chalkwright.svg');
   const stylesheet = localPath(options.basePath, '/assets/display.css');
-  const client = localPath(options.basePath, '/assets/display.js');
+  // The query version makes the first post-release page load fetch the
+  // WebView resume guard even when a kiosk retained the prior one-hour asset.
+  // Its response is then revalidated on every later load.
+  const client = `${localPath(options.basePath, '/assets/display.js')}?v=20260903-webview-resume-guard`;
   return `<!doctype html>
 <html lang="en">
 <head>

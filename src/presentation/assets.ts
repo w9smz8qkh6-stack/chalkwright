@@ -26,7 +26,7 @@ export const presentationAssetRegistry = {
     publicPath: '/assets/display.js',
     repositoryPath: 'dist/client/display-client.js',
     contentType: 'text/javascript; charset=utf-8',
-    cacheControl: 'public, max-age=3600',
+    cacheControl: 'no-cache',
   },
   '/assets/chalkwright.svg': {
     publicPath: '/assets/chalkwright.svg',

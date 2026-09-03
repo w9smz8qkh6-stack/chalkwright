@@ -209,7 +209,7 @@ export const b407FixtureData: DisplayFixtureData = {
       path: '/assets/display.css',
       contentType: 'text/css; charset=utf-8',
       byteLength: 2048,
-      cacheControl: 'public, max-age=3600',
+      cacheControl: 'no-cache',
     },
     {
       assetId: 'asset-display-js',
