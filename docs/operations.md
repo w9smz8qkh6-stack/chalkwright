@@ -422,6 +422,13 @@ selected commit; this path installs no provider job. The standalone
 `install-production-powerschool-auto-repair.sh` remains a manual fallback. Its
 installer verifies and atomically replaces the system units but starts no unit.
 
+Every successful credential-free production plan refresh also starts the
+separate `chalkwright-calendar-sync.service` through systemd's `OnSuccess`
+relationship. The plan unit remains unable to read Calendar credentials, and a
+Calendar failure does not become a PowerSchool failure or invoke authentication
+repair. Calendar reconciliation independently validates its owned target and
+current canonical plan before any write; its daily timer remains a backstop.
+
 ADR-0024 replaces the legacy OpenClaw state bridge as Chalkwright's intended
 steady-state authentication repair. The native repair is deliberately absent
 from the routine plan unit and has no timer. Its inert systemd service reads the

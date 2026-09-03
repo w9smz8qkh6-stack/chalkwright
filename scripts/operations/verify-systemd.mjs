@@ -360,6 +360,7 @@ function verifyPermanentProductionArtifacts(directory, fail) {
   for (const required of [
     'OnFailure=chalkwright-powerschool-auto-repair.service',
     'OnFailureJobMode=replace',
+    'OnSuccess=chalkwright-calendar-sync.service',
   ])
     if (!planRefresh.includes(required))
       fail(`chalkwright-plan-refresh.service.in is missing ${required}`);

@@ -5,6 +5,7 @@ After=network-online.target
 Wants=network-online.target
 OnFailure=chalkwright-powerschool-auto-repair.service
 OnFailureJobMode=replace
+OnSuccess=chalkwright-calendar-sync.service
 
 [Service]
 Type=oneshot

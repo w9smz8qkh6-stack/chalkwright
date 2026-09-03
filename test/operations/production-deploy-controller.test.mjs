@@ -126,6 +126,14 @@ test('production plan failures invoke one rate-limited automatic repair unit', (
   assert.doesNotMatch(autoRepairUnit, /calendar-sync|EnvironmentFile=/iu);
 });
 
+test('a successful production plan refresh triggers the independent Calendar sync', () => {
+  assert.match(
+    planRefreshUnit,
+    /^OnSuccess=chalkwright-calendar-sync\.service$/mu,
+  );
+  assert.doesNotMatch(autoRepairUnit, /chalkwright-calendar-sync/u);
+});
+
 test('automatic PowerSchool recovery is bounded and never starts Calendar', () => {
   assert.match(autoRepair, /maximumRepairAttempts = 3/u);
   assert.match(autoRepair, /repairRetryDelayMs = 30 \* 1_000/u);
