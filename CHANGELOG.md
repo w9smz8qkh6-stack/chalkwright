@@ -10,6 +10,10 @@ omitted.
 
 ### Fixed
 
+- Silence Chalkwright's boundary audio as soon as Fully Kiosk's WebView loses
+  focus, becomes hidden, or enters page hide, then suppress tones briefly on
+  return. This covers the screen-share lifecycle ordering that could emit a
+  familiar class chime before the earlier resume-only guard ran.
 - Made the display controller versioned and non-cacheable after Fully Kiosk
   retained an old one-hour-cached script across a server release. The next page
   load now fetches the current controller without an operator cache setting.

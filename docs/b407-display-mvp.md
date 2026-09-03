@@ -47,7 +47,8 @@ fetches or regenerates media.
   retention.
 - Class and Water Break chimes require a continuous visible clock observation;
   when an Android WebView returns from a screen-sharing app, its boundary
-  observations reset so it cannot replay an elapsed tone.
+  observations reset, active audio is stopped, and new tones stay muted for a
+  short return window so it cannot replay an elapsed tone.
 - The display controller is versioned in the page and revalidated on every
   load so a kiosk cannot retain an obsolete audio or timing fix after a release.
 - When the exact local date has no stored plan, the display and readiness

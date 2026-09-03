@@ -101,6 +101,7 @@ function clientHarness(options: {
   };
   function tone() {
     let playCalls = 0;
+    let pauseCalls = 0;
     return {
       currentTime: -1,
       readyState: 4,
@@ -108,7 +109,11 @@ function clientHarness(options: {
         playCalls += 1;
         return Promise.resolve();
       },
+      pause() {
+        pauseCalls += 1;
+      },
       playCalls: () => playCalls,
+      pauseCalls: () => pauseCalls,
     };
   }
   const waterBreakStartTone = tone();
@@ -248,6 +253,12 @@ function clientHarness(options: {
     },
     resumeFromLifecycle(type: 'focus' | 'pageshow' | 'visibilitychange') {
       if (type === 'visibilitychange') document.hidden = false;
+      (type === 'visibilitychange'
+        ? documentListeners.get(type)
+        : windowListeners.get(type))?.();
+    },
+    interruptLifecycle(type: 'blur' | 'pagehide' | 'visibilitychange') {
+      if (type === 'visibilitychange') document.hidden = true;
       (type === 'visibilitychange'
         ? documentListeners.get(type)
         : windowListeners.get(type))?.();
@@ -634,7 +645,7 @@ test('mirroring-like clock discontinuities cannot trigger class tones', async ()
   assert.equal(harness.waterBreakEndTone.playCalls(), 0);
 });
 
-test('WebView lifecycle resumption does not replay a class-boundary tone', async () => {
+test('WebView lifecycle interruption silences and suppresses a class-boundary tone', async () => {
   const harness = clientHarness({
     targetUrl: '/target/screen-c509',
     payload: {
@@ -649,8 +660,17 @@ test('WebView lifecycle resumption does not replay a class-boundary tone', async
   });
   await new Promise((resolve) => setImmediate(resolve));
 
-  for (const event of ['focus', 'pageshow', 'visibilitychange'] as const) {
-    harness.resumeFromLifecycle(event);
+  for (const [index, { interruption, resume }] of [
+    { interruption: 'blur' as const, resume: 'focus' as const },
+    { interruption: 'pagehide' as const, resume: 'pageshow' as const },
+    {
+      interruption: 'visibilitychange' as const,
+      resume: 'visibilitychange' as const,
+    },
+  ].entries()) {
+    harness.interruptLifecycle(interruption);
+    assert.equal(harness.waterBreakStartTone.pauseCalls(), index * 2 + 1);
+    harness.resumeFromLifecycle(resume);
     harness.advance(1_000);
     harness.tickClock();
     assert.equal(harness.waterBreakStartTone.playCalls(), 0);
