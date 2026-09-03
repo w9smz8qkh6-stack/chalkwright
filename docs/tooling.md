@@ -21,7 +21,7 @@ the installed command surface.
 | Git | 2.53.0 | [Git 2.53.0 reference](https://git-scm.com/docs/git/2.53.0) | `git help <command>` |
 | systemd | 259 | [systemd 259 manuals](https://www.freedesktop.org/software/systemd/man/259/) | `man systemd.service`, `man systemd.timer` |
 | Google Chrome | 150.0.7871.114 | [Chrome Headless mode](https://developer.chrome.com/docs/chromium/headless), [Chrome releases](https://chromereleases.googleblog.com/) | `google-chrome --version` |
-| Codex CLI | 0.151.0 | [Codex CLI](https://learn.chatgpt.com/docs/codex/cli), [configuration](https://learn.chatgpt.com/docs/config-file/config-reference), [changelog](https://learn.chatgpt.com/docs/changelog) | `codex --help` |
+| Codex CLI | 0.152.1 | [Codex CLI](https://learn.chatgpt.com/docs/codex/cli), [configuration](https://learn.chatgpt.com/docs/config-file/config-reference), [changelog](https://learn.chatgpt.com/docs/changelog) | `codex --help` |
 
 Codex documentation is maintained as current product documentation rather than
 as a separate manual for every CLI patch. Use the recorded Codex CLI version
