@@ -48,6 +48,8 @@ fetches or regenerates media.
 - Class and Water Break chimes require a continuous visible clock observation;
   when an Android WebView returns from a screen-sharing app, its boundary
   observations reset so it cannot replay an elapsed tone.
+- The display controller is versioned in the page and revalidated on every
+  load so a kiosk cannot retain an obsolete audio or timing fix after a release.
 - When the exact local date has no stored plan, the display and readiness
   checks may use only the next verified class day already present in the local
   bounded-lookahead store. The future plan renders as a morning overview; the

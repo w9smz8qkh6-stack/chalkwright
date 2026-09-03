@@ -10,6 +10,9 @@ omitted.
 
 ### Fixed
 
+- Made the display controller versioned and non-cacheable after Fully Kiosk
+  retained an old one-hour-cached script across a server release. The next page
+  load now fetches the current controller without an operator cache setting.
 - Prevented the display from replaying a class or Water Break chime when Fully
   Kiosk's Android WebView returns from a screen-sharing app. Normal chimes
   remain active during an uninterrupted display session.
