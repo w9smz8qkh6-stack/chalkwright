@@ -1,10 +1,42 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { mkdtempSync, rmSync, symlinkSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 
 import {
   classifyStalePowerSchoolLock,
   runAutomaticPowerSchoolRecovery,
 } from '../../scripts/operations/auto-repair-production-powerschool.mjs';
+
+test('automatic recovery rejects a non-root invocation through a release symlink', () => {
+  const root = mkdtempSync(join(tmpdir(), 'chalkwright-auto-repair-link-'));
+  try {
+    const linkedEntrypoint = join(
+      root,
+      'auto-repair-production-powerschool.mjs',
+    );
+    symlinkSync(
+      join(
+        process.cwd(),
+        'scripts/operations/auto-repair-production-powerschool.mjs',
+      ),
+      linkedEntrypoint,
+    );
+    const result = spawnSync(process.execPath, [linkedEntrypoint], {
+      encoding: 'utf8',
+      env: {},
+    });
+    assert.equal(result.status, 64);
+    assert.match(
+      result.stderr,
+      /production-powerschool-auto-repair-usage-invalid/u,
+    );
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
 
 function lock(overrides = {}) {
   return {

@@ -10,6 +10,11 @@ omitted.
 
 ### Fixed
 
+- Fixed the automatic PowerSchool recovery entrypoint when the permanent
+  release is invoked through `/opt/chalkwright/current`. It now resolves both
+  sides of its main-module check, ensuring the bounded repair executes rather
+  than silently succeeding without action after an authentication-required
+  plan refresh.
 - Fixed protected production release construction after the host package
   manager began requiring a writable cache outside the service's inaccessible
   home directory. Builds now validate and reuse an owner-only cache inside the

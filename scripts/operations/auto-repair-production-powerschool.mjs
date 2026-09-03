@@ -10,7 +10,8 @@ import {
   realpathSync,
   unlinkSync,
 } from 'node:fs';
-import { pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 
 const planUnit = 'chalkwright-plan-refresh.service';
 const downstreamReadUnits = [
@@ -362,6 +363,7 @@ async function main() {
 
 if (
   process.argv[1] !== undefined &&
-  import.meta.url === pathToFileURL(process.argv[1]).href
+  realpathSync(resolve(process.argv[1])) ===
+    realpathSync(fileURLToPath(import.meta.url))
 )
   void main();
