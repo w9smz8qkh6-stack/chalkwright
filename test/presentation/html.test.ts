@@ -268,6 +268,45 @@ test('objective cards keep their heading fixed while long detail lists advance',
   );
 });
 
+test('objective pages retain legacy lines that are not duplicated in details', () => {
+  const html = renderDisplayPage({
+    ...model('in_class_content'),
+    cards: [
+      {
+        cardId: 'legacy-objective',
+        type: 'objective',
+        title: 'Objective 2',
+        featured: 'Plan a clear learning sequence.',
+        lines: [
+          'Plan a clear learning sequence.',
+          'Identify the key idea.',
+          'Practice with a partner.',
+          'Document your evidence.',
+          'Reflect on the result.',
+        ],
+        details: ['Identify the key idea.'],
+      },
+    ],
+  });
+
+  assert.equal(
+    (html.match(/data-objective-detail-page(?=\s|>)/g) ?? []).length,
+    2,
+  );
+  for (const detail of [
+    'Identify the key idea.',
+    'Practice with a partner.',
+    'Document your evidence.',
+    'Reflect on the result.',
+  ]) {
+    assert.equal((html.match(new RegExp(detail, 'gu')) ?? []).length, 1);
+  }
+  assert.equal(
+    (html.match(/Plan a clear learning sequence\./g) ?? []).length,
+    1,
+  );
+});
+
 test('vocabulary renders every multilingual face without flattening semantic text', () => {
   const html = renderDisplayPage(model('in_class_content'));
   assert.match(html, /class="vocabulary-stage vocabulary-multilingual"/u);
