@@ -143,6 +143,10 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
   assert.match(css, /@media \(max-width: 32rem\)/u);
   assert.match(css, /overflow-wrap: anywhere/u);
   assert.match(css, /max-height: 66vh/u);
+  assert.match(
+    css,
+    /\.carousel-card:not\(\.card-objective\)\.revealed \.card-details > :nth-child\(2\)/u,
+  );
   assert.match(css, /\.scene-coming-up/u);
   assert.match(
     css,

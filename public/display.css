@@ -1457,17 +1457,17 @@ a {
 }
 
 .carousel-card.revealed .objective-detail-list > li:nth-child(2),
-.carousel-card.revealed .card-details > :nth-child(2) {
+.carousel-card:not(.card-objective).revealed .card-details > :nth-child(2) {
   transition-delay: 120ms;
 }
 
 .carousel-card.revealed .objective-detail-list > li:nth-child(3),
-.carousel-card.revealed .card-details > :nth-child(3) {
+.carousel-card:not(.card-objective).revealed .card-details > :nth-child(3) {
   transition-delay: 240ms;
 }
 
 .carousel-card.revealed .objective-detail-list > li:nth-child(4),
-.carousel-card.revealed .card-details > :nth-child(4) {
+.carousel-card:not(.card-objective).revealed .card-details > :nth-child(4) {
   transition-delay: 360ms;
 }
 
