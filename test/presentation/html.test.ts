@@ -221,7 +221,7 @@ test('objective details preserve the legacy pointer, Classroom checkmark, and du
   assert.match(invalidDate, />👉<\/span>/u);
 });
 
-test('objective cards omit duplicated labels and sequence long detail lists', () => {
+test('objective cards keep their heading fixed while long detail lists advance', () => {
   const html = renderDisplayPage({
     ...model('in_class_content'),
     cards: [
@@ -248,9 +248,20 @@ test('objective cards omit duplicated labels and sequence long detail lists', ()
   });
   assert.doesNotMatch(html, /<p class="card-type">objective<\/p>/u);
   assert.match(html, /<h2 class="objective-title">Objective 1<\/h2>/u);
-  assert.equal((html.match(/data-carousel-card/g) ?? []).length, 2);
-  assert.match(html, /data-card-id="long-objective-part-1"/u);
-  assert.match(html, /data-card-id="long-objective-part-2"/u);
+  assert.equal((html.match(/data-carousel-card/g) ?? []).length, 1);
+  assert.match(html, /data-card-id="long-objective"/u);
+  assert.equal(
+    (html.match(/data-objective-detail-page(?=\s|>)/g) ?? []).length,
+    2,
+  );
+  assert.match(
+    html,
+    /class="objective-detail-page" data-objective-detail-page><ul/u,
+  );
+  assert.match(
+    html,
+    /class="objective-detail-page" data-objective-detail-page hidden><ul/u,
+  );
   assert.equal(
     (html.match(/Use reliable layout constraints\./g) ?? []).length,
     1,

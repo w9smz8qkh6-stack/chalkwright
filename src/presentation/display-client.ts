@@ -574,6 +574,20 @@
       touchStartX: undefined,
     };
 
+    function objectiveDetailPages(card: HTMLElement): HTMLElement[] {
+      return [
+        ...card.querySelectorAll<HTMLElement>('[data-objective-detail-page]'),
+      ];
+    }
+
+    function resetObjectiveDetailPages(card: HTMLElement): HTMLElement[] {
+      const pages = objectiveDetailPages(card);
+      pages.forEach((page, index) => {
+        page.hidden = index !== 0;
+      });
+      return pages;
+    }
+
     function show(index: number, userInitiated = false): void {
       if (!carouselState || cards.length === 0) return;
       stopCarouselTimer();
@@ -608,6 +622,7 @@
       });
       const active = cards[state.index];
       if (active !== undefined) {
+        resetObjectiveDetailPages(active);
         window.requestAnimationFrame(() => fitCard(active));
       }
       if (userInitiated && active) {
@@ -636,7 +651,6 @@
       if (
         !carouselState ||
         !card ||
-        cards.length <= 1 ||
         carouselState.paused ||
         carouselState.serverHeld
       )
@@ -653,6 +667,29 @@
             card.classList.add('revealed');
         }, revealAt);
       }
+      const detailPages = objectiveDetailPages(card);
+      if (detailPages.length > 1) {
+        let detailPageIndex = Math.max(
+          0,
+          detailPages.findIndex((page) => !page.hidden),
+        );
+        const advanceDetailPage = () => {
+          if (carouselState?.cards[carouselState.index] !== card) return;
+          detailPageIndex += 1;
+          if (detailPageIndex >= detailPages.length) {
+            show(carouselState.index + 1);
+            return;
+          }
+          detailPages.forEach((page, index) => {
+            page.hidden = index !== detailPageIndex;
+          });
+          window.requestAnimationFrame(() => fitCard(card));
+          carouselState.timer = window.setTimeout(advanceDetailPage, duration);
+        };
+        carouselState.timer = window.setTimeout(advanceDetailPage, duration);
+        return;
+      }
+      if (cards.length <= 1) return;
       const revealAwareDuration = reveal
         ? Math.max(duration, revealAt + 4000)
         : duration;
