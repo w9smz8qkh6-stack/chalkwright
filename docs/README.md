@@ -6,6 +6,9 @@
   MVP boundary, safety, non-goals, and measurable success.
 - [B407 Classroom Display MVP](b407-display-mvp.md) — immediate offline M-05
   product slice, evidence, and explicit non-production boundary.
+- [Django UI/UX handoff](django-ui-ux-handoff.md) — framework-neutral visual,
+  interaction, accessibility, asset, and verification contract for rebuilding
+  the accepted classroom display and operator surfaces.
 - [Legacy parity inventory](legacy-parity-inventory.md) — evidence register,
   behavior ledger, acceptance criteria, dispositions, and open unknowns.
 - [Architecture principles](architecture-principles.md) — enduring boundaries,
