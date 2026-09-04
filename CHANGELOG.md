@@ -13,8 +13,9 @@ omitted.
 - Removed duplicated objective-card labels and content, reduced the visual
   weight of `Objective 1`, `Objective 2`, and similar headings, and advance
   long objective detail lists in lower-card pages while their heading and
-  featured statement remain fixed before they overflow the classroom display
-  window.
+  featured statement remain fixed. Continuation pages begin their lower-content
+  animation immediately rather than reusing the initial staged reveal before
+  the classroom display window can overflow.
 - Silence Chalkwright's boundary audio as soon as Fully Kiosk's WebView loses
   focus, becomes hidden, or enters page hide, then suppress tones briefly on
   return. This covers the screen-share lifecycle ordering that could emit a
