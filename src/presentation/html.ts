@@ -335,10 +335,25 @@ function objectiveDetailMarkup(detail: string): string {
 const maximumObjectiveDetailsPerSlide = 3;
 const maximumObjectiveCharactersPerSlide = 360;
 
+function objectiveDetails(card: PresentationCard): readonly string[] {
+  if (card.type !== 'objective') return card.details ?? [];
+
+  const featured = card.featured?.trim().toLocaleLowerCase();
+  const seen = new Set<string>();
+  return [...card.lines, ...(card.details ?? [])].filter((detail) => {
+    const trimmed = detail.trim();
+    const identity = trimmed.replace(/\s+/gu, ' ').toLocaleLowerCase();
+    if (trimmed.length === 0 || identity === featured || seen.has(identity))
+      return false;
+    seen.add(identity);
+    return true;
+  });
+}
+
 function objectiveDetailPages(
   card: PresentationCard,
 ): readonly (readonly string[])[] {
-  const details = card.details ?? [];
+  const details = objectiveDetails(card);
   if (card.type !== 'objective' || details.length === 0) return [details];
   const pages: string[][] = [];
   let page: string[] = [];
@@ -361,7 +376,7 @@ function objectiveDetailPages(
 }
 
 function cardDetailsMarkup(card: PresentationCard): string {
-  const details = card.details ?? [];
+  const details = objectiveDetails(card);
   if (details.length === 0) return '';
   if (card.type === 'objective') {
     const pages = objectiveDetailPages(card);
