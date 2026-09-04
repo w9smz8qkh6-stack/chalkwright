@@ -310,6 +310,8 @@ test('ordinary vocabulary uses the maximum readable scale and translation spacin
         .getBoundingClientRect();
       return {
         className: card.className,
+        cardHeight: card.getBoundingClientRect().height,
+        panelHeight: panel.height,
         term: metric('.vocabulary-anchor h2'),
         definition: metric('.vocabulary-anchor-definition'),
         example: metric('.vocabulary-anchor-example'),
@@ -327,6 +329,14 @@ test('ordinary vocabulary uses the maximum readable scale and translation spacin
       };
     });
     assert.doesNotMatch(result.className, /content-(?:tight|compact)/u);
+    assert.ok(
+      result.cardHeight >= result.viewportHeight * 0.66,
+      JSON.stringify(result),
+    );
+    assert.ok(
+      result.panelHeight >= result.viewportHeight * 0.36,
+      JSON.stringify(result),
+    );
     assert.ok(result.term >= 120, JSON.stringify(result));
     assert.ok(result.definition >= 48, JSON.stringify(result));
     assert.ok(result.example >= 32, JSON.stringify(result));
