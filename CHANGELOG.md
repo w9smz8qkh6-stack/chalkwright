@@ -16,6 +16,8 @@ omitted.
   featured statement remain fixed. Continuation pages begin their lower-content
   animation immediately rather than reusing the initial staged reveal before
   the classroom display window can overflow.
+- Enlarged the date numeral in objective-card deadline badges for classroom
+  viewing distance while preserving the compact month strip and badge layout.
 - Silence Chalkwright's boundary audio as soon as Fully Kiosk's WebView loses
   focus, becomes hidden, or enters page hide, then suppress tones briefly on
   return. This covers the screen-share lifecycle ordering that could emit a
