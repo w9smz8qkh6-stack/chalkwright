@@ -10,6 +10,9 @@ omitted.
 
 ### Fixed
 
+- Expanded the Word of the Day card and distributed each rotating translation
+  face through its available panel, giving short everyday terms classroom-scale
+  presence without sacrificing the anchored English definition or readability.
 - Removed duplicated objective-card labels and content, reduced the visual
   weight of `Objective 1`, `Objective 2`, and similar headings, and advance
   long objective detail lists in lower-card pages while their heading and

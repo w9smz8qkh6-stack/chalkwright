@@ -1412,6 +1412,27 @@ a {
   }
 }
 
+@media (min-width: 1000px) and (min-height: 851px) {
+  .carousel-card.card-vocabulary {
+    min-height: min(68vh, 48rem);
+    display: grid;
+  }
+
+  .card-vocabulary .vocabulary-stage {
+    min-height: min(56vh, 38rem);
+  }
+
+  .card-vocabulary .vocabulary-panel {
+    min-height: min(42vh, 28rem);
+  }
+
+  .card-vocabulary .vocabulary-panel-face {
+    align-content: space-evenly;
+    gap: clamp(0.6rem, 1.2vh, 1rem);
+    padding: clamp(1.2rem, 2vw, 2.25rem);
+  }
+}
+
 .card-details {
   display: grid;
   grid-template-rows: 0fr;
