@@ -147,6 +147,7 @@ test('styles provide focus visibility, reduced motion, reflow, and bounded conte
     css,
     /\.carousel-card:not\(\.card-objective\)\.revealed \.card-details > :nth-child\(2\)/u,
   );
+  assert.match(css, /\.date-badge-day \{[^}]*font-size: 0\.64em;/su);
   assert.match(css, /\.scene-coming-up/u);
   assert.match(
     css,
