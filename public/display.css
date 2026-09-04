@@ -1436,6 +1436,26 @@ a {
   transform: none;
 }
 
+.objective-detail-page[hidden] {
+  display: none;
+}
+
+.objective-detail-page:not([hidden]) {
+  animation: objective-detail-page-enter 360ms ease both;
+}
+
+@keyframes objective-detail-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .carousel-card.revealed .objective-detail-list > li:nth-child(2),
 .carousel-card.revealed .card-details > :nth-child(2) {
   transition-delay: 120ms;

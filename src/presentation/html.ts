@@ -332,52 +332,47 @@ function objectiveDetailMarkup(detail: string): string {
   return `<li><span class="objective-detail-icon" data-objective-detail-icon aria-hidden="true">${icon}</span><span class="objective-detail-text">${escapeHtml(detail)}</span></li>`;
 }
 
+const maximumObjectiveDetailsPerSlide = 3;
+const maximumObjectiveCharactersPerSlide = 360;
+
+function objectiveDetailPages(
+  card: PresentationCard,
+): readonly (readonly string[])[] {
+  const details = card.details ?? [];
+  if (card.type !== 'objective' || details.length === 0) return [details];
+  const pages: string[][] = [];
+  let page: string[] = [];
+  let characters = 0;
+  for (const detail of details) {
+    const wouldOverflow =
+      page.length > 0 &&
+      (page.length >= maximumObjectiveDetailsPerSlide ||
+        characters + detail.length > maximumObjectiveCharactersPerSlide);
+    if (wouldOverflow) {
+      pages.push(page);
+      page = [];
+      characters = 0;
+    }
+    page.push(detail);
+    characters += detail.length;
+  }
+  if (page.length > 0) pages.push(page);
+  return pages;
+}
+
 function cardDetailsMarkup(card: PresentationCard): string {
   const details = card.details ?? [];
   if (details.length === 0) return '';
   if (card.type === 'objective') {
-    return `<div class="card-details" data-reveal><ul class="objective-detail-list">${details.map(objectiveDetailMarkup).join('')}</ul></div>`;
+    const pages = objectiveDetailPages(card);
+    return `<div class="card-details" data-reveal data-objective-detail-pages>${pages
+      .map(
+        (page, index) =>
+          `<div class="objective-detail-page" data-objective-detail-page${index === 0 ? '' : ' hidden'}><ul class="objective-detail-list">${page.map(objectiveDetailMarkup).join('')}</ul></div>`,
+      )
+      .join('')}</div>`;
   }
   return `<div class="card-details" data-reveal>${details.map((line) => `<p>${escapeHtml(line)}</p>`).join('')}</div>`;
-}
-
-const maximumObjectiveDetailsPerSlide = 3;
-const maximumObjectiveCharactersPerSlide = 360;
-
-function objectiveSlides(card: PresentationCard): readonly PresentationCard[] {
-  if (card.type !== 'objective' || (card.details?.length ?? 0) === 0)
-    return [card];
-  const slides: string[][] = [];
-  let slide: string[] = [];
-  let characters = 0;
-  for (const detail of card.details ?? []) {
-    const wouldOverflow =
-      slide.length > 0 &&
-      (slide.length >= maximumObjectiveDetailsPerSlide ||
-        characters + detail.length > maximumObjectiveCharactersPerSlide);
-    if (wouldOverflow) {
-      slides.push(slide);
-      slide = [];
-      characters = 0;
-    }
-    slide.push(detail);
-    characters += detail.length;
-  }
-  if (slide.length > 0) slides.push(slide);
-  if (slides.length <= 1) return [card];
-  return slides.map((details, index) => {
-    const cardId =
-      `${card.cardId}-part-${index + 1}` as PresentationCard['cardId'];
-    if (index === 0) return { ...card, cardId, details };
-    const { featured: _featured, ...continuation } = card;
-    return { ...continuation, cardId, details };
-  });
-}
-
-function carouselCards(
-  cards: readonly PresentationCard[],
-): readonly PresentationCard[] {
-  return cards.flatMap(objectiveSlides);
 }
 
 function vocabularyPanelFace(
@@ -474,7 +469,7 @@ function cardMarkup(card: PresentationCard, index: number): string {
 }
 
 function carousel(model: DisplayPresentationModel): string {
-  const cards = carouselCards(model.cards ?? []);
+  const cards = model.cards ?? [];
   if (cards.length === 0) {
     return `<section class="empty-card" aria-labelledby="empty-card-title"><h2 id="empty-card-title">Ready for class</h2><p>Instructions will appear here.</p></section>`;
   }
