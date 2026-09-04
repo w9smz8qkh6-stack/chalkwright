@@ -51,6 +51,9 @@ fetches or regenerates media.
   short return window so it cannot replay an elapsed tone.
 - The display controller is versioned in the page and revalidated on every
   load so a kiosk cannot retain an obsolete audio or timing fix after a release.
+- Objective cards omit their duplicate all-caps type label and their redundant
+  generic list. Longer objective detail lists continue as bounded carousel
+  sub-slides rather than requiring a classroom display to scroll the card.
 - When the exact local date has no stored plan, the display and readiness
   checks may use only the next verified class day already present in the local
   bounded-lookahead store. The future plan renders as a morning overview; the

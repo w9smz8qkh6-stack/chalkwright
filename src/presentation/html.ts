@@ -341,6 +341,45 @@ function cardDetailsMarkup(card: PresentationCard): string {
   return `<div class="card-details" data-reveal>${details.map((line) => `<p>${escapeHtml(line)}</p>`).join('')}</div>`;
 }
 
+const maximumObjectiveDetailsPerSlide = 3;
+const maximumObjectiveCharactersPerSlide = 360;
+
+function objectiveSlides(card: PresentationCard): readonly PresentationCard[] {
+  if (card.type !== 'objective' || (card.details?.length ?? 0) === 0)
+    return [card];
+  const slides: string[][] = [];
+  let slide: string[] = [];
+  let characters = 0;
+  for (const detail of card.details ?? []) {
+    const wouldOverflow =
+      slide.length > 0 &&
+      (slide.length >= maximumObjectiveDetailsPerSlide ||
+        characters + detail.length > maximumObjectiveCharactersPerSlide);
+    if (wouldOverflow) {
+      slides.push(slide);
+      slide = [];
+      characters = 0;
+    }
+    slide.push(detail);
+    characters += detail.length;
+  }
+  if (slide.length > 0) slides.push(slide);
+  if (slides.length <= 1) return [card];
+  return slides.map((details, index) => {
+    const cardId =
+      `${card.cardId}-part-${index + 1}` as PresentationCard['cardId'];
+    if (index === 0) return { ...card, cardId, details };
+    const { featured: _featured, ...continuation } = card;
+    return { ...continuation, cardId, details };
+  });
+}
+
+function carouselCards(
+  cards: readonly PresentationCard[],
+): readonly PresentationCard[] {
+  return cards.flatMap(objectiveSlides);
+}
+
 function vocabularyPanelFace(
   language: string,
   className: string,
@@ -426,16 +465,16 @@ function cardMarkup(card: PresentationCard, index: number): string {
       ? card.title.replace(/^bellringer\s*:\s*/iu, '')
       : card.title;
   return `<article class="carousel-card card-${escapeHtml(card.type)} accent-${escapeHtml(card.accent ?? 'ink')}" data-carousel-card data-card-id="${escapeHtml(card.cardId)}" data-duration-ms="${Math.max(5, durationSeconds) * 1000}" ${index === 0 ? '' : 'hidden'}>
-  ${vocabulary === undefined ? `<p class="card-type">${escapeHtml(card.type.replaceAll('_', ' '))}</p>` : ''}
-  ${vocabulary === undefined ? `<h2>${escapeHtml(title)}</h2>` : vocabulary}
+  ${vocabulary === undefined && card.type !== 'objective' ? `<p class="card-type">${escapeHtml(card.type.replaceAll('_', ' '))}</p>` : ''}
+  ${vocabulary === undefined ? `<h2${card.type === 'objective' ? ' class="objective-title"' : ''}>${escapeHtml(title)}</h2>` : vocabulary}
   ${card.featured === undefined ? '' : `<p class="featured">${escapeHtml(card.featured)}</p>`}
-  ${vocabulary !== undefined || card.lines.length === 0 ? '' : `<ul>${card.lines.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}</ul>`}
+  ${vocabulary !== undefined || card.type === 'objective' || card.lines.length === 0 ? '' : `<ul>${card.lines.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}</ul>`}
   ${cardDetailsMarkup(card)}
 </article>`;
 }
 
 function carousel(model: DisplayPresentationModel): string {
-  const cards = model.cards ?? [];
+  const cards = carouselCards(model.cards ?? []);
   if (cards.length === 0) {
     return `<section class="empty-card" aria-labelledby="empty-card-title"><h2 id="empty-card-title">Ready for class</h2><p>Instructions will appear here.</p></section>`;
   }
