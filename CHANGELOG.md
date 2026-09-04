@@ -10,6 +10,10 @@ omitted.
 
 ### Fixed
 
+- Removed duplicated objective-card labels and content, reduced the visual
+  weight of `Objective 1`, `Objective 2`, and similar headings, and split long
+  objective detail lists into successive carousel sub-slides before they
+  overflow the classroom display window.
 - Silence Chalkwright's boundary audio as soon as Fully Kiosk's WebView loses
   focus, becomes hidden, or enters page hide, then suppress tones briefly on
   return. This covers the screen-share lifecycle ordering that could emit a

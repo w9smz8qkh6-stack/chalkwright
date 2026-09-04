@@ -1114,6 +1114,15 @@ a {
   overflow-wrap: anywhere;
 }
 
+.carousel-card.card-objective .objective-title {
+  max-width: none;
+  margin-bottom: 0.3em;
+  color: var(--muted);
+  font-size: clamp(1.35rem, 2.35vw, 2.5rem);
+  font-weight: 760;
+  line-height: 1.12;
+}
+
 .carousel-card ul {
   padding-left: 1.25em;
   font-size: clamp(1.35rem, 2.5vw, 2.65rem);

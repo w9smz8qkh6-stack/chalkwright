@@ -221,6 +221,42 @@ test('objective details preserve the legacy pointer, Classroom checkmark, and du
   assert.match(invalidDate, />👉<\/span>/u);
 });
 
+test('objective cards omit duplicated labels and sequence long detail lists', () => {
+  const html = renderDisplayPage({
+    ...model('in_class_content'),
+    cards: [
+      {
+        cardId: 'long-objective',
+        type: 'objective',
+        title: 'Objective 1',
+        featured: 'Use reliable layout constraints.',
+        lines: [
+          'Use reliable layout constraints.',
+          'Explain how each presentation region keeps its content visible.',
+          'Compare two approaches and identify their tradeoffs.',
+          'Record the selected technique in your notes.',
+          'Open Classroom for full directions.',
+        ],
+        details: [
+          'Explain how each presentation region keeps its content visible.',
+          'Compare two approaches and identify their tradeoffs.',
+          'Record the selected technique in your notes.',
+          'Open Classroom for full directions.',
+        ],
+      },
+    ],
+  });
+  assert.doesNotMatch(html, /<p class="card-type">objective<\/p>/u);
+  assert.match(html, /<h2 class="objective-title">Objective 1<\/h2>/u);
+  assert.equal((html.match(/data-carousel-card/g) ?? []).length, 2);
+  assert.match(html, /data-card-id="long-objective-part-1"/u);
+  assert.match(html, /data-card-id="long-objective-part-2"/u);
+  assert.equal(
+    (html.match(/Use reliable layout constraints\./g) ?? []).length,
+    1,
+  );
+});
+
 test('vocabulary renders every multilingual face without flattening semantic text', () => {
   const html = renderDisplayPage(model('in_class_content'));
   assert.match(html, /class="vocabulary-stage vocabulary-multilingual"/u);
