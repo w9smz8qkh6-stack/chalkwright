@@ -105,9 +105,13 @@ manifest path to the protected production-server JSON:
 
 On startup, Chalkwright rechecks each local file's type, length, location, and
 SHA-256 digest. The browser requests local Chalkwright routes, not the source
-websites. A configured school logo replaces the Chalkwright header mark and
-follows the legacy responsive width treatment: 204 px at full size, 168 px on
-ordinary classroom displays, and 132 px in compact layouts.
+websites. Until a school logo is configured, the header's school-brand slot
+uses the local ChalkWright logo as a compact placeholder. A configured school
+logo replaces that placeholder and follows the legacy responsive width
+treatment: 204 px at full size, 168 px on ordinary classroom displays, and
+132 px in compact layouts. The placeholder is omitted on narrow tablet and
+phone layouts where preserving the display content is more important; a
+configured school logo remains available there.
 The ChalkWright product identity remains visible as a compact lower-right
 system credit with the installed version and project website. Course-art keys
 match the friendly course title shown on screen. A configured countdown video

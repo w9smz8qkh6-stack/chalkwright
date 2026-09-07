@@ -1,0 +1,380 @@
+Computer Applications (Grade 7) - CodeHS publisher objectives
+Course: Computer Applications (7th grade) 2025
+Extraction rule: explicit publisher Objective blocks only; UBD material excluded
+Excluded: lesson 5.8 (Exploring the Internet Quiz) has no explicit objective
+
+Lesson 1.1 - Introduction to Karel
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355062
+Learning objectives:
+- Identify basic syntax used in JavaScript and Karel programs
+- Use basic commands to train or program Karel the dog
+- Debug basic code by identifying common syntax errors
+
+Lesson 1.2 - Karel's World
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355072
+Learning objectives:
+- Identify the direction that Karel is facing
+- Predict what direction Karel will be facing after executing a series of commands
+- Create basic programs to solve situations or problems in Karel's world
+- Decompose real-world problems into structured parts using flowcharts
+
+Lesson 1.3 - Functions
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355079
+Learning objectives:
+- Define a function, and successfully implement functions in their code.
+- Create functions to teach Karel new commands
+
+Lesson 1.4 - Multiple Functions
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355086
+Learning objectives:
+- Explain the difference between defining and calling a function
+- Utilize functions to write higher level Karel programs
+- Break a large problem down into smaller, simpler problems
+- Create clear and readable comments in their code that help the reader understand the code
+
+Lesson 1.5 - For Loops
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355095
+Learning objectives:
+- Create for loops to repeat code a fixed number of times
+- Explain when a for loop should be a used
+- Utilize for loops to write programs that would be difficult / impossible without loops
+
+Lesson 1.6 - Conditional Statements
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355103
+Learning objectives:
+- Use conditions to gather information about Karel's world (is the front clear, is Karel facing north, etc)
+- Create if statements that only execute code if a certain condition is true
+
+Lesson 1.7 - If/Else Statements
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355110
+Learning objectives:
+- Explain the purpose of an If/Else statement
+- Create If/Else statements to solve new types of problems
+- Identify when it is appropriate to use an If/Else statement
+
+Lesson 1.8 - While Loops
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355118
+Learning objectives:
+- Explain the purpose of a while loop
+- Create while loops to repeat code while a condition is true
+- Utilize while loops to solve new types of problems
+- Test their solutions on different Karel worlds
+
+Lesson 1.9 - Karel Challenges
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355126
+Learning objectives:
+- Define a problem in their own words and plan out a solution to the problem
+- Break a large problem down into smaller pieces and solve each of the pieces, then use these solutions as building blocks to solve the larger problem
+- Utilize the proper control structures to create general solutions that solve multiple Karel worlds
+- Write clear and readable code using control structures, functions, decomposition, and comments
+- Create flowcharts
+
+Lesson 1.10 - Exploring Code with Karel Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355133
+Learning objective: Prove their knowledge of basic coding concepts with Karel through a multiple choice quiz
+
+Lesson 2.1 - Introduction to HTML
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355297
+Learning objectives:
+- Identify the purpose and applications of HTML
+- Create their first simple web page
+
+Lesson 2.2 - Structure of an HTML Page
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355304
+Learning objectives:
+- Discern the various parts of an HTML page
+- Create fully formed HTML pages
+
+Lesson 2.3 - Formatting Text
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355311
+Learning objective: Apply formatting tags in order to modify the appearance of text and make web pages look clear and aesthetically pleasing
+
+Lesson 2.4 - Creating Links
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355318
+Learning objective: Add and utilize hyperlinks on their webpages
+
+Lesson 2.5 - Incorporating Images
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355325
+Learning objectives:
+- Embed an image in HTML
+- Size images appropriately on the webpage
+
+Lesson 2.6 - Using Lists
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355333
+Learning objectives:
+- Incorporate different kinds of lists to their web pages
+- Understand the differences between unordered lists and ordered lists.
+
+Lesson 2.7 - Applying Styling
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355340
+Learning objectives:
+- Understand how to apply styling to HTML tags
+- Apply HTML styling to make their web pages more visually appealing and unique
+
+Lesson 2.8 - Introduction to CSS Styling
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355346
+Learning objectives:
+- explain the relationship between CSS and HTML
+- apply basic CSS style to a webpage using the style tag
+
+Lesson 2.9 - Complete Your Homepage
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355352
+Learning objectives:
+- Apply styling rules to existing webpage content
+- Design and implement a webpage about themselves
+
+Lesson 2.10 - Intro to Web Design Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355356
+Learning objective: Prove their knowledge of the basic HTML through a multiple choice quiz
+
+Lesson 3.1 - Digital Footprint and Responsibility
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355197
+Learning objectives:
+- Analyze the impact of social media and technology use on the lives of teenagers
+- Explain how one’s digital footprint can impact their future employment options
+- Analyze their own digital footprint and explain how they can maintain a positive digital footprint
+- Define cyberbullying
+- Explain how to respond to cyberbullying
+- (Optional) Choose the best privacy settings to protect their digital footprint and prevent cyberbullying
+
+Lesson 3.2 - Personal Data and Collection
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355205
+Learning objectives:
+- Explain why companies collect data and what they do with it
+- Analyze the benefits and consequences of data collection that may or may not be evidence to users
+- Consider the ethics of data collection with relation to privacy concerns
+- Define personally identifiable information
+- Explain personal data collection in the context of the law (GDPR, CCPA, and privacy policies)
+
+Lesson 3.3 - Can All Information Be Trusted?
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355213
+Learning objectives:
+- Evaluate the accuracy, relevance, comprehensiveness, appropriateness, and bias of electronic information resources
+- Evaluate quality of digital resources for reliability
+- Reflect on the growth of artificial intelligence in terms of trustworthy content
+- Explore and use search engine keywords and special characters to refine search results
+
+Lesson 3.4 - Cyber Ethics and Laws
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355223
+Learning objectives:
+- Identify the difference between ethical hacking and malicious hacking
+- Discuss the principles of cyber ethics, focusing on responsible online behavior.
+- Discuss potential legal consequences of unethical online behavior
+- Debate intellectual laws and the beneficial and harmful effects that these laws have on innovation
+
+Lesson 3.5 - Personal Data Security
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355231
+Learning objectives:
+- Explain password best practices
+- Define authentication terms: passphrase, multifactor authentication, 2FA, biometric authentication, password managers
+- Evaluate different forms of authentication
+- Explain how to use privacy settings on their browser to enhance security
+- Consider the tradeoffs between usability and security measures
+
+Lesson 3.6 - Cybersecurity Essentials
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355237
+Learning objectives:
+- Define basic cybersecurity terminology
+- Explain the importance of information security and the CIA Triad (Confidentiality, Integrity, Availability)
+- Analyze how the AAA Security Framework (Authentication, Authorization, and Accounting) helps protect online information
+- Identify potential security risks associated with the Internet of Things (IoT) devices.
+
+Lesson 3.7 - Common Cyber Attacks and Prevention
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355245
+Learning objectives:
+- Identify and define different types of cyberattacks (malware, viruses, ransomware, spyware, phishing)
+- Explain the importance of preventative measures like antivirus software, updates, HTTPS, and firewalls
+- Analyze real-world examples of phishing attacks and develop strategies for identifying suspicious online activities
+
+Lesson 3.8 - Project: Cyber Smarts Awareness
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355253
+Learning objectives:
+- Select and research a topic related to digital citizenship or cybersecurity
+- Refine search engine strategies using Boolean logic and special characters
+- Identify credible sources and analyze online information for bias and accuracy
+- Collaborate with peers and provide constructive feedback
+
+Lesson 3.9 - Cybersecurity Basics Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355263
+Learning objective: Prove their knowledge of basic cybersecurity concepts and its impacts through a multiple choice quiz
+
+Lesson 4.1 - Getting Started
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355359
+Learning objectives:
+- Bridge connections between computation and creative expression
+- Explore the p5.js reference guide and example projects
+- Understand the HTML5 canvas and coordinate system
+- Differentiate the function of setup() and draw()
+- Set the size of the canvas: createCanvas()
+- Use p5 shape-drawing functions for primitive shapes  (ellipse, rect, line)
+- Call and pass parameters to functions
+
+Lesson 4.2 - Color
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355368
+Learning objectives:
+- Define terminology related to color theory
+- Set the RGB values and opacity for shapes
+- Change the color of the canvas: background()
+- Change the color of shapes: fill(), noFill(), stroke(), noStroke()
+- Use advance shape-drawing functions (triangle, quad, arc, beginShape, endShape)
+
+Lesson 4.3 - Variables
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355376
+Learning objectives:
+- Utilize built-in variables, width and height,  to position shapes
+- Define custom variables to reduce repetition in a program
+- Describe different data types
+
+Lesson 4.4 - The Draw Loop
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355384
+Learning objectives:
+- Use the frameRate() function to change the speed of animated sketches
+- Use the frameCount system variable to draw shapes dynamically
+
+Lesson 4.5 - Color Transitions
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355390
+Learning objectives:
+- Declare and initialize variables
+- Pass variables as arguments to p5.js drawing functions
+- Increment and decrement variables
+
+Lesson 4.6 - Shape Transformations
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355396
+Learning objectives:
+- create static and animated shape transformations
+- statically and dynamically change the origin and resulting direction of a shape using the translate() function
+- statically and dynamically rotate a shape using the rotate() function
+- statically and dynamically change the size of a shape using the scale() function
+
+Lesson 4.7 - Direction
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355404
+Learning objectives:
+- animate horizontal motion by incrementing and decrementing x coordinates.
+- animate vertical motion by incrementing and decrementing y coordinates.
+- animate diagonal motion.
+
+Lesson 4.8 - Mouse Data
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355409
+Learning objectives:
+- use the mouseX system variable to keep track of the current horizontal position of the cursor
+- use the mouseY system variable to keep track of the current vertical position of the cursor
+- use the mouseButton system variable to check whether the mouse is left, right, or center clicked
+
+Lesson 4.9 - Keyboard Data
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355416
+Learning objectives:
+- use the keyIsPressed system variable to create interactive p5.js sketches that respond to any pressed key
+- use keyIsDown() function to create interactive  p5.js sketches that respond to a specific key being pressed
+- Represent a physical key on the keyboard digitally using key code
+- Include text in a p5.js sketch
+
+Lesson 5.1 - What is the Internet?
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355136
+Learning objectives:
+- * Understand the basic concepts of the internet
+- * Understand networks and how they are connected
+- * Understand that a protocol is an agreed-upon method of communication
+
+Lesson 5.2 - The Need for Protocols
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355142
+Learning objectives:
+- Discuss the necessity of protocols
+- Explain how protocols help with communication
+
+Lesson 5.3 - Impact of the Internet
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355149
+Learning objectives:
+- Analyze the different ways that the Internet impacts their lives by learning about how the Internet contributes to collaboration, communication, etc
+- Evaluate whether the Internet has a more positive or negative effect on their community by citing examples from the lesson
+- Explain what the digital divide is and articulate their own opinions related to it
+
+Lesson 5.4 - Cybersecurity
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355159
+Learning objectives:
+- Define cybersecurity and its impact
+- Determine the types of personal information and digital resources that need to be protected
+- Describe trade-offs of implementing specific security safeguards
+- Describe how the Internet of Things makes people more vulnerable to cyber attacks
+
+Lesson 5.5 - The CIA Triad
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355169
+Learning objectives:
+- Identify what the CIA triad is and how it relates to cybersecurity
+- Identify which part of the CIA triad has been broken in a given scenario
+
+Lesson 5.6 - Encryption
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355177
+Learning objectives:
+- Explain the need for encryption and how basic encryption and decryption works
+- Relate encryption with how it affects the CIA Triad
+- Describe the limitations of cryptographic methods.
+
+Lesson 5.7 - Project: Steganography
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355187
+Learning objectives:
+- Define steganography and explain how it is used in cryptography
+- Use steganography to encrypt a message in an image by manipulating the hexadecimal color code of pixels
+
+Lesson 6.1 - History of Computers
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355266
+Learning objectives:
+- Identify important historical events in the development of modern computers
+- Explore individual's contributions to the development of the computer and discuss who gets to be included in the *computer innovators* group
+- Demonstrate improvement in keyboarding speed and accuracy
+
+Lesson 6.2 - Computers Speak Binary
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355280
+Learning objectives:
+- Explain the significance of binary in computer communication
+- Encode and decode messages using binary representation
+- Understand the role of transistors in storing and processing binary information
+
+Lesson 6.3 - Lab: Configuring a Computer
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355286
+Learning objectives:
+- Identify their computer's operating system
+- Explore and configure basic display, sound, and storage settings
+- Troubleshoot minor software and hardware configuration issues
+- Identify resources for finding additional information about their system
+
+Lesson 6.4 - Future of Computing
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355290
+Learning objective: Discuss the future of technology and computers in the world
+
+Lesson 7.1 - The Design Process
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355423
+Learning objectives:
+- Identify and describe the steps of the design process.
+- Recognize how the design process is used in real-world contexts.
+- Apply the design process to plan and build an animated emoji.
+- Use top-down design to plan their emoji structure and behavior.
+- Collaborate with peers to reflect on and improve their designs.
+
+Lesson 8.1 - Intro to Data
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355430
+Learning objectives:
+- Define data and describe where it appears in everyday life
+- Identify their personal data trail and evaluate its impact
+- Recognize the connection between data and technology
+- Analyze graphs and visualizations to extract meaning
+- Evaluate the effectiveness of real-world data stories
+
+Lesson 8.2 - Intro to Spreadsheets
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355438
+Learning objectives:
+- Define key spreadsheet terms such as rows, columns, cells, ranges, operations, and functions
+- Use common spreadsheet functions such as SUM, AVERAGE, MEDIAN, and MODE
+- Use spreadsheet tools like sort and filter to analyze datasets
+- Reflect on data patterns and draw meaningful conclusions
+
+Lesson 8.3 - Project: Create a Dashboard
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355449
+Learning objectives:
+- Create multiple types of data visualizations using spreadsheet tools
+- Organize visualizations into a cohesive dashboard layout
+- Interpret trends and patterns in screen time data
+- Present findings and reflect on data through a written or visual report
+
+Lesson 8.4 - Data and Spreadsheets Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822946/lesson/185355453
+Learning objective: Demonstrate their knowledge of data and spreadsheets through a multiple choice quiz

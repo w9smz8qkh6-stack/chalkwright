@@ -22,7 +22,12 @@ export interface PresentationMeeting {
 export interface PresentationCard {
   readonly cardId: OpaqueId;
   readonly type:
-    'announcement' | 'bellringer' | 'objective' | 'vocabulary' | 'generic';
+    | 'announcement'
+    | 'bellringer'
+    | 'objective'
+    | 'coursework'
+    | 'vocabulary'
+    | 'generic';
   readonly title: string;
   readonly lines: readonly string[];
   readonly featured?: string;

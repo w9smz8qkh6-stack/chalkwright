@@ -49,6 +49,10 @@ const binaryExtensions = new Set([
   '.jpeg',
   '.gif',
 ]);
+const homepageDemoAnimation =
+  /^docs\/assets\/homepage-demo\/animations\/[0-9]{2}-[a-z0-9-]+\.webm$/u;
+const defaultMaximumCandidateBytes = 2_000_000;
+const homepageDemoAnimationMaximumBytes = 8_000_000;
 const deliberateSecretFixture = 'test/scripts/fixture-safety.test.mjs';
 const offlineTelegramAdapter =
   'src/infrastructure/operations/telegram-alert-transport.ts';
@@ -78,7 +82,10 @@ export function verifyRepositorySafety(repositoryRoot = defaultRoot) {
       continue;
     }
     const size = statSync(path).size;
-    if (size > 2_000_000) {
+    const maximumCandidateBytes = homepageDemoAnimation.test(relativePath)
+      ? homepageDemoAnimationMaximumBytes
+      : defaultMaximumCandidateBytes;
+    if (size > maximumCandidateBytes) {
       findings.push(`${relativePath}: unexpected candidate size`);
       continue;
     }

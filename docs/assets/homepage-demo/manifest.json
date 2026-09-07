@@ -1,0 +1,144 @@
+{
+  "version": 1,
+  "source": "repository-owned synthetic B407 fixture, Chalkwright brand assets, and the approved landing-page GitHub mark",
+  "browser": "Google Chrome 150.0.7871.114",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "reducedMotion": true,
+  "note": "The Tomorrow label demonstrates the valid next-class-day variant using the day-complete layout. Vocabulary frames show the native ten-second rotation through Vietnamese, Korean, and Simplified Chinese. The closing frame uses the approved landing-page GitHub mark to identify the canonical repository.",
+  "closingRepository": {
+    "url": "https://github.com/w9smz8qkh6-stack/chalkwright",
+    "githubMarkSha256": "6d6ef7bede0416b6ebee2014be5852576dbce89235fe16ea5c44ed01bd522132"
+  },
+  "frames": [
+    {
+      "file": "01-opening.png",
+      "label": "Opening title",
+      "sha256": "cd6a4754615afc9adfc1329884c3f89f2ee281ed048316dd4ae57a37c44cf2e4"
+    },
+    {
+      "file": "02-overview.png",
+      "label": "System overview",
+      "sha256": "a7f63cb4839534327abd19a3325121487c1802bc0474b93542c53cbbaeca7feb"
+    },
+    {
+      "file": "02a-screen-anatomy.png",
+      "label": "Classroom screen anatomy",
+      "state": "in_class_content",
+      "instant": "2035-04-13T08:30:00Z",
+      "sha256": "529493bd155b7b44a946911d9039b1af8537124005c0b0c3d172f32dfd46551d"
+    },
+    {
+      "file": "03-tomorrow.png",
+      "label": "Tomorrow schedule",
+      "state": "day_complete",
+      "instant": "2035-04-13T11:00:00Z",
+      "sha256": "63afa714d11076f3a201b3e6dcc83a6c45f9374aa3480a7f5e5b6b67a151e87d"
+    },
+    {
+      "file": "04-todays-schedule.png",
+      "label": "Today's schedule",
+      "state": "morning_overview",
+      "instant": "2035-04-13T07:00:00Z",
+      "sha256": "878198f4bc3fa9364589e7c8aefe79773d02b024fcabac430d5f84b0d3c40bd1"
+    },
+    {
+      "file": "05-coming-up.png",
+      "label": "Coming up",
+      "state": "idle",
+      "instant": "2035-04-13T07:40:00Z",
+      "sha256": "49b7a67fea21c2b318662f357c9c93586e9335b79ad086d09b0e048ebf6ddd89"
+    },
+    {
+      "file": "06a-web-design-objective.png",
+      "label": "Web Design: objective",
+      "state": "in_class_content",
+      "instant": "2035-04-13T08:00:00Z",
+      "sha256": "da9b0a8bb67d95d8e2166d9444682a16b11fe7c09cd7db0b8c8e8181a53ad9e6"
+    },
+    {
+      "file": "06b-web-design-assignment.png",
+      "label": "Web Design: assignment",
+      "state": "in_class_content",
+      "instant": "2035-04-13T08:00:00Z",
+      "sha256": "2b04282d5a0161e9a6fbf3213e568fe116c304961510928c4e701bde5c6b2e19"
+    },
+    {
+      "file": "06c1-web-design-vocabulary-vietnamese.png",
+      "label": "Web Design vocabulary: Vietnamese",
+      "state": "in_class_content",
+      "instant": "2035-04-13T08:00:00Z",
+      "sha256": "6607a37a794329720457989713cc4a9cb4c184988f17673dc9eaa4c538ece5a3"
+    },
+    {
+      "file": "06c2-web-design-vocabulary-korean.png",
+      "label": "Web Design vocabulary: Korean",
+      "state": "in_class_content",
+      "instant": "2035-04-13T08:00:00Z",
+      "sha256": "eb23c609bc5922a668bbebb40493a685c13e962559e89cbc0aa38123260e5e4c"
+    },
+    {
+      "file": "06c3-web-design-vocabulary-chinese.png",
+      "label": "Web Design vocabulary: Chinese",
+      "state": "in_class_content",
+      "instant": "2035-04-13T08:00:00Z",
+      "sha256": "3083e787ebbc3dc76891c51de5098da4db0b9a0c51bdde04b9d41d7ec0e8f3ee"
+    },
+    {
+      "file": "06d0-robotics-coming-up.png",
+      "label": "Robotics: next class",
+      "state": "post_end",
+      "instant": "2035-04-13T09:50:00Z",
+      "sha256": "f20cef67d9674c20b5915568b9e31aaebd668f48df0df48c0ed66aa4dba3e18b"
+    },
+    {
+      "file": "06d-robotics-objective.png",
+      "label": "Robotics: objective",
+      "state": "in_class_content",
+      "instant": "2035-04-13T10:00:00Z",
+      "sha256": "a9a601d5de6a987075fbb8c7d7f5d029149573bec725231599f3f809d0674ee6"
+    },
+    {
+      "file": "06e-robotics-assignment.png",
+      "label": "Robotics: assignment",
+      "state": "in_class_content",
+      "instant": "2035-04-13T10:00:00Z",
+      "sha256": "8e2394a1d36e2c98704f15164d6c4a283780df7f853a834228c9f69ec409c3ec"
+    },
+    {
+      "file": "06f1-robotics-vocabulary-vietnamese.png",
+      "label": "Robotics vocabulary: Vietnamese",
+      "state": "in_class_content",
+      "instant": "2035-04-13T10:00:00Z",
+      "sha256": "0d673bb3ff1fb8ebc1a0219cf0d0bb0d3ea6b6af7d8604572f009e5d71c8e6a0"
+    },
+    {
+      "file": "06f2-robotics-vocabulary-korean.png",
+      "label": "Robotics vocabulary: Korean",
+      "state": "in_class_content",
+      "instant": "2035-04-13T10:00:00Z",
+      "sha256": "77803a0f2c3338b6c75e515a1bc94a26dd5e53af1cb6f40f498b8dfb0259a60f"
+    },
+    {
+      "file": "06f3-robotics-vocabulary-chinese.png",
+      "label": "Robotics vocabulary: Chinese",
+      "state": "in_class_content",
+      "instant": "2035-04-13T10:00:00Z",
+      "sha256": "98037da76da5f9e9d48a4780b5851a84025a8c8f341b8a2fcff3d414a7eafa3b"
+    },
+    {
+      "file": "07-dismissal-soon.png",
+      "label": "Dismissal soon",
+      "state": "dismissal_warning",
+      "instant": "2035-04-13T08:55:00Z",
+      "sha256": "47fe6409f2412c05d251a6e172479b4d57201934b98c2b02a8a1451998b81943"
+    },
+    {
+      "file": "08-closing.png",
+      "label": "Closing frame",
+      "sha256": "35b883f4a6e97ffebb159f56a7b088af560302b7aedda624381058de61c664fb"
+    }
+  ]
+}
