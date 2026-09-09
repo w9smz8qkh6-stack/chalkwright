@@ -1,0 +1,224 @@
+Digital Media Production - publisher-aligned course objectives
+Course: Digital Media Production 2026-27
+Extraction rule: explicit weekly outcomes from the canonical course schedule, checked against the mapped publisher documentation
+Excluded: UBD material and inferred outcomes
+
+Assignment: Science and Health Video
+Publisher source: https://story-maker.org/library/lesson-3-science-communication-guide-filming-90-second-stories/
+Learning objectives:
+- Students will apply mobile camera, audio, and lighting techniques while filming a short science or health story.
+- Students will adapt filming choices to the project's goal and intended audience.
+- Students will use varied shots and supporting footage to strengthen visual storytelling.
+
+Lesson 1.1 - L01 Course launch and media audit
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will identify the audience, purpose, message, and production choices in contrasting youth-media examples.
+- Students will establish an organized project-folder and media-log workflow.
+
+Lesson 1.2 - L02 Audience, purpose, message, and story
+Publisher alignment: https://story-maker.org/library/find-your-story/
+Learning objectives:
+- Students will explain how structure, sound, image, and pacing shape meaning.
+- Students will adapt one story idea for two distinct audiences.
+
+Lesson 1.3 - L03 Ethics, consent, copyright, attribution, and responsible AI
+Publisher alignment: https://www.spj.org/spj-code-of-ethics/
+Learning objectives:
+- Students will apply accuracy, fairness, consent, privacy, attribution, and assignment-specific AI limits to media-production cases.
+- Students will create an ethical release plan and source-rights log.
+
+Lesson 1.4 - L04 Sound as storytelling
+Publisher alignment: https://dma.edc.org/unit/audio-using-sound-tell-stories
+Learning objectives:
+- Students will identify how voice, ambience, natural sound, music, and silence establish setting and emotion.
+- Students will plan a 60-second soundscape that communicates a clear story.
+
+Lesson 1.5 - L05 Microphones and field-recording technique
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will control distance, angle, gain, monitoring, room tone, and backup recording when capturing interviews and ambient sound.
+- Students will diagnose common field-recording problems from a labeled test reel.
+
+Lesson 1.6 - L06 Audio-editor workflow trim split sequence and fade
+Publisher alignment: https://manual.audacityteam.org/man/basic_recording_editing_and_exporting.html
+Learning objectives:
+- Students will import and label media, make clean edits, build fades, save non-destructively, and export a safety WAV.
+
+Lesson 1.7 - L07 Cleanup EQ compression and normalization
+Publisher alignment: https://manual.audacityteam.org/man/amplify_and_normalize.html
+Learning objectives:
+- Students will diagnose noise and level problems and apply restrained cleanup, equalization, compression, and normalization.
+- Students will compare matched-level before-and-after renders and document their processing decisions.
+
+Lesson 1.8 - L08 Multitrack sound design and licensed media
+Publisher alignment: https://creativecommons.org/wp-content/uploads/2023/05/A-Journalists-Guide-to-Creative-Commons-2.0.pdf
+Learning objectives:
+- Students will mix narration, interview, ambience, music, and effects using fades and automation.
+- Students will document the licenses and attribution for original or Creative Commons assets.
+
+Lesson 1.9 - L09 Podcast forms critique and concept development
+Publisher alignment: https://story-maker.org/library/experiment-with-storytelling-formats/
+Learning objectives:
+- Students will compare interview, narrative, commentary, and news-podcast structures.
+- Students will evaluate a podcast concept for its hook, pacing, evidence, and audience fit.
+
+Lesson 1.10 - L10 Newsworthiness angle and story pitch
+Publisher alignment: https://story-maker.org/library/find-your-story/
+Learning objectives:
+- Students will use news values to narrow a local topic into a feasible angle, audience, and central question.
+- Students will present a concise story pitch and production plan.
+
+Lesson 1.11 - L11 Source credibility verification and lateral reading
+Publisher alignment: https://newslit.org/news-and-research/lateral-reading/
+Learning objectives:
+- Students will distinguish news, opinion, advertising, and misinformation.
+- Students will verify claims and sources through lateral reading and independent evidence.
+
+Lesson 1.12 - L12 Interview ethics pre-interviewing and question design
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will plan informed consent and distinguish open, closed, leading, and follow-up questions.
+- Students will conduct a pre-interview and revise an interview-question ladder.
+
+Lesson 1.13 - L13 Field interviews and ambient-sound gathering
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will record primary interviews, room tone, and contextual sound while monitoring quality.
+- Students will log and back up field recordings using an agreed naming convention.
+
+Lesson 1.14 - L14 Writing for the ear hook scenes narration and attribution
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will shape verified evidence into a beginning-middle-end audio script.
+- Students will write concise narration, contextualize clips, and attribute sources aloud and in notes.
+
+Lesson 1.15 - L15 Paper edit selects and first assembly
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will transcribe and mark selects, construct a paper edit, and assemble narration, interviews, and ambience.
+- Students will identify evidence or story elements missing from a rough cut.
+
+Lesson 1.16 - L16 Fact-check peer critique and structural revision
+Publisher alignment: https://story-maker.org/library/evidence-and-experts/
+Learning objectives:
+- Students will perform a claim-by-claim fact check and ethics review.
+- Students will use peer feedback to improve clarity, fairness, pacing, and representation.
+
+Lesson 1.17 - L17 Mix master transcript show notes and accessibility
+Publisher alignment: https://manual.audacityteam.org/man/basic_recording_editing_and_exporting.html
+Learning objectives:
+- Students will balance tracks, manage loudness and headroom, and export appropriate MP3 and WAV files.
+- Students will produce an edited transcript and source- and rights-aware show notes.
+
+Lesson 1.18 - L18 Publish-ready podcast package and reflection
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will quality-check playback, metadata, thumbnail, transcript, sources, consent, and rights.
+- Students will prepare a private school-hosted showcase package and explain their production decisions.
+
+Lesson 1.19 - L19 Visual grammar shot types composition and meaning
+Publisher alignment: https://story-maker.org/library/what-makes-a-good-video-story/
+Learning objectives:
+- Students will analyze how framing, angle, movement, duration, and sequencing communicate meaning.
+- Students will storyboard a coherent short visual story using purposeful shot variety.
+
+Lesson 1.20 - L20 Camera operation focus exposure white balance and stability
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will handle camera equipment safely and create a repeatable camera or phone setup.
+- Students will control focus, exposure, white balance, stabilization, and media transfer.
+
+Lesson 1.21 - L21 Sequencing continuity and the silent story
+Publisher alignment: https://dma.edc.org/unit/video-telling-stories-moving-images
+Learning objectives:
+- Students will use screen direction, match-on-action, cutaways, and shot variety to tell a coherent story without dialogue.
+
+Lesson 1.22 - L22 Lighting and production sound for video
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will compare available and three-point lighting and choose an appropriate setup.
+- Students will place microphones, capture room tone, synchronize dual-system sound, and diagnose common faults.
+
+Lesson 1.23 - L23 Vlog formats on-camera voice and audience relationship
+Publisher alignment: https://story-maker.org/library/experiment-with-storytelling-formats/
+Learning objectives:
+- Students will compare scripted and spontaneous vlog styles.
+- Students will develop an ethical on-camera persona, hook, direct address, and call to action for a defined audience.
+
+Lesson 1.24 - L24 Video-editor workflow ingest organize selects and rough cut
+Publisher alignment: https://support.microsoft.com/en-us/clipchamp/
+Learning objectives:
+- Students will create a non-linear editing project, organize bins and tracks, make selects, build an assembly cut, and maintain backups.
+
+Lesson 1.25 - L25 Visual polish titles transitions color audio and captions
+Publisher alignment: https://support.microsoft.com/en-us/clipchamp/how-to-use-autocaptions-in-clipchamp
+Learning objectives:
+- Students will use restrained transitions, readable titles and lower thirds, basic color correction, and balanced audio.
+- Students will generate, correct, and verify captions for accessibility.
+
+Lesson 1.26 - L26 What makes a good video report
+Publisher alignment: https://story-maker.org/library/what-makes-a-good-video-story/
+Learning objectives:
+- Students will evaluate youth news packages for newsworthiness, evidence, visual variety, clarity, fairness, and audience fit.
+- Students will select and pitch a feasible local story.
+
+Lesson 1.27 - L27 Research evidence experts and source diversity
+Publisher alignment: https://story-maker.org/library/evidence-and-experts/
+Learning objectives:
+- Students will map claims to evidence and identify qualified and affected sources.
+- Students will verify background information and plan balanced representation.
+
+Lesson 1.28 - L28 Broadcast writing rundown roles and timing
+Publisher alignment: https://story-maker.org/library/start-a-broadcast-program/
+Learning objectives:
+- Students will write concise anchor copy and voice-over or sound-on-tape scripts.
+- Students will assign production roles and create a timed rundown and shot list.
+
+Lesson 1.29 - L29 Interview and b-roll field production
+Publisher alignment: https://story-maker.org/library/
+Learning objectives:
+- Students will conduct consent-based interviews and capture sequences, cutaways, establishing shots, natural sound, and standups.
+- Students will log and back up a complete field-production set.
+
+Lesson 1.30 - L30 News-package editing graphics and attribution
+Publisher alignment: https://story-maker.org/library/what-makes-a-good-video-story/
+Learning objectives:
+- Students will combine narration, interviews, b-roll, natural sound, lower thirds, and source graphics into a factual news package.
+- Students will verify the attribution and rights status of every incorporated asset.
+
+Lesson 1.31 - L31 Studio rehearsal and live-to-tape newscast
+Publisher alignment: https://story-maker.org/library/start-a-broadcast-program/
+Learning objectives:
+- Students will rehearse anchors, cues, playback, timing, and contingencies for a team newscast.
+- Students will critique the newscast's technical and editorial performance.
+
+Lesson 1.32 - L32 Containers codecs resolution frame rate and bitrate
+Publisher alignment: https://mediaarea.net/en/MediaInfo
+Learning objectives:
+- Students will distinguish a media container from a codec.
+- Students will connect resolution, frame rate, bitrate, and codec metadata to compatibility, quality, and file size.
+
+Lesson 1.33 - L33 Export compression playback and quality control
+Publisher alignment: https://handbrake.fr/docs/en/latest/technical/official-presets.html
+Learning objectives:
+- Students will export an H.264 and AAC MP4 and compare presets, quality, and file size.
+- Students will test a delivery file on an independent player or device and document quality-control results.
+
+Lesson 1.34 - L34 Accessible and school-safe publishing package
+Publisher alignment: https://support.microsoft.com/en-us/clipchamp/how-to-use-autocaptions-in-clipchamp
+Learning objectives:
+- Students will create corrected captions, a readable thumbnail, and complete title, description, credits, sources, and accessibility notes.
+- Students will apply private school-hosted sharing requirements.
+
+Lesson 1.35 - L35 Capstone portfolio assembly ethics rights audit and peer QA
+Publisher alignment: https://creativecommons.org/wp-content/uploads/2023/05/A-Journalists-Guide-to-Creative-Commons-2.0.pdf
+Learning objectives:
+- Students will curate audio, vlog, and newscast artifacts and substantially revise one work.
+- Students will audit consent, sourcing, rights, captions, formats, naming, and playback quality.
+
+Lesson 1.36 - L36 Final multimedia showcase and portfolio defense
+Publisher alignment: https://story-maker.org/library/ready-for-the-real-world/
+Learning objectives:
+- Students will present a multimedia portfolio and defend their audience, story, technical, ethical, and revision decisions.
+- Students will synthesize feedback and archive clean masters and project files.

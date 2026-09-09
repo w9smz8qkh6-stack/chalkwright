@@ -1,0 +1,207 @@
+Robotics - VEX EXP publisher objectives
+Course: Robotics 2026-27
+Extraction rule: explicit VEX EXP STEM Lab lesson outcomes only
+Sequence: canonical non-UBD course schedule; Team Freeze Tag, Robot Soccer, Bucky Basketball, Up and Over, Ring Leader, Treasure Hunt, Platform Placer, and Castle Crasher
+Excluded: UBD material and inferred outcomes
+
+Lesson 1.1 - Team Freeze Tag L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/team-freeze-tag
+Learning objective: Students will prepare for the Team Freeze Tag competition by setting up the Battery and Controller and building the BaseBot.
+
+Lesson 1.2 - Team Freeze Tag L2 Driving with the EXP Controller
+Publisher source: https://education.vex.com/stemlabs/exp/team-freeze-tag
+Learning objectives:
+- Students will drive the BaseBot using the EXP Controller.
+- Students will compare driver configurations while practicing a figure-eight challenge.
+
+Lesson 1.3 - Team Freeze Tag L3 Changing the Wheels
+Publisher source: https://education.vex.com/stemlabs/exp/team-freeze-tag
+Learning objectives:
+- Students will change the wheels on the BaseBot.
+- Students will test wheel combinations and select wheels that improve performance for a specified driving task.
+
+Lesson 1.4 - Team Freeze Tag L4 Adding the Bumper Switch and Printing to the Brain Screen
+Publisher source: https://education.vex.com/stemlabs/exp/team-freeze-tag
+Learning objectives:
+- Students will add a Bumper Switch to the BaseBot.
+- Students will use VEXcode EXP to print to the Brain screen in preparation for one-on-one Freeze Tag.
+
+Lesson 1.5 - Team Freeze Tag L5 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/team-freeze-tag
+Learning objective: Students will combine the skills learned in previous lessons to compete in Team Freeze Tag.
+
+Lesson 1.6 - Team Freeze Tag L6 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/team-freeze-tag
+Learning objective: Students will reflect on their learning and identify connections between the unit and a STEM career.
+
+Lesson 2.1 - Robot Soccer L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/robot-soccer
+Learning objective: Students will prepare for the Robot Soccer unit by building the Clawbot, charging the Controller and Battery, and getting ready to code.
+
+Lesson 2.2 - Robot Soccer L2 Manipulators
+Publisher source: https://education.vex.com/stemlabs/exp/robot-soccer
+Assignment alias: Robot Soccer: Check Your Understanding (1)
+Learning objectives:
+- Students will explain the roles of passive and active manipulators and compare intake designs.
+- Students will iterate on a robot design for a one-on-one Robot Soccer challenge.
+
+Lesson 2.3 - Robot Soccer L3 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/robot-soccer
+Assignment alias: Robot Soccer: Test Your Understanding (2)
+Learning objective: Students will apply their manipulator-design and driving experience in the Robot Soccer competition.
+
+Lesson 2.4 - Robot Soccer L4 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/robot-soccer
+Learning objective: Students will reflect on their learning and identify connections between the unit and a related STEM career.
+
+Lesson 3.1 - Bucky Basketball L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/bucky-basketball
+Learning objective: Students will prepare for Bucky Basketball by building the CatapultBot and charging the Controller and Battery.
+
+Lesson 3.2 - Bucky Basketball L2 Driving the CatapultBot
+Publisher source: https://education.vex.com/stemlabs/exp/bucky-basketball
+Learning objectives:
+- Students will explain how the CatapultBot's intake and catapult work.
+- Students will drive the CatapultBot with the Controller in the Buckyball Basket Challenge.
+
+Lesson 3.3 - Bucky Basketball L3 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/bucky-basketball
+Learning objective: Students will apply their CatapultBot driving and strategy experience in the Bucky Basketball competition.
+
+Lesson 3.4 - Bucky Basketball L4 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/bucky-basketball
+Learning objective: Students will reflect on their learning and identify connections between the unit and a related STEM career.
+
+Lesson 4.1 - Up and Over L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/up-and-over
+Learning objective: Students will prepare for Up and Over by setting up the Battery and Controller, getting ready to code, and building the Clawbot.
+
+Lesson 4.2 - Up and Over L2 Claw Design
+Publisher source: https://education.vex.com/stemlabs/exp/up-and-over
+Learning objectives:
+- Students will explain how an effective claw works and how scouting can improve a team's design and strategy.
+- Students will apply claw-design knowledge in the Grab and Go challenge.
+
+Lesson 4.3 - Up and Over L3 Arm Designs
+Publisher source: https://education.vex.com/stemlabs/exp/up-and-over
+Learning objectives:
+- Students will explain the elements of robotic arms and identify characteristics of an effective arm design.
+- Students will design and build an arm that can stack Buckyballs in rings for the Stacked Up challenge.
+
+Lesson 4.4 - Up and Over L4 Motor Groups
+Publisher source: https://education.vex.com/stemlabs/exp/up-and-over
+Learning objectives:
+- Students will explain how motor groups can increase power in a robot design.
+- Students will configure a motor group in VEXcode EXP and iterate on the robot for the Up and Over challenge.
+
+Lesson 4.5 - Up and Over L5 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/up-and-over
+Learning objective: Students will apply their claw, arm, motor-group, and strategy experience in the Up and Over competition.
+
+Lesson 4.6 - Up and Over L6 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/up-and-over
+Learning objective: Students will reflect on their learning and identify connections between the unit and a STEM career.
+
+Lesson 5.1 - Ring Leader L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/ring-leader
+Learning objective: Students will prepare for the Ring Leader competition by building the Clawbot and getting ready to code.
+
+Lesson 5.2 - Ring Leader L2 Driver Control
+Publisher source: https://education.vex.com/stemlabs/exp/ring-leader
+Learning objectives:
+- Students will use the Driver Control Program on the EXP Brain to manipulate rings with the Clawbot.
+- Students will apply driver-control skills in the Speed and Score Challenge.
+
+Lesson 5.3 - Ring Leader L3 Coding for Autonomous Movements
+Publisher source: https://education.vex.com/stemlabs/exp/ring-leader
+Learning objectives:
+- Students will plan a robot path and code autonomous movement.
+- Students will create a VEXcode EXP project that places rings on posts in the Coding Crunch Challenge.
+
+Lesson 5.4 - Ring Leader L4 Using Multiple Programs Autonomous and Driver
+Publisher source: https://education.vex.com/stemlabs/exp/ring-leader
+Learning objectives:
+- Students will customize driver controls using the Controller and VEXcode EXP.
+- Students will combine autonomous and driver-control programs to optimize a strategy for the Split Decision Challenge.
+
+Lesson 5.5 - Ring Leader L5 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/ring-leader
+Learning objective: Students will apply their autonomous-coding and driver-control experience in the Ring Leader competition.
+
+Lesson 5.6 - Ring Leader L6 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/ring-leader
+Learning objective: Students will reflect on their learning and identify connections between the unit and a related STEM career.
+
+Lesson 6.1 - Treasure Hunt L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/treasure-hunt
+Learning objective: Students will prepare for Treasure Hunt by building the Clawbot and getting ready to code.
+
+Lesson 6.2 - Treasure Hunt L2 Claw No Sensor
+Publisher source: https://education.vex.com/stemlabs/exp/treasure-hunt
+Learning objective: Students will use Drivetrain and Motion blocks in VEXcode EXP to code the Clawbot to collect and move Buckyballs.
+
+Lesson 6.3 - Treasure Hunt L3 Claw With Sensor
+Publisher source: https://education.vex.com/stemlabs/exp/treasure-hunt
+Learning objective: Students will code the Optical Sensor to detect, collect, and move a red Buckyball.
+
+Lesson 6.4 - Treasure Hunt L4 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/treasure-hunt
+Learning objective: Students will apply their drivetrain, claw, and Optical Sensor programming in the Treasure Hunt competition.
+
+Lesson 6.5 - Treasure Hunt L5 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/treasure-hunt
+Learning objective: Students will reflect on their learning and identify connections between the unit and a STEM career.
+
+Lesson 7.1 - Platform Placer L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/platform-placer
+Learning objective: Students will prepare for Platform Placer by building the Clawbot and getting ready to code.
+
+Lesson 7.2 - Platform Placer L2 Manipulating Various Objects
+Publisher source: https://education.vex.com/stemlabs/exp/platform-placer
+Learning objectives:
+- Students will design an effective manipulator for a specified task.
+- Students will drive the Clawbot to score rings and Buckyballs on different platforms in the Push and Place Challenge.
+
+Lesson 7.3 - Platform Placer L3 Designing Lifts
+Publisher source: https://education.vex.com/stemlabs/exp/platform-placer
+Learning objective: Students will design a lift that can score game objects on the high platform in the Lift and Score Challenge.
+
+Lesson 7.4 - Platform Placer L4 Developing a Strategy
+Publisher source: https://education.vex.com/stemlabs/exp/platform-placer
+Learning objective: Students will organize strategy development with their team and create a strategy for the Shared Strategy Challenge.
+
+Lesson 7.5 - Platform Placer L5 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/platform-placer
+Learning objective: Students will apply their manipulator, lift, driver-control, and teamwork experience in the Platform Placer competition.
+
+Lesson 7.6 - Platform Placer L6 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/platform-placer
+Learning objective: Students will reflect on their learning and identify connections between the unit and a related STEM career.
+
+Lesson 8.1 - Castle Crasher L1 Introduction
+Publisher source: https://education.vex.com/stemlabs/exp/castle-crasher
+Learning objective: Students will prepare for Castle Crasher by building the BaseBot and getting ready to code.
+
+Lesson 8.2 - Castle Crasher L2 No Sensors
+Publisher source: https://education.vex.com/stemlabs/exp/castle-crasher
+Learning objective: Students will calculate turn angles and adjust robot velocity for the Buckyball Blitz Challenge.
+
+Lesson 8.3 - Castle Crasher L3 Distance Sensor
+Publisher source: https://education.vex.com/stemlabs/exp/castle-crasher
+Learning objectives:
+- Students will explain how the Distance Sensor detects objects and how it can be used on a robot.
+- Students will use the Wait until block with Distance Sensor feedback in the Sense and Sweep Challenge.
+
+Lesson 8.4 - Castle Crasher L4 Creating Algorithms
+Publisher source: https://education.vex.com/stemlabs/exp/castle-crasher
+Learning objectives:
+- Students will create an algorithm that uses Optical Sensor feedback.
+- Students will code the robot to find Buckyballs autonomously and push them off the Field.
+
+Lesson 8.5 - Castle Crasher L5 Competition
+Publisher source: https://education.vex.com/stemlabs/exp/castle-crasher
+Learning objective: Students will apply sensor feedback and autonomous-algorithm experience in the Castle Crasher competition.
+
+Lesson 8.6 - Castle Crasher L6 Conclusion
+Publisher source: https://education.vex.com/stemlabs/exp/castle-crasher
+Learning objective: Students will reflect on their learning and identify connections between the unit and a STEM career.

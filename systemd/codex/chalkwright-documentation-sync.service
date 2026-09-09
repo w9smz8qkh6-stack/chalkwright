@@ -1,0 +1,19 @@
+[Unit]
+Description=Refresh Chalkwright generated documentation context
+Documentation=file:/home/bren/src/chalkwright-m17-canary/docs/documentation-system.md
+StartLimitIntervalSec=1min
+StartLimitBurst=10
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/bren/src/chalkwright-m17-canary
+ExecStart=/usr/bin/node /home/bren/src/chalkwright-m17-canary/scripts/codex/refresh-environment.mjs --write
+TimeoutStartSec=20s
+UMask=0022
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/bren/src/chalkwright-m17-canary/.codex
+ReadWritePaths=/home/bren/src/chalkwright-m17-canary/docs
+RestrictAddressFamilies=AF_UNIX

@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "source": "live Chalkwright browser runtime over the synthetic B407 fixture",
+  "browser": "Google Chrome 150.0.7871.114",
+  "recorder": "Playwright 1.62.0 with bundled FFmpeg n7.0.1-playwright-build-1011",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "format": "WebM / VP8 / silent",
+  "clips": [
+    {
+      "file": "01b-robotics-coming-up-countdown.webm",
+      "poster": "01b-robotics-coming-up-countdown-poster.png",
+      "label": "Robotics coming-up countdown reaches zero before class",
+      "durationSeconds": 4,
+      "sha256": "40032e69777d3122eef300f885ea160f7d2ab9a779952d81d7033d73cdc498eb"
+    },
+    {
+      "file": "00-how-it-works-highlight.webm",
+      "poster": "00-how-it-works-highlight-poster.png",
+      "label": "How it works bullets highlighted with the narration",
+      "durationSeconds": 9.8,
+      "sha256": "3d9d9ca27ad6e7e6e979ef6b66dd40cb9dd0e6c303a8a95c846a129ece640c51"
+    },
+    {
+      "file": "00-screen-anatomy-tour.webm",
+      "poster": "00-screen-anatomy-tour-poster.png",
+      "label": "Screen anatomy callouts with guided pan and zoom",
+      "durationSeconds": 12,
+      "sha256": "8cac3c48aec62c7b97d75e1c73f12f9a554efa84c330a1c711617aa4d30c7532"
+    },
+    {
+      "file": "01-coming-up-countdown.webm",
+      "poster": "01-coming-up-countdown-poster.png",
+      "label": "Web Design coming-up countdown enters minute-and-second precision",
+      "durationSeconds": 15,
+      "sha256": "8eeddcde1b138336721f58bf29f7955731859eae597547316c6afb17ab0a976c"
+    },
+    {
+      "file": "02-dismissal-countdown.webm",
+      "poster": "02-dismissal-countdown-poster.png",
+      "label": "Robotics dismissal countdown with rapid final timing",
+      "durationSeconds": 11,
+      "sha256": "3179e6288858d2a800bc6de25cfc9301d1d37765a4d235143ec27cd28f62a584"
+    },
+    {
+      "file": "03-vocabulary-language-rotation.webm",
+      "poster": "03-vocabulary-language-rotation-poster.png",
+      "label": "Vocabulary rotation through all configured languages",
+      "durationSeconds": 29,
+      "sha256": "7555edaa7d093913897108cf3be88051b0d2a7bb9fe3689043668933e3a3b0a9"
+    },
+    {
+      "file": "04-classroom-assignment-reveal.webm",
+      "poster": "04-classroom-assignment-reveal-poster.png",
+      "label": "Styled Classroom objective and assignment-detail reveal",
+      "durationSeconds": 9,
+      "sha256": "cb00927b5812eefd07b277307f48ca044433b83dc04afbb744a543e8c2c69952"
+    },
+    {
+      "file": "05-robotics-vocabulary-language-rotation.webm",
+      "poster": "05-robotics-vocabulary-language-rotation-poster.png",
+      "label": "Robotics vocabulary rotation through all configured languages",
+      "durationSeconds": 29,
+      "sha256": "dad7f5ec36914cea82982da00dc17623d7da71294eafa99614697a27124550d8"
+    },
+    {
+      "file": "06-robotics-classroom-assignment-reveal.webm",
+      "poster": "06-robotics-classroom-assignment-reveal-poster.png",
+      "label": "Robotics Google Classroom assignment and detail reveal",
+      "durationSeconds": 6,
+      "sha256": "e405ffd3509231cf90c8fa0749862e7d8700cadeee4e4cf04f5ee7f8c146a84e"
+    }
+  ]
+}

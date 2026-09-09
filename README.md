@@ -34,6 +34,13 @@ a fixed instant and contains no provider or student data. Its reproducible
 capture metadata is recorded in
 [`docs/assets/classroom-hub-preview.json`](docs/assets/classroom-hub-preview.json).
 
+The public product landing page is live at
+[chalkwright.org](https://chalkwright.org). Its source is maintained separately
+in the private `w9smz8qkh6-stack/chalkwright-site` repository so marketing-site
+history, publication and rollback remain independent from application releases.
+See the [landing-page runbook](docs/landing-page-runbook.md) for the exact
+source, hosting and verification boundaries.
+
 ## What Chalkwright does
 
 - Follows the verified class schedule throughout the day and keeps explicitly
@@ -239,6 +246,7 @@ the profile and activation steps.
 
 ## Documentation
 
+- [Current project state and capability registry](docs/project-state.md)
 - [Product vision](docs/product-vision.md)
 - [Architecture principles](docs/architecture-principles.md)
 - [Migration strategy](docs/migration-strategy.md)
@@ -249,6 +257,7 @@ the profile and activation steps.
 - [Engineering standards](docs/engineering-standards.md)
 - [Operations guide](docs/operations.md)
 - [Configuration guide](docs/configuration.md)
+- [Documentation-backed learning objectives](docs/learning-objectives.md)
 - [Publication readiness gate](docs/publication-readiness.md)
 - [Public history plan](docs/publication-history-plan.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)

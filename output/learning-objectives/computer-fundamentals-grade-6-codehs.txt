@@ -1,0 +1,369 @@
+Computer Fundamentals (Grade 6) - CodeHS publisher objectives
+Course: Computer Fundamentals (6th grade) 2025-26
+Extraction rule: explicit publisher Objective blocks only; UBD material excluded
+Excluded: lesson 9.10 (Exploring Data and Spreadsheets Quiz) has no explicit objective
+
+Lesson 1.1 - Karel's Coding Environment
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352860
+Learning objectives:
+- Define syntax and why it is important in text coding
+- Use the Karel commands to write a simple Karel program
+
+Lesson 1.2 - Karel Error Messages
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352868
+Learning objectives:
+- Define what a bug is in programming
+- Describe the steps to debug a program
+- Use error messages to find and fix bugs in their programs
+
+Lesson 1.3 - The Rabbit Chase
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352877
+Learning objectives:
+- Write a sequence of commands to accomplish a specified task
+- Use Karel commands using the proper syntax
+- Use debugging strategies to find and fix errors in their programs
+
+Lesson 1.4 - Lost in Space
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352893
+Learning objectives:
+- Use if statements to run code if a specific condition is true
+- Use if/else statements to run code if a specific condition is either true or false
+- Use a while loop in their program to repeat code as long as a condition is true
+- Create programs that use multiple control structures
+- Decide which control structures to use to solve a complex problem
+
+Lesson 1.5 - Karel Adventures 1: Evaluation
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352912
+Learning objectives:
+- Use if statements and while loops correctly in a program
+- Use a sequence of commands to complete a specific task
+- Determine when to use a specific control structure (if statement or while loop)
+
+Lesson 2.1 - Intro to Python with Tracy the Turtle
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352917
+Learning objectives:
+- Define programming/coding
+- Use basic Tracy commands
+- Write their first program
+
+Lesson 2.2 - Programming with Tracy
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352924
+Learning objectives:
+- Describe the difference between low-level and high-level programming languages and give examples of both
+- Describe the difference between compiled and interpreted programming languages and give examples of both
+- Explore a timeline of programming languages
+
+Lesson 2.3 - Tracy's Grid World
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352932
+Learning objectives:
+- Locate Tracy on the coordinate plane
+- Use the penup(), pendown(), backward(), goto(), setposition(), setx(), and sety() commands in their programs
+
+Lesson 2.4 - Tracy's World Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352944
+Learning objective: Demonstrate knowledge of Tracy's World commands and concepts through a multiple-choice quiz.
+
+Lesson 3.1 - Testing Tracy Programs
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352947
+Learning objectives:
+- utilize different methods of checking their programs
+- understand the limitations of autograders
+
+Lesson 3.2 - Turning Tracy
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352952
+Learning objectives:
+- Use the left and right commands in order to turn Tracy from her current direction
+- Use the setheading/seth commands to turn Tracy to face a specific direction
+
+Lesson 3.3 - For Loops
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352961
+Learning objectives:
+- Create for loops to repeat code a fixed number of times
+- Explain when a for loop would be a useful tool
+- Utilize for loops to write programs that would be difficult/impossible without loops
+- Use the bgcolor command to change the color of Tracy's canvas
+
+Lesson 3.4 - Turning Tracy Using Angles
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352972
+Learning objectives:
+- Use angles inside turning commands
+- Turn Tracy at angles in conjunction with for loops
+
+Lesson 3.5 - Moving Tracy Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352982
+Learning objective: Prove their knowledge of the following commands and concepts through a multiple choice quiz:
+
+Lesson 4.1 - Comments
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352985
+Learning objectives:
+- Use comments throughout their program
+- Describe why comments are helpful for both themselves and anyone else looking at their code
+
+Lesson 4.2 - Naming Guidelines
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352991
+Learning objective: Name elements of their code by following specific guidelines and rules in order to create readable and working programs
+
+Lesson 4.3 - Functions
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185352994
+Learning objectives:
+- Define a function
+- Call a function
+- Explain why functions are used
+
+Lesson 4.4 - Artistic Effects
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353003
+Learning objectives:
+- Use the extended circle() command to draw different shapes
+- Use the color(), pensize(), begin_fill(), and end_fill() commands to add more creativity to their programs
+
+Lesson 4.5 - Adding Text
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353012
+Learning objectives:
+- Use the write command to add text to the canvas
+- Use additional attributes with the write command to change the font style and location of the text label created
+
+Lesson 4.6 - Top Down Design
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353021
+Learning objectives:
+- Break a large problem down into smaller pieces
+- Write functions to solve each smaller problem
+- Solve a complicated problem using Top Down Design
+
+Lesson 4.7 - Designing and Communicating Solutions Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353030
+Learning objective: Prove their knowledge of the following commands and concepts through a multiple choice quiz:
+
+Lesson 5.1 - Digital Footprint and Reputation
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353180
+Learning objectives:
+- Understand how their online activity contributes to a permanent and public digital footprint
+- Articulate their own social media guidelines to protect their digital footprint
+
+Lesson 5.2 - Cyberbullying
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353188
+Learning objectives:
+- Understand the impact of cyberbullying, and identify unacceptable bullying behavior
+- Identify proper actions to take if they are victims of cyberbullying or if they observe someone being cyberbullied
+- Identify and discuss various types of cyberbullying
+
+Lesson 5.3 - Internet Safety
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353195
+Learning objective: Identify predatory behavior and how to respond to it online
+
+Lesson 5.4 - Privacy & Security
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353201
+Learning objective: Use best practices in personal privacy and security, including strong passwords, using https, and reading privacy policies
+
+Lesson 5.5 - Information Literacy
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353211
+Learning objective: Effectively search for and evaluate resources
+
+Lesson 5.6 - Creative Credit & Copyright
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353220
+Learning objectives:
+- Explain what copyright laws are and why they are important
+- Find images they are legally allowed to use in their projects
+- Accurately attribute images they find and want to use
+- Discuss and define intellectual property terms
+
+Lesson 5.7 - Hacking Ethics
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353230
+Learning objectives:
+- Identify the difference between white hat hacking and black hat hacking
+- Explain career opportunities in cybersecurity
+
+Lesson 5.8 - Project: Public Service Announcement
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353238
+Learning objectives:
+- Create a public service announcement for members of their community about a topic in digital citizenship or cyber hygiene
+- Use google sheets to store and analyze data, and create a data visualization
+- Explore and use search engine keywords and special characters to refine search results
+- Collaborate on digital platforms
+- Create and design files in various formats
+
+Lesson 5.9 - Digital Citizenship and Cyber Hygiene Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353248
+Learning objective: Prove their knowledge of digital citizenship and cyber hygiene concepts through a multiple choice quiz
+
+Lesson 6.1 - Variables
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353033
+Learning objectives:
+- Describe what variables are
+- Discuss why variables are used in our programs
+
+Lesson 6.2 - Data Types
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353042
+Learning objectives:
+- Categorize values into different data types (string, integer, floating point number, and boolean)
+- Use the type function to check the type of any value
+- Use str, int, and float to cast values to different data types
+
+Lesson 6.3 - Strings
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353051
+Learning objectives:
+- concatenate strings together to form more complex messages
+- use escape sequences to:
+
+Lesson 6.4 - String Methods
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353058
+Learning objectives:
+- Call methods on values
+- Use the following string methods to alter text
+
+Lesson 6.5 - User Input
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353065
+Learning objectives:
+- Incorporate user input into their code in order to customize their programs
+- Use format to edit string messages
+
+Lesson 6.6 - Parameters
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353074
+Learning objective: Incorporate parameters into their functions in order to adapt their functions to multiple situations
+
+Lesson 6.7 - Debugging Strategies
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353085
+Learning objective: Debug common errors in code
+
+Lesson 6.8 - Clickable Interaction
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353094
+Learning objectives:
+- use the onclick function inside their programs
+- use the getscreen function to allow the user to click anywhere on the canvas to trigger an event
+- use and manipulate variables inside programs that use the onclick function
+
+Lesson 6.9 - Using i in For Loops
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353104
+Learning objective: Use i as a variable inside their for loop to control different commands
+
+Lesson 6.10 - Extended Loop Control
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353111
+Learning objective: Control the value of i using extended parameters
+
+Lesson 6.11 - Controlling Tracy with Variables Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353120
+Learning objective: Prove their knowledge of the following commands and concepts through a multiple choice quiz:
+
+Lesson 7.1 - The Design Process
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353123
+Learning objectives:
+- Identify and describe the steps of the design process.
+- Recognize how the design process is used in real-world contexts.
+- Apply the design process to plan and build a cycle depiction using Tracy commands.
+- Collaborate with peers to reflect on and improve their designs.
+
+Lesson 8.1 - History of Computing
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353130
+Learning objectives:
+- Describe the evolution of computers and how people have interacted with them.
+- Analyze the impact of computers on everyday life.
+
+Lesson 8.2 - Software
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353136
+Learning objectives:
+- Explain the differences between operating systems and applications.
+- Describe the development process for creating an application.
+- Use help sources to research application features.
+- Solve software issues.
+
+Lesson 8.3 - Hardware
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353142
+Learning objectives:
+- Identify the different hardware components of a computer system and explain their function.
+- Analyze and troubleshoot common computer issues.
+
+Lesson 8.4 - Cloud Computing
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353147
+Learning objectives:
+- Explain the concept of cloud computing and its benefits.
+- Compare and contrast cloud computing with physical computing.
+- Identify types of local and remote data storage.
+
+Lesson 8.5 - Internet of Things
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353153
+Learning objectives:
+- Identify various examples of internet of things devices and how you interact with them daily.
+- Explain the importance of data privacy when using internet of things devices.
+
+Lesson 8.6 - Ethics and Legal Considerations
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353160
+Learning objectives:
+- Explain how bias can be prevented or minimized in computing.
+- Identify ethical and legal considerations when using computing technologies.
+
+Lesson 8.7 - The Future of Computing
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353167
+Learning objectives:
+- Understand the current and future trends in the computer industry.
+- Examine the various roles and opportunities that students will have in the computing industry
+
+Lesson 8.8 - Project: Design the Computer of Tomorrow
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353174
+Learning objectives:
+- Identify and evaluate the components that are necessary for a computer to meet the needs of the future
+- Design and create a computer that meets the needs of the future
+- Critique and evaluate other designs of computers to assess how well they will meet the needs of the future.
+
+Lesson 8.9 - Quiz: Exploring Computing
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353177
+Learning objective: Prove their knowledge of Computers, past, present, and future, through a multiple-choice quiz
+
+Lesson 9.1 - Your World in Numbers
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353252
+Learning objectives:
+- Differentiate between data, information, and knowledge
+- Evaluate the benefits and risks of sharing personal information online
+- Reflect on how data can be used to improve personal understanding and decision-making
+
+Lesson 9.2 - Intro to Spreadsheets
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353258
+Learning objectives:
+- Define key spreadsheet terms such as rows, columns, cells, ranges, operations, and functions
+- Use common spreadsheet functions such as SUM and AVERAGE
+
+Lesson 9.3 - Sort and Filter
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353264
+Learning objectives:
+- Sort a spreadsheet by a column from least to greatest or greatest to least
+- Filter a spreadsheet based on a selected condition
+- Understand when and how to use a filter or sort their data in order to help them with data analysis
+
+Lesson 9.4 - Statistical Measures
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353269
+Learning objectives:
+- Use the AVERAGE() formula in Google Sheets to find the average of a range of values
+- Use the MEDIAN() formula to find the median value in a range of values
+- Use the MODE() formula to find the mode of a range of values
+- Describe what each of the statistical measures above says about the data
+
+Lesson 9.5 - Visualizing Data
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353274
+Learning objectives:
+- Identify the best chart to use for different types of information
+- Use a spreadsheet to create data visualizations
+
+Lesson 9.6 - Models
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353280
+Learning objectives:
+- Understand the concept of a model and its role in data analysis
+- Understand how models can be used to predict future outcomes
+- Identify real-world problems that could benefit from modeling
+- Make predictions based on data trends
+
+Lesson 9.7 - Project: Statistical Questions
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353285
+Learning objectives:
+- Differentiate between statistical and non-statistical questions
+- Brainstorm research topics based on their interests and curiosity
+- Identify the types of data that would be needed to answer a given research question
+
+Lesson 9.8 - Project: Data Storytelling
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353291
+Learning objectives:
+- Critically examine and reflect on various data visualizations and infographics
+- Collect data using an existing data set, research, or surveys
+- Analyze data to turn the values into meaningful conclusions
+- Create a visualization that will aid in telling their data story
+
+Lesson 9.9 - Project: Tell Your Story
+Publisher source: https://codehs.com/app/my_lesson_plans/section/821193/lesson/185353298
+Learning objective: Create a visually appealing infographic that displays important data visualizations

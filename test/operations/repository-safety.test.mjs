@@ -4,6 +4,7 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  truncateSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -113,6 +114,39 @@ test('permits only the bounded production PowerSchool recovery controller', () =
   }
 });
 
+test('allows only bounded homepage animation masters above the default size ceiling', () => {
+  const allowed = createFixture();
+  try {
+    sized(
+      allowed,
+      'docs/assets/homepage-demo/animations/01-coming-up-countdown.webm',
+      7_999_999,
+    );
+    assert.deepEqual(verifyRepositorySafety(allowed), { candidates: 1 });
+  } finally {
+    rmSync(allowed, { recursive: true, force: true });
+  }
+
+  for (const [relativePath, size] of [
+    [
+      'docs/assets/homepage-demo/animations/01-coming-up-countdown.webm',
+      8_000_001,
+    ],
+    ['docs/assets/homepage-demo/unreviewed.webm', 2_000_001],
+  ]) {
+    const rejected = createFixture();
+    try {
+      sized(rejected, relativePath, size);
+      assert.throws(
+        () => verifyRepositorySafety(rejected),
+        /unexpected candidate size/u,
+      );
+    } finally {
+      rmSync(rejected, { recursive: true, force: true });
+    }
+  }
+});
+
 function createFixture() {
   return mkdtempSync(join(tmpdir(), 'classroom-hub-repository-safety-'));
 }
@@ -121,4 +155,9 @@ function write(root, relativePath, content) {
   const path = join(root, relativePath);
   mkdirSync(join(path, '..'), { recursive: true });
   writeFileSync(path, content, 'utf8');
+}
+
+function sized(root, relativePath, size) {
+  write(root, relativePath, '');
+  truncateSync(join(root, relativePath), size);
 }

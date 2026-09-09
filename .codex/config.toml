@@ -4,3 +4,30 @@
 # Official, read-only OpenAI documentation search and page retrieval.
 [mcp_servers.openaiDeveloperDocs]
 url = "https://developers.openai.com/mcp"
+
+# Refresh tracked generated facts and the documentation inventory. Session
+# boundaries receive the full semantic digest; each user prompt receives only
+# a compact freshness, documentation-gate, and worktree-isolation signal. The
+# global user hook independently refreshes ~/.codex/ENVIRONMENT.md and
+# ~/.codex/HOST.md.
+[features]
+hooks = true
+
+[[hooks.SessionStart]]
+matcher = "^(startup|resume|clear|compact)$"
+
+[[hooks.SessionStart.hooks]]
+type = "command"
+command = 'node "$(git rev-parse --show-toplevel)/scripts/codex/refresh-environment.mjs" --hook-session'
+timeout = 10
+statusMessage = "Refreshing Chalkwright project environment"
+additionalContextLimit = 6000
+
+[[hooks.UserPromptSubmit]]
+
+[[hooks.UserPromptSubmit.hooks]]
+type = "command"
+command = 'node "$(git rev-parse --show-toplevel)/scripts/codex/refresh-environment.mjs" --hook-prompt'
+timeout = 10
+statusMessage = "Checking Chalkwright context freshness"
+additionalContextLimit = 1200

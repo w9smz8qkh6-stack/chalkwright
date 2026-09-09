@@ -276,7 +276,7 @@ test('forced meetings select matching content, attendance, QR, and preview scope
     assert.equal(target.classId, 'class-b407-b');
     assert.deepEqual(
       target.content.cards.map((card) => card.cardId),
-      ['objective-b407-b'],
+      ['objective-b407-b', 'coursework-b407-b', 'vocabulary-b407-b'],
     );
     assert.equal(target.attendance?.responseCount, 0);
     assert.equal(target.attendanceClassCode, 'RB-B');
@@ -293,7 +293,7 @@ test('forced meetings select matching content, attendance, QR, and preview scope
     assert.equal(preview.nextClassDayPlan?.date, '2035-04-16');
     assert.deepEqual(
       preview.content.cards.map((card) => card.cardId),
-      ['objective-b407-b'],
+      ['objective-b407-b', 'coursework-b407-b', 'vocabulary-b407-b'],
     );
     assert.ok(preview.originalPlan);
     assert.ok(preview.effectivePlan);

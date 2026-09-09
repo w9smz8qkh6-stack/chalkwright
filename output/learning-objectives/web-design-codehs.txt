@@ -1,0 +1,329 @@
+Web Design - CodeHS publisher objectives
+Course: Web Design Principles (Picasso) 2025
+Extraction rule: explicit publisher Objective blocks only; UBD material excluded
+Excluded: lessons 1.1 and 12.1 have no explicit objective; lesson 10.7 has a publisher objective that does not match its lesson
+
+Lesson 2.1 - Welcome
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355692
+Learning objectives:
+- Identify what web design is and articulate the difference between web design and development
+- Identify how websites have changed education, arts and commerce
+- Reflect on why they are taking this course and develop their own learning objectives for the course
+
+Lesson 2.2 - The Internet
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355699
+Learning objectives:
+- Describe how they are able to get specific webpages to their computers
+- Explain that the internet is a network of networks
+- Compare and contrast the different levels of censorship that different organizations or countries impose on the internet
+
+Lesson 2.3 - Browsers
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355709
+Learning objectives:
+- Identify what a browser is
+- Identify what a browser is not
+- Explain the purpose of a browser
+- List several kinds of browsers
+
+Lesson 2.4 - Viewing Websites
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355715
+Learning objective: Describe the process of visiting a webpage, from typing the URL to viewing the page
+
+Lesson 2.5 - Getting Started - What is the Web? Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355719
+Learning objective: Prove their knowledge of the basics of the internet through a multiple-choice quiz
+
+Lesson 3.1 - Introduction to HTML
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355723
+Learning objectives:
+- Identify the purpose and applications of HTML
+- Create their first simple web page
+
+Lesson 3.2 - Structure of an HTML Page
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355728
+Learning objectives:
+- Discern the various parts of an HTML page
+- Create fully formed HTML pages
+
+Lesson 3.3 - Formatting Text
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355736
+Learning objective: Apply formatting tags in order to modify the appearance of text and make web pages look clear and aesthetically pleasing
+
+Lesson 3.4 - Links
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355744
+Learning objective: Add and utilize hyperlinks on their webpages
+
+Lesson 3.5 - Images
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355750
+Learning objective: Embed an image in HTML
+
+Lesson 3.6 - Copyright
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355758
+Learning objectives:
+- Explain what copyright laws are and why they are important
+- Find images they are legally allowed to use in their projects
+- Accurately attribute images they find and want to use
+
+Lesson 3.7 - HTML Lists
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355767
+Learning objectives:
+- Incorporate different kinds of lists to their web pages
+- Understand the differences between unordered lists and ordered lists.
+
+Lesson 3.8 - HTML Tables
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355774
+Learning objectives:
+- Create tables in their web pages
+- Explain the benefits of including tables on web pages
+- Compare various ways of displaying information and choose the appropriate format
+
+Lesson 3.9 - HTML Styling
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355780
+Learning objectives:
+- Understand how to apply styling to HTML tags
+- Apply HTML styling to make their web pages more visually appealing and unique
+
+Lesson 3.10 - HTML Colors
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355787
+Learning objectives:
+- Explain how colors are created on webpages
+- Create their own colors by mixing red, green, and blue
+- Make use of the color wheel to choose coordinating colors for their webpages
+
+Lesson 3.11 - HTML - Structuring Websites Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355795
+Learning objective: Assess student achievement of the learning goals of the unit
+
+Lesson 4.1 - Introduction to CSS
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355799
+Learning objectives:
+- explain the relationship between CSS and HTML
+- apply basic CSS style to a webpage using the style tag
+
+Lesson 4.2 - CSS Select by Tag
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355806
+Learning objective: Use CSS tag selectors to select all elements of the same kind and give them all the same style
+
+Lesson 4.3 - CSS Select by Class
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355814
+Learning objective: Use CSS Class selectors to apply CSS styling to all HTML units that share a specified class
+
+Lesson 4.4 - CSS Select by ID
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355821
+Learning objective: Use CSS Selectors by ID to select a single element to format on a webpage
+
+Lesson 4.5 - The Cascade
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355829
+Learning objectives:
+- Explain the order of precedence of CSS rules
+- Explain why CSS allows rules to cascade
+- Apply the order of precedence of CSS rules to achieve the desired styling of specific elements on the webpage
+
+Lesson 4.6 - CSS - Styling Websites Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355836
+Learning objective: Prove their knowledge of CSS styling through a multiple choice quiz
+
+Lesson 5.1 - What is Bootstrap?
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355991
+Learning objectives:
+- Explain what Bootstrap is
+- Explain why a web developer would want to use Bootstrap
+- Compare and contrast responsive vs. unresponsive sites
+
+Lesson 5.2 - Getting Started with Bootstrap
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355997
+Learning objectives:
+- Enable Bootstrap on a webpage
+- Create a basic Bootstrap page using container to gather the pieces of the site
+- Explain the difference between container and container-fluid
+
+Lesson 5.3 - The Bootstrap Grid System
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356006
+Learning objectives:
+- Use Bootstrap's grid system to structure their webpages
+- Explain the parts of Bootstrap's grid system
+- Explain how the grid system enables Bootstrap sites to be responsive
+
+Lesson 5.4 - Bootstrap Components
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356018
+Learning objectives:
+- Add title to their webpages by creating page headers
+- Use icons to add widely recognized icons to their webpages to improve usability
+- Create and style buttons
+
+Lesson 5.5 - More Bootstrap Components
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356031
+Learning objectives:
+- Create professional looking tables using Bootstrap's CSS rules for tables
+- Create a gallery of thumbnail images
+
+Lesson 5.6 - Navigation Bars
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356047
+Learning objectives:
+- Create a navbar that sits at the top of a webpage
+- Add links to a navbar
+
+Lesson 5.7 - Drop Down Menus
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356060
+Learning objectives:
+- Create dropdown menus in a navbar
+- Create dropdown menus as part of the website to redirect to another part of the same page
+
+Lesson 5.8 - Using Bootstrap Examples
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356071
+Learning objectives:
+- Use a Bootstrap template and modify the page content
+- Use a Bootstrap template and modify the styles
+
+Lesson 5.9 - Bootstrap Challenges
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356083
+Learning objectives:
+- Look up Bootstrap documentation to help them accomplish a task
+- Combine several pieces of Bootstrap to create a non-standard webpage component
+
+Lesson 5.10 - Bootstrap Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356088
+Learning objective: Prove their knowledge of Bootstrap through a multiple choice quiz
+
+Lesson 6.1 - Homepage: Your First Website
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355840
+Learning objective: Students will create their own website from scratch, hosted at their own custom domain.
+
+Lesson 7.1 - Getting Started - Advanced HTML and CSS - Update
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355847
+Learning objectives:
+- Reflect on what they have learned so far in this course
+- Preview what they will learn in the advanced HTML/CSS module
+
+Lesson 7.2 - Multi-file Websites
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355852
+Learning objectives:
+- Articulate why multi-page websites make sense from a user experience perspective and from a development perspective
+- Create multi-file websites that are divided for clarity and organization
+
+Lesson 7.3 - Embedding iframes
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355859
+Learning objectives:
+- Define what an IFrame is, and explain how they might be used in websites
+- Use IFrames to embed other websites into their own website
+
+Lesson 7.4 - Divs
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355867
+Learning objective: Use divs to group and style multiple elements at once
+
+Lesson 7.5 - Spans
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355875
+Learning objective: Use the <span> tag to style multiple elements of inline text
+
+Lesson 7.6 - Semantic Tags
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355882
+Learning objectives:
+- Identify HTML5 semantic tags primarily used for page layout and structure
+- Describe the benefits of using semantic tags in HTML documents
+- Create web pages using semantic tags aligned with best web design practices
+
+Lesson 7.7 - Combining CSS Selectors
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355890
+Learning objective: Combine CSS selectors to style multiple selectors, parent/child selectors, and specific combinations of classes, ids, and tags
+
+Lesson 7.8 - The Don't Repeat Yourself Principle
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355897
+Learning objectives:
+- Articulate the importance of the DRY Principle
+- Cut down on the amount of repeated code in their programs by combining selectors and using divs
+
+Lesson 7.9 - Special Selectors
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355905
+Learning objective: Use special selectors to style their website as the user interacts with elements on the page
+
+Lesson 7.10 - Visibility
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355915
+Learning objectives:
+- Use the visibility property to make elements visible or invisible on their page.
+- Articulate the difference between visibility and display properties (visibility still takes up space when it's not visible, display does not)
+
+Lesson 7.11 - Reading Documentation
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355922
+Learning objective: Use documentation to explore HTML and CSS features that are not covered in the course
+
+Lesson 7.12 - Using the Inspector
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355930
+Learning objective: Use the inspector tool to modify styling and content inline
+
+Lesson 7.13 - The Box Model
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355937
+Learning objectives:
+- Name the different components that wrap around an HTML element
+- Modify the margins, borders, and padding of an HTML element
+
+Lesson 7.14 - Image Manipulation
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355951
+Learning objectives:
+- Include images in their programs
+- Manipulate the stored pixel data arbitrarily
+
+Lesson 7.15 - Animation
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355964
+Learning objective: Add simple animations to their websites, such as transitions, transition delays, color changes, size changes, and rotations
+
+Lesson 7.16 - Interaction
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355971
+Learning objective: Add simple interactions to their websites, so that parts of the website change if the user hovers or clicks on parts of the site
+
+Lesson 7.17 - Advanced HTML and CSS Quiz
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355982
+Learning objective: Prove their knowledge of advanced HTML and CSS styling through a multiple choice quiz
+
+Lesson 8.1 - Project: Tell a Story
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185355986
+Learning objective: Students will create their own website from scratch with an emphasis on project planning and iterative creation.
+
+Lesson 9.1 - Bootstrap Project
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356092
+Learning objective: This project enables students to unleash their creativity to design and implement a responsive website using Bootstrap.
+
+Lesson 10.1 - Intro to Design Thinking
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356099
+Learning objectives:
+- Describe and define the steps of Design Thinking.
+- Implement Design Thinking to create a product.
+- Practice interviewing students and generating ideas through peer feedback.
+
+Lesson 10.2 - Empathy
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356115
+Learning objectives:
+- Define and use Empathy in creating products
+- Successfully interview peers and users
+- Identify accessibility issues in web design products
+
+Lesson 10.3 - Define
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356127
+Learning objectives:
+- Define a problem related to user needs
+- Create a composite character
+- Create and articulate Point of View Statements
+
+Lesson 10.4 - Ideate
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356134
+Learning objectives:
+- Ideate solutions to a problem relevant to their lives
+- Articulate the purpose of ideating, and strategies to make the ideation process work
+
+Lesson 10.5 - Prototype
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356141
+Learning objectives:
+- Create prototypes
+- Narrow brainstorms to just a few concrete and realistic ideas
+
+Lesson 10.6 - Test
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356149
+Learning objectives:
+- Provide appropriate feedback after testing prototypes
+- Ask users thoughtful questions about their user experience
+- Articulate how to best test products on users
+
+Lesson 11.1 - Final Web Design Project
+Publisher source: https://codehs.com/app/my_lesson_plans/section/822933/lesson/185356164
+Learning objectives:
+- Create a project development plan using milestones or benchmarks
+- Demonstrate their web design skills by building a final website

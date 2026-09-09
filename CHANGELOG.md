@@ -82,12 +82,96 @@ omitted.
   never starts Calendar reconciliation, reports zero provider writes, and
   leaves unfamiliar identity challenges failed closed.
 
+- Added durable Codex project orientation, generated host-level execution and
+  machine references, a tracked manifest- and lockfile-derived project
+  reference, an exhaustive generated documentation inventory, and a
+  landing-page runbook. Trusted project hooks refresh and inject documentation
+  routing before every user prompt and across every session-start mode,
+  including compaction. A user-level project path watcher with a five-minute
+  timer backstop and the existing host watcher/timer keep derived context
+  current outside Codex. Documentation checks detect stale generated facts and
+  inventory without recording protected configuration, credentials, or
+  provider data. Documentation is now a mandatory part of every model-owned
+  repository change: the normal documentation check blocks handoff unless
+  source/configuration changes include both a durable reference update and an
+  Unreleased changelog update, while semantic accuracy remains an explicit
+  model responsibility rather than an inference from generation alone. A
+  structured knowledge source now records the current phase, milestone,
+  documented deployment evidence basis, capability maturity, active
+  workstreams, known limits, and next decisions. Its compact digest is injected
+  before every Codex prompt; the handoff gate also fingerprints the complete
+  implementation surface, expires reviews after seven days, validates
+  implementation/test/documentation evidence, rejects unclassified changes,
+  and checks the generated readable project-state view. Hook context is now
+  tiered: session boundaries receive the complete semantic state, ordinary
+  prompts receive a compact freshness and worktree-isolation signal, and global
+  resume/compaction refreshes no longer repeat the visible Session Ready
+  report. Distinct or concurrent write outcomes default to isolated
+  `codex/<task>` worktrees.
+  Landing-page tasks must now complete their canonical application-repository
+  documentation and semantic-state handoff within the original task, without
+  waiting for a separate documentation request.
+
 - Added deterministic, documentation-backed learning-objective enrichment.
   The existing read-only Drive refresh can import explicitly structured Google
   Docs, text, or Markdown from a per-course folder into a local SQLite catalog.
   Fresh Classroom assignments match exact lesson identifiers and feature the
   teacher-authored objective while preserving assignment context; ambiguous or
   missing matches keep the prior assignment-title fallback without an LLM call.
+
+- Added a privacy-safe, production-rendered homepage demo storyboard with
+  opening, system overview, annotated classroom-screen anatomy, two complete
+  class-content sequences, configured multilingual vocabulary rotations,
+  live countdown, translation, and Classroom-detail animation inserts, closing,
+  local AI narration, a user-supplied real-classroom introduction, and a
+  reproducible final-video renderer. The final cut now times each overview
+  highlight and progressive screen-anatomy callout to the narration, follows
+  those callouts with guided pan and zoom, returns to the full-screen view, and
+  emits a scene-aligned English WebVTT caption track for accessible players.
+  Screen-anatomy outlines and leader lines are measured from the rendered
+  header elements so they accurately enclose each region at every zoom state.
+  Animated inserts now use maximum-quality browser screencast frames and
+  screen-content-tuned intermediates instead of a low-bitrate realtime capture,
+  with a higher-quality final encode for clearer fullscreen playback. The
+  narration now consistently describes the presenter’s own classroom and
+  classes, avoids serial-comma pauses, carries one sentence directly from the
+  Web Design objective into the animated Classroom assignment reveal, and ends
+  on an Apache-2.0/GitHub card naming the official canonical repository.
+  The example now follows a coherent school-day timeline: Web Design appears
+  in the first coming-up state and completes its class sequence before the
+  later Robotics sequence, whose dismissal state closes the classroom day.
+  The Robotics translation faces now change at narration-topic boundaries
+  without repeating the first passage's language enumeration, and the closing
+  voice explicitly pronounces the license as “Apache two point oh.” The Web
+  Design opening now has a natural clause pause, while its Classroom-to-
+  vocabulary handoff uses a short continuous breath without an audiovisual
+  fade. Demo titles, cards, prose, and captions now display the product name as
+  `ChalkWright`. Unconfigured classroom headers now use the local ChalkWright
+  logo as a school-brand placeholder. Coursework retains a visible Google
+  Classroom presentation label, and the demo's Robotics sequence now animates
+  its synthetic Classroom assignment, task details, and due date. Its
+  demo-specific card interval now keeps those details visible until the edit
+  changes to vocabulary, eliminating the stray automatic-advance frame at the
+  end of the assignment clip. Selective recaptures now also retain the other
+  animation-manifest entries. The schedule narration now describes “the day's
+  complete schedule.” The v15 cut removes the unspoken fourth overview bullet,
+  retimes each screen-anatomy callout to lead its matching phrase by about 0.2
+  seconds, delays the final pullback until narration ends, introduces Robotics
+  with its authentic coming-up screen, accelerates the lower-left countdown
+  from `10:00` to `0:00`, holds at zero before dissolving into the objective,
+  removes the redundant second mention of “my Robotics class” from the
+  Classroom-assignment sentence and adds a deliberate sentence break before
+  “These languages fit my classroom.” It was published on 2026-08-31 from
+  landing-page source commit
+  `ef120516f84fc31c9c59b29a9b09e4b3aeaa6d1c`; exact video and caption hashes,
+  caption MIME type, bounded video ranges, release-tokened markup and canonical
+  metadata were verified through both the Lenovo loopback origin and public
+  route. The unchanged player UI and v15 media retain their prior local visual
+  verification, but the unavailable interactive browser surface prevented a
+  fresh live responsive/keyboard/console pass. The previous live image was
+  temporarily tagged for rollback, then removed after v15 verification at the
+  user's request to eliminate latent obsolete production video copies;
+  canonical Git history remains the prior-release recovery source.
 
 - Moved the ChalkWright product mark out of the display header and into a
   responsive lower-right system credit showing the Classroom Screen System
@@ -157,6 +241,12 @@ omitted.
   `3.9` lesson objectives, while named or supplemental assignments participate
   only through a source-authored alias; conflicts continue to fail closed.
 
+- Recorded the published `chalkwright.org` landing page, its separate private
+  canonical Git repository and default `main` branch, the deployed source
+  commit, default-on visible caption control, verified media delivery and clean
+  production-runtime dependency audit in the project runbook and semantic
+  state. Landing-page Git pushes remain independent from Lenovo Docker
+  publication.
 - Added a conservative full-title fallback for learning-objective matching so
   publisher sequences that use `L01` labels or restart lesson numbers inside
   named units can participate without synthetic numbering in Classroom.
