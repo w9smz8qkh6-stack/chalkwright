@@ -16,7 +16,7 @@ docs:sync`. Repository documentation is not a live-service probe.
 - Implementation fingerprint: `fc3658a48eaa1de7c5a65f994d893182203eedec628f3080b41e8849bbe4c6a5`
 - Semantic review: **CURRENT**
 - Review statement: The phase, capabilities, workstreams, limits, production deployment claim, PowerSchool recovery boundary, completed M-18 retirement, classroom-display polish, and homepage-demonstration pipeline were reviewed against the current implementation and documentation on 2026-09-09. Repository evidence records bounded automatic PowerSchool recovery, Calendar reconciliation after a successful plan refresh, release-build hardening, the completed retirement of the legacy shadow, and responsive classroom-display improvements. The separate landing page remains independently published; this review does not assert a fresh live application-service probe.
-- Working-tree classification: 2/2 governed entries assigned to an active workstream; 0 unclassified; 1 excluded local-artifact entries.
+- Working-tree classification: 0/0 governed entries assigned to an active workstream; 0 unclassified; 0 excluded local-artifact entries.
 
 ## Development position
 
@@ -71,7 +71,7 @@ separate activation authority; `fixture-supported`, `planned`, and
 - Status: `active`
 - Outcome: Keep semantic project state and capability knowledge current, enforced, and directly available inside every Codex task.
 - Present state: The generated documentation router, tiered session and prompt hooks, quiet resume/compaction host refresh, path watcher, timer, semantic state registry, implementation-fingerprint gate, workstream classification, mandatory same-task cross-repository landing-page handoff, and isolated-worktree guidance are active.
-- Current working-tree entries in scope: 2
+- Current working-tree entries in scope: 0
 - Capabilities: `deployment-and-rollback`, `fixture-evaluation`
 - Next: Maintain the registry and relevant durable prose with every implementation change, acknowledge each new implementation fingerprint only after semantic review, and keep the complete verification chain green.
 - Documentation: [`docs/documentation-system.md`](documentation-system.md), [`docs/project-state.md`](project-state.md)
