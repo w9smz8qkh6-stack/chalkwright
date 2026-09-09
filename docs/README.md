@@ -198,6 +198,7 @@ new, renamed, and removed documentation discoverable without manual indexing.
 - [M-15 review package: bounded production Calendar trial](migration/m15-review-package.md) — `migration/m15-review-package.md`
 - [M-16 review package: cutover and rollback rehearsal](migration/m16-review-package.md) — `migration/m16-review-package.md`
 - [M-17 review package: isolated parallel production canary](migration/m17-review-package.md) — `migration/m17-review-package.md`
+- [M-18 legacy-retirement record](migration/m18-retirement-record.md) — `migration/m18-retirement-record.md`
 - [Migration evidence index](migration/README.md) — `migration/README.md`
 - [Retirement decision log](migration/retirement-decisions.md) — `migration/retirement-decisions.md`
 - [Offline operations and future activation](operations.md) — `operations.md`
