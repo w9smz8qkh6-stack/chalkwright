@@ -134,17 +134,25 @@ until the cause is understood, unless they contain protected material.
 
 ## Current publication record
 
+On 2026-09-10, landing-page source commit `41acda2` was built into the
+`chalkwright-site` service after the verified Django signup release. The
+product landing at `chalkwright.com` now presents **Set up your screen**, which
+opens `/accounts/signup/`; that endpoint sends a one-use email confirmation
+before creating an account or screen workspace. Public checks confirmed the
+new call to action, the signup and login pages, the FOSS host split, `text/vtt`
+captions, and a 100-byte MP4 range response with HTTP 206. The preceding
+landing image is retained locally as
+`chalkwright-site:rollback-20260910-before-verified-signup`.
+
 On 2026-09-10, landing-page source commit
 `20c89ae` was built into container image
 `sha256:01751440b9e3073f8cfbdcd7cab60a55eb040384d6aa06439245e411e1df8e3c`
 and published through the Lenovo-hosted `chalkwright-site` service. The
-product landing at `chalkwright.com` now uses a neutral wordmark, leads with a
-screen-first explanation, and directs existing users to `/accounts/login/`
-without advertising a reservation or self-service enrollment flow. The FOSS
-project page remains at `chalkwright.org`. Fresh public requests confirmed the
-new product-page copy, FOSS-page host split, login response, `text/vtt`
-captions, and a 100-byte MP4 range response with HTTP 206. The prior image is
-retained locally as `chalkwright-site:rollback-20260910-screen-content`.
+product landing at `chalkwright.com` now uses a neutral wordmark and leads with
+a screen-first explanation. The FOSS project page remains at
+`chalkwright.org`. That release's no-self-enrollment limitation was superseded
+by the verified signup publication recorded above. The prior image is retained
+locally as `chalkwright-site:rollback-20260910-screen-content`.
 
 On 2026-08-31, landing-page source commit
 `ef120516f84fc31c9c59b29a9b09e4b3aeaa6d1c` was built into container image

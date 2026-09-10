@@ -10,11 +10,12 @@ omitted.
 
 ### Changed
 
-- Published the Chalkwright product landing-page revision from source commit
-  `20c89ae`: `chalkwright.com` now leads with the connected screen and direct
+- Published the Chalkwright product landing-page revision from source commits
+  `20c89ae` and `41acda2`: `chalkwright.com` now leads with the connected
+  screen, a **Set up your screen** action to the verified signup flow, and
   existing-user login, while `chalkwright.org` remains the FOSS project site.
   The public origin retained a tagged rollback image after successful
-  product-page, FOSS-page, login, caption, and ranged-video checks.
+  product-page, FOSS-page, signup, login, caption, and ranged-video checks.
 
 ### Fixed
 
