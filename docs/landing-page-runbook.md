@@ -11,7 +11,8 @@ are not mistaken for one another.
 - Canonical Git remote:
   `https://github.com/w9smz8qkh6-stack/chalkwright-site.git` (private)
 - Default branch: `main`
-- Canonical URL: `https://chalkwright.org`
+- Product landing URL: `https://chalkwright.com`
+- FOSS project URL: `https://chalkwright.org`
 - Local Docker Compose service/container: `chalkwright-site`
 - Loopback origin: `127.0.0.1:18083` to container port 3000
 - Public transport: Cloudflare Tunnel
@@ -117,7 +118,7 @@ Expected results:
   the requested bounded response;
 - the dedicated CC control is visible without opening the native overflow menu,
   with accurate English captions enabled by default; and
-- public metadata uses `https://chalkwright.org` as canonical origin.
+- product-landing metadata uses `https://chalkwright.com` as canonical origin.
 
 Cloudflare may serve cached media independently of the origin. When headers or
 media bytes change, compare loopback and public responses and use an explicitly
@@ -132,6 +133,18 @@ or broad Docker cleanup as rollback. Preserve the failed candidate and logs
 until the cause is understood, unless they contain protected material.
 
 ## Current publication record
+
+On 2026-09-10, landing-page source commit
+`20c89ae` was built into container image
+`sha256:01751440b9e3073f8cfbdcd7cab60a55eb040384d6aa06439245e411e1df8e3c`
+and published through the Lenovo-hosted `chalkwright-site` service. The
+product landing at `chalkwright.com` now uses a neutral wordmark, leads with a
+screen-first explanation, and directs existing users to `/accounts/login/`
+without advertising a reservation or self-service enrollment flow. The FOSS
+project page remains at `chalkwright.org`. Fresh public requests confirmed the
+new product-page copy, FOSS-page host split, login response, `text/vtt`
+captions, and a 100-byte MP4 range response with HTTP 206. The prior image is
+retained locally as `chalkwright-site:rollback-20260910-screen-content`.
 
 On 2026-08-31, landing-page source commit
 `ef120516f84fc31c9c59b29a9b09e4b3aeaa6d1c` was built into container image

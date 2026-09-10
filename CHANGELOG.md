@@ -8,6 +8,14 @@ omitted.
 
 ## [Unreleased]
 
+### Changed
+
+- Published the Chalkwright product landing-page revision from source commit
+  `20c89ae`: `chalkwright.com` now leads with the connected screen and direct
+  existing-user login, while `chalkwright.org` remains the FOSS project site.
+  The public origin retained a tagged rollback image after successful
+  product-page, FOSS-page, login, caption, and ranged-video checks.
+
 ### Fixed
 
 - Expanded the Word of the Day card and distributed each rotating translation
