@@ -10,6 +10,12 @@ omitted.
 
 ### Fixed
 
+- Made the bounded PowerSchool authentication repair select its one allowed
+  visible `Try another way` action by accessible control rather than brittle
+  nested page text. It can continue to the already-recognized authenticator
+  code path when Google duplicates that label within a control, while ambiguous,
+  passkey, security-key, recovery, CAPTCHA, and other unknown challenges still
+  fail closed.
 - Expanded the Word of the Day card and distributed each rotating translation
   face through its available panel, giving short everyday terms classroom-scale
   presence without sacrificing the anchored English definition or readability.

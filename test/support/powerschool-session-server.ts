@@ -36,6 +36,7 @@ export type SyntheticRepairFlow =
   | 'delayed-totp'
   | 'phone-approval'
   | 'try-another-totp'
+  | 'try-another-totp-nested'
   | 'unknown-challenge';
 
 export interface SyntheticSessionRequest {
@@ -464,7 +465,7 @@ function routeRepairIdentity(
       redirect(response, action('/challenge/selection/totp'));
       return;
     }
-    if (flow === 'try-another-totp') {
+    if (flow === 'try-another-totp' || flow === 'try-another-totp-nested') {
       redirect(response, action('/challenge/security-key'));
       return;
     }
@@ -479,12 +480,17 @@ function routeRepairIdentity(
     return;
   }
   if (url.pathname === '/challenge/security-key' && request.method === 'GET') {
+    const next = action('/challenge/selection/totp');
+    const control =
+      flow === 'try-another-totp-nested'
+        ? `<div role="button" tabindex="0" onclick='location.href=${JSON.stringify(next)}'><span>Try another way</span><span hidden>Try another way</span></div>`
+        : `<a href="${escapeHtml(next)}">Try another way</a>`;
     respond(
       response,
       200,
       page(
         'Synthetic alternate challenge',
-        `<main>Use your security key</main><a href="${escapeHtml(action('/challenge/selection/totp'))}">Try another way</a>`,
+        `<main>Use your security key</main>${control}`,
       ),
     );
     return;

@@ -1,4 +1,4 @@
-import type { BrowserContext, Page } from 'playwright-core';
+import type { BrowserContext, Locator, Page } from 'playwright-core';
 
 import {
   renderPowerSchoolBellPath,
@@ -399,6 +399,14 @@ async function driveRecognizedRepairFlow(options: {
           await pause(500);
           continue;
         }
+        const passwordButton = options.page.getByRole('button', {
+          name: /enter your password/iu,
+        });
+        if (await clickOnlyVisible(passwordButton)) {
+          unrecognizedSince = undefined;
+          await pause(500);
+          continue;
+        }
       }
       if (
         identityPath?.includes('/challenge/selection') === true &&
@@ -414,13 +422,22 @@ async function driveRecognizedRepairFlow(options: {
           await pause(500);
           continue;
         }
+        const authenticatorButton = options.page.getByRole('button', {
+          name: /authenticator|enter a code|verification code/iu,
+        });
+        if (await clickOnlyVisible(authenticatorButton)) {
+          unrecognizedSince = undefined;
+          await pause(500);
+          continue;
+        }
       }
       if (!totpSubmitted && !alternateOptionsRequested) {
-        const alternateOption = options.page.getByText(
-          /^(?:try another way|another way|different way|choose another option)$/iu,
-        );
-        if ((await alternateOption.count()) === 1) {
-          await alternateOption.click();
+        if (
+          await clickOnlyVisibleAction(
+            options.page,
+            /try another way|another way|different way|choose another option/iu,
+          )
+        ) {
           alternateOptionsRequested = true;
           unrecognizedSince = undefined;
           await pause(500);
@@ -497,6 +514,43 @@ async function visibleCount(
       count += 1;
   }
   return count;
+}
+
+/** Click one visible semantic control without guessing between account choices. */
+async function clickOnlyVisible(locator: Locator): Promise<boolean> {
+  let visible: Locator | undefined;
+  for (let index = 0; index < (await locator.count()); index += 1) {
+    const candidate = locator.nth(index);
+    if (!(await candidate.isVisible().catch(() => false))) continue;
+    if (visible !== undefined) return false;
+    visible = candidate;
+  }
+  if (visible === undefined) return false;
+  await visible.click();
+  return true;
+}
+
+/** Select one visible action by its accessible name, never an incidental text node. */
+async function clickOnlyVisibleAction(
+  page: Page,
+  name: RegExp,
+): Promise<boolean> {
+  const candidates = [
+    page.getByRole('button', { name }),
+    page.getByRole('link', { name }),
+  ];
+  let visible: Locator | undefined;
+  for (const locator of candidates) {
+    for (let index = 0; index < (await locator.count()); index += 1) {
+      const candidate = locator.nth(index);
+      if (!(await candidate.isVisible().catch(() => false))) continue;
+      if (visible !== undefined) return false;
+      visible = candidate;
+    }
+  }
+  if (visible === undefined) return false;
+  await visible.click();
+  return true;
 }
 
 async function fillFirst(
