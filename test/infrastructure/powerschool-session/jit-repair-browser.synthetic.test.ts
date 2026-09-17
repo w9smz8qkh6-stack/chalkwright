@@ -407,6 +407,33 @@ test('one explicit Try another way transition may reveal the recognized authenti
   }
 });
 
+test('uses one visible semantic Try another way control when its nested text is duplicated', async () => {
+  const server = await startSyntheticPowerSchoolSessionServer({
+    repairFlow: 'try-another-totp-nested',
+  });
+  const parent = mkdtempSync(join(tmpdir(), 'jit-repair-nested-alternate-'));
+  const before = profiles();
+  try {
+    assert.deepEqual(
+      await repairPowerSchoolSessionWithCredentials({
+        config: repairConfig(
+          server.powerSchoolOrigin,
+          server.identityOrigin,
+          join(parent, 'session'),
+        ),
+        requestedDate: date,
+        credentials,
+        launchContext: headlessLauncher,
+      }),
+      { status: 'authenticated', phoneApprovalObserved: false },
+    );
+    await waitForProfiles(before);
+  } finally {
+    await server.close();
+    rmSync(parent, { recursive: true, force: true });
+  }
+});
+
 test('an interrupted initial navigation may continue only from a recognized provider origin', async () => {
   const server = await startSyntheticPowerSchoolSessionServer({
     repairFlow: 'credentials-totp',

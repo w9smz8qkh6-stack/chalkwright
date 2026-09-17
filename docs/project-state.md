@@ -11,11 +11,11 @@ docs:sync`. Repository documentation is not a live-service probe.
 
 ## Freshness contract
 
-- Reviewed: `2026-09-09` (0 days ago; maximum 7)
+- Reviewed: `2026-09-17` (0 days ago; maximum 7)
 - Implementation files covered: 517
-- Implementation fingerprint: `fc3658a48eaa1de7c5a65f994d893182203eedec628f3080b41e8849bbe4c6a5`
+- Implementation fingerprint: `5d64f8c963d2df379b8fd65063ab4cd371349f4e72ae50071b9fdd1bda8d5c30`
 - Semantic review: **CURRENT**
-- Review statement: The phase, capabilities, workstreams, limits, production deployment claim, PowerSchool recovery boundary, completed M-18 retirement, classroom-display polish, and homepage-demonstration pipeline were reviewed against the current implementation and documentation on 2026-09-09. Repository evidence records bounded automatic PowerSchool recovery, Calendar reconciliation after a successful plan refresh, release-build hardening, the completed retirement of the legacy shadow, and responsive classroom-display improvements. The separate landing page remains independently published; this review does not assert a fresh live application-service probe.
+- Review statement: The phase, capabilities, workstreams, limits, production deployment claim, PowerSchool recovery boundary, completed M-18 retirement, classroom-display polish, and homepage-demonstration pipeline were reviewed against the current implementation and documentation on 2026-09-17. Repository evidence records bounded automatic PowerSchool recovery, including semantic-control selection for the one allowed alternate authenticator-code route, Calendar reconciliation after a successful plan refresh, release-build hardening, the completed retirement of the legacy shadow, and responsive classroom-display improvements. The separate landing page remains independently published; this review does not assert a fresh live application-service probe.
 - Working-tree classification: 0/0 governed entries assigned to an active workstream; 0 unclassified; 0 excluded local-artifact entries.
 
 ## Development position
@@ -65,6 +65,16 @@ separate activation authority; `fixture-supported`, `planned`, and
 | `attendance-administration` | Attendance administration workflow | `deferred` | An operator-facing attendance administration workflow remains deliberately outside the current production scope. | [`docs/future-parity-roadmap.md`](future-parity-roadmap.md), [`docs/decisions/0015-aggregate-attendance-continuity.md`](decisions/0015-aggregate-attendance-continuity.md) |
 
 ## Active workstreams
+
+### PowerSchool verification-chooser recovery
+
+- Status: `active`
+- Outcome: Restore the production classroom display by making the bounded PowerSchool repair robust to Google’s nested verification-method control while preserving fail-closed authentication safety.
+- Present state: The repair selects exactly one visible semantic `Try another way` control and continues only to the recognized authenticator-code route. A synthetic nested-control regression protects this behavior; production deployment and live recovery verification remain next.
+- Current working-tree entries in scope: 0
+- Capabilities: `powerschool-read`, `canonical-day-plan`, `classroom-display`
+- Next: Deploy the reviewed recovery change through the guarded production lane, run the bounded repair from an unlocked desktop session, and verify the plan and classroom display.
+- Documentation: [`CHANGELOG.md`](../CHANGELOG.md), [`docs/powerschool-bell-collector.md`](powerschool-bell-collector.md), [`docs/project-state.md`](project-state.md)
 
 ### Obsessively self-documenting development workflow
 

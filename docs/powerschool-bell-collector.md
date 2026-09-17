@@ -43,9 +43,12 @@ top-level repair deadline. Desktop-backed mode permits a visible 1Password
 approval; service-account mode requires no desktop app.
 They never enter argv, the child environment, Git, SQLite, or a durable file.
 The worker recognizes only expected username, password, TOTP, account
-selection, and passive phone-approval states. A standard identity transition
-may remain actionless for at most ten seconds before it fails closed; unknown
-challenges receive no click or value.
+selection, passive phone-approval states, and one visible semantic
+`Try another way`/authenticator-code control. It rejects ambiguous controls
+and never selects passkey, security-key, recovery, CAPTCHA, or unrecognized
+identity options. A standard identity transition may remain actionless for at
+most ten seconds before it fails closed; unknown challenges receive no click or
+value.
 The current offline candidate starts installed Chrome directly against the
 fresh profile with its sandbox enabled and a loopback-only ephemeral CDP port,
 then attaches locked Playwright Core 1.62.0 before creating a
